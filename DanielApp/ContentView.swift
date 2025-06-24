@@ -9,16 +9,33 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+        MainTabView()
     }
 }
 
 #Preview {
     ContentView()
+        .environmentObject(AppState())
+}
+
+// 各页面的预览
+struct VerseOfTheDayView_Previews: PreviewProvider {
+    static var previews: some View {
+        VerseOfTheDayView()
+            .environmentObject(AppState())
+    }
+}
+
+struct SettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        SettingsView()
+            .environmentObject(AppState())
+    }
+}
+
+struct ConnectView_Previews: PreviewProvider {
+    static var previews: some View {
+        ConnectView()
+            .environmentObject(AppState())
+    }
 }

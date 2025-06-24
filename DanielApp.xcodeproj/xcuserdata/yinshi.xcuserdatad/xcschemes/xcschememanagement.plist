@@ -7,7 +7,25 @@
 		<key>DanielApp.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>daniel wedgetExtension.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>441492BF2D98935200C3DCF4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>449D3FB02D99FE1800CB1993</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

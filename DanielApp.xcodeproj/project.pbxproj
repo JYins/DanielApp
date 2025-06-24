@@ -6,6 +6,16 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		4429A8812DBC105800F30770 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4429A8802DBC105800F30770 /* GoogleService-Info.plist */; };
+		446D831A2DAB271C0041449F /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 446D83192DAB271C0041449F /* FirebaseAnalytics */; };
+		446D831C2DAB271C0041449F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 446D831B2DAB271C0041449F /* FirebaseFirestore */; };
+		446D831E2DAB271C0041449F /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 446D831D2DAB271C0041449F /* FirebaseStorage */; };
+		449D3FB42D99FE1800CB1993 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 449D3FB32D99FE1800CB1993 /* WidgetKit.framework */; };
+		449D3FB62D99FE1800CB1993 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 449D3FB52D99FE1800CB1993 /* SwiftUI.framework */; };
+		449D3FC72D99FE1A00CB1993 /* daniel wedgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 449D3FB12D99FE1800CB1993 /* daniel wedgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		441492D12D98935400C3DCF4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,17 +31,75 @@
 			remoteGlobalIDString = 441492BF2D98935200C3DCF4;
 			remoteInfo = DanielApp;
 		};
+		449D3FC52D99FE1A00CB1993 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 441492B82D98935200C3DCF4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 449D3FB02D99FE1800CB1993;
+			remoteInfo = "daniel wedgetExtension";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		449D3FC82D99FE1A00CB1993 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				449D3FC72D99FE1A00CB1993 /* daniel wedgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		441492C02D98935200C3DCF4 /* DanielApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DanielApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		441492D02D98935400C3DCF4 /* DanielAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DanielAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		441492DA2D98935400C3DCF4 /* DanielAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DanielAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4429A8802DBC105800F30770 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		449D3FB12D99FE1800CB1993 /* daniel wedgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "daniel wedgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		449D3FB32D99FE1800CB1993 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		449D3FB52D99FE1800CB1993 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		44CF2D592D9DDA6400C0F5A8 /* daniel wedgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "daniel wedgetExtension.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		445802472D9BDA2100B80771 /* Exceptions for "DanielApp" folder in "DanielApp" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				VerseWidgets/verses_index.json,
+				VerseWidgets/verses_merged.json,
+			);
+			target = 441492BF2D98935200C3DCF4 /* DanielApp */;
+		};
+		449D3FCB2D99FE1A00CB1993 /* Exceptions for "daniel wedget" folder in "daniel wedgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 449D3FB02D99FE1800CB1993 /* daniel wedgetExtension */;
+		};
+		449DB1882D9C6C16007A9872 /* Exceptions for "DanielApp" folder in "daniel wedgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"fonts/NanumMyeongjo-Regular.ttf",
+				"fonts/SimSun Font.ttf",
+				verses_index.json,
+				verses_merged.json,
+			);
+			target = 449D3FB02D99FE1800CB1993 /* daniel wedgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		441492C22D98935200C3DCF4 /* DanielApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				445802472D9BDA2100B80771 /* Exceptions for "DanielApp" folder in "DanielApp" target */,
+				449DB1882D9C6C16007A9872 /* Exceptions for "DanielApp" folder in "daniel wedgetExtension" target */,
+			);
 			path = DanielApp;
 			sourceTree = "<group>";
 		};
@@ -45,6 +113,14 @@
 			path = DanielAppUITests;
 			sourceTree = "<group>";
 		};
+		449D3FB72D99FE1800CB1993 /* daniel wedget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				449D3FCB2D99FE1A00CB1993 /* Exceptions for "daniel wedget" folder in "daniel wedgetExtension" target */,
+			);
+			path = "daniel wedget";
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +128,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				446D831A2DAB271C0041449F /* FirebaseAnalytics in Frameworks */,
+				446D831C2DAB271C0041449F /* FirebaseFirestore in Frameworks */,
+				446D831E2DAB271C0041449F /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,15 +148,28 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		449D3FAE2D99FE1800CB1993 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				449D3FB62D99FE1800CB1993 /* SwiftUI.framework in Frameworks */,
+				449D3FB42D99FE1800CB1993 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		441492B72D98935200C3DCF4 = {
 			isa = PBXGroup;
 			children = (
+				4429A8802DBC105800F30770 /* GoogleService-Info.plist */,
+				44CF2D592D9DDA6400C0F5A8 /* daniel wedgetExtension.entitlements */,
 				441492C22D98935200C3DCF4 /* DanielApp */,
 				441492D32D98935400C3DCF4 /* DanielAppTests */,
 				441492DD2D98935400C3DCF4 /* DanielAppUITests */,
+				449D3FB72D99FE1800CB1993 /* daniel wedget */,
+				449D3FB22D99FE1800CB1993 /* Frameworks */,
 				441492C12D98935200C3DCF4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -88,8 +180,18 @@
 				441492C02D98935200C3DCF4 /* DanielApp.app */,
 				441492D02D98935400C3DCF4 /* DanielAppTests.xctest */,
 				441492DA2D98935400C3DCF4 /* DanielAppUITests.xctest */,
+				449D3FB12D99FE1800CB1993 /* daniel wedgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		449D3FB22D99FE1800CB1993 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				449D3FB32D99FE1800CB1993 /* WidgetKit.framework */,
+				449D3FB52D99FE1800CB1993 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -102,16 +204,21 @@
 				441492BC2D98935200C3DCF4 /* Sources */,
 				441492BD2D98935200C3DCF4 /* Frameworks */,
 				441492BE2D98935200C3DCF4 /* Resources */,
+				449D3FC82D99FE1A00CB1993 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				449D3FC62D99FE1A00CB1993 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				441492C22D98935200C3DCF4 /* DanielApp */,
 			);
 			name = DanielApp;
 			packageProductDependencies = (
+				446D83192DAB271C0041449F /* FirebaseAnalytics */,
+				446D831B2DAB271C0041449F /* FirebaseFirestore */,
+				446D831D2DAB271C0041449F /* FirebaseStorage */,
 			);
 			productName = DanielApp;
 			productReference = 441492C02D98935200C3DCF4 /* DanielApp.app */;
@@ -163,6 +270,28 @@
 			productReference = 441492DA2D98935400C3DCF4 /* DanielAppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		449D3FB02D99FE1800CB1993 /* daniel wedgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 449D3FCC2D99FE1A00CB1993 /* Build configuration list for PBXNativeTarget "daniel wedgetExtension" */;
+			buildPhases = (
+				449D3FAD2D99FE1800CB1993 /* Sources */,
+				449D3FAE2D99FE1800CB1993 /* Frameworks */,
+				449D3FAF2D99FE1800CB1993 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				449D3FB72D99FE1800CB1993 /* daniel wedget */,
+			);
+			name = "daniel wedgetExtension";
+			packageProductDependencies = (
+			);
+			productName = "daniel wedgetExtension";
+			productReference = 449D3FB12D99FE1800CB1993 /* daniel wedgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -184,6 +313,9 @@
 						CreatedOnToolsVersion = 16.2;
 						TestTargetID = 441492BF2D98935200C3DCF4;
 					};
+					449D3FB02D99FE1800CB1993 = {
+						CreatedOnToolsVersion = 16.2;
+					};
 				};
 			};
 			buildConfigurationList = 441492BB2D98935200C3DCF4 /* Build configuration list for PBXProject "DanielApp" */;
@@ -195,6 +327,9 @@
 			);
 			mainGroup = 441492B72D98935200C3DCF4;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				446D83182DAB271C0041449F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 441492C12D98935200C3DCF4 /* Products */;
 			projectDirPath = "";
@@ -203,6 +338,7 @@
 				441492BF2D98935200C3DCF4 /* DanielApp */,
 				441492CF2D98935400C3DCF4 /* DanielAppTests */,
 				441492D92D98935400C3DCF4 /* DanielAppUITests */,
+				449D3FB02D99FE1800CB1993 /* daniel wedgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -212,6 +348,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4429A8812DBC105800F30770 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,6 +360,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		441492D82D98935400C3DCF4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		449D3FAF2D99FE1800CB1993 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -253,6 +397,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		449D3FAD2D99FE1800CB1993 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -265,6 +416,11 @@
 			isa = PBXTargetDependency;
 			target = 441492BF2D98935200C3DCF4 /* DanielApp */;
 			targetProxy = 441492DB2D98935400C3DCF4 /* PBXContainerItemProxy */;
+		};
+		449D3FC62D99FE1A00CB1993 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 449D3FB02D99FE1800CB1993 /* daniel wedgetExtension */;
+			targetProxy = 449D3FC52D99FE1A00CB1993 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -393,12 +549,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DanielApp/DanielApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DanielApp/Preview Content\"";
 				DEVELOPMENT_TEAM = JXDNPZ7522;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIAppFonts = "fonts/SimSun Font.ttf,fonts/NanumMyeongjo-Regular.ttf";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -422,12 +580,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DanielApp/DanielApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DanielApp/Preview Content\"";
 				DEVELOPMENT_TEAM = JXDNPZ7522;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIAppFonts = "fonts/SimSun Font.ttf,fonts/NanumMyeongjo-Regular.ttf";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -518,6 +678,62 @@
 			};
 			name = Release;
 		};
+		449D3FC92D99FE1A00CB1993 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "daniel wedgetExtension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JXDNPZ7522;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "daniel wedget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "daniel wedget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.daniel.DanielApp.daniel-wedget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		449D3FCA2D99FE1A00CB1993 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "daniel wedgetExtension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JXDNPZ7522;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "daniel wedget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "daniel wedget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.daniel.DanielApp.daniel-wedget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -557,7 +773,45 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		449D3FCC2D99FE1A00CB1993 /* Build configuration list for PBXNativeTarget "daniel wedgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				449D3FC92D99FE1A00CB1993 /* Debug */,
+				449D3FCA2D99FE1A00CB1993 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		446D83182DAB271C0041449F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.11.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		446D83192DAB271C0041449F /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 446D83182DAB271C0041449F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		446D831B2DAB271C0041449F /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 446D83182DAB271C0041449F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		446D831D2DAB271C0041449F /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 446D83182DAB271C0041449F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 441492B82D98935200C3DCF4 /* Project object */;
 }
