@@ -38,24 +38,31 @@ public class VerseDataService {
             defaults.set(false, forKey: Keys.isVerseFixed)
         }
         
+        // 应用启动时清理过期的临时状态
+        cleanupExpiredTempState()
+        
         defaults.synchronize()
         
-        // 预加载数据
-        print("开始加载经文数据...")
-        self.loadVersesIfNeeded()
-        self.loadVerseIndexListIfNeeded()
-        
-        // 验证数据加载
-        if let verses = allVerses {
-            print("成功加载经文数据，共 \(verses.count) 条经文")
-        } else {
-            print("警告：经文数据加载失败")
-        }
-        
-        if let indices = verseIndexList {
-            print("成功加载经文索引，共 \(indices.count) 条索引")
-        } else {
-            print("警告：经文索引加载失败")
+        // 异步预加载数据，避免阻塞应用启动
+        print("开始异步加载经文数据...")
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            self?.loadVersesIfNeeded()
+            self?.loadVerseIndexListIfNeeded()
+            
+            // 在主线程中打印结果
+            DispatchQueue.main.async {
+                if let verses = self?.allVerses {
+                    print("成功加载经文数据，共 \(verses.count) 条经文")
+                } else {
+                    print("警告：经文数据加载失败")
+                }
+                
+                if let indices = self?.verseIndexList {
+                    print("成功加载经文索引，共 \(indices.count) 条索引")
+                } else {
+                    print("警告：经文索引加载失败")
+                }
+            }
         }
     }
     
@@ -72,6 +79,15 @@ public class VerseDataService {
     public func loadVerseIndexListIfNeeded() {
         if verseIndexList == nil {
             verseIndexList = loadVerseIndexList()
+        }
+    }
+    
+    // 确保数据已加载（同步方法，用于紧急需要数据的场景）
+    public func ensureDataLoaded() {
+        if allVerses == nil || verseIndexList == nil {
+            print("🔄 同步加载经文数据...")
+            loadVersesIfNeeded()
+            loadVerseIndexListIfNeeded()
         }
     }
     
@@ -471,6 +487,9 @@ public class VerseDataService {
     
     // 根据当前设置确定应该显示的经文
     public func getCurrentVerseToDisplay() -> MultiLanguageVerse? {
+        // 确保数据已加载
+        ensureDataLoaded()
+        
         let updateMode = getUpdateMode()
         let isFixed = isVerseFixed()
         let currentRef = getCurrentVerseReference()
@@ -615,47 +634,56 @@ public class VerseDataService {
         print("当前经文: \(verse.reference)")
         print("中文内容: \(verse.cn.prefix(30))...")
         
-        // 方法1：缓存完整JSON数据 (用于复杂场景)
-        do {
-            let encoder = JSONEncoder()
-            let verseData = try encoder.encode(verse)
+        // 使用更可靠的缓存策略
+        autoreleasepool {
+            // 方法1：缓存完整JSON数据 (用于复杂场景)
+            do {
+                let encoder = JSONEncoder()
+                let verseData = try encoder.encode(verse)
+                
+                // 清除并写入JSON缓存
+                defaults.removeObject(forKey: Keys.cachedCurrentVerse)
+                defaults.set(verseData, forKey: Keys.cachedCurrentVerse)
+                print("✅ 已缓存JSON格式经文数据")
+            } catch {
+                print("❌ JSON缓存失败: \(error)")
+            }
             
-            // 清除并写入JSON缓存
-            defaults.removeObject(forKey: Keys.cachedCurrentVerse)
-            defaults.set(verseData, forKey: Keys.cachedCurrentVerse)
-            print("✅ 已缓存JSON格式经文数据")
-        } catch {
-            print("❌ JSON缓存失败: \(error)")
+            // 方法2：缓存简化键值对 (Widget专用，更可靠)
+            defaults.set(verse.reference, forKey: "widget_verse_reference")
+            defaults.set(verse.cn, forKey: "widget_verse_cn")
+            defaults.set(verse.en, forKey: "widget_verse_en")
+            defaults.set(verse.kr, forKey: "widget_verse_kr")
+            defaults.set(Date().timeIntervalSince1970, forKey: "widget_verse_timestamp")
+            print("✅ 已缓存Widget专用简化格式数据")
         }
         
-        // 方法2：缓存简化键值对 (Widget专用，更可靠)
-        defaults.set(verse.reference, forKey: "widget_verse_reference")
-        defaults.set(verse.cn, forKey: "widget_verse_cn")
-        defaults.set(verse.en, forKey: "widget_verse_en")
-        defaults.set(verse.kr, forKey: "widget_verse_kr")
-        defaults.set(Date().timeIntervalSince1970, forKey: "widget_verse_timestamp")
-        print("✅ 已缓存Widget专用简化格式数据")
-        
-        // 立即同步到磁盘
+        // 立即强制同步，不使用重试机制（避免阻塞）
         let syncResult = defaults.synchronize()
-        print("同步结果: \(syncResult ? "成功" : "不确定")")
+        print(syncResult ? "✅ 同步成功" : "⚠️ 同步返回false，但数据可能已写入")
         
-        // 验证数据写入成功
-        if let verifyRef = defaults.string(forKey: "widget_verse_reference") {
-            print("✅ 验证成功: Widget可读取经文 \(verifyRef)")
-        } else {
-            print("❌ 验证失败: Widget无法读取缓存数据")
+        // 异步验证数据写入成功
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 0.1) {
+            if let verifyRef = defaults.string(forKey: "widget_verse_reference") {
+                print("✅ 验证成功: Widget可读取经文 \(verifyRef)")
+            } else {
+                print("❌ 验证失败: Widget无法读取缓存数据，尝试重新写入")
+                
+                // 如果验证失败，使用标准UserDefaults作为备用
+                let standardDefaults = UserDefaults.standard
+                standardDefaults.set(verse.reference, forKey: "widget_verse_reference")
+                standardDefaults.set(verse.cn, forKey: "widget_verse_cn")
+                standardDefaults.set(verse.en, forKey: "widget_verse_en")
+                standardDefaults.set(verse.kr, forKey: "widget_verse_kr")
+                standardDefaults.set(Date().timeIntervalSince1970, forKey: "widget_verse_timestamp")
+                standardDefaults.synchronize()
+                print("🔄 已使用标准UserDefaults重新写入数据")
+            }
         }
         
         // 通知Widget更新
         print("📢 通知Widget更新...")
         WidgetCenter.shared.reloadAllTimelines()
-        
-        // 延迟再次通知，提高成功率
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            WidgetCenter.shared.reloadAllTimelines()
-            print("📢 发送第二次Widget更新通知")
-        }
         
         print("=== 经文缓存完成 ===")
     }
@@ -709,6 +737,42 @@ public class VerseDataService {
     }
     
     // MARK: - 工具方法
+    
+    // 临时重置方法 - 用于清除错误状态（调试用）
+    public func forceResetTempState() {
+        print("🔄 强制重置临时状态...")
+        
+        let defaults = getSharedDefaults()
+        
+        // 清除所有临时状态
+        defaults.removeObject(forKey: Keys.tempSwitchedReference)
+        defaults.removeObject(forKey: Keys.currentVerseReference)
+        defaults.removeObject(forKey: Keys.cachedCurrentVerse)
+        defaults.removeObject(forKey: "widget_verse_reference")
+        defaults.removeObject(forKey: "widget_verse_cn")
+        defaults.removeObject(forKey: "widget_verse_en")
+        defaults.removeObject(forKey: "widget_verse_kr")
+        defaults.removeObject(forKey: "widget_verse_timestamp")
+        
+        // 重置刷新日期，强制重新获取今日经文
+        let calendar = Calendar.current
+        let yesterday = calendar.date(byAdding: .day, value: -1, to: Date())!
+        defaults.set(yesterday, forKey: Keys.lastDailyVerseRefreshDate)
+        
+        // 强制同步
+        defaults.synchronize()
+        
+        print("✅ 临时状态重置完成")
+        
+        // 立即获取今日经文
+        if let todayVerse = getVerseForToday() {
+            print("📅 重新获取今日经文: \(todayVerse.reference)")
+            cacheCurrentVerse(todayVerse)
+        }
+        
+        // 通知Widget更新
+        WidgetCenter.shared.reloadAllTimelines()
+    }
     
     // 清除缓存，强制重新加载
     public func clearCache() {
@@ -788,5 +852,62 @@ public class VerseDataService {
             en: "For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life.",
             kr: "하나님이 세상을 이처럼 사랑하사 독생자를 주셨으니 이는 그를 믿는 자마다 멸망하지 않고 영생을 얻게 하려 하심이라."
         )
+    }
+    
+    // MARK: - 临时状态清理
+    
+    // 清理过期的临时状态（应用启动时调用）
+    private func cleanupExpiredTempState() {
+        print("🧹 应用启动 - 开始清理过期的临时状态...")
+        
+        let defaults = getSharedDefaults()
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        
+        // 获取上次刷新日期
+        let lastRefreshDate: Date?
+        if let savedDate = defaults.object(forKey: Keys.lastDailyVerseRefreshDate) as? Date {
+            lastRefreshDate = calendar.startOfDay(for: savedDate)
+        } else {
+            lastRefreshDate = nil
+        }
+        
+        print("📅 今天: \(today)")
+        print("📅 上次刷新: \(lastRefreshDate?.description ?? "从未")")
+        
+        // 检查是否是新的一天
+        let isNewDay = lastRefreshDate == nil || lastRefreshDate! < today
+        
+        if isNewDay {
+            print("🌅 检测到新的一天，清理昨日的临时状态")
+            
+            // 清除临时切换引用
+            if let tempRef = getTempSwitchedReference() {
+                print("🧹 清除昨日临时切换引用: \(tempRef)")
+                defaults.removeObject(forKey: Keys.tempSwitchedReference)
+            }
+            
+            // 如果是自动模式且非固定，清除永久引用（让系统重新生成今日经文）
+            let updateMode = getUpdateMode()
+            let isFixed = isVerseFixed()
+            
+            if updateMode == "automatic" && !isFixed {
+                if let currentRef = getCurrentVerseReference() {
+                    print("🧹 自动模式下清除昨日永久引用: \(currentRef)")
+                    defaults.removeObject(forKey: Keys.currentVerseReference)
+                }
+            }
+            
+            // 更新刷新日期
+            defaults.set(today, forKey: Keys.lastDailyVerseRefreshDate)
+            
+            // 强制同步
+            let syncSuccess = defaults.synchronize()
+            print("💾 临时状态清理同步结果: \(syncSuccess ? "成功" : "失败")")
+            
+            print("✅ 过期临时状态清理完成")
+        } else {
+            print("📆 仍是当天，无需清理临时状态")
+        }
     }
 }

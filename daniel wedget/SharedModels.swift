@@ -313,15 +313,20 @@ public class VerseDataService {
     func getCurrentVerseToDisplay() -> MultiLanguageVerse? {
         print("🔍 Widget开始获取当前经文...")
         
-        let defaults = UserDefaults(suiteName: "group.com.daniel.DanielApp") ?? UserDefaults.standard
-        defaults.synchronize()
-        print("📱 Widget已强制同步UserDefaults")
+        // 尝试App Group UserDefaults，失败则使用标准UserDefaults
+        let appGroupDefaults = UserDefaults(suiteName: "group.com.daniel.DanielApp")
+        let standardDefaults = UserDefaults.standard
         
-        // 方法1: 尝试读取主App为Widget缓存的简化格式数据
-        if let reference = defaults.string(forKey: "widget_current_reference"),
-           let cnText = defaults.string(forKey: "widget_current_cn"),
-           let enText = defaults.string(forKey: "widget_current_en"),
-           let krText = defaults.string(forKey: "widget_current_kr") {
+        // 优先使用App Group，失败则回退到标准UserDefaults
+        let defaults = appGroupDefaults ?? standardDefaults
+        defaults.synchronize()
+        print("📱 Widget已强制同步UserDefaults (使用\(appGroupDefaults != nil ? "App Group" : "标准"))")
+        
+        // 方法1: 尝试读取主App为Widget缓存的简化格式数据（使用正确的键名）
+        if let reference = defaults.string(forKey: "widget_verse_reference"),
+           let cnText = defaults.string(forKey: "widget_verse_cn"),
+           let enText = defaults.string(forKey: "widget_verse_en"),
+           let krText = defaults.string(forKey: "widget_verse_kr") {
             
             print("✅ Widget成功读取主App缓存的简化格式经文")
             print("📖 引用: \(reference)")
@@ -330,7 +335,8 @@ public class VerseDataService {
             let verse = MultiLanguageVerse(reference: reference, cn: cnText, en: enText, kr: krText)
             
             // 检查缓存时间
-            if let cacheTime = defaults.object(forKey: "widget_cache_time") as? Date {
+            if let timestamp = defaults.object(forKey: "widget_verse_timestamp") as? TimeInterval {
+                let cacheTime = Date(timeIntervalSince1970: timestamp)
                 let age = Date().timeIntervalSince(cacheTime)
                 print("⏰ 缓存年龄: \(String(format: "%.1f", age/60.0)) 分钟")
             } else {
@@ -338,6 +344,15 @@ public class VerseDataService {
             }
             
             return verse
+        } else {
+            print("❌ Widget无法读取简化格式缓存数据")
+            print("🔍 检查可用的键:")
+            let allKeys = defaults.dictionaryRepresentation().keys.sorted()
+            for key in allKeys.prefix(10) {
+                if key.contains("widget") || key.contains("verse") {
+                    print("  - \(key)")
+                }
+            }
         }
         
         // 方法2: 尝试读取主App缓存的完整JSON格式数据
@@ -355,44 +370,17 @@ public class VerseDataService {
             print("❌ Widget未找到JSON缓存数据")
         }
         
-        // 方法3: 如果没有缓存，尝试读取主App的当前状态构建经文
-        print("🔄 Widget尝试根据主App状态构建经文...")
-        
-        let updateMode = defaults.string(forKey: "updateMode") ?? "automatic"
-        let isFixed = defaults.bool(forKey: "isVerseFixed")
-        let currentRef = defaults.string(forKey: "currentVerseReference")
-        let tempRef = defaults.string(forKey: "tempSwitchedReference")
-        
-        print("📋 主App状态 - 模式:\(updateMode), 固定:\(isFixed), 当前引用:\(currentRef ?? "无"), 临时引用:\(tempRef ?? "无")")
-        
-        // 决定使用哪个引用
-        var targetReference: String?
-        
-        if updateMode == "manual" || isFixed {
-            targetReference = currentRef
-            print("📌 Widget使用手动/固定模式引用: \(targetReference ?? "无")")
-        } else if updateMode == "automatic" {
-            // 自动模式：优先使用临时引用，否则获取今日经文
-            if let temp = tempRef {
-                targetReference = temp
-                print("📌 Widget使用自动模式临时引用: \(targetReference!)")
-            } else {
-                print("📅 Widget将获取今日经文")
-                // 构建今日经文
-                let verse = getVerseForToday()
-                print("📖 Widget获取到今日经文: \(verse?.reference ?? "无")")
-                return verse
-            }
-        }
-        
-        // 根据引用构建经文
-        if let reference = targetReference {
-            print("🔍 Widget尝试根据引用构建经文: \(reference)")
-            if let verse = findVerse(byReference: reference) {
-                print("✅ Widget成功构建经文: \(verse.reference)")
-                return verse
-            } else {
-                print("❌ Widget无法根据引用构建经文")
+        // 方法3: 如果都没有缓存，尝试从标准UserDefaults读取（备用方案）
+        if appGroupDefaults != nil && standardDefaults != defaults {
+            print("🔄 Widget尝试从标准UserDefaults读取备用数据...")
+            
+            if let reference = standardDefaults.string(forKey: "widget_verse_reference"),
+               let cnText = standardDefaults.string(forKey: "widget_verse_cn"),
+               let enText = standardDefaults.string(forKey: "widget_verse_en"),
+               let krText = standardDefaults.string(forKey: "widget_verse_kr") {
+                
+                print("✅ Widget从标准UserDefaults读取到备用数据: \(reference)")
+                return MultiLanguageVerse(reference: reference, cn: cnText, en: enText, kr: krText)
             }
         }
         

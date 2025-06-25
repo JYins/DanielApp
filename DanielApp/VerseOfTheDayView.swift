@@ -241,35 +241,51 @@ class VerseViewModel: ObservableObject {
     func loadCurrentVerse() {
         print("🏠 主App开始载入当前经文...")
         
-        // 1. 强制重新获取当前语言设置，避免依赖潜在的旧缓存
-        let currentLanguage = VerseDataService.shared.getSelectedLanguage()
-        print("🌐 当前语言设置: \(currentLanguage.rawValue)")
+        // 设置加载状态
+        isLoading = true
         
-        // 2. 主App重新计算应该显示的经文，不依赖Widget可能写入的数据
-        if let verse = VerseDataService.shared.getCurrentVerseToDisplay() {
-            print("✅ 主App获取到要显示的经文: \(verse.reference)")
-            currentVerse = verse
+        // 异步执行数据加载，避免阻塞UI
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else { return }
             
-            // 3. 立即将主App确定的经文缓存给Widget使用
-            VerseDataService.shared.cacheCurrentVerse(verse)
-            print("💾 主App已为Widget缓存当前经文: \(verse.reference)")
+            // 1. 强制重新获取当前语言设置，避免依赖潜在的旧缓存
+            let currentLanguage = VerseDataService.shared.getSelectedLanguage()
+            print("🌐 当前语言设置: \(currentLanguage.rawValue)")
             
-            // 4. 确保Widget能读取到主App的最新状态
-            WidgetCenter.shared.reloadAllTimelines()
-            print("📢 主App已通知Widget更新显示")
-        } else {
-            print("❌ 主App无法获取要显示的经文")
-            currentVerse = VerseDataService.shared.getDefaultVerse()
+            // 2. 主App重新计算应该显示的经文，不依赖Widget可能写入的数据
+            let verse: MultiLanguageVerse
+            if let loadedVerse = VerseDataService.shared.getCurrentVerseToDisplay() {
+                print("✅ 主App获取到要显示的经文: \(loadedVerse.reference)")
+                verse = loadedVerse
+            } else {
+                print("❌ 主App无法获取要显示的经文，使用默认经文")
+                verse = VerseDataService.shared.getDefaultVerse()
+            }
             
-            // 即使是默认经文，也要缓存给Widget
-            VerseDataService.shared.cacheCurrentVerse(currentVerse!)
-            WidgetCenter.shared.reloadAllTimelines()
+            // 3. 在主线程更新UI
+            DispatchQueue.main.async {
+                self.currentVerse = verse
+                self.isLoading = false // 关键：设置加载完成状态
+                
+                // 4. 更新状态信息
+                self.updateStatusMessage()
+                
+                print("✅ 主App经文载入完成，最终显示: \(verse.reference)")
+                
+                // 5. 异步缓存数据，不阻塞UI更新
+                DispatchQueue.global(qos: .utility).async {
+                    // 立即将主App确定的经文缓存给Widget使用
+                    VerseDataService.shared.cacheCurrentVerse(verse)
+                    print("💾 主App已为Widget缓存当前经文: \(verse.reference)")
+                    
+                    // 确保Widget能读取到主App的最新状态
+                    DispatchQueue.main.async {
+                        WidgetCenter.shared.reloadAllTimelines()
+                        print("📢 主App已通知Widget更新显示")
+                    }
+                }
+            }
         }
-        
-        // 5. 更新状态信息
-        updateStatusMessage()
-        
-        print("✅ 主App经文载入完成，最终显示: \(currentVerse?.reference ?? "无")")
     }
     
     // 加载今天的经文

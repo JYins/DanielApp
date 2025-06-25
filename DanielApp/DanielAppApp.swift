@@ -48,20 +48,12 @@ struct DanielAppApp: App {
                         UserDefaults(suiteName: suiteName)?.synchronize()
                     }
                     
-                    // 立即加载并缓存当前经文，以便Widget可以访问
-                    if let currentVerse = VerseDataService.shared.getCurrentVerseToDisplay() {
-                        print("应用启动：已加载当前经文 - \(currentVerse.reference)")
-                    } else {
-                        print("应用启动：无法加载当前经文")
-                    }
+                    // 优化启动时的初始化流程
+                    initializeAppData()
                     
-                    // 注册应用激活时更新Widget
+                    // 注册应用激活时更新Widget - 避免重复更新
                     NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: .main) { _ in
-                        // 每次应用被激活时，确保Widget数据是最新的
-                        if let currentVerse = VerseDataService.shared.getCurrentVerseToDisplay() {
-                            print("应用激活：已更新当前经文 - \(currentVerse.reference)")
-                        }
-                        WidgetCenter.shared.reloadAllTimelines()
+                        self.handleAppActivation()
                     }
                 }
         }
@@ -90,6 +82,45 @@ struct DanielAppApp: App {
         } else {
             print("未找到韩文字体文件")
         }
+    }
+    
+    // 优化的应用数据初始化
+    private func initializeAppData() {
+        print("🚀 应用启动 - 初始化数据...")
+        
+        // 异步初始化，避免阻塞UI
+        DispatchQueue.global(qos: .userInitiated).async {
+            // 立即加载并缓存当前经文，以便Widget可以访问
+            if let currentVerse = VerseDataService.shared.getCurrentVerseToDisplay() {
+                print("应用启动：已加载当前经文 - \(currentVerse.reference)")
+                
+                // 在主线程中更新Widget（只执行一次）
+                DispatchQueue.main.async {
+                    WidgetCenter.shared.reloadAllTimelines()
+                    print("📢 应用启动时已通知Widget更新")
+                }
+            } else {
+                print("应用启动：无法加载当前经文")
+            }
+        }
+    }
+    
+    // 优化的应用激活处理
+    private func handleAppActivation() {
+        print("📱 应用激活 - 检查数据更新...")
+        
+        // 使用DispatchQueue延迟执行，实现防抖动效果
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.performAppActivationTasks()
+        }
+    }
+    
+    private func performAppActivationTasks() {
+        // 每次应用被激活时，确保Widget数据是最新的
+        if let currentVerse = VerseDataService.shared.getCurrentVerseToDisplay() {
+            print("应用激活：已更新当前经文 - \(currentVerse.reference)")
+        }
+        WidgetCenter.shared.reloadAllTimelines()
     }
     
     // 检查并刷新每日经文

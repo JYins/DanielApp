@@ -407,6 +407,29 @@ struct SettingsView: View {
                             .settingContainer()
                         }
                         
+                        // 调试工具部分
+                        VStack(alignment: .center, spacing: StyleConstants.compactSpacing) {
+                            Text("调试工具")
+                                .font(StyleConstants.sansFontBody(18))
+                                .foregroundColor(StyleConstants.goldColor)
+                                .padding(.horizontal)
+                            
+                            VStack(spacing: 10) {
+                                Text("如果小组件和主应用显示不同步，可以尝试重置")
+                                    .font(StyleConstants.sansFontBody(14))
+                                    .foregroundColor(.white.opacity(0.8))
+                                    .multilineTextAlignment(.center)
+                                
+                                Button("重置小组件状态") {
+                                    print("🔄 用户触发重置操作")
+                                    VerseDataService.shared.forceResetTempState()
+                                }
+                                .buttonStyle(GoldBorderButtonStyle())
+                                .padding(.top, 5)
+                            }
+                            .settingContainer()
+                        }
+                        
                         Spacer(minLength: 50)
                     }
                     .padding(.bottom, StyleConstants.mediumSpacing)
