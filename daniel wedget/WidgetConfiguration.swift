@@ -59,18 +59,20 @@ func setTestTimePeriod(_ period: DayTimePeriod?) {
 struct WidgetVerseEntry: TimelineEntry {
     let date: Date
     let verse: MultiLanguageVerse
-    let preferredLanguage: CoreModels.VerseLanguage
+    let preferredLanguage: String
     let timePeriod: DayTimePeriod
     
     // 根据首选语言获取要显示的经文内容
     var verseText: String {
         switch preferredLanguage {
-        case .chinese:
+        case "zh-CN":
             return verse.cn
-        case .english:
+        case "en":
             return verse.en
-        case .korean:
+        case "ko":
             return verse.kr
+        default:
+            return verse.cn
         }
     }
     
@@ -87,13 +89,13 @@ struct WidgetVerseEntry: TimelineEntry {
         return WidgetVerseEntry(
             date: Date(),
             verse: placeholderVerse,
-            preferredLanguage: .chinese,
+            preferredLanguage: "zh-CN",
             timePeriod: DayTimePeriod.current()
         )
     }
 }
 
-// Widget数据提供者
+// Widget独立数据提供者 - 不再依赖主App
 struct VerseTimelineProvider: TimelineProvider {
     typealias Entry = WidgetVerseEntry
     
@@ -105,78 +107,53 @@ struct VerseTimelineProvider: TimelineProvider {
     
     // 获取快照 - 用于Widget Gallery和首次添加Widget时
     func getSnapshot(in context: Context, completion: @escaping (WidgetVerseEntry) -> Void) {
-        print("📸 请求快照 - 首次预览")
+        print("📸 Widget快照请求 - 使用独立数据管理器")
         
-        // 强制同步UserDefaults
-        UserDefaults(suiteName: "group.com.daniel.DanielApp")?.synchronize()
-        
-        // 获取实际数据
-        let dataService = VerseDataService.shared
-        
-        // 获取当前时间段
+        // 使用Widget独立数据管理器
+        let dataManager = WidgetDataManager.shared
+        let verse = dataManager.getTodaysVerse()
         let currentTimePeriod = DayTimePeriod.current()
-        print("⏰ 当前时间段: \(currentTimePeriod)")
         
-        // 快照永远尝试获取真实数据，无论是否预览
-        if let verse = dataService.getCurrentVerseToDisplay() {
-            print("✅ 快照获取实际经文: \(verse.reference)")
-            completion(WidgetVerseEntry(
-                date: Date(),
-                verse: verse,
-                preferredLanguage: VerseWidgetSettingsManager.getPreferredLanguage(),
-                timePeriod: currentTimePeriod
-            ))
-        } else {
-            print("⚠️ 快照无法获取经文，使用占位符")
-            completion(WidgetVerseEntry.placeholder)
-        }
+        print("✅ Widget快照获取今日经文: \(verse.reference)")
+        print("📊 数据管理器状态: \(dataManager.isDataReady() ? "已就绪" : "未就绪")")
+        
+        completion(WidgetVerseEntry(
+            date: Date(),
+            verse: verse,
+            preferredLanguage: VerseWidgetSettingsManager.getPreferredLanguage(),
+            timePeriod: currentTimePeriod
+        ))
     }
     
-    // 获取时间线
+    // 获取时间线 - Widget独立更新
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> Void) {
-        print("🚀 Widget开始获取时间线...")
+        print("🚀 Widget独立时间线开始...")
         print("📊 组件类型: \(context.family == .accessoryRectangular ? "锁屏矩形" : "主屏幕中号")")
         
         let now = Date()
         print("⏰ 当前时间: \(now)")
         
-        // 强制同步UserDefaults，获取主App的最新数据
-        let defaults = UserDefaults(suiteName: "group.com.daniel.DanielApp")
-        defaults?.synchronize()
-        print("📱 Widget已同步UserDefaults，获取主App最新数据")
-        
-        // Widget只读取数据，不写入任何状态
-        let dataService = VerseDataService.shared
+        // 使用Widget独立数据管理器
+        let dataManager = WidgetDataManager.shared
         
         // 获取当前时间段（用于背景样式）
         let currentTimePeriod = DayTimePeriod.current()
         print("⏰ 当前时间段: \(currentTimePeriod), 背景图片: \(currentTimePeriod.backgroundImageName)")
         
-        // Widget只从主App的缓存中读取经文
-        var currentVerse: MultiLanguageVerse?
-        
-        if let verse = dataService.getCurrentVerseToDisplay() {
-            print("✅ Widget成功读取主App缓存的经文: \(verse.reference)")
-            currentVerse = verse
-        } else {
-            print("❌ Widget无法读取经文数据，可能主App尚未缓存")
-            currentVerse = MultiLanguageVerse(
-                reference: "[等待数据]",
-                cn: "正在从主应用获取经文数据，请稍候...",
-                en: "Loading verse data from main app, please wait...",
-                kr: "메인 앱에서 구절 데이터를 로드하는 중입니다. 잠시만 기다려 주세요..."
-            )
-        }
+        // Widget独立获取今日经文
+        let todaysVerse = dataManager.getTodaysVerse()
+        print("✅ Widget独立获取今日经文: \(todaysVerse.reference)")
+        print("📊 数据状态: \(dataManager.getDebugInfo())")
         
         // 创建当前Entry
         let currentEntry = WidgetVerseEntry(
             date: now, 
-            verse: currentVerse!,
+            verse: todaysVerse,
             preferredLanguage: VerseWidgetSettingsManager.getPreferredLanguage(),
             timePeriod: currentTimePeriod
         )
         
-        // 计算下一次更新时间：需要考虑背景变化时间和午夜经文更新时间
+        // 计算下一次更新时间
         let calendar = Calendar.current
         let hour = calendar.component(.hour, from: now)
         
@@ -222,8 +199,8 @@ struct VerseTimelineProvider: TimelineProvider {
         let timeline = Timeline(entries: [currentEntry], policy: .after(nextUpdateDate))
         completion(timeline)
         
-        print("✅ Widget时间线设置完成")
-        print("📊 Widget当前显示: \(currentVerse?.reference ?? "无数据")")
+        print("✅ Widget独立时间线设置完成")
+        print("📊 Widget当前显示: \(todaysVerse.reference)")
         print("🎨 当前背景: \(currentTimePeriod.backgroundImageName)")
         print("─────────────────────────────────────")
     }

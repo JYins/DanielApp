@@ -1,0 +1,3806 @@
+[
+  {
+    "en" : "In the beginning God created the heavens and the earth.",
+    "kr" : "태초에 하나님이 천지를 창조하시니라 ",
+    "cn" : "起初，　神创造天地。",
+    "reference" : "Genesis 1:1"
+  },
+  {
+    "kr" : "하나님이 자기 형상 곧 하나님의 형상대로 사람을 창조하시되 남자와 여자를 창조하시고 ",
+    "reference" : "Genesis 1:27",
+    "en" : "So God created man in His own image; in the image of God He created him; male and female He created them.",
+    "cn" : "神就照着自己的形象造人，乃是照着他的形象造男造女。"
+  },
+  {
+    "cn" : "耶和华　神用地上的尘土造人，将生气吹在他鼻孔里，他就成了有灵的活人，[名叫 亚当]。",
+    "kr" : "여호와 하나님이 흙으로 사람을 지으시고 생기를 그 코에 불어 넣으시니 사람이 생령이 된지라 ",
+    "reference" : "Genesis 2:7",
+    "en" : "And the Lord God formed man of the dust of the ground, and breathed into his nostrils the breath of life; and man became a living being."
+  },
+  {
+    "kr" : "여호와 하나님이 가라사대 사람의 독처하는 것이 좋지 못하니 내가 그를 위하여 돕는 배필을 지으리라 하시니라 ",
+    "cn" : "耶和华　神说：「那人独居不好，我要为他造一个配偶帮助他。」",
+    "reference" : "Genesis 2:18",
+    "en" : "And the Lord God said, “It is not good that man should be alone; I will make him a helper comparable to him.”"
+  },
+  {
+    "cn" : "我必叫你成为大国。我必赐福给你，叫你的名为大；你也要叫别人得福。",
+    "reference" : "Genesis 12:2",
+    "en" : "I will make you a great nation; I will bless you And make your name great; And you shall be a blessing.",
+    "kr" : "내가 너로 큰 민족을 이루고 네게 복을 주어 네 이름을 창대케 하리니 너는 복의 근원이 될지라 "
+  },
+  {
+    "cn" : "从前你们的意思是要害我，但　神的意思原是好的，要保全许多人的性命，成就今日的光景。",
+    "reference" : "Genesis 50:20",
+    "kr" : "당신들은 나를 해하려 하였으나 하나님은 그것을 선으로 바꾸사 오늘과 같이 만민의 생명을 구원하게 하시려 하셨나니 ",
+    "en" : "But as for you, you meant evil against me; but God meant it for good, in order to bring it about as it is this day, to save many people alive."
+  },
+  {
+    "kr" : "여호와께서 너희를 위하여 싸우시리니 너희는 가만히 있을지니라 ",
+    "reference" : "Exodus 14:14",
+    "en" : "The Lord will fight for you, and you shall hold your peace.”",
+    "cn" : "耶和华必为你们争战；你们只管静默，不要作声。」"
+  },
+  {
+    "cn" : "「除了我以外，你不可有别的神。",
+    "kr" : "너는 나 외에는 다른 신들을 네게 있게 말지니라 ",
+    "reference" : "Exodus 20:3",
+    "en" : "“You shall have no other gods before Me."
+  },
+  {
+    "en" : "“Honor your father and your mother, that your days may be long upon the land which the Lord your God is giving you.",
+    "reference" : "Exodus 20:12",
+    "cn" : "「当孝敬父母，使你的日子在耶和华—你　神所赐你的地上得以长久。",
+    "kr" : "네 부모를 공경하라 그리하면 너의 하나님 나 여호와가 네게 준 땅에서 네 생명이 길리라 "
+  },
+  {
+    "kr" : "너의 하나님 여호와를 섬기라 그리하면 여호와가 너희의 양식과 물에 복을 내리고 너희 중에 병을 제하리니 ",
+    "reference" : "Exodus 23:25",
+    "cn" : "你们要事奉耶和华—你们的　神，他必赐福与你的粮与你的水，也必从你们中间除去疾病。",
+    "en" : "“So you shall serve the Lord your God, and He will bless your bread and your water. And I will take sickness away from the midst of you."
+  },
+  {
+    "reference" : "Leviticus 19:18",
+    "en" : "You shall not take vengeance, nor bear any grudge against the children of your people, but you shall love your neighbor as yourself: I am the Lord.",
+    "kr" : "원수를 갚지 말며 동포를 원망하지 말며 이웃 사랑하기를 네 몸과 같이 하라 나는 여호와니라 ",
+    "cn" : "不可报仇，也不可埋怨你本国的子民，却要爱人如己。我是耶和华。"
+  },
+  {
+    "en" : "“The Lord bless you and keep you;",
+    "kr" : "여호와는 네게 복을 주시고 너를 지키시기를 원하며 ",
+    "cn" : "『愿耶和华赐福给你，保护你。",
+    "reference" : "Numbers 6:24"
+  },
+  {
+    "cn" : "「以色列啊，你要听！耶和华—我们　神是独一的主。",
+    "reference" : "Deuteronomy 6:4",
+    "en" : "“Hear, O Israel: The Lord our God, the Lord is one!",
+    "kr" : "이스라엘아 들으라 우리 하나님 여호와는 오직 하나인 여호와시니 "
+  },
+  {
+    "cn" : "你要尽心、尽性、尽力爱耶和华—你的　神。",
+    "kr" : "너는 마음을 다하고 성품을 다하고 힘을 다하여 네 하나님 여호와를 사랑하라 ",
+    "en" : "You shall love the Lord your God with all your heart, with all your soul, and with all your strength.",
+    "reference" : "Deuteronomy 6:5"
+  },
+  {
+    "cn" : "所以，你要知道耶和华—你的　神，他是　神，是信实的　神；向爱他、守他诫命的人守约，施慈爱，直到千代；",
+    "en" : "“Therefore know that the Lord your God, He is God, the faithful God who keeps covenant and mercy for a thousand generations with those who love Him and keep His commandments;",
+    "kr" : "그런즉 너는 알라 오직 네 하나님 여호와는 하나님이시요 신실하신 하나님이시라 그를 사랑하고 그 계명을 지키는 자에게는 천 대까지 그 언약을 이행하시며 인애를 베푸시되 ",
+    "reference" : "Deuteronomy 7:9"
+  },
+  {
+    "en" : "And all these blessings shall come upon you and overtake you, because you obey the voice of the Lord your God:",
+    "cn" : "你若听从耶和华—你　神的话，这以下的福必追随你，临到你身上：",
+    "reference" : "Deuteronomy 28:2",
+    "kr" : "네가 네 하나님 여호와의 말씀을 순종하면 이 모든 복이 네게 임하며 네게 미치리니 "
+  },
+  {
+    "cn" : "你们当刚强壮胆，不要害怕，也不要畏惧他们，因为耶和华—你的　神和你同去。他必不撇下你，也不丢弃你。」",
+    "reference" : "Deuteronomy 31:6",
+    "kr" : "너는 마음을 강하게 하고 담대히 하라 그들을 두려워 말라 그들 앞에서 떨지 말라 이는 네 하나님 여호와 그가 너와 함께 행하실 것임이라 반드시 너를 떠나지 아니하시며 버리지 아니하시리라 하고 ",
+    "en" : "Be strong and of good courage, do not fear nor be afraid of them; for the Lord your God, He is the One who goes with you. He will not leave you nor forsake you.”"
+  },
+  {
+    "en" : "And the Lord, He is the One who goes before you. He will be with you, He will not leave you nor forsake you; do not fear nor be dismayed.”",
+    "kr" : "여호와 그가 네 앞서 행하시며 너와 함께 하사 너를 떠나지 아니하시며 버리지 아니하시리니 너는 두려워 말라 놀라지 말라 ",
+    "reference" : "Deuteronomy 31:8",
+    "cn" : "耶和华必在你前面行；他必与你同在，必不撇下你，也不丢弃你。不要惧怕，也不要惊惶。」"
+  },
+  {
+    "reference" : "Joshua 1:9",
+    "kr" : "내가 네게 명한 것이 아니냐 마음을 강하게 하고 담대히 하라 두려워 말며 놀라지 말라 네가 어디로 가든지 네 하나님 여호와가 너와 함께 하느니라 하시니라 ",
+    "cn" : "我岂没有吩咐你吗？你当刚强壮胆！不要惧怕，也不要惊惶；因为你无论往哪里去，耶和华—你的　神必与你同在。」",
+    "en" : "Have I not commanded you? Be strong and of good courage; do not be afraid, nor be dismayed, for the Lord your God is with you wherever you go.”"
+  },
+  {
+    "kr" : "만일 여호와를 섬기는 것이 너희에게 좋지 않게 보이거든 너희 열조가 강 저편에서 섬기던 신이든지 혹 너희의 거하는 땅 아모리 사람의 신이든지 너희 섬길 자를 오늘날 택하라 오직 나와 내 집은 여호와를 섬기겠노라 ",
+    "en" : "And if it seems evil to you to serve the Lord, choose for yourselves this day whom you will serve, whether the gods which your fathers served that were on the other side of the River, or the gods of the Amorites, in whose land you dwell. But as for me and my house, we will serve the Lord.”",
+    "reference" : "Joshua 24:15",
+    "cn" : "若是你们以事奉耶和华为不好，今日就可以选择所要事奉的：是你们列祖在大河那边所事奉的神呢？是你们所住这地的亚摩利人的神呢？至于我和我家，我们必定事奉耶和华。」"
+  },
+  {
+    "kr" : "느헤미야가 또 이르기를 너희는 가서 살찐 것을 먹고 단 것을 마시되 예비치 못한 자에게는 너희가 나누어 주라 이 날은 우리 주의 성일이니 근심하지 말라 여호와를 기뻐하는 것이 너희의 힘이니라 하고 ",
+    "cn" : "又对他们说：「你们去吃肥美的，喝甘甜的，有不能预备的就分给他，因为今日是我们主的圣日。你们不要忧愁，因靠耶和华而得的喜乐是你们的力量。」",
+    "en" : "Then he said to them, “Go your way, eat the fat, drink the sweet, and send portions to those for whom nothing is prepared; for this day is holy to our Lord. Do not sorrow, for the joy of the Lord is your strength.”",
+    "reference" : "Nehemiah 8:10"
+  },
+  {
+    "cn" : "此时你若闭口不言，犹大人必从别处得解脱，蒙拯救；你和你父家必致灭亡。焉知你得了王后的位分不是为现今的机会吗？」",
+    "kr" : "이 때에 네가 만일 잠잠하여 말이 없으면 유다인은 다른 데로 말미암아 놓임과 구원을 얻으려니와 너와 네 아비 집은 멸망하리라 네가 왕후의 위를 얻은 것이 이 때를 위함이 아닌지 누가 아느냐 ",
+    "reference" : "Esther 4:14",
+    "en" : "For if you remain completely silent at this time, relief and deliverance will arise for the Jews from another place, but you and your father’s house will perish. Yet who knows whether you have come to the kingdom for such a time as this?”"
+  },
+  {
+    "cn" : "说：「我赤身出于母胎，也必赤身归回；赏赐的是耶和华，收取的也是耶和华。耶和华的名是应当称颂的。」",
+    "reference" : "Job 1:21",
+    "kr" : "가로되 내가 모태에서 적신이 나왔사온즉 또한 적신이 그리로 돌아가올지라 주신 자도 여호와시요 취하신 자도 여호와시오니 여호와의 이름이 찬송을 받으실지니이다 하고 ",
+    "en" : "And he said: “Naked I came from my mother’s womb, And naked shall I return there. The Lord gave, and the Lord has taken away; Blessed be the name of the Lord.”"
+  },
+  {
+    "reference" : "Job 19:25",
+    "en" : "For I know that my Redeemer lives, And He shall stand at last on the earth;",
+    "kr" : "내가 알기에는 나의 구속자가 살아 계시니 후일에 그가 땅 위에 서실 것이라 ",
+    "cn" : "我知道我的救赎主活着， 末了必站立在地上。"
+  },
+  {
+    "kr" : "나의 가는 길을 오직 그가 아시나니 그가 나를 단련하신 후에는 내가 정금 같이 나오리라 ",
+    "cn" : "然而他知道我所行的路； 他试炼我之后，我必如精金。",
+    "reference" : "Job 23:10",
+    "en" : "But He knows the way that I take; When He has tested me, I shall come forth as gold."
+  },
+  {
+    "en" : "“I know that You can do everything, And that no purpose of Yours can be withheld from You.",
+    "kr" : "주께서는 무소불능하시오며 무슨 경영이든지 못 이루실 것이 없는 줄 아오니 ",
+    "cn" : "我知道，你万事都能做； 你的旨意不能拦阻。",
+    "reference" : "Job 42:2"
+  },
+  {
+    "reference" : "Psalms 1:1",
+    "cn" : "不从恶人的计谋， 不站罪人的道路， 不坐亵慢人的座位，",
+    "kr" : "복 있는 사람은 악인의 꾀를 좇지 아니하며 죄인의 길에 서지 아니하며 오만한 자의 자리에 앉지 아니하고 ",
+    "en" : "Blessed is the man Who walks not in the counsel of the ungodly, Nor stands in the path of sinners, Nor sits in the seat of the scornful;"
+  },
+  {
+    "kr" : "내가 평안히 눕고 자기도 하리니 나를 안전히 거하게 하시는 이는 오직 여호와시니이다  ",
+    "cn" : "我必安然躺下睡觉， 因为独有你—耶和华使我安然居住。",
+    "reference" : "Psalms 4:8",
+    "en" : "I will both lie down in peace, and sleep; For You alone, O Lord, make me dwell in safety."
+  },
+  {
+    "kr" : "주의 손가락으로 만드신 주의 하늘과 주의 베풀어 두신 달과 별들을 내가 보오니 ",
+    "reference" : "Psalms 8:3",
+    "en" : "When I consider Your heavens, the work of Your fingers, The moon and the stars, which You have ordained,",
+    "cn" : "我观看你指头所造的天， 并你所陈设的月亮星宿，"
+  },
+  {
+    "cn" : "耶和华啊，认识你名的人要倚靠你， 因你没有离弃寻求你的人。",
+    "kr" : "여호와여 주의 이름을 아는 자는 주를 의지하오리니 이는 주를 찾는 자들을 버리지 아니하심이니이다 ",
+    "reference" : "Psalms 9:10",
+    "en" : "And those who know Your name will put their trust in You; For You, Lord, have not forsaken those who seek You."
+  },
+  {
+    "en" : "I have set the Lord always before me; Because He is at my right hand I shall not be moved.",
+    "reference" : "Psalms 16:8",
+    "cn" : "我将耶和华常摆在我面前， 因他在我右边，我便不致摇动。",
+    "kr" : "내가 여호와를 항상 내 앞에 모심이여 그가 내 우편에 계시므로 내가 요동치 아니하리로다 "
+  },
+  {
+    "cn" : "耶和华是我的岩石，我的山寨，我的救主， 我的　神，我的磐石，我所投靠的。 他是我的盾牌， 是拯救我的角，是我的高台。",
+    "en" : "The Lord is my rock and my fortress and my deliverer; My God, my strength, in whom I will trust; My shield and the horn of my salvation, my stronghold.",
+    "reference" : "Psalms 18:2",
+    "kr" : "여호와는 나의 반석이시요 나의 요새시요 나를 건지시는 자시요 나의 하나님이시요 나의 피할 바위시요 나의 방패시요 나의 구원의 뿔이시요 나의 산성이시로다 "
+  },
+  {
+    "reference" : "Psalms 19:1",
+    "en" : "The heavens declare the glory of God; And the firmament shows His handiwork.",
+    "kr" : " 하늘이 하나님의 영광을 선포하고 궁창이 그 손으로 하신 일을 나타내는도다 ",
+    "cn" : "大卫的诗，交与伶长。 诸天述说　神的荣耀； 穹苍传扬他的手段。"
+  },
+  {
+    "cn" : "耶和华—我的磐石，我的救赎主啊， 愿我口中的言语、心里的意念在你面前蒙悦纳。",
+    "kr" : "나의 반석이시요 나의 구속자이신 여호와여 내 입의 말과 마음의 묵상이 주의 앞에 열납되기를 원하나이다  ",
+    "reference" : "Psalms 19:14",
+    "en" : "Let the words of my mouth and the meditation of my heart Be acceptable in Your sight, O Lord, my strength and my Redeemer."
+  },
+  {
+    "cn" : "有人[靠]车，有人[靠]马， 但我们要提到耶和华—我们　神的名。",
+    "reference" : "Psalms 20:7",
+    "en" : "Some trust in chariots, and some in horses; But we will remember the name of the Lord our God.",
+    "kr" : "혹은 병거, 혹은 말을 의지하나 우리는 여호와 우리 하나님의 이름을 자랑하리로다 "
+  },
+  {
+    "cn" : "谦卑的人必吃得饱足； 寻求耶和华的人必赞美他。 愿你们的心永远活着！",
+    "kr" : "겸손한 자는 먹고 배부를 것이며 여호와를 찾는 자는 그를 찬송할 것이라 너희 마음은 영원히 살지어다 ",
+    "en" : "The poor shall eat and be satisfied; Those who seek Him will praise the Lord. Let your heart live forever!",
+    "reference" : "Psalms 22:26"
+  },
+  {
+    "kr" : " 여호와는 나의 목자시니 내가 부족함이 없으리로다 ",
+    "cn" : "大卫的诗。 耶和华是我的牧者， 我必不致缺乏。",
+    "en" : "The Lord is my shepherd; I shall not want.",
+    "reference" : "Psalms 23:1"
+  },
+  {
+    "cn" : "我虽然行过死荫的[幽]谷， 也不怕遭害， 因为你与我同在； 你的杖，你的竿，都安慰我。",
+    "kr" : "내가 사망의 음침한 골짜기로 다닐지라도 해를 두려워하지 않을 것은 주께서 나와 함께 하심이라 주의 지팡이와 막대기가 나를 안위하시나이다 ",
+    "reference" : "Psalms 23:4",
+    "en" : "Yea, though I walk through the valley of the shadow of death, I will fear no evil; For You are with me; Your rod and Your staff, they comfort me."
+  },
+  {
+    "reference" : "Psalms 23:6",
+    "kr" : "나의 평생에 선하심과 인자하심이 정녕 나를 따르리니 내가 여호와의 집에 영원히 거하리로다  ",
+    "en" : "Surely goodness and mercy shall follow me All the days of my life; And I will dwell in the house of the Lord Forever.",
+    "cn" : "我一生一世必有恩惠慈爱随着我； 我且要住在耶和华的殿中，直到永远。"
+  },
+  {
+    "kr" : "여호와여 주의 도를 내게 보이시고 주의 길을 내게 가르치소서 ",
+    "en" : "Show me Your ways, O Lord; Teach me Your paths.",
+    "cn" : "耶和华啊，求你将你的道指示我， 将你的路教训我！",
+    "reference" : "Psalms 25:4"
+  },
+  {
+    "reference" : "Psalms 27:1",
+    "cn" : "大卫的诗。 耶和华是我的亮光，是我的拯救， 我还怕谁呢？ 耶和华是我性命的保障， 我还惧谁呢？",
+    "kr" : " 여호와는 나의 빛이요 나의 구원이시니 내가 누구를 두려워하리요 여호와는 내 생명의 능력이시니 내가 누구를 무서워하리요 ",
+    "en" : "The Lord is my light and my salvation; Whom shall I fear? The Lord is the strength of my life; Of whom shall I be afraid?"
+  },
+  {
+    "reference" : "Psalms 27:4",
+    "en" : "One thing I have desired of the Lord, That will I seek: That I may dwell in the house of the Lord All the days of my life, To behold the beauty of the Lord, And to inquire in His temple.",
+    "kr" : "내가 여호와께 청하였던 한 가지 일 곧 그것을 구하리니 곧 나로 내 생전에 여호와의 집에 거하여 여호와의 아름다움을 앙망하며 그 전에서 사모하게 하실 것이라 ",
+    "cn" : "有一件事，我曾求耶和华，我仍要寻求： 就是一生一世住在耶和华的殿中， 瞻仰他的荣美，在他的殿里求问。"
+  },
+  {
+    "reference" : "Psalms 27:14",
+    "cn" : "要等候耶和华！ 当壮胆，坚固你的心！ 我再说，要等候耶和华！",
+    "en" : "Wait on the Lord; Be of good courage, And He shall strengthen your heart; Wait, I say, on the Lord!",
+    "kr" : "너는 여호와를 바랄지어다 강하고 담대하며 여호와를 바랄지어다  "
+  },
+  {
+    "reference" : "Psalms 28:7",
+    "en" : "The Lord is my strength and my shield; My heart trusted in Him, and I am helped; Therefore my heart greatly rejoices, And with my song I will praise Him.",
+    "cn" : "耶和华是我的力量，是我的盾牌； 我心里倚靠他就得帮助。 所以我心中欢乐， 我必用诗歌颂赞他。",
+    "kr" : "여호와는 나의 힘과 나의 방패시니 내 마음이 저를 의지하여 도움을 얻었도다 그러므로 내 마음이 크게 기뻐하며 내 노래로 저를 찬송하리로다 "
+  },
+  {
+    "reference" : "Psalms 29:11",
+    "en" : "The Lord will give strength to His people; The Lord will bless His people with peace.",
+    "kr" : "여호와께서 자기 백성에게 힘을 주심이여 여호와께서 자기 백성에게 평강의 복을 주시리로다  ",
+    "cn" : "耶和华必赐力量给他的百姓； 耶和华必赐平安的福给他的百姓。"
+  },
+  {
+    "en" : "For His anger is but for a moment, His favor is for life; Weeping may endure for a night, But joy comes in the morning.",
+    "cn" : "因为，他的怒气不过是转眼之间； 他的恩典乃是一生之久。 一宿虽然有哭泣， 早晨便必欢呼。",
+    "kr" : "그 노염은 잠간이요 그 은총은 평생이로다 저녁에는 울음이 기숙할지라도 아침에는 기쁨이 오리로다 ",
+    "reference" : "Psalms 30:5"
+  },
+  {
+    "kr" : "강하고 담대하라 여호와를 바라는 너희들아  ",
+    "reference" : "Psalms 31:24",
+    "cn" : "凡仰望耶和华的人， 你们都要壮胆，坚固你们的心！",
+    "en" : "Be of good courage, And He shall strengthen your heart, All you who hope in the Lord."
+  },
+  {
+    "reference" : "Psalms 32:8",
+    "cn" : "我要教导你，指示你当行的路； 我要定睛在你身上劝戒你。",
+    "kr" : "내가 너의 갈 길을 가르쳐 보이고 너를 주목하여 훈계하리로다 ",
+    "en" : "I will instruct you and teach you in the way you should go; I will guide you with My eye."
+  },
+  {
+    "kr" : "여호와의 말씀은 정직하며 그 행사는 다 진실하시도다 ",
+    "cn" : "因为耶和华的言语正直； 凡他所做的尽都诚实。",
+    "en" : "For the word of the Lord is right, And all His work is done in truth.",
+    "reference" : "Psalms 33:4"
+  },
+  {
+    "cn" : "我曾寻求耶和华，他就应允我， 救我脱离了一切的恐惧。",
+    "reference" : "Psalms 34:4",
+    "kr" : "내가 여호와께 구하매 내게 응답하시고 내 모든 두려움에서 나를 건지셨도다 ",
+    "en" : "I sought the Lord, and He heard me, And delivered me from all my fears."
+  },
+  {
+    "reference" : "Psalms 34:8",
+    "en" : "Oh, taste and see that the Lord is good; Blessed is the man who trusts in Him!",
+    "kr" : "너희는 여호와의 선하심을 맛보아 알지어다 그에게 피하는 자는 복이 있도다 ",
+    "cn" : "你们要尝尝[主恩的滋味]，便知道他是美善； 投靠他的人有福了！"
+  },
+  {
+    "kr" : "여호와는 마음이 상한 자에게 가까이 하시고 중심에 통회하는 자를 구원하시는도다 ",
+    "cn" : "耶和华靠近伤心的人， 拯救灵性痛悔的人。",
+    "reference" : "Psalms 34:18",
+    "en" : "The Lord is near to those who have a broken heart, And saves such as have a contrite spirit."
+  },
+  {
+    "cn" : "又要以耶和华为乐， 他就将你心里所求的赐给你。",
+    "en" : "Delight yourself also in the Lord, And He shall give you the desires of your heart.",
+    "kr" : "또 여호와를 기뻐하라 저가 네 마음의 소원을 이루어 주시리로다 ",
+    "reference" : "Psalms 37:4"
+  },
+  {
+    "cn" : "当将你的事交托耶和华， 并倚靠他，他就必成全。",
+    "kr" : "너의 길을 여호와께 맡기라 저를 의지하면 저가 이루시고 ",
+    "reference" : "Psalms 37:5",
+    "en" : "Commit your way to the Lord, Trust also in Him, And He shall bring it to pass."
+  },
+  {
+    "cn" : "你当默然倚靠耶和华，耐性等候他； 不要因那道路通达的和那恶谋成就的心怀不平。",
+    "reference" : "Psalms 37:7",
+    "kr" : "여호와 앞에 잠잠하고 참아 기다리라 자기 길이 형통하며 악한 꾀를 이루는 자를 인하여 불평하여 말지어다 ",
+    "en" : "Rest in the Lord, and wait patiently for Him; Do not fret because of him who prospers in his way, Because of the man who brings wicked schemes to pass."
+  },
+  {
+    "kr" : "여호와께서 사람의 걸음을 정하시고 그 길을 기뻐하시나니 ",
+    "reference" : "Psalms 37:23",
+    "cn" : "义人的脚步被耶和华立定； 他的道路，耶和华也喜爱。",
+    "en" : "The steps of a good man are ordered by the Lord, And He delights in his way."
+  },
+  {
+    "kr" : " 내가 여호와를 기다리고 기다렸더니 귀를 기울이사 나의 부르짖음을 들으셨도다 ",
+    "reference" : "Psalms 40:1",
+    "en" : "I waited patiently for the Lord; And He inclined to me, And heard my cry.",
+    "cn" : "大卫的诗，交与伶长。 我曾耐性等候耶和华； 他垂听我的呼求。"
+  },
+  {
+    "en" : "As the deer pants for the water brooks, So pants my soul for You, O God.",
+    "reference" : "Psalms 42:1",
+    "cn" : "可拉后裔的训诲诗，交与伶长。 　神啊，我的心切慕你， 如鹿切慕溪水。",
+    "kr" : " 하나님이여 사슴이 시냇물을 찾기에 갈급함 같이 내 영혼이 주를 찾기에 갈급하니이다 "
+  },
+  {
+    "en" : "Why are you cast down, O my soul? And why are you disquieted within me? Hope in God, for I shall yet praise Him For the help of His countenance.",
+    "reference" : "Psalms 42:5",
+    "kr" : "내 영혼아 네가 어찌하여 낙망하며 어찌하여 내 속에서 불안하여 하는고 너는 하나님을 바라라 그 얼굴의 도우심을 인하여 내가 오히려 찬송하리로다 ",
+    "cn" : "我的心哪，你为何忧闷？ 为何在我里面烦躁？ 应当仰望　神，因他笑脸帮助我； 我还要称赞他。"
+  },
+  {
+    "reference" : "Psalms 42:11",
+    "kr" : "내 영혼아 네가 어찌하여 낙망하며 어찌하여 내 속에서 불안하여 하는고 너는 하나님을 바라라 나는 내 얼굴을 도우시는 내 하나님을 오히려 찬송하리로다  ",
+    "en" : "Why are you cast down, O my soul? And why are you disquieted within me? Hope in God; For I shall yet praise Him, The help of my countenance and my God.",
+    "cn" : "我的心哪，你为何忧闷？ 为何在我里面烦躁？ 应当仰望　神，因我还要称赞他。 他是我脸上的光荣，是我的　神。"
+  },
+  {
+    "kr" : " 하나님은 우리의 피난처시요 힘이시니 환난 중에 만날 큰 도움이시라 ",
+    "cn" : "可拉后裔的诗歌，交与伶长。调用女音。 　神是我们的避难所，是我们的力量， 是[我们]在患难中随时的帮助。",
+    "reference" : "Psalms 46:1",
+    "en" : "God is our refuge and strength, A very present help in trouble."
+  },
+  {
+    "kr" : "이르시기를 너희는 가만히 있어 내가 하나님 됨을 알지어다 내가 열방과 세계 중에서 높임을 받으리라 하시도다 ",
+    "cn" : "你们要休息，要知道我是　神！ 我必在外邦中被尊崇，在遍地上也被尊崇。",
+    "en" : "Be still, and know that I am God; I will be exalted among the nations, I will be exalted in the earth!",
+    "reference" : "Psalms 46:10"
+  },
+  {
+    "reference" : "Psalms 51:10",
+    "en" : "Create in me a clean heart, O God, And renew a steadfast spirit within me.",
+    "cn" : "神啊，求你为我造清洁的心， 使我里面重新有正直的灵。",
+    "kr" : "하나님이여 내 속에 정한 마음을 창조하시고 내 안에 정직한 영을 새롭게 하소서 "
+  },
+  {
+    "cn" : "你要把你的重担卸给耶和华， 他必抚养你； 他永不叫义人动摇。",
+    "kr" : "네 짐을 여호와께 맡겨 버리라 너를 붙드시고 의인의 요동함을 영영히 허락지 아니하시리로다 ",
+    "en" : "Cast your burden on the Lord, And He shall sustain you; He shall never permit the righteous to be moved.",
+    "reference" : "Psalms 55:22"
+  },
+  {
+    "reference" : "Psalms 56:3",
+    "en" : "Whenever I am afraid, I will trust in You.",
+    "kr" : "내가 두려워하는 날에는 주를 의지하리이다 ",
+    "cn" : "我惧怕的时候要倚靠你。"
+  },
+  {
+    "cn" : "大卫的诗，照耶杜顿的作法，交与伶长。 我的心默默无声，专等候　神； 我的救恩是从他[而来]。",
+    "en" : "Truly my soul silently waits for God; From Him comes my salvation.",
+    "reference" : "Psalms 62:1",
+    "kr" : " 나의 영혼이 잠잠히 하나님만 바람이여 나의 구원이 그에게서 나는도다 "
+  },
+  {
+    "kr" : "나의 영혼아 잠잠히 하나님만 바라라 대저 나의 소망이 저로 좇아 나는도다 ",
+    "reference" : "Psalms 62:5",
+    "cn" : "我的心哪，你当默默无声，专等候　神， 因为我的盼望是从他[而来]。",
+    "en" : "My soul, wait silently for God alone, For my expectation is from Him."
+  },
+  {
+    "kr" : " 하나님이여 주는 나의 하나님이시라 내가 간절히 주를 찾되 물이 없어 마르고 곤핍한 땅에서 내 영혼이 주를 갈망하며 내 육체가 주를 앙모하나이다 ",
+    "reference" : "Psalms 63:1",
+    "cn" : "大卫在犹大旷野的时候，作了这诗。 　神啊，你是我的　神， 我要切切地寻求你， 在干旱疲乏无水之地，我渴想你； 我的心切慕你。",
+    "en" : "O God, You are my God; Early will I seek You; My soul thirsts for You; My flesh longs for You In a dry and thirsty land Where there is no water."
+  },
+  {
+    "kr" : "하나님을 찬송하리로다 저가 내 기도를 물리치지 아니하시고 그 인자하심을 내게서 거두지도 아니하셨도다  ",
+    "en" : "Blessed be God, Who has not turned away my prayer, Nor His mercy from me!",
+    "reference" : "Psalms 66:20",
+    "cn" : "神是应当称颂的！ 他并没有推却我的祷告， 也没有叫他的慈爱离开我。"
+  },
+  {
+    "cn" : "因为耶和华—　神是日头，是盾牌， 要赐下恩惠和荣耀。 他未尝留下一样好处不给那些行动正直的人。",
+    "kr" : "여호와 하나님은 해요 방패시라 여호와께서 은혜와 영화를 주시며 정직히 행하는 자에게 좋은 것을 아끼지 아니하실 것임이니이다 ",
+    "reference" : "Psalms 84:11",
+    "en" : "For the Lord God is a sun and shield; The Lord will give grace and glory; No good thing will He withhold From those who walk uprightly."
+  },
+  {
+    "reference" : "Psalms 91:1",
+    "cn" : "住在至高者隐密处的， 必住在全能者的荫下。",
+    "kr" : "지존자의 은밀한 곳에 거하는 자는 전능하신 자의 그늘 아래 거하리로다 ",
+    "en" : "He who dwells in the secret place of the Most High Shall abide under the shadow of the Almighty."
+  },
+  {
+    "en" : "I will say of the Lord, “He is my refuge and my fortress; My God, in Him I will trust.”",
+    "reference" : "Psalms 91:2",
+    "cn" : "我要论到耶和华说： 他是我的避难所，是我的山寨， 是我的　神，是我所倚靠的。",
+    "kr" : "내가 여호와를 가리켜 말하기를 저는 나의 피난처요 나의 요새요 나의 의뢰하는 하나님이라 하리니 "
+  },
+  {
+    "reference" : "Psalms 91:4",
+    "cn" : "他必用自己的翎毛遮蔽你； 你要投靠在他的翅膀底下； 他的诚实是大小的盾牌。",
+    "kr" : "저가 너를 그 깃으로 덮으시리니 네가 그 날개 아래 피하리로다 그의 진실함은 방패와 손 방패가 되나니 ",
+    "en" : "He shall cover you with His feathers, And under His wings you shall take refuge; His truth shall be your shield and buckler."
+  },
+  {
+    "kr" : "저가 너를 위하여 그 사자들을 명하사 네 모든 길에 너를 지키게 하심이라 ",
+    "reference" : "Psalms 91:11",
+    "cn" : "因他要为你吩咐他的使者， 在你行的一切道路上保护你。",
+    "en" : "For He shall give His angels charge over you, To keep you in all your ways."
+  },
+  {
+    "kr" : "내 속에 생각이 많을 때에 주의 위안이 내 영혼을 즐겁게 하시나이다 ",
+    "en" : "In the multitude of my anxieties within me, Your comforts delight my soul.",
+    "cn" : "我心里多忧多疑， 你安慰我，就使我欢乐。",
+    "reference" : "Psalms 94:19"
+  },
+  {
+    "cn" : "称谢诗。 普天下当向耶和华欢呼！",
+    "reference" : "Psalms 100:1",
+    "kr" : " 온 땅이여 어호와께 즐거이 부를지어다 ",
+    "en" : "Make a joyful shout to the Lord, all you lands!"
+  },
+  {
+    "reference" : "Psalms 100:4",
+    "en" : "Enter into His gates with thanksgiving, And into His courts with praise. Be thankful to Him, and bless His name.",
+    "kr" : "감사함으로 그 문에 들어가며 찬송함으로 그 궁정에 들어가서 그에게 감사하며 그 이름을 송축할지어다 ",
+    "cn" : "当称谢进入他的门； 当赞美进入他的院。 当感谢他，称颂他的名！"
+  },
+  {
+    "cn" : "大卫的诗。 我的心哪，你要称颂耶和华！ 凡在我里面的，也要称颂他的圣名！",
+    "reference" : "Psalms 103:1",
+    "kr" : " 내 영혼아 여호와를 송축하라 내 속에 있는 것들아 다 그 성호를 송축하라 ",
+    "en" : "Bless the Lord, O my soul; And all that is within me, bless His holy name!"
+  },
+  {
+    "cn" : "我的心哪，你要称颂耶和华！ 不可忘记他的一切恩惠！",
+    "reference" : "Psalms 103:2",
+    "en" : "Bless the Lord, O my soul, And forget not all His benefits:",
+    "kr" : "내 영혼아 여호와를 송축하며 그 모든 은택을 잊지 말지어다 "
+  },
+  {
+    "cn" : "耶和华有怜悯，有恩典， 不轻易发怒，且有丰盛的慈爱。",
+    "kr" : "여호와는 자비로우시며 은혜로우시며 노하기를 더디하시며 인자하심이 풍부하시도다 ",
+    "reference" : "Psalms 103:8",
+    "en" : "The Lord is merciful and gracious, Slow to anger, and abounding in mercy."
+  },
+  {
+    "reference" : "Psalms 103:12",
+    "cn" : "东离西有多远， 他叫我们的过犯离我们也有多远！",
+    "en" : "As far as the east is from the west, So far has He removed our transgressions from us.",
+    "kr" : "동이 서에서 먼 것 같이 우리 죄과를 우리에게서 멀리 옮기셨으며 "
+  },
+  {
+    "reference" : "Psalms 107:1",
+    "kr" : "여호와께 감사하라 그는 선하시며 그 인자하심이 영원함이로다 ",
+    "en" : "Oh, give thanks to the Lord, for He is good! For His mercy endures forever.",
+    "cn" : "你们要称谢耶和华，因他本为善； 他的慈爱永远长存！"
+  },
+  {
+    "reference" : "Psalms 112:7",
+    "en" : "He will not be afraid of evil tidings; His heart is steadfast, trusting in the Lord.",
+    "cn" : "他必不怕凶恶的信息； 他心坚定，倚靠耶和华。",
+    "kr" : "그는 흉한 소식을 두려워 아니함이여 여호와를 의뢰하고 그 마음을 굳게 정하였도다 "
+  },
+  {
+    "reference" : "Psalms 118:6",
+    "kr" : "여호와는 내 편이시라 내게 두려움이 없나니 사람이 내게 어찌할꼬 ",
+    "cn" : "有耶和华帮助我，我必不惧怕， 人能把我怎么样呢？",
+    "en" : "The Lord is on my side; I will not fear. What can man do to me?"
+  },
+  {
+    "en" : "It is better to trust in the Lord Than to put confidence in man.",
+    "reference" : "Psalms 118:8",
+    "kr" : "여호와께 피함이 사람을 신뢰함보다 나으며 ",
+    "cn" : "投靠耶和华，强似倚赖人；"
+  },
+  {
+    "en" : "This is the day the Lord has made; We will rejoice and be glad in it.",
+    "cn" : "这是耶和华所定的日子， 我们在其中要高兴欢喜！",
+    "reference" : "Psalms 118:24",
+    "kr" : "이 날은 여호와의 정하신 것이라 이 날에 우리가 즐거워하고 기뻐하리로다 "
+  },
+  {
+    "en" : "How can a young man cleanse his way? By taking heed according to Your word.",
+    "kr" : "청년이 무엇으로 그 행실을 깨끗케 하리이까 주의 말씀을 따라 삼갈 것이니이다 ",
+    "cn" : "少年人用什么洁净他的行为呢？ 是要遵行你的话！",
+    "reference" : "Psalms 119:9"
+  },
+  {
+    "en" : "Your word I have hidden in my heart, That I might not sin against You.",
+    "kr" : "내가 주께 범죄치 아니하려 하여 주의 말씀을 내 마음에 두었나이다 ",
+    "reference" : "Psalms 119:11",
+    "cn" : "我将你的话藏在心里， 免得我得罪你。"
+  },
+  {
+    "cn" : "求你开我的眼睛， 使我看出你律法中的奇妙。",
+    "kr" : "내 눈을 열어서 주의 법의 기이한 것을 보게 하소서 ",
+    "reference" : "Psalms 119:18",
+    "en" : "Open my eyes, that I may see Wondrous things from Your law."
+  },
+  {
+    "cn" : "我的心因愁苦而消化； 求你照你的话使我坚立！",
+    "en" : "My soul melts from heaviness; Strengthen me according to Your word.",
+    "reference" : "Psalms 119:28",
+    "kr" : "나의 영혼이 눌림을 인하여 녹사오니 주의 말씀대로 나를 세우소서 "
+  },
+  {
+    "kr" : "이 말씀은 나의 곤란 중에 위로라 주의 말씀이 나를 살리셨음이니이다 ",
+    "cn" : "这话将我救活了； 我在患难中，因此得安慰。",
+    "en" : "This is my comfort in my affliction, For Your word has given me life.",
+    "reference" : "Psalms 119:50"
+  },
+  {
+    "cn" : "我未受苦以先走迷了路， 现在却遵守你的话。",
+    "en" : "Before I was afflicted I went astray, But now I keep Your word.",
+    "reference" : "Psalms 119:67",
+    "kr" : "고난 당하기 전에는 내가 그릇 행하였더니 이제는 주의 말씀을 지키나이다 "
+  },
+  {
+    "kr" : "고난 당한 것이 내게 유익이라 이로 인하여 내가 주의 율례를 배우게 되었나이다 ",
+    "reference" : "Psalms 119:71",
+    "cn" : "我受苦是与我有益， 为要使我学习你的律例。",
+    "en" : "It is good for me that I have been afflicted, That I may learn Your statutes."
+  },
+  {
+    "en" : "Forever, O Lord, Your word is settled in heaven.",
+    "kr" : "여호와여 주의 말씀이 영원히 하늘에 굳게 섰사오며 ",
+    "cn" : "耶和华啊，你的话安定在天， 直到永远。",
+    "reference" : "Psalms 119:89"
+  },
+  {
+    "reference" : "Psalms 119:105",
+    "en" : "Your word is a lamp to my feet And a light to my path.",
+    "cn" : "你的话是我脚前的灯， 是我路上的光。",
+    "kr" : "주의 말씀은 내 발에 등이요 내 길에 빛이니이다 "
+  },
+  {
+    "reference" : "Psalms 119:114",
+    "cn" : "你是我藏身之处，又是我的盾牌； 我甚仰望你的话语。",
+    "en" : "You are my hiding place and my shield; I hope in Your word.",
+    "kr" : "주는 나의 은신처요 방패시라 내가 주의 말씀을 바라나이다 "
+  },
+  {
+    "en" : "The entrance of Your words gives light; It gives understanding to the simple.",
+    "cn" : "你的言语一解开就发出亮光， 使愚人通达。",
+    "reference" : "Psalms 119:130",
+    "kr" : "주의 말씀을 열므로 우둔한 자에게 비취어 깨닫게 하나이다 "
+  },
+  {
+    "cn" : "你话的总纲是真实； 你一切公义的典章是永远长存。",
+    "reference" : "Psalms 119:160",
+    "kr" : "주의 말씀의 강령은 진리오니 주의 의로운 모든 규례가 영원하리이다 ",
+    "en" : "The entirety of Your word is truth, And every one of Your righteous judgments endures forever."
+  },
+  {
+    "kr" : " 내가 산을 향하여 눈을 들리라 나의 도움이 어디서 올꼬 ",
+    "reference" : "Psalms 121:1",
+    "en" : "I will lift up my eyes to the hills— From whence comes my help?",
+    "cn" : "上行之诗。 我要向山举目； 我的帮助从何而来？"
+  },
+  {
+    "en" : "My help comes from the Lord, Who made heaven and earth.",
+    "kr" : "나의 도움이 천지를 지으신 여호와에게서로다 ",
+    "cn" : "我的帮助 从造天地的耶和华而来。",
+    "reference" : "Psalms 121:2"
+  },
+  {
+    "cn" : "耶和华要保护你，免受一切的灾害； 他要保护你的性命。",
+    "en" : "The Lord shall preserve you from all evil; He shall preserve your soul.",
+    "kr" : "여호와께 너를 지켜 모든 환난을 면케 하시며 또 네 영혼을 지키시리로다 ",
+    "reference" : "Psalms 121:7"
+  },
+  {
+    "reference" : "Psalms 126:5",
+    "cn" : "流泪撒种的， 必欢呼收割！",
+    "en" : "Those who sow in tears Shall reap in joy.",
+    "kr" : "눈물을 흘리며 씨를 뿌리는 자는 기쁨으로 거두리로다 "
+  },
+  {
+    "reference" : "Psalms 127:1",
+    "en" : "Unless the Lord builds the house, They labor in vain who build it; Unless the Lord guards the city, The watchman stays awake in vain.",
+    "cn" : "所罗门上行之诗。 若不是耶和华建造房屋， 建造的人就枉然劳力； 若不是耶和华看守城池， 看守的人就枉然警醒。",
+    "kr" : " 여호와께서 집을 세우지 아니하시면 세우는 자의 수고가 헛되며 여호와께서 성을 지키지 아니하시면 파수꾼의 경성함이 허사로다 "
+  },
+  {
+    "cn" : "儿女是耶和华所赐的产业； 所怀的胎是他所给的赏赐。",
+    "kr" : "자식은 여호와의 주신 기업이요 태의 열매는 그의 상급이로다 ",
+    "reference" : "Psalms 127:3",
+    "en" : "Behold, children are a heritage from the Lord, The fruit of the womb is a reward."
+  },
+  {
+    "kr" : " 형제가 연합하여 동거함이 어찌 그리 선하고 아름다운고 ",
+    "en" : "Behold, how good and how pleasant it is For brethren to dwell together in unity!",
+    "cn" : "大卫上行之诗。 看哪，弟兄和睦同居 是何等地善，何等地美！",
+    "reference" : "Psalms 133:1"
+  },
+  {
+    "en" : "Oh, give thanks to the Lord, for He is good! For His mercy endures forever.",
+    "kr" : "여호와께 감사하라 그는 선하시며 그 인자하심이 영원함이로다 ",
+    "reference" : "Psalms 136:1",
+    "cn" : "你们要称谢耶和华，因他本为善； 他的慈爱永远长存。"
+  },
+  {
+    "reference" : "Psalms 138:8",
+    "cn" : "耶和华必成全关乎我的事； 耶和华啊，你的慈爱永远长存！ 求你不要离弃你手所造的。",
+    "en" : "The Lord will perfect that which concerns me; Your mercy, O Lord, endures forever; Do not forsake the works of Your hands.",
+    "kr" : "여호와께서 내게 관계된 것을 완전케 하실지라 여호와여 주의 인자하심이 영원하오니 주의 손으로 지으신 것을 버리지 마옵소서  "
+  },
+  {
+    "cn" : "我的肺腑是你所造的； 我在母腹中，你已覆庇我。",
+    "reference" : "Psalms 139:13",
+    "kr" : "주께서 내 장부를 지으시며 나의 모태에서 나를 조직하셨나이다 ",
+    "en" : "For You formed my inward parts; You covered me in my mother’s womb."
+  },
+  {
+    "kr" : "내가 주께 감사하옴은 나를 지으심이 신묘막측하심이라 주의 행사가 기이함을 내 영혼이 잘 아나이다 ",
+    "reference" : "Psalms 139:14",
+    "cn" : "我要称谢你，因我受造，奇妙可畏； 你的作为奇妙，这是我心深知道的。",
+    "en" : "I will praise You, for I am fearfully and wonderfully made; Marvelous are Your works, And that my soul knows very well."
+  },
+  {
+    "cn" : "神啊，求你鉴察我，知道我的心思， 试炼我，知道我的意念，",
+    "kr" : "하나님이여 나를 살피사 내 마음을 아시며 나를 시험하사 내 뜻을 아옵소서 ",
+    "reference" : "Psalms 139:23",
+    "en" : "Search me, O God, and know my heart; Try me, and know my anxieties;"
+  },
+  {
+    "kr" : "내 심령이 속에서 상할 때에도 주께서 내 길을 아셨나이다 나의 행하는 길에 저희가 나를 잡으려고 올무를 숨겼나이다 ",
+    "en" : "When my spirit was overwhelmed within me, Then You knew my path. In the way in which I walk They have secretly set a snare for me.",
+    "reference" : "Psalms 142:3",
+    "cn" : "我的灵在我里面发昏的时候， 你知道我的道路。 在我行的路上， 敌人为我暗设网罗。"
+  },
+  {
+    "reference" : "Psalms 143:8",
+    "kr" : "아침에 나로 주의 인자한 말씀을 듣게 하소서 내가 주를 의뢰함이니이다 나의 다닐 길을 알게 하소서 내가 내 영혼을 주께 받듦이니이다 ",
+    "en" : "Cause me to hear Your lovingkindness in the morning, For in You do I trust; Cause me to know the way in which I should walk, For I lift up my soul to You.",
+    "cn" : "求你使我清晨得听你慈爱[之言]， 因我倚靠你； 求你使我知道当行的路， 因我的心仰望你。"
+  },
+  {
+    "reference" : "Psalms 145:9",
+    "cn" : "耶和华善待万民； 他的慈悲覆庇他一切所造的。",
+    "en" : "The Lord is good to all, And His tender mercies are over all His works.",
+    "kr" : "여호와께서는 만유를 선대하시며 그 지으신 모든 것에 긍휼을 베푸시는도다 "
+  },
+  {
+    "en" : "The Lord is near to all who call upon Him, To all who call upon Him in truth.",
+    "cn" : "凡求告耶和华的，就是诚心求告他的， 耶和华便与他们相近。",
+    "kr" : "여호와께서는 자기에게 간구하는 모든 자 곧 진실하게 간구하는 모든 자에게 가까이 하시는도다 ",
+    "reference" : "Psalms 145:18"
+  },
+  {
+    "kr" : "상심한 자를 고치시며 저희 상처를 싸매시는도다 ",
+    "reference" : "Psalms 147:3",
+    "en" : "He heals the brokenhearted And binds up their wounds.",
+    "cn" : "他医好伤心的人， 裹好他们的伤处。"
+  },
+  {
+    "kr" : "자기를 경외하는 자와 그 인자하심을 바라는 자들을 기뻐하시는도다 ",
+    "reference" : "Psalms 147:11",
+    "en" : "The Lord takes pleasure in those who fear Him, In those who hope in His mercy.",
+    "cn" : "耶和华喜爱敬畏他 和盼望他慈爱的人。"
+  },
+  {
+    "kr" : "여호와를 경외하는 것이 지식의 근본이어늘 미련한 자는 지혜와 훈계를 멸시하느니라 ",
+    "cn" : "敬畏耶和华是知识的开端； 愚妄人藐视智慧和训诲。",
+    "reference" : "Proverbs 1:7",
+    "en" : "The fear of the Lord is the beginning of knowledge, But fools despise wisdom and instruction."
+  },
+  {
+    "cn" : "你要专心仰赖耶和华， 不可倚靠自己的聪明，",
+    "en" : "Trust in the Lord with all your heart, And lean not on your own understanding;",
+    "reference" : "Proverbs 3:5",
+    "kr" : "너는 마음을 다하여 여호와를 의뢰하고 네 명철을 의지하지 말라 "
+  },
+  {
+    "cn" : "在你一切所行的事上都要认定他， 他必指引你的路。",
+    "en" : "In all your ways acknowledge Him, And He shall direct your paths.",
+    "reference" : "Proverbs 3:6",
+    "kr" : "너는 범사에 그를 인정하라 그리하면 네 길을 지도하시리라 "
+  },
+  {
+    "cn" : "不要自以为有智慧； 要敬畏耶和华，远离恶事。",
+    "en" : "Do not be wise in your own eyes; Fear the Lord and depart from evil.",
+    "reference" : "Proverbs 3:7",
+    "kr" : "스스로 지혜롭게 여기지 말지어다 여호와를 경외하며 악을 떠날지어다 "
+  },
+  {
+    "reference" : "Proverbs 3:11",
+    "en" : "My son, do not despise the chastening of the Lord, Nor detest His correction;",
+    "cn" : "我儿，你不可轻看耶和华的管教， 也不可厌烦他的责备；",
+    "kr" : "내 아들아 여호와의 징계를 경히 여기지 말라 그 꾸지람을 싫어하지 말라 "
+  },
+  {
+    "reference" : "Proverbs 3:12",
+    "en" : "For whom the Lord loves He corrects, Just as a father the son in whom he delights.",
+    "kr" : "대저 여호와께서 그 사랑하시는 자를 징계하시기를 마치 아비가 그 기뻐하는 아들을 징계함 같이 하시느니라 ",
+    "cn" : "因为耶和华所爱的，他必责备， 正如父亲责备所喜爱的儿子。"
+  },
+  {
+    "kr" : "지혜를 얻은 자와 명철을 얻은 자는 복이 있나니 ",
+    "cn" : "得智慧，得聪明的， 这人便为有福。",
+    "en" : "Happy is the man who finds wisdom, And the man who gains understanding;",
+    "reference" : "Proverbs 3:13"
+  },
+  {
+    "cn" : "他讥诮那好讥诮的人， 赐恩给谦卑的人。",
+    "kr" : "진실로 그는 거만한 자를 비웃으시며 겸손한 자에게 은혜를 베푸시나니 ",
+    "reference" : "Proverbs 3:34",
+    "en" : "Surely He scorns the scornful, But gives grace to the humble."
+  },
+  {
+    "cn" : "你要保守你心，胜过保守一切， 因为一生的果效是由心发出。",
+    "kr" : "무릇 지킬만한 것보다 더욱 네 마음을 지키라 생명의 근원이 이에서 남이니라 ",
+    "reference" : "Proverbs 4:23",
+    "en" : "Keep your heart with all diligence, For out of it spring the issues of life."
+  },
+  {
+    "kr" : "여호와를 경외하는 것이 지혜의 근본이요 거룩하신 자를 아는 것이 명철이니라 ",
+    "cn" : "敬畏耶和华是智慧的开端； 认识至圣者便是聪明。",
+    "en" : "“The fear of the Lord is the beginning of wisdom, And the knowledge of the Holy One is understanding.",
+    "reference" : "Proverbs 9:10"
+  },
+  {
+    "cn" : "恨能挑启争端； 爱能遮掩一切过错。",
+    "kr" : "미움은 다툼을 일으켜도 사랑은 모든 허물을 가리우느니라 ",
+    "en" : "Hatred stirs up strife, But love covers all sins.",
+    "reference" : "Proverbs 10:12"
+  },
+  {
+    "reference" : "Proverbs 11:25",
+    "kr" : "구제를 좋아하는 자는 풍족하여질 것이요 남을 윤택하게 하는 자는 윤택하여지리라 ",
+    "en" : "The generous soul will be made rich, And he who waters will also be watered himself.",
+    "cn" : "好施舍的，必得丰裕； 滋润人的，必得滋润。"
+  },
+  {
+    "kr" : "근심이 사람의 마음에 있으면 그것으로 번뇌케 하나 선한 말은 그것을 즐겁게 하느니라 ",
+    "cn" : "人心忧虑，屈而不伸； 一句良言，使心欢乐。",
+    "reference" : "Proverbs 12:25",
+    "en" : "Anxiety in the heart of man causes depression, But a good word makes it glad."
+  },
+  {
+    "reference" : "Proverbs 14:12",
+    "en" : "There is a way that seems right to a man, But its end is the way of death.",
+    "cn" : "有一条路，人以为正， 至终成为死亡之路。",
+    "kr" : "어떤 길은 사람의 보기에 바르나 필경은 사망의 길이니라 "
+  },
+  {
+    "cn" : "心中安静是肉体的生命； 嫉妒是骨中的朽烂。",
+    "en" : "A sound heart is life to the body, But envy is rottenness to the bones.",
+    "kr" : "마음의 화평은 육신의 생명이나 시기는 뼈의 썩음이니라 ",
+    "reference" : "Proverbs 14:30"
+  },
+  {
+    "en" : "A soft answer turns away wrath, But a harsh word stirs up anger.",
+    "kr" : "유순한 대답은 분노를 쉬게 하여도 과격한 말은 노를 격동하느니라 ",
+    "cn" : "回答柔和，使怒消退； 言语暴戾，触动怒气。",
+    "reference" : "Proverbs 15:1"
+  },
+  {
+    "reference" : "Proverbs 15:3",
+    "cn" : "耶和华的眼目无处不在； 恶人善人，他都鉴察。",
+    "en" : "The eyes of the Lord are in every place, Keeping watch on the evil and the good.",
+    "kr" : "여호와의 눈은 어디서든지 악인과 선인을 감찰하시느니라 "
+  },
+  {
+    "cn" : "心中喜乐，面带笑容； 心里忧愁，灵被损伤。",
+    "en" : "A merry heart makes a cheerful countenance, But by sorrow of the heart the spirit is broken.",
+    "kr" : "마음의 즐거움은 얼굴을 빛나게 하여도 마음의 근심은 심령을 상하게 하느니라 ",
+    "reference" : "Proverbs 15:13"
+  },
+  {
+    "kr" : "의논이 없으면 경영이 파하고 모사가 많으면 경영이 성립하느니라 ",
+    "reference" : "Proverbs 15:22",
+    "cn" : "不先商议，所谋无效； 谋士众多，所谋乃成。",
+    "en" : "Without counsel, plans go awry, But in the multitude of counselors they are established."
+  },
+  {
+    "kr" : "너의 행사를 여호와께 맡기라 그리하면 너의 경영하는 것이 이루리라 ",
+    "cn" : "你所做的，要交托耶和华， 你所谋的，就必成立。",
+    "en" : "Commit your works to the Lord, And your thoughts will be established.",
+    "reference" : "Proverbs 16:3"
+  },
+  {
+    "kr" : "사람이 마음으로 자기의 길을 계획할지라도 그 걸음을 인도하는 자는 여호와시니라 ",
+    "en" : "A man’s heart plans his way, But the Lord directs his steps.",
+    "reference" : "Proverbs 16:9",
+    "cn" : "人心筹算自己的道路； 惟耶和华指引他的脚步。"
+  },
+  {
+    "reference" : "Proverbs 16:18",
+    "cn" : "骄傲在败坏以先； 狂心在跌倒之前。",
+    "kr" : "교만은 패망의 선봉이요 거만한 마음은 넘어짐의 앞잡이니라 ",
+    "en" : "Pride goes before destruction, And a haughty spirit before a fall."
+  },
+  {
+    "kr" : "선한 말은 꿀송이 같아서 마음에 달고 뼈에 양약이 되느니라 ",
+    "en" : "Pleasant words are like a honeycomb, Sweetness to the soul and health to the bones.",
+    "cn" : "良言[如同]蜂房， 使心觉甘甜，使骨得医治。",
+    "reference" : "Proverbs 16:24"
+  },
+  {
+    "kr" : "노하기를 더디하는 자는 용사보다 낫고 자기의 마음을 다스리는 자는 성을 빼앗는 자보다 나으니라 ",
+    "en" : "He who is slow to anger is better than the mighty, And he who rules his spirit than he who takes a city.",
+    "cn" : "不轻易发怒的，胜过勇士； 治服己心的，强如取城。",
+    "reference" : "Proverbs 16:32"
+  },
+  {
+    "kr" : "친구는 사랑이 끊이지 아니하고 형제는 위급한 때까지 위하여 났느니라 ",
+    "reference" : "Proverbs 17:17",
+    "en" : "A friend loves at all times, And a brother is born for adversity.",
+    "cn" : "朋友乃时常亲爱， 弟兄为患难而生。"
+  },
+  {
+    "reference" : "Proverbs 17:22",
+    "en" : "A merry heart does good, like medicine, But a broken spirit dries the bones.",
+    "cn" : "喜乐的心乃是良药； 忧伤的灵使骨枯干。",
+    "kr" : "마음의 즐거움은 양약이라도 심령의 근심은 뼈로 마르게 하느니라 "
+  },
+  {
+    "cn" : "耶和华的名是坚固台； 义人奔入便得安稳。",
+    "reference" : "Proverbs 18:10",
+    "en" : "The name of the Lord is a strong tower; The righteous run to it and are safe.",
+    "kr" : "여호와의 이름은 견고한 망대라 의인은 그리로 달려가서 안전함을 얻느니라 "
+  },
+  {
+    "cn" : "滥交朋友的，自取败坏； 但有一朋友比弟兄更亲密。",
+    "kr" : "많은 친구를 얻는 자는 해를 당하게 되거니와 어떤 친구는 형제보다 친밀하니라  ",
+    "reference" : "Proverbs 18:24",
+    "en" : "A man who has friends must himself be friendly, But there is a friend who sticks closer than a brother."
+  },
+  {
+    "cn" : "人心多有计谋； 惟有耶和华的筹算才能立定。",
+    "en" : "There are many plans in a man’s heart, Nevertheless the Lord’s counsel—that will stand.",
+    "reference" : "Proverbs 19:21",
+    "kr" : "사람의 마음에는 많은 계획이 있어도 오직 여호와의 뜻이 완전히 서리라 "
+  },
+  {
+    "reference" : "Proverbs 20:1",
+    "kr" : "포도주는 거만케 하는 것이요 독주는 떠들게 하는 것이라 무릇 이에 미혹되는 자에게는 지혜가 없느니라 ",
+    "en" : "Wine is a mocker, Strong drink is a brawler, And whoever is led astray by it is not wise.",
+    "cn" : "酒能使人亵慢，浓酒使人喧嚷； 凡因酒错误的，就无智慧。"
+  },
+  {
+    "cn" : "人心怀藏谋略，好像深水， 惟明哲人才能汲引出来。",
+    "en" : "Counsel in the heart of man is like deep water, But a man of understanding will draw it out.",
+    "kr" : "사람의 마음에 있는 모략은 깊은 물 같으니라 그럴찌라도 명철한 사람은 그것을 길어 내느니라 ",
+    "reference" : "Proverbs 20:5"
+  },
+  {
+    "reference" : "Proverbs 20:22",
+    "cn" : "你不要说，我要以恶报恶； 要等候耶和华，他必拯救你。",
+    "en" : "Do not say, “I will recompense evil”; Wait for the Lord, and He will save you.",
+    "kr" : "너는 악을 갚겠다 말하지 말고 여호와를 기다리라 그가 너를 구원하시리라 "
+  },
+  {
+    "cn" : "追求公义仁慈的， 就寻得生命、公义，和尊荣。",
+    "kr" : "의와 인자를 따라 구하는 자는 생명과 의와 영광을 얻느니라 ",
+    "reference" : "Proverbs 21:21",
+    "en" : "He who follows righteousness and mercy Finds life, righteousness, and honor."
+  },
+  {
+    "kr" : "많은 재물보다 명예를 택할 것이요 은이나 금보다 은총을 더욱 택할 것이니라 ",
+    "reference" : "Proverbs 22:1",
+    "en" : "A good name is to be chosen rather than great riches, Loving favor rather than silver and gold.",
+    "cn" : "美名胜过大财； 恩宠强如金银。"
+  },
+  {
+    "kr" : "마땅히 행할 길을 아이에게 가르치라 그리하면 늙어도 그것을 떠나지 아니하리라 ",
+    "en" : "Train up a child in the way he should go, And when he is old he will not depart from it.",
+    "reference" : "Proverbs 22:6",
+    "cn" : "教养孩童，使他走当行的道， 就是到老他也不偏离。"
+  },
+  {
+    "kr" : "부자는 가난한 자를 주관하고 빚진 자는 채주의 종이 되느니라 ",
+    "cn" : "富户管辖穷人； 欠债的是债主的仆人。",
+    "reference" : "Proverbs 22:7",
+    "en" : "The rich rules over the poor, And the borrower is servant to the lender."
+  },
+  {
+    "reference" : "Proverbs 22:15",
+    "cn" : "愚蒙迷住孩童的心， 用管教的杖可以远远赶除。",
+    "kr" : "아이의 마음에는 미련한 것이 얽혔으나 징계하는 채찍이 이를 멀리 쫓아내리라 ",
+    "en" : "Foolishness is bound up in the heart of a child; The rod of correction will drive it far from him."
+  },
+  {
+    "kr" : "대저 의인은 일곱 번 넘어질지라도 다시 일어나려니와 악인은 재앙으로 인하여 엎드러지느니라 ",
+    "reference" : "Proverbs 24:16",
+    "en" : "For a righteous man may fall seven times And rise again, But the wicked shall fall by calamity.",
+    "cn" : "因为，义人虽七次跌倒，仍必兴起； 恶人却被祸患倾倒。"
+  },
+  {
+    "cn" : "你的仇敌若饿了，就给他饭吃； 若渴了，就给他水喝；",
+    "reference" : "Proverbs 25:21",
+    "kr" : "네 원수가 배고파하거든 식물을 먹이고 목말라하거든 물을 마시우라 ",
+    "en" : "If your enemy is hungry, give him bread to eat; And if he is thirsty, give him water to drink;"
+  },
+  {
+    "reference" : "Proverbs 27:1",
+    "kr" : "너는 내일 일을 자랑하지 말라 하루 동안에 무슨 일이 날는지 네가 알 수 없음이니라 ",
+    "en" : "Do not boast about tomorrow, For you do not know what a day may bring forth.",
+    "cn" : "不要为明日自夸， 因为一日要生何事，你尚且不能知道。"
+  },
+  {
+    "reference" : "Proverbs 27:17",
+    "en" : "As iron sharpens iron, So a man sharpens the countenance of his friend.",
+    "cn" : "铁磨铁，磨出刃来； 朋友相感也是如此。",
+    "kr" : "철이 철을 날카롭게 하는 것 같이 사람이 그 친구의 얼굴을 빛나게 하느니라 "
+  },
+  {
+    "en" : "As in water face reflects face, So a man’s heart reveals the man.",
+    "reference" : "Proverbs 27:19",
+    "kr" : "물에 비취이면 얼굴이 서로 같은 것 같이 사람의 마음도 서로 비취느니라 ",
+    "cn" : "水中照脸，彼此[相符]； 人与人，心也[相对]。"
+  },
+  {
+    "kr" : "자기의 죄를 숨기는 자는 형통치 못하나 죄를 자복하고 버리는 자는 불쌍히 여김을 받으리라 ",
+    "reference" : "Proverbs 28:13",
+    "cn" : "遮掩自己罪过的，必不亨通； 承认离弃罪过的，必蒙怜恤。",
+    "en" : "He who covers his sins will not prosper, But whoever confesses and forsakes them will have mercy."
+  },
+  {
+    "reference" : "Proverbs 29:11",
+    "en" : "A fool vents all his feelings, But a wise man holds them back.",
+    "kr" : "어리석은 자는 그 노를 다 드러내어도 지혜로운 자는 그 노를 억제하느니라 ",
+    "cn" : "愚妄人怒气全发； 智慧人忍气含怒。"
+  },
+  {
+    "reference" : "Proverbs 29:18",
+    "kr" : "묵시가 없으면 백성이 방자히 행하거니와 율법을 지키는 자는 복이 있느니라 ",
+    "en" : "Where there is no revelation, the people cast off restraint; But happy is he who keeps the law.",
+    "cn" : "没有异象，民就放肆； 惟遵守律法的，便为有福。"
+  },
+  {
+    "reference" : "Proverbs 30:5",
+    "cn" : "神的言语句句都是炼净的； 投靠他的，他便作他们的盾牌。",
+    "en" : "Every word of God is pure; He is a shield to those who put their trust in Him.",
+    "kr" : "하나님의 말씀은 다 순전하며 하나님은 그를 의지하는 자의 방패시니라 "
+  },
+  {
+    "reference" : "Proverbs 31:8",
+    "kr" : "너는 벙어리와 고독한 자의 송사를 위하여 입을 열지니라 ",
+    "en" : "Open your mouth for the speechless, In the cause of all who are appointed to die.",
+    "cn" : "你当为哑巴开口， 为一切孤独的伸冤。"
+  },
+  {
+    "kr" : "능력과 존귀로 옷을 삼고 후일을 웃으며 ",
+    "en" : "Strength and honor are her clothing; She shall rejoice in time to come.",
+    "reference" : "Proverbs 31:25",
+    "cn" : "能力和威仪是她的衣服； 她[想到]日后的景况就喜笑。"
+  },
+  {
+    "kr" : "고운 것도 거짓되고 아름다운 것도 헛되나 오직 여호와를 경외하는 여자는 칭찬을 받을 것이라 ",
+    "reference" : "Proverbs 31:30",
+    "en" : "Charm is deceitful and beauty is passing, But a woman who fears the Lord, she shall be praised.",
+    "cn" : "艳丽是虚假的，美容是虚浮的； 惟敬畏耶和华的妇女必得称赞。"
+  },
+  {
+    "reference" : "Ecclesiastes 3:1",
+    "en" : "To everything there is a season, A time for every purpose under heaven:",
+    "kr" : "천하에 범사가 기한이 있고 모든 목적이 이룰 때가 있나니 ",
+    "cn" : "凡事都有定期， 天下万务都有定时。"
+  },
+  {
+    "kr" : "하나님이 모든 것을 지으시되 때를 따라 아름답게 하셨고 또 사람에게 영원을 사모하는 마음을 주셨느니라 그러나 하나님의 하 시는 일의 시종을 사람으로 측량할 수 없게 하셨도다 ",
+    "reference" : "Ecclesiastes 3:11",
+    "cn" : "神造万物，各按其时成为美好，又将永生安置在世人心里。然而　神从始至终的作为，人不能参透。",
+    "en" : "He has made everything beautiful in its time. Also He has put eternity in their hearts, except that no one can find out the work that God does from beginning to end."
+  },
+  {
+    "reference" : "Ecclesiastes 4:9",
+    "kr" : "두 사람이 한 사람보다 나음은 저희가 수고함으로 좋은 상을 얻을 것임이라 ",
+    "en" : "Two are better than one, Because they have a good reward for their labor.",
+    "cn" : "两个人总比一个人好，因为二人劳碌同得美好的果效。"
+  },
+  {
+    "reference" : "Ecclesiastes 4:12",
+    "en" : "Though one may be overpowered by another, two can withstand him. And a threefold cord is not quickly broken.",
+    "cn" : "有人攻胜孤身一人，若有二人便能敌挡他；三股合成的绳子不容易折断。",
+    "kr" : "한 사람이면 패하겠거니와 두 사람이면 능히 당하나니 삼겹 줄은 쉽게 끊어지지 아니하느니라 "
+  },
+  {
+    "reference" : "Ecclesiastes 5:2",
+    "kr" : "너는 하나님 앞에서 함부로 입을 열지 말며 급한 마음으로 말을 내지 말라 하나님은 하늘에 계시고 너는 땅에 있음이니라 그런즉 마땅히 말을 적게 할 것이라 ",
+    "cn" : "你在　神面前不可冒失开口，也不可心急发言；因为　神在天上，你在地下，所以你的言语要寡少。",
+    "en" : "Do not be rash with your mouth, And let not your heart utter anything hastily before God. For God is in heaven, and you on earth; Therefore let your words be few."
+  },
+  {
+    "reference" : "Ecclesiastes 7:14",
+    "en" : "In the day of prosperity be joyful, But in the day of adversity consider: Surely God has appointed the one as well as the other, So that man can find out nothing that will come after him.",
+    "cn" : "遇亨通的日子你当喜乐；遭患难的日子你当思想；因为　神使这两样并列，为的是叫人查不出身后有什么事。",
+    "kr" : "형통한 날에는 기뻐하고 곤고한 날에는 생각하라 하나님이 이 두가지를 병행하게 하사 사람으로 그 장래 일을 능히 헤아려 알지 못하게 하셨느니라 "
+  },
+  {
+    "reference" : "Ecclesiastes 9:10",
+    "cn" : "凡你手所当做的事要尽力去做；因为在你所必去的阴间没有工作，没有谋算，没有知识，也没有智慧。",
+    "en" : "Whatever your hand finds to do, do it with your might; for there is no work or device or knowledge or wisdom in the grave where you are going.",
+    "kr" : "무릇 네 손이 일을 당하는 대로 힘을 다하여 할지어다 네가 장차 들어갈 음부에는 일도 없고 계획도 없고 지식도 없고 지혜도 없음이니라 "
+  },
+  {
+    "reference" : "Ecclesiastes 11:1",
+    "kr" : "너는 네 식물을 물 위에 던지라 여러 날 후에 도로 찾으리라 ",
+    "en" : "Cast your bread upon the waters, For you will find it after many days.",
+    "cn" : "当将你的粮食撒在水面， 因为日久必能得着。"
+  },
+  {
+    "en" : "Remember now your Creator in the days of your youth, Before the difficult days come, And the years draw near when you say, “I have no pleasure in them”:",
+    "cn" : "你趁着年幼、衰败的日子尚未来到，就是你所说，我毫无喜乐的那些年日未曾临近之先，当记念造你的主。",
+    "reference" : "Ecclesiastes 12:1",
+    "kr" : "너는 청년의 때 곧 곤고한 날이 이르기 전, 나는 아무 낙이 없다고 할 해가 가깝기 전에 너의 창조자를 기억하라 "
+  },
+  {
+    "en" : "Let us hear the conclusion of the whole matter: Fear God and keep His commandments, For this is man’s all.",
+    "cn" : "这些事都已听见了，总意就是：敬畏　神，谨守他的诫命，这是人所当尽的[本分]。",
+    "reference" : "Ecclesiastes 12:13",
+    "kr" : "일의 결국을 다 들었으니 하나님을 경외하고 그 명령을 지킬지어다 이것이 사람의 본분이니라 "
+  },
+  {
+    "reference" : "Song of Solomon 2:4",
+    "cn" : "他带我入筵宴所， 以爱为旗在我以上。",
+    "kr" : "그가 나를 인도하여 잔치집에 들어갔으니 그 사랑이 내 위에 기로구나 ",
+    "en" : "He brought me to the banqueting house, And his banner over me was love."
+  },
+  {
+    "cn" : "爱情，众水不能息灭， 大水也不能淹没。 若有人拿家中所有的财宝要换爱情， 就全被藐视。",
+    "reference" : "Song of Solomon 8:7",
+    "en" : "Many waters cannot quench love, Nor can the floods drown it. If a man would give for love All the wealth of his house, It would be utterly despised.",
+    "kr" : "이 사랑은 많은 물이 꺼치지 못하겠고 홍수라도 엄몰하지 못하나니 사람이 그 온 가산을 다 주고 사랑과 바꾸려 할지라도 오히려 멸시를 받으리라 "
+  },
+  {
+    "reference" : "Isaiah 1:18",
+    "en" : "“Come now, and let us reason together,” Says the Lord, “Though your sins are like scarlet, They shall be as white as snow; Though they are red like crimson, They shall be as wool.",
+    "kr" : "여호와께서 말씀하시되 오라 우리가 서로 변론하자 너희 죄가 주홍 같을지라도 눈과 같이 희어질 것이요 진홍 같이 붉을지라도 양털 같이 되리라 ",
+    "cn" : "耶和华说： 你们来，我们彼此辩论。 你们的罪虽像朱红，必变成雪白； 虽红如丹颜，必白如羊毛。"
+  },
+  {
+    "cn" : "我又听见主的声音说：「我可以差遣谁呢？谁肯为我们去呢？」我说：「我在这里，请差遣我！」",
+    "reference" : "Isaiah 6:8",
+    "en" : "Also I heard the voice of the Lord, saying: “Whom shall I send, And who will go for Us?” Then I said, “Here am I! Send me.”",
+    "kr" : "내가 또 주의 목소리를 들은즉 이르시되 내가 누구를 보내며 누가 우리를 위하여 갈꼬 그 때에 내가 가로되 내가 여기 있나이다 나를 보내소서 "
+  },
+  {
+    "reference" : "Isaiah 9:6",
+    "en" : "For unto us a Child is born, Unto us a Son is given; And the government will be upon His shoulder. And His name will be called Wonderful, Counselor, Mighty God, Everlasting Father, Prince of Peace.",
+    "kr" : "이는 한 아기가 우리에게 났고 한 아들을 우리에게 주신바 되었는데 그 어깨에는 정사를 메었고 그 이름은 기묘자라, 모사라, 전능하신 하나님이라, 영존하시는 아버지라, 평강의 왕이라 할 것임이라 ",
+    "cn" : "因有一婴孩为我们而生； 有一子赐给我们。 政权必担在他的肩头上； 他名称为「奇妙策士、全能的　神、永在的父、和平的君」。"
+  },
+  {
+    "cn" : "看哪！　神是我的拯救； 我要倚靠他，并不惧怕。 因为主耶和华是我的力量， 是我的诗歌， 他也成了我的拯救。",
+    "reference" : "Isaiah 12:2",
+    "en" : "Behold, God is my salvation, I will trust and not be afraid; ‘For Yah, the Lord, is my strength and song; He also has become my salvation.’ ”",
+    "kr" : "보라 하나님은 나의 구원이시라 내가 의뢰하고 두려움이 없으리니 주 여호와는 나의 힘이시며 나의 노래시며 나의 구원이심이라 "
+  },
+  {
+    "en" : "You will keep him in perfect peace, Whose mind is stayed on You, Because he trusts in You.",
+    "cn" : "坚心倚赖[你的]， 你必保守他十分平安， 因为他倚靠你。",
+    "kr" : "주께서 심지가 견고한 자를 평강에 평강으로 지키시리니 이는 그가 주를 의뢰함이니이다 ",
+    "reference" : "Isaiah 26:3"
+  },
+  {
+    "cn" : "你们当倚靠耶和华直到永远， 因为耶和华是永久的磐石。",
+    "kr" : "너희는 여호와를 영원히 의뢰하라 주 여호와는 영원한 반석이심이로다 ",
+    "reference" : "Isaiah 26:4",
+    "en" : "Trust in the Lord forever, For in Yah, the Lord, is everlasting strength."
+  },
+  {
+    "reference" : "Isaiah 30:15",
+    "cn" : "主耶和华—以色列的圣者曾如此说： 你们得救在乎归回安息； 你们得力在乎平静安稳； 你们竟自不肯。",
+    "kr" : "주 여호와 이스라엘의 거룩하신 자가 말씀하시되 너희가 돌이켜 안연히 처하여야 구원을 얻을 것이요 잠잠하고 신뢰하여야 힘을 얻을 것이어늘 너희가 원치 아니하고 ",
+    "en" : "For thus says the Lord God, the Holy One of Israel: “In returning and rest you shall be saved; In quietness and confidence shall be your strength.” But you would not,"
+  },
+  {
+    "en" : "Say to those who are fearful-hearted, “Be strong, do not fear! Behold, your God will come with vengeance, With the recompense of God; He will come and save you.”",
+    "kr" : "겁내는 자에게 이르기를 너는 굳세게 하라, 두려워 말라, 보라 너희 하나님이 오사 보수하시며 보복하여 주실 것이라 그가 오사 너희를 구하시리라 하라 ",
+    "reference" : "Isaiah 35:4",
+    "cn" : "对胆怯的人说： 你们要刚强，不要惧怕。 看哪，你们的　神必来报仇， 必来施行极大的报应； 他必来拯救你们。"
+  },
+  {
+    "cn" : "草必枯干，花必凋残， 惟有我们　神的话必永远立定。",
+    "kr" : "풀은 마르고 꽃은 시드나 우리 하나님의 말씀은 영영히 서리라 하라 ",
+    "en" : "The grass withers, the flower fades, But the word of our God stands forever.”",
+    "reference" : "Isaiah 40:8"
+  },
+  {
+    "en" : "Have you not known? Have you not heard? The everlasting God, the Lord, The Creator of the ends of the earth, Neither faints nor is weary. His understanding is unsearchable.",
+    "kr" : "너는 알지 못하였느냐 듣지 못하였느냐 영원하신 하나님 여호와, 땅 끝까지 창조하신 자는 피곤치 아니하시며 곤비치 아니하시며 명철이 한이 없으시며 ",
+    "reference" : "Isaiah 40:28",
+    "cn" : "你岂不曾知道吗？ 你岂不曾听见吗？ 永在的　神耶和华，创造地极的[主]， 并不疲乏，也不困倦； 他的智慧无法测度。"
+  },
+  {
+    "cn" : "疲乏的，他赐能力； 软弱的，他加力量。",
+    "kr" : "피곤한 자에게는 능력을 주시며 무능한 자에게는 힘을 더하시나니 ",
+    "en" : "He gives power to the weak, And to those who have no might He increases strength.",
+    "reference" : "Isaiah 40:29"
+  },
+  {
+    "reference" : "Isaiah 40:31",
+    "en" : "But those who wait on the Lord Shall renew their strength; They shall mount up with wings like eagles, They shall run and not be weary, They shall walk and not faint.",
+    "kr" : "오직 여호와를 앙망하는 자는 새 힘을 얻으리니 독수리의 날개치며 올라감 같을 것이요 달음박질하여도 곤비치 아니하겠고 걸어가도 피곤치 아니하리로다  ",
+    "cn" : "但那等候耶和华的必从新得力。 他们必如鹰展翅上腾； 他们奔跑却不困倦， 行走却不疲乏。"
+  },
+  {
+    "kr" : "두려워 말라 내가 너와 함께 함이니라 놀라지 말라 나는 네 하나님이 됨이니라 내가 너를 굳세게 하리라 참으로 너를 도와주리라 참으로 나의 의로운 오른손으로 너를 붙들리라 ",
+    "en" : "Fear not, for I am with you; Be not dismayed, for I am your God. I will strengthen you, Yes, I will help you, I will uphold you with My righteous right hand.’",
+    "reference" : "Isaiah 41:10",
+    "cn" : "你不要害怕，因为我与你同在； 不要惊惶，因为我是你的　神。 我必坚固你，我必帮助你； 我必用我公义的右手扶持你。"
+  },
+  {
+    "reference" : "Isaiah 41:13",
+    "en" : "For I, the Lord your God, will hold your right hand, Saying to you, ‘Fear not, I will help you.’",
+    "kr" : "이는 나 여호와 너의 하나님이 네 오른손을 붙들고 네게 이르기를 두려워 말라 내가 너를 도우리라 할 것임이니라 ",
+    "cn" : "因为我耶和华— 你的　神必搀扶你的右手， 对你说：不要害怕！ 我必帮助你。"
+  },
+  {
+    "kr" : "야곱아 너를 창조하신 여호와께서 이제 말씀하시느니라 이스라엘아 너를 조성하신 자가 이제 말씀하시느니라 너는 두려워 말라 내가 너를 구속하였고 내가 너를 지명하여 불렀나니 너는 내 것이라 ",
+    "cn" : "雅各啊，创造你的耶和华， 以色列啊，造成你的那位， 现在如此说： 你不要害怕！因为我救赎了你。 我曾提你的名召你，你是属我的。",
+    "en" : "But now, thus says the Lord, who created you, O Jacob, And He who formed you, O Israel: “Fear not, for I have redeemed you; I have called you by your name; You are Mine.",
+    "reference" : "Isaiah 43:1"
+  },
+  {
+    "kr" : "네가 물 가운데로 지날 때에 내가 함께할 것이라 강을 건널 때에 물이 너를 침몰치 못할 것이며 네가 불 가운데로 행할 때에 타지도 아니할 것이요 불꽃이 너를 사르지도 못하리니 ",
+    "cn" : "你从水中经过，我必与你同在； 你趟过江河，水必不漫过你； 你从火中行过，必不被烧， 火焰也不着在你身上。",
+    "reference" : "Isaiah 43:2",
+    "en" : "When you pass through the waters, I will be with you; And through the rivers, they shall not overflow you. When you walk through the fire, you shall not be burned, Nor shall the flame scorch you."
+  },
+  {
+    "kr" : "너희는 이전 일을 기억하지 말며 옛적 일을 생각하지 말라 ",
+    "en" : "“Do not remember the former things, Nor consider the things of old.",
+    "reference" : "Isaiah 43:18",
+    "cn" : "耶和华如此说： 你们不要记念从前的事， 也不要思想古时的事。"
+  },
+  {
+    "reference" : "Isaiah 43:19",
+    "en" : "Behold, I will do a new thing, Now it shall spring forth; Shall you not know it? I will even make a road in the wilderness And rivers in the desert.",
+    "kr" : "보라 내가 새 일을 행하리니 이제 나타낼 것이라 너희가 그것을 알지 못하겠느냐 정녕히 내가 광야에 길과 사막에 강을 내리니 ",
+    "cn" : "看哪，我要做一件新事； 如今要发现，你们岂不知道吗？ 我必在旷野开道路， 在沙漠开江河。"
+  },
+  {
+    "en" : "“I, even I, am He who blots out your transgressions for My own sake; And I will not remember your sins.",
+    "reference" : "Isaiah 43:25",
+    "kr" : "나 곧 나는 나를 위하여 네 허물을 도말하는 자니 네 죄를 기억지 아니하리라 ",
+    "cn" : "惟有我为自己的缘故涂抹你的过犯； 我也不记念你的罪恶。"
+  },
+  {
+    "kr" : "내가 네 허물을 빽빽한 구름의 사라짐 같이, 네 죄를 안개의 사라짐 같이 도말하였으니 너는 내게로 돌아오라 내가 너를 구속하였음이니라 ",
+    "cn" : "我涂抹了你的过犯，像厚云[消散]； 我涂抹了你的罪恶，如薄云[灭没]。 你当归向我，因我救赎了你。",
+    "en" : "I have blotted out, like a thick cloud, your transgressions, And like a cloud, your sins. Return to Me, for I have redeemed you.”",
+    "reference" : "Isaiah 44:22"
+  },
+  {
+    "reference" : "Isaiah 45:2",
+    "kr" : "내가 네 앞서 가서 험한 곳을 평탄케 하며 놋문을 쳐서 부수며 쇠빗장을 꺽고 ",
+    "cn" : "我必在你前面行， 修平崎岖之地。 我必打破铜门， 砍断铁闩。",
+    "en" : "‘I will go before you And make the crooked places straight; I will break in pieces the gates of bronze And cut the bars of iron."
+  },
+  {
+    "kr" : "너희가 노년에 이르기까지 내가 그리하겠고 백발이 되기까지 내가 너희를 품을 것이라 내가 지었은즉 안을 것이요 품을 것이요 구하여 내리라 ",
+    "cn" : "直到你们年老，我仍这样； 直到你们发白，我仍怀搋。 我已造作，也必保抱； 我必怀抱，也必拯救。",
+    "reference" : "Isaiah 46:4",
+    "en" : "Even to your old age, I am He, And even to gray hairs I will carry you! I have made, and I will bear; Even I will carry, and will deliver you."
+  },
+  {
+    "cn" : "耶和华—你的救赎主， 以色列的圣者如此说： 我是耶和华—你的　神， 教训你，使你得益处， 引导你所当行的路。",
+    "reference" : "Isaiah 48:17",
+    "kr" : "너희의 구속자시요 이스라엘의 거룩하신 자이신 여호와께서 가라사대 나는 네게 유익하도록 가르치고 너를 마땅히 행할 길로 인도하는 너희 하나님 여호와라 ",
+    "en" : "Thus says the Lord, your Redeemer, The Holy One of Israel: “I am the Lord your God, Who teaches you to profit, Who leads you by the way you should go."
+  },
+  {
+    "kr" : "여인이 어찌 그 젖먹는 자식을 잊겠으며 자기 태에서 난 아들을 긍휼히 여기지 않겠느냐 그들은 혹시 잊을지라도 나는 너를 잊지 아니할 것이라 ",
+    "reference" : "Isaiah 49:15",
+    "en" : "“Can a woman forget her nursing child, And not have compassion on the son of her womb? Surely they may forget, Yet I will not forget you.",
+    "cn" : "妇人焉能忘记她吃奶的婴孩， 不怜恤她所生的儿子？ 即或有忘记的， 我却不忘记你。"
+  },
+  {
+    "reference" : "Isaiah 49:16",
+    "en" : "See, I have inscribed you on the palms of My hands; Your walls are continually before Me.",
+    "cn" : "看哪，我将你铭刻在我掌上； 你的墙垣常在我眼前。",
+    "kr" : "내가 너를 내 손바닥에 새겼고 너의 성벽이 항상 내 앞에 있나니 "
+  },
+  {
+    "reference" : "Isaiah 52:7",
+    "en" : "How beautiful upon the mountains Are the feet of him who brings good news, Who proclaims peace, Who brings glad tidings of good things, Who proclaims salvation, Who says to Zion, “Your God reigns!”",
+    "cn" : "那报佳音，传平安， 报好信，传救恩的， 对锡安说：你的　神作王了！ 这人的脚登山何等佳美！",
+    "kr" : "좋은 소식을 가져오며 평화를 공포하며 복된 좋은 소식을 가져오며 구원을 공포하며 시온을 향하여 이르기를 네 하나님이 통치하신다 하는 자의 산을 넘는 발이 어찌 그리 아름다운고 "
+  },
+  {
+    "cn" : "他诚然担当我们的忧患， 背负我们的痛苦； 我们却以为他受责罚， 被　神击打苦待了。",
+    "kr" : "그는 실로 우리의 질고를 지고 우리의 슬픔을 당하였거늘 우리는 생각하기를 그는 징벌을 받아서 하나님에게 맞으며 고난을 당한다 하였노라 ",
+    "en" : "Surely He has borne our griefs And carried our sorrows; Yet we esteemed Him stricken, Smitten by God, and afflicted.",
+    "reference" : "Isaiah 53:4"
+  },
+  {
+    "kr" : "그가 찔림은 우리의 허물을 인함이요 그가 상함은 우리의 죄악을 인함이라 그가 징계를 받음으로 우리가 평화를 누리고 그가 채찍에 맞음으로 우리가 나음을 입었도다 ",
+    "cn" : "哪知他为我们的过犯受害， 为我们的罪孽压伤。 因他受的刑罚，我们得平安； 因他受的鞭伤，我们得医治。",
+    "reference" : "Isaiah 53:5",
+    "en" : "But He was wounded for our transgressions, He was bruised for our iniquities; The chastisement for our peace was upon Him, And by His stripes we are healed."
+  },
+  {
+    "cn" : "我们都如羊走迷； 各人偏行己路； 耶和华使我们众人的罪孽都归在他身上。",
+    "reference" : "Isaiah 53:6",
+    "kr" : "우리는 다 양 같아서 그릇 행하여 각기 제 길로 갔거늘 여호와께서는 우리 무리의 죄악을 그에게 담당시키셨도다 ",
+    "en" : "All we like sheep have gone astray; We have turned, every one, to his own way; And the Lord has laid on Him the iniquity of us all."
+  },
+  {
+    "reference" : "Isaiah 54:10",
+    "kr" : "산들은 떠나며 작은 산들은 옮길지라도 나의 인자는 네게서 떠나지 아니하며 화평케 하는 나의 언약은 옮기지 아니하리라 너를 긍휼히 여기는 여호와의 말이니라 ",
+    "cn" : "大山可以挪开， 小山可以迁移； 但我的慈爱必不离开你； 我平安的约也不迁移。 这是怜恤你的耶和华说的。",
+    "en" : "For the mountains shall depart And the hills be removed, But My kindness shall not depart from you, Nor shall My covenant of peace be removed,” Says the Lord, who has mercy on you."
+  },
+  {
+    "cn" : "当趁耶和华可寻找的时候寻找他， 相近的时候求告他。",
+    "reference" : "Isaiah 55:6",
+    "kr" : "너희는 여호와를 만날 만한 때에 찾으라 가까이 계실 때에 그를 부르라 ",
+    "en" : "Seek the Lord while He may be found, Call upon Him while He is near."
+  },
+  {
+    "reference" : "Isaiah 55:8",
+    "en" : "“For My thoughts are not your thoughts, Nor are your ways My ways,” says the Lord.",
+    "cn" : "耶和华说：我的意念非同你们的意念； 我的道路非同你们的道路。",
+    "kr" : "여호와의 말씀에 내 생각은 너희 생각과 다르며 내 길은 너희 길과 달라서 "
+  },
+  {
+    "cn" : "我口所出的话也必如此， 决不徒然返回， 却要成就我所喜悦的， 在我发他去成就的事上必然亨通。",
+    "kr" : "내 입에서 나가는 말도 헛되이 내게로 돌아오지 아니하고 나의 뜻을 이루며 나의 명하여 보낸 일에 형통하리라 ",
+    "reference" : "Isaiah 55:11",
+    "en" : "So shall My word be that goes forth from My mouth; It shall not return to Me void, But it shall accomplish what I please, And it shall prosper in the thing for which I sent it."
+  },
+  {
+    "en" : "Then your light shall break forth like the morning, Your healing shall spring forth speedily, And your righteousness shall go before you; The glory of the Lord shall be your rear guard.",
+    "cn" : "这样，你的光就必发现如早晨的光； 你所得的医治要速速发明。 你的公义必在你前面行； 耶和华的荣光必作你的后盾。",
+    "kr" : "그리하면 네 빛이 아침 같이 비췰 것이며 네 치료가 급속할 것이며 네 의가 네 앞에 행하고 여호와의 영광이 네 뒤에 호위하리니 ",
+    "reference" : "Isaiah 58:8"
+  },
+  {
+    "en" : "The Lord will guide you continually, And satisfy your soul in drought, And strengthen your bones; You shall be like a watered garden, And like a spring of water, whose waters do not fail.",
+    "cn" : "耶和华也必时常引导你， 在干旱之地使你心满意足， 骨头强壮。 你必像浇灌的园子， 又像水流不绝的泉源。",
+    "kr" : "나 여호와가 너를 항상 인도하여 마른 곳에서도 네 영혼을 만족케 하며 네 뼈를 견고케 하리니 너는 물댄 동산 같겠고 물이 끊어지지 아니하는 샘 같을 것이라 ",
+    "reference" : "Isaiah 58:11"
+  },
+  {
+    "kr" : "여호와의 손이 짧아 구원치 못하심도 아니요 귀가 둔하여 듣지 못하심도 아니라 ",
+    "reference" : "Isaiah 59:1",
+    "en" : "Behold, the Lord’s hand is not shortened, That it cannot save; Nor His ear heavy, That it cannot hear.",
+    "cn" : "耶和华的膀臂并非缩短，不能拯救， 耳朵并非发沉，不能听见，"
+  },
+  {
+    "en" : "Arise, shine; For your light has come! And the glory of the Lord is risen upon you.",
+    "cn" : "兴起，发光！因为你的光已经来到！ 耶和华的荣耀发现照耀你。",
+    "kr" : "일어나라 빛을 발하라 이는 네 빛이 이르렀고 여호와의 영광이 네 위에 임하였음이니라 ",
+    "reference" : "Isaiah 60:1"
+  },
+  {
+    "kr" : "주 여호와의 신이 내게 임하셨으니 이는 여호와께서 내게 기름을 부으사 가난한 자에게 아름다운 소식을 전하게 하려 하심이라 나를 보내사 마음이 상한 자를 고치며 포로 된 자에게 자유를, 갇힌 자에게 놓임을 전파하며 ",
+    "reference" : "Isaiah 61:1",
+    "en" : "“The Spirit of the Lord God is upon Me, Because the Lord has anointed Me To preach good tidings to the poor; He has sent Me to heal the brokenhearted, To proclaim liberty to the captives, And the opening of the prison to those who are bound;",
+    "cn" : "主耶和华的灵在我身上； 因为耶和华用膏膏我， 叫我传好信息给谦卑的人， 差遣我医好伤心的人， 报告被掳的得释放， 被囚的出[监牢]；"
+  },
+  {
+    "en" : "To console those who mourn in Zion, To give them beauty for ashes, The oil of joy for mourning, The garment of praise for the spirit of heaviness; That they may be called trees of righteousness, The planting of the Lord, that He may be glorified.”",
+    "kr" : "무릇 시온에서 슬퍼하는 자에게 화관을 주어 그 재를 대신하며 희락의 기름으로 그 슬픔을 대신하며 찬송의 옷으로 그 근심을 대신하시고 그들로 의의 나무 곧 여호와의 심으신 바 그 영광을 나타낼 자라 일컬음을 얻게 하려 하심이니라 ",
+    "reference" : "Isaiah 61:3",
+    "cn" : "赐华冠与锡安悲哀的人，代替灰尘； 喜乐油代替悲哀； 赞美衣代替忧伤之灵； 使他们称为「公义树」， 是耶和华所栽的，叫他得荣耀。"
+  },
+  {
+    "en" : "I will greatly rejoice in the Lord, My soul shall be joyful in my God; For He has clothed me with the garments of salvation, He has covered me with the robe of righteousness, As a bridegroom decks himself with ornaments, And as a bride adorns herself with her jewels.",
+    "cn" : "我因耶和华大大欢喜； 我的心靠　神快乐。 因他以拯救为衣给我穿上， 以公义为袍给我披上， 好像新郎戴上华冠， 又像新妇佩戴妆饰。",
+    "kr" : "내가 여호와로 인하여 크게 기뻐하며 내 영혼이 나의 하나님으로 인하여 즐거워하리니 이는 그가 구원의 옷으로 내게 입히시며 의의 겉옷으로 내게 더하심이 신랑이 사모를 쓰며 신부가 자기 보물로 단장함 같게 하셨음이라 ",
+    "reference" : "Isaiah 61:10"
+  },
+  {
+    "en" : "But now, O Lord, You are our Father; We are the clay, and You our potter; And all we are the work of Your hand.",
+    "reference" : "Isaiah 64:8",
+    "cn" : "耶和华啊，现在你仍是我们的父！ 我们是泥，你是窑匠； 我们都是你手的工作。",
+    "kr" : "그러나 여호와여 주는 우리 아버지시니이다 우리는 진흙이요 주는 토기장이시니 우리는 다 주의 손으로 지으신 것이라 "
+  },
+  {
+    "kr" : "그들이 부르기 전에 내가 응답하겠고 그들이 말을 마치기 전에 내가 들을 것이며 ",
+    "reference" : "Isaiah 65:24",
+    "cn" : "他们尚未求告，我就应允； 正说话的时候，我就垂听。",
+    "en" : "“It shall come to pass That before they call, I will answer; And while they are still speaking, I will hear."
+  },
+  {
+    "en" : "“Before I formed you in the womb I knew you; Before you were born I sanctified you; I ordained you a prophet to the nations.”",
+    "reference" : "Jeremiah 1:5",
+    "cn" : "我未将你造在腹中，我已晓得你； 你未出母胎，我已分别你为圣； 我已派你作列国的先知。",
+    "kr" : "내가 너를 복중에 짓기 전에 너를 알았고 네가 태에서 나오기 전에 너를 구별하였고 너를 열방의 선지자로 세웠노라 하시기로 "
+  },
+  {
+    "kr" : "너는 그들을 인하여 두려워 말라 내가 너와 함께 하여 너를 구원하리라 나 여호와의 말이니라 하시고 ",
+    "en" : "Do not be afraid of their faces, For I am with you to deliver you,” says the Lord.",
+    "cn" : "你不要惧怕他们， 因为我与你同在， 要拯救你。 这是耶和华说的。",
+    "reference" : "Jeremiah 1:8"
+  },
+  {
+    "cn" : "倚靠耶和华、以耶和华为可靠的， 那人有福了！",
+    "en" : "“Blessed is the man who trusts in the Lord, And whose hope is the Lord.",
+    "kr" : "그러나 무릇 여호와를 의지하며 여호와를 의뢰하는 그 사람은 복을 받을 것이라 ",
+    "reference" : "Jeremiah 17:7"
+  },
+  {
+    "en" : "“The heart is deceitful above all things, And desperately wicked; Who can know it?",
+    "kr" : "만물보다 거짓되고 심히 부패한 것은 마음이라 누가 능히 이를 알리요마는 ",
+    "cn" : "人心比万物都诡诈， 坏到极处， 谁能识透呢？",
+    "reference" : "Jeremiah 17:9"
+  },
+  {
+    "en" : "Heal me, O Lord, and I shall be healed; Save me, and I shall be saved, For You are my praise.",
+    "reference" : "Jeremiah 17:14",
+    "cn" : "耶和华啊，求你医治我，我便痊愈， 拯救我，我便得救； 因你是我所赞美的。",
+    "kr" : "여호와여 주는 나의 찬송이시오니 나를 고치소서 그리하시면 내가 낫겠나이다 나를 구원하소서 그리하시면 내가 구원을 얻으리이다 "
+  },
+  {
+    "kr" : "나 여호와가 말하노라 너희를 향한 나의 생각은 내가 아나니 재앙이 아니라 곧 평안이요 너희 장래에 소망을 주려하는 생각이라 ",
+    "reference" : "Jeremiah 29:11",
+    "en" : "For I know the thoughts that I think toward you, says the Lord, thoughts of peace and not of evil, to give you a future and a hope.",
+    "cn" : "耶和华说：我知道我向你们所怀的意念是赐平安的意念，不是降灾祸的意念，要叫你们末后有指望。"
+  },
+  {
+    "en" : "Then you will call upon Me and go and pray to Me, and I will listen to you.",
+    "kr" : "너희는 내게 부르짖으며 와서 내게 기도하면 내가 너희를 들을 것이요 ",
+    "reference" : "Jeremiah 29:12",
+    "cn" : "你们要呼求我，祷告我，我就应允你们。"
+  },
+  {
+    "cn" : "你们寻求我，若专心寻求我，就必寻见。",
+    "reference" : "Jeremiah 29:13",
+    "kr" : "너희가 전심으로 나를 찾고 찾으면 나를 만나리라 ",
+    "en" : "And you will seek Me and find Me, when you search for Me with all your heart."
+  },
+  {
+    "en" : "The Lord has appeared of old to me, saying: “Yes, I have loved you with an everlasting love; Therefore with lovingkindness I have drawn you.",
+    "cn" : "古时耶和华向以色列显现，[说]： 我以永远的爱爱你， 因此我以慈爱吸引你。",
+    "kr" : "나 여호와가 옛적에 이스라엘에게 나타나 이르기를 내가 무궁한 사랑으로 너를 사랑하는 고로 인자함으로 너를 인도하였다 하였노라 ",
+    "reference" : "Jeremiah 31:3"
+  },
+  {
+    "cn" : "疲乏的人，我使他饱饫；愁烦的人，我使他知足。」",
+    "en" : "For I have satiated the weary soul, and I have replenished every sorrowful soul.”",
+    "reference" : "Jeremiah 31:25",
+    "kr" : "이는 내가 그 피곤한 심령을 만족케 하며 무릇 슬픈 심령을 상쾌케 하였음이니라 하시기로 "
+  },
+  {
+    "cn" : "「我是耶和华，是凡有血气者的　神，岂有我难成的事吗？",
+    "reference" : "Jeremiah 32:27",
+    "en" : "“Behold, I am the Lord, the God of all flesh. Is there anything too hard for Me?",
+    "kr" : "나는 여호와요 모든 육체의 하나님이라 내게 능치 못한 일이 있겠느냐 "
+  },
+  {
+    "reference" : "Jeremiah 33:3",
+    "kr" : "너는 내게 부르짖으라 내가 네게 응답하겠고 네가 알지 못하는 크고 비밀한 일을 네게 보이리라 ",
+    "cn" : "你求告我，我就应允你，并将你所不知道、又大又难的事指示你。",
+    "en" : "‘Call to Me, and I will answer you, and show you great and mighty things, which you do not know.’"
+  },
+  {
+    "kr" : "그러나 보라 내가 이 성을 치료하며 고쳐 낫게 하고 평강과 성실함에 풍성함을 그들에게 나타낼 것이며 ",
+    "cn" : "看哪，我要使这城得以痊愈安舒，使城中的人得医治，又将丰盛的平安和诚实显明与他们。",
+    "reference" : "Jeremiah 33:6",
+    "en" : "Behold, I will bring it health and healing; I will heal them and reveal to them the abundance of peace and truth."
+  },
+  {
+    "en" : "Through the Lord’s mercies we are not consumed, Because His compassions fail not.",
+    "kr" : "여호와의 자비와 긍휼이 무궁하시므로 우리가 진멸되지 아니함이니이다 ",
+    "reference" : "Lamentations 3:22",
+    "cn" : "我们不致消灭， 是出于耶和华诸般的慈爱； 是因他的怜悯不致断绝。"
+  },
+  {
+    "cn" : "每早晨，这都是新的； 你的诚实极其广大！",
+    "en" : "They are new every morning; Great is Your faithfulness.",
+    "kr" : "이것이 아침마다 새로우니 주의 성실이 크도소이다 ",
+    "reference" : "Lamentations 3:23"
+  },
+  {
+    "reference" : "Lamentations 3:25",
+    "kr" : "무릇 기다리는 자에게나 구하는 영혼에게 여호와께서 선을 베푸시는도다 ",
+    "cn" : "凡等候耶和华，心里寻求他的， 耶和华必施恩给他。",
+    "en" : "The Lord is good to those who wait for Him, To the soul who seeks Him."
+  },
+  {
+    "cn" : "我们当深深考察自己的行为， 再归向耶和华。",
+    "reference" : "Lamentations 3:40",
+    "en" : "Let us search out and examine our ways, And turn back to the Lord;",
+    "kr" : "우리가 스스로 행위를 조사하고 여호와께로 돌아가자 "
+  },
+  {
+    "reference" : "Ezekiel 11:19",
+    "en" : "Then I will give them one heart, and I will put a new spirit within them, and take the stony heart out of their flesh, and give them a heart of flesh,",
+    "kr" : "내가 그들에게 일치한 마음을 주고 그 속에 새 신을 주며 그 몸에서 굳은 마음을 제하고 부드러운 마음을 주어서 ",
+    "cn" : "我要使他们有合一的心，也要将新灵放在他们里面，又从他们肉体中除掉石心，赐给他们肉心，"
+  },
+  {
+    "cn" : "主耶和华说：我不喜悦那死人之死，所以你们当回头而存活。」",
+    "kr" : "나 주 여호와가 말하노라 죽는 자의 죽는 것은 내가 기뻐하지 아니하노니 너희는 스스로 돌이키고 살지니라  ",
+    "reference" : "Ezekiel 18:32",
+    "en" : "For I have no pleasure in the death of one who dies,” says the Lord God. “Therefore turn and live!”"
+  },
+  {
+    "cn" : "我必使他们与我山的四围成为福源，我也必叫时雨落下，必有福[如]甘霖而降。",
+    "kr" : "내가 그들에게 복을 내리며 내 산 사면 모든 곳도 복되게 하여 때를 따라 비를 내리되 복된 장마비를 내리리라 ",
+    "reference" : "Ezekiel 34:26",
+    "en" : "I will make them and the places all around My hill a blessing; and I will cause showers to come down in their season; there shall be showers of blessing."
+  },
+  {
+    "reference" : "Ezekiel 36:26",
+    "kr" : "또 새 영을 너희 속에 두고 새 마음을 너희에게 주되 너희 육신에서 굳은 마음을 제하고 부드러운 마음을 줄 것이며 ",
+    "cn" : "我也要赐给你们一个新心，将新灵放在你们里面，又从你们的肉体中除掉石心，赐给你们肉心。",
+    "en" : "I will give you a new heart and put a new spirit within you; I will take the heart of stone out of your flesh and give you a heart of flesh."
+  },
+  {
+    "en" : "Daniel answered and said: “Blessed be the name of God forever and ever, For wisdom and might are His.",
+    "reference" : "Daniel 2:20",
+    "cn" : "但以理说：「　神的名是应当称颂的！从亘古直到永远，因为智慧能力都属乎他。",
+    "kr" : "다니엘이 말하여 가로되 영원 무궁히 하나님의 이름을 찬송할 것은 지혜와 권능이 그에게 있음이로다 "
+  },
+  {
+    "cn" : "即便如此，我们所事奉的　神能将我们从烈火的窑中救出来。王啊，他也必救我们脱离你的手；",
+    "kr" : "만일 그럴 것이면 왕이여 우리가 섬기는 우리 하나님이 우리를 극렬히 타는 풀무 가운데서 능히 건져 내시겠고 왕의 손에서도 건져내시리이다 ",
+    "en" : "If that is the case, our God whom we serve is able to deliver us from the burning fiery furnace, and He will deliver us from your hand, O king.",
+    "reference" : "Daniel 3:17"
+  },
+  {
+    "kr" : "왕이 심히 기뻐서 명하여 다니엘을 굴에서 올리라 하매 그들이 다니엘을 굴에서 올린즉 그 몸이 조금도 상하지 아니하였으니 이는 그가 자기 하나님을 의뢰함이었더라 ",
+    "cn" : "王就甚喜乐，吩咐人将但以理从坑里系上来。于是但以理从坑里被系上来，身上毫无伤损，因为信靠他的　神。",
+    "en" : "Now the king was exceedingly glad for him, and commanded that they should take Daniel up out of the den. So Daniel was taken up out of the den, and no injury whatever was found on him, because he believed in his God.",
+    "reference" : "Daniel 6:23"
+  },
+  {
+    "kr" : "가로되 은총을 크게 받은 사람이여 두려워하지 말라 평안하라 강건하라 강건하라 그가 이같이 내게 말하매 내가 곧 힘이 나서 가로되 내 주께서 나로 힘이 나게 하셨사오니 말씀하옵소서 ",
+    "cn" : "他说：「大蒙眷爱的人哪，不要惧怕，愿你平安！你总要坚强。」他一向我说话，我便觉得有力量，说：「我主请说，因你使我有力量。」",
+    "reference" : "Daniel 10:19",
+    "en" : "And he said, “O man greatly beloved, fear not! Peace be to you; be strong, yes, be strong!” So when he spoke to me I was strengthened, and said, “Let my lord speak, for you have strengthened me.”"
+  },
+  {
+    "cn" : "智慧人必发光如同天上的光；那使多人归义的，必发光如星，直到永永远远。",
+    "en" : "Those who are wise shall shine Like the brightness of the firmament, And those who turn many to righteousness Like the stars forever and ever.",
+    "reference" : "Daniel 12:3",
+    "kr" : "지혜 있는 자는 궁창의 빛과 같이 빛날 것이요 많은 사람을 옳은 데로 돌아오게 한 자는 별과 같이 영원토록 비취리라 "
+  },
+  {
+    "cn" : "我们务要认识耶和华， 竭力追求认识他。 他出现确如晨[光]； 他必临到我们像甘雨， 像滋润田地的春雨。",
+    "en" : "Let us know, Let us pursue the knowledge of the Lord. His going forth is established as the morning; He will come to us like the rain, Like the latter and former rain to the earth.",
+    "kr" : "그러므로 우리가 여호와를 알자 힘써 여호와를 알자 그의 나오심은 새벽 빛 같이 일정하니 비와 같이, 땅을 적시는 늦은 비와 같이 우리에게 임하시리라 하리라 ",
+    "reference" : "Hosea 6:3"
+  },
+  {
+    "reference" : "Hosea 10:12",
+    "cn" : "你们要为自己栽种公义， 就能收割慈爱。 现今正是寻求耶和华的时候； 你们要开垦荒地，等他临到， 使公义如雨降在你们身上。",
+    "en" : "Sow for yourselves righteousness; Reap in mercy; Break up your fallow ground, For it is time to seek the Lord, Till He comes and rains righteousness on you.",
+    "kr" : "너희가 자기를 위하여 의를 심고 긍휼을 거두라 지금이 곧 여호와를 찾을 때니 너희 묵은 땅을 기경하라 마침내 여호와께서 임하사 의를 비처럼 너희에게 내리시리라 "
+  },
+  {
+    "en" : "“I will heal their backsliding, I will love them freely, For My anger has turned away from him.",
+    "cn" : "我必医治他们背道的病， 甘心爱他们； 因为我的怒气向他们转消。",
+    "kr" : "내가 저희의 패역을 고치고 즐거이 저희를 사랑하리니 나의 진노가 저에게서 떠났음이니라 ",
+    "reference" : "Hosea 14:4"
+  },
+  {
+    "en" : "“Now, therefore,” says the Lord, “Turn to Me with all your heart, With fasting, with weeping, and with mourning.”",
+    "kr" : "여호와의 말씀에 너희는 이제라도 금식하며 울며 애통하고 마음을 다하여 내게로 돌아오라 하셨나니 ",
+    "reference" : "Joel 2:12",
+    "cn" : "耶和华说：虽然如此， 你们应当禁食、哭泣、悲哀， 一心归向我。"
+  },
+  {
+    "en" : "So rend your heart, and not your garments; Return to the Lord your God, For He is gracious and merciful, Slow to anger, and of great kindness; And He relents from doing harm.",
+    "kr" : "너희는 옷을 찢지 말고 마음을 찢고 너희 하나님 여호와께로 돌아올지어다 그는 은혜로우시며 자비로우시며 노하기를 더디하시며 인애가 크시사 뜻을 돌이켜 재앙을 내리지 아니하시나니 ",
+    "cn" : "你们要撕裂心肠， 不撕裂衣服。 归向耶和华—你们的　神； 因为他有恩典，有怜悯， 不轻易发怒， 有丰盛的慈爱， 并且后悔不降所说的灾。",
+    "reference" : "Joel 2:13"
+  },
+  {
+    "en" : "“So I will restore to you the years that the swarming locust has eaten, The crawling locust, The consuming locust, And the chewing locust, My great army which I sent among you.",
+    "cn" : "我打发到你们中间的大军队， 就是蝗虫、蝻子、蚂蚱、剪虫， 那些年所吃的，我要补还你们。",
+    "kr" : "내가 전에 너희에게 보낸 큰 군대 곧 메뚜기와 늣과 황충과 팟종이의 먹은 햇수대로 너희에게 갚아주리니 ",
+    "reference" : "Joel 2:25"
+  },
+  {
+    "reference" : "Joel 2:28",
+    "cn" : "以后，我要将我的灵浇灌凡有血气的。 你们的儿女要说预言； 你们的老年人要做异梦， 少年人要见异象。",
+    "kr" : "그 후에 내가 내 신을 만민에게 부어 주리니 너희 자녀들이 장래일을 말할 것이며 너희 늙은이는 꿈을 꾸며 너희 젊은이는 이상을 볼 것이며 ",
+    "en" : "“And it shall come to pass afterward That I will pour out My Spirit on all flesh; Your sons and your daughters shall prophesy, Your old men shall dream dreams, Your young men shall see visions."
+  },
+  {
+    "cn" : "你们要求善， 不要求恶，就必存活。 这样，耶和华—万军之　神 必照你们所说的与你们同在。",
+    "reference" : "Amos 5:14",
+    "en" : "Seek good and not evil, That you may live; So the Lord God of hosts will be with you, As you have spoken.",
+    "kr" : "너희는 살기 위하여 선을 구하고 악을 구하지 말지어다 만군의 하나님 여호와께서 너희의 말과 같이 너희와 함께 하시리라 "
+  },
+  {
+    "reference" : "Amos 5:24",
+    "cn" : "惟愿公平如大水滚滚， 使公义如江河滔滔。",
+    "kr" : "오직 공법을 물 같이, 정의를 하수 같이 흘릴지로다 ",
+    "en" : "But let justice run down like water, And righteousness like a mighty stream."
+  },
+  {
+    "kr" : "가로되 내가 받는 고난을 인하여 여호와께 불러 이뢰었삽더니 주께서 내게 대답하셨고 내가 스올의 뱃속에서 부르짖었삽더니 주께서 나의 음성을 들으셨나이다 ",
+    "en" : "And he said: “I cried out to the Lord because of my affliction, And He answered me. “Out of the belly of Sheol I cried, And You heard my voice.",
+    "reference" : "Jonah 2:2",
+    "cn" : "说： 我遭遇患难求告耶和华， 你就应允我； 从阴间的深处呼求， 你就俯听我的声音。"
+  },
+  {
+    "cn" : "世人哪，耶和华已指示你何为善。 他向你所要的是什么呢？ 只要你行公义，好怜悯， 存谦卑的心，与你的　神同行。",
+    "reference" : "Micah 6:8",
+    "en" : "He has shown you, O man, what is good; And what does the Lord require of you But to do justly, To love mercy, And to walk humbly with your God?",
+    "kr" : "사람아 주께서 선한 것이 무엇임을 네게 보이셨나니 여호와께서 네게 구하시는 것이 오직 공의를 행하며 인자를 사랑하며 겸손히 네 하나님과 함께 행하는 것이 아니냐 "
+  },
+  {
+    "reference" : "Micah 7:7",
+    "en" : "Therefore I will look to the Lord; I will wait for the God of my salvation; My God will hear me.",
+    "cn" : "至于我，我要仰望耶和华， 要等候那救我的　神； 我的　神必应允我。",
+    "kr" : "오직 나는 여호와를 우러러보며 나를 구원하시는 하나님을 바라보나니 하나님이 나를 들으시리로다 "
+  },
+  {
+    "en" : "Who is a God like You, Pardoning iniquity And passing over the transgression of the remnant of His heritage? He does not retain His anger forever, Because He delights in mercy.",
+    "reference" : "Micah 7:18",
+    "kr" : "주와 같은 신이 어디 있으리이까 주께서는 죄악을 사유하시며 그 기업의 남은 자의 허물을 넘기시며 인애를 기뻐하심으로 노를 항상 품지 아니하시나이다 ",
+    "cn" : "神啊，有何神像你，赦免罪孽， 饶恕你产业之余民的罪过， 不永远怀怒，喜爱施恩？"
+  },
+  {
+    "cn" : "耶和华本为善， 在患难的日子为人的保障， 并且认得那些投靠他的人。",
+    "reference" : "Nahum 1:7",
+    "kr" : "여호와는 선하시며 환난 날에 산성이시라 그는 자기에게 의뢰하는 자들을 아시느니라 ",
+    "en" : "The Lord is good, A stronghold in the day of trouble; And He knows those who trust in Him."
+  },
+  {
+    "kr" : "이 묵시는 정한 때가 있나니 그 종말이 속히 이르겠고 결코 거짓되지 아니하리라 비록 더딜지라도 기다리라 지체되지 않고 정녕 응하리라 ",
+    "cn" : "因为这默示有一定的日期， 快要应验，并不虚谎。 虽然迟延，还要等候； 因为必然临到，不再迟延。",
+    "en" : "For the vision is yet for an appointed time; But at the end it will speak, and it will not lie. Though it tarries, wait for it; Because it will surely come, It will not tarry.",
+    "reference" : "Habakkuk 2:3"
+  },
+  {
+    "cn" : "主耶和华是我的力量； 他使我的脚快如母鹿的[蹄]， 又使我稳行在高处。 这歌交与伶长，用丝弦的乐器。",
+    "en" : "The Lord God is my strength; He will make my feet like deer’s feet, And He will make me walk on my high hills. To the Chief Musician. With my stringed instruments.",
+    "kr" : "주 여호와는 나의 힘이시라 나의 발을 사슴과 같게 하사 나로 나의 높은 곳에 다니게 하시리로다 이 노래는 영장을 위하여 내 수금에 맞춘 것이니라   ",
+    "reference" : "Habakkuk 3:19"
+  },
+  {
+    "cn" : "耶和华—你的　神是施行拯救、 大有能力的[主]。 他在你中间必因你欢欣喜乐， 默然爱你，且因你喜乐而欢呼。",
+    "kr" : "너의 하나님 여호와가 너의 가운데 계시니 그는 구원을 베푸실 전능자시라 그가 너로 인하여 기쁨을 이기지 못하여 하시며 너를 잠잠히 사랑하시며 너로 인하여 즐거이 부르며 기뻐하시리라 하리라 ",
+    "reference" : "Zephaniah 3:17",
+    "en" : "The Lord your God in your midst, The Mighty One, will save; He will rejoice over you with gladness, He will quiet you with His love, He will rejoice over you with singing.”"
+  },
+  {
+    "cn" : "耶和华说：「所罗巴伯啊，虽然如此，你当刚强！约撒答的儿子大祭司约书亚啊，你也当刚强！这地的百姓，你们都当刚强做工，因为我与你们同在。这是万军之耶和华说的。",
+    "reference" : "Haggai 2:4",
+    "kr" : "그러나 여호와가 이르노라 스룹바벨아 스스로 굳세게 할지어다 여호사닥의 아들 대제사장 여호수아야 스스로 굳세게 할지어다 나 여호와의 말이니라 이 땅 모든 백성아 스스로 굳세게 하여 일할지어다 내가 너희와 함께 하노라 만군의 여호와의 말이니라 ",
+    "en" : "Yet now be strong, Zerubbabel,’ says the Lord; ‘and be strong, Joshua, son of Jehozadak, the high priest; and be strong, all you people of the land,’ says the Lord, ‘and work; for I am with you,’ says the Lord of hosts."
+  },
+  {
+    "kr" : "그가 내게 일러 가로되 여호와께서 스룹바벨에게 하신 말씀이 이러하니라 만군의 여호와께서 말씀하시되 이는 힘으로 되지 아니하며 능으로 되지 아니하고 오직 나의 신으로 되느니라 ",
+    "reference" : "Zechariah 4:6",
+    "cn" : "他对我说：「这是耶和华指示所罗巴伯的。万军之耶和华说：不是倚靠势力，不是倚靠才能，乃是倚靠我的灵[方能成事]。",
+    "en" : "So he answered and said to me: “This is the word of the Lord to Zerubbabel: ‘Not by might nor by power, but by My Spirit,’ Says the Lord of hosts."
+  },
+  {
+    "cn" : "「万军之耶和华曾对[你们的列祖]如此说：『要按至理判断，各人以慈爱怜悯弟兄。",
+    "kr" : "만군의 여호와가 이미 말하여 이르기를 너희는 진실한 재판을 행하며 피차에 인애와 긍휼을 베풀며 ",
+    "en" : "“Thus says the Lord of hosts: ‘Execute true justice, Show mercy and compassion Everyone to his brother.",
+    "reference" : "Zechariah 7:9"
+  },
+  {
+    "reference" : "Zechariah 9:12",
+    "kr" : "소망을 품은 갇혔던 자들아 너희는 보장으로 돌아올지니라 내가 오늘날도 이르노라 내가 배나 네게 갚을 것이라 ",
+    "cn" : "你们被囚而有指望的人都要转回保障。 我今日说明，我必加倍赐福给你们。",
+    "en" : "Return to the stronghold, You prisoners of hope. Even today I declare That I will restore double to you."
+  },
+  {
+    "kr" : "만군의 여호와가 이르노라 너희의 온전한 십일조를 창고에 들여 나의 집에 양식이 있게 하고 그것으로 나를 시험하여 내가 하늘 문을 열고 너희에게 복을 쌓을 곳이 없도록 붓지 아니하나 보라 ",
+    "reference" : "Malachi 3:10",
+    "en" : "Bring all the tithes into the storehouse, That there may be food in My house, And try Me now in this,” Says the Lord of hosts, “If I will not open for you the windows of heaven And pour out for you such blessing That there will not be room enough to receive it.",
+    "cn" : "万军之耶和华说：你们要将当纳的十分之一全然送入仓库，使我家有粮，以此试试我，是否为你们敞开天上的窗户，倾福与你们，甚至无处可容。"
+  },
+  {
+    "kr" : "내 이름을 경외하는 너희에게는 의로운 해가 떠올라서 치료하는 광선을 발하리니 너희가 나가서 외양간에서 나온 송아지 같이 뛰리라 ",
+    "en" : "But to you who fear My name The Sun of Righteousness shall arise With healing in His wings; And you shall go out And grow fat like stall-fed calves.",
+    "reference" : "Malachi 4:2",
+    "cn" : "但向你们敬畏我名的人必有公义的日头出现，其光线有医治之能。你们必出来跳跃如圈里的肥犊。"
+  },
+  {
+    "reference" : "Matthew 4:4",
+    "kr" : "예수께서 대답하여 가라사대 기록되었으되 사람이 떡으로만 살 것이 아니요 하나님의 입으로 나오는 모든 말씀으로 살 것이라 하였느니라 하시니 ",
+    "en" : "But He answered and said, “It is written, ‘Man shall not live by bread alone, but by every word that proceeds from the mouth of God.’ ”",
+    "cn" : "耶稣却回答说：「[经上]记着说： 人活着，不是单靠食物， 乃是靠　神口里所出的一切话。」"
+  },
+  {
+    "cn" : "耶稣对他们说：「来跟从我，我要叫你们得人如得鱼一样。」",
+    "reference" : "Matthew 4:19",
+    "en" : "Then He said to them, “Follow Me, and I will make you fishers of men.”",
+    "kr" : "말씀하시되 나를 따라 오너라 내가 너희로 사람을 낚는 어부가 되게 하리라 하시니 "
+  },
+  {
+    "reference" : "Matthew 5:3",
+    "cn" : "虚心的人有福了！ 因为天国是他们的。",
+    "en" : "“Blessed are the poor in spirit, For theirs is the kingdom of heaven.",
+    "kr" : "심령이 가난한 자는 복이 있나니 천국이 저희 것임이요 "
+  },
+  {
+    "cn" : "哀恸的人有福了！ 因为他们必得安慰。",
+    "kr" : "애통하는 자는 복이 있나니 저희가 위로를 받을 것임이요 ",
+    "reference" : "Matthew 5:4",
+    "en" : "Blessed are those who mourn, For they shall be comforted."
+  },
+  {
+    "cn" : "温柔的人有福了！ 因为他们必承受地土。",
+    "reference" : "Matthew 5:5",
+    "en" : "Blessed are the meek, For they shall inherit the earth.",
+    "kr" : "온유한 자는 복이 있나니 저희가 땅을 기업으로 받을 것임이요 "
+  },
+  {
+    "kr" : "의에 주리고 목마른 자는 복이 있나니 저희가 배부를 것임이요 ",
+    "reference" : "Matthew 5:6",
+    "en" : "Blessed are those who hunger and thirst for righteousness, For they shall be filled.",
+    "cn" : "饥渴慕义的人有福了！ 因为他们必得饱足。"
+  },
+  {
+    "kr" : "긍휼히 여기는 자는 복이 있나니 저희가 긍휼히 여김을 받을 것임이요 ",
+    "cn" : "怜恤人的人有福了！ 因为他们必蒙怜恤。",
+    "en" : "Blessed are the merciful, For they shall obtain mercy.",
+    "reference" : "Matthew 5:7"
+  },
+  {
+    "reference" : "Matthew 5:8",
+    "en" : "Blessed are the pure in heart, For they shall see God.",
+    "cn" : "清心的人有福了！ 因为他们必得见　神。",
+    "kr" : "마음이 청결한 자는 복이 있나니 저희가 하나님을 볼 것임이요 "
+  },
+  {
+    "en" : "Blessed are the peacemakers, For they shall be called sons of God.",
+    "reference" : "Matthew 5:9",
+    "cn" : "使人和睦的人有福了！ 因为他们必称为　神的儿子。",
+    "kr" : "화평케 하는 자는 복이 있나니 저희가 하나님의 아들이라 일컬음을 받을 것임이요 "
+  },
+  {
+    "en" : "Blessed are those who are persecuted for righteousness’ sake, For theirs is the kingdom of heaven.",
+    "reference" : "Matthew 5:10",
+    "kr" : "의를 위하여 핍박을 받은 자는 복이 있나니 천국이 저희 것임이라 ",
+    "cn" : "为义受逼迫的人有福了！ 因为天国是他们的。"
+  },
+  {
+    "kr" : "나를 인하여 너희를 욕하고 핍박하고 거짓으로 너희를 거스려 모든 악한 말을 할 때에는 너희에게 복이 있나니 ",
+    "cn" : "「人若因我辱骂你们，逼迫你们，捏造各样坏话毁谤你们，你们就有福了！",
+    "en" : "Blessed are you when they revile and persecute you, and say all kinds of evil against you falsely for My sake.",
+    "reference" : "Matthew 5:11"
+  },
+  {
+    "kr" : "기뻐하고 즐거워하라 하늘에서 너희의 상이 큼이라 너희 전에 있던 선지자들을 이같이 핍박하였느니라 ",
+    "en" : "Rejoice and be exceedingly glad, for great is your reward in heaven, for so they persecuted the prophets who were before you.",
+    "cn" : "应当欢喜快乐，因为你们在天上的赏赐是大的。在你们以前的先知，人也是这样逼迫他们。」",
+    "reference" : "Matthew 5:12"
+  },
+  {
+    "en" : "“You are the light of the world. A city that is set on a hill cannot be hidden.",
+    "cn" : "你们是世上的光。城造在山上是不能隐藏的。",
+    "reference" : "Matthew 5:14",
+    "kr" : "너희는 세상의 빛이라 산 위에 있는 동네가 숨기우지 못할 것이요 "
+  },
+  {
+    "kr" : "이같이 너희 빛을 사람 앞에 비취게 하여 저희로 너희 착한 행실을 보고 하늘에 계신 너희 아버지께 영광을 돌리게 하라 ",
+    "cn" : "你们的光也当这样照在人前，叫他们看见你们的好行为，便将荣耀归给你们在天上的父。」",
+    "reference" : "Matthew 5:16",
+    "en" : "Let your light so shine before men, that they may see your good works and glorify your Father in heaven."
+  },
+  {
+    "cn" : "只是我告诉你们，要爱你们的仇敌，为那逼迫你们的祷告。",
+    "kr" : "나는 너희에게 이르노니 너희 원수를 사랑하며 너희를 핍박하는 자를 위하여 기도하라 ",
+    "reference" : "Matthew 5:44",
+    "en" : "But I say to you, love your enemies, bless those who curse you, do good to those who hate you, and pray for those who spitefully use you and persecute you,"
+  },
+  {
+    "kr" : "그러므로 하늘에 계신 너희 아버지의 온전하심과 같이 너희도 온전하라  ",
+    "reference" : "Matthew 5:48",
+    "en" : "Therefore you shall be perfect, just as your Father in heaven is perfect.",
+    "cn" : "所以，你们要完全，像你们的天父完全一样。」"
+  },
+  {
+    "en" : "But you, when you pray, go into your room, and when you have shut your door, pray to your Father who is in the secret place; and your Father who sees in secret will reward you openly.",
+    "cn" : "你祷告的时候，要进你的内屋，关上门，祷告你在暗中的父；你父在暗中察看，必然报答你。",
+    "kr" : "너는 기도할 때에 네 골방에 들어가 문을 닫고 은밀한 중에 계신 네 아버지께 기도하라 은밀한 중에 보시는 네 아버지께서 갚으시리라 ",
+    "reference" : "Matthew 6:6"
+  },
+  {
+    "reference" : "Matthew 6:9",
+    "cn" : "所以，你们祷告要这样说： 我们在天上的父： 愿人都尊你的名为圣。",
+    "en" : "In this manner, therefore, pray: Our Father in heaven, Hallowed be Your name.",
+    "kr" : "그러므로 너희는 이렇게 기도하라 하늘에 계신 우리 아버지여 이름이 거룩히 여김을 받으시오며 "
+  },
+  {
+    "kr" : "너희가 사람의 과실을 용서하면 너희 천부께서도 너희 과실을 용서하시려니와 ",
+    "reference" : "Matthew 6:14",
+    "en" : "“For if you forgive men their trespasses, your heavenly Father will also forgive you.",
+    "cn" : "「你们饶恕人的过犯，你们的天父也必饶恕你们[的过犯]；"
+  },
+  {
+    "reference" : "Matthew 6:21",
+    "cn" : "因为你的财宝在哪里，你的心也在那里。」",
+    "kr" : "네 보물 있는 그 곳에는 네 마음도 있느니라 ",
+    "en" : "For where your treasure is, there your heart will be also."
+  },
+  {
+    "kr" : "그러므로 내가 너희에게 이르노니 목숨을 위하여 무엇을 먹을까 무엇을 마실까 몸을 위하여 무엇을 입을까 염려하지 말라 목숨이 음식보다 중하지 아니하며 몸이 의복보다 중하지 아니하냐 ",
+    "cn" : "「所以我告诉你们，不要为生命忧虑吃什么，喝什么；为身体忧虑穿什么。生命不胜于饮食吗？身体不胜于衣裳吗？",
+    "reference" : "Matthew 6:25",
+    "en" : "“Therefore I say to you, do not worry about your life, what you will eat or what you will drink; nor about your body, what you will put on. Is not life more than food and the body more than clothing?"
+  },
+  {
+    "kr" : "공중의 새를 보라 심지도 않고 거두지도 않고 창고에 모아 들이지도 아니하되 너희 천부께서 기르시나니 너희는 이것들보다 귀하지 아니하냐 ",
+    "reference" : "Matthew 6:26",
+    "en" : "Look at the birds of the air, for they neither sow nor reap nor gather into barns; yet your heavenly Father feeds them. Are you not of more value than they?",
+    "cn" : "你们看那天上的飞鸟，也不种，也不收，也不积蓄在仓里，你们的天父尚且养活它。你们不比飞鸟贵重得多吗？"
+  },
+  {
+    "cn" : "你们哪一个能用思虑使寿数多加一刻呢？",
+    "en" : "Which of you by worrying can add one cubit to his stature?",
+    "reference" : "Matthew 6:27",
+    "kr" : "너희 중에 누가 염려함으로 그 키를 한 자나 더할 수 있느냐 "
+  },
+  {
+    "reference" : "Matthew 6:33",
+    "en" : "But seek first the kingdom of God and His righteousness, and all these things shall be added to you.",
+    "kr" : "너희는 먼저 그의 나라와 그의 의를 구하라 그리하면 이 모든 것을 너희에게 더하시리라 ",
+    "cn" : "你们要先求他的国和他的义，这些东西都要加给你们了。"
+  },
+  {
+    "cn" : "所以，不要为明天忧虑，因为明天自有明天的忧虑；一天的难处一天当就够了。」",
+    "kr" : "그러므로 내일 일을 위하여 염려하지 말라 내일 일은 내일 염려할 것이요 한 날 괴로움은 그 날에 족하니라  ",
+    "en" : "Therefore do not worry about tomorrow, for tomorrow will worry about its own things. Sufficient for the day is its own trouble.",
+    "reference" : "Matthew 6:34"
+  },
+  {
+    "kr" : "비판을 받지 아니하려거든 비판하지 말라 ",
+    "en" : "“Judge not, that you be not judged.",
+    "cn" : "「你们不要论断人，免得你们被论断。",
+    "reference" : "Matthew 7:1"
+  },
+  {
+    "cn" : "「你们祈求，就给你们；寻找，就寻见；叩门，就给你们开门。",
+    "reference" : "Matthew 7:7",
+    "en" : "“Ask, and it will be given to you; seek, and you will find; knock, and it will be opened to you.",
+    "kr" : "구하라 그러면 너희에게 주실 것이요 찾으라 그러면 찾을 것이요 문을 두드리라 그러면 너희에게 열릴 것이니 "
+  },
+  {
+    "cn" : "因为凡祈求的，就得着；寻找的，就寻见；叩门的，就给他开门。",
+    "reference" : "Matthew 7:8",
+    "kr" : "구하는 이마다 얻을 것이요 찾는 이가 찾을 것이요 두드리는 이에게 열릴 것이니라 ",
+    "en" : "For everyone who asks receives, and he who seeks finds, and to him who knocks it will be opened."
+  },
+  {
+    "en" : "Therefore, whatever you want men to do to you, do also to them, for this is the Law and the Prophets.",
+    "cn" : "所以，无论何事，你们愿意人怎样待你们，你们也要怎样待人，因为这就是律法和先知[的道理]。」",
+    "kr" : "그러므로 무엇이든지 남에게 대접을 받고자 하는대로 너희도 남을 대접하라 이것이 율법이요 선지자니라 ",
+    "reference" : "Matthew 7:12"
+  },
+  {
+    "en" : "“Enter by the narrow gate; for wide is the gate and broad is the way that leads to destruction, and there are many who go in by it.",
+    "cn" : "「你们要进窄门。因为引到灭亡，那门是宽的，路是大的，进去的人也多；",
+    "kr" : "좁은 문으로 들어가라 멸망으로 인도하는 문은 크고 그 길이 넓어 그리로 들어가는 자가 많고 ",
+    "reference" : "Matthew 7:13"
+  },
+  {
+    "cn" : "引到[永]生，那门是窄的，路是小的，找着的人也少。」",
+    "reference" : "Matthew 7:14",
+    "en" : "Because narrow is the gate and difficult is the way which leads to life, and there are few who find it.",
+    "kr" : "생명으로 인도하는 문은 좁고 길이 협착하여 찾는 이가 적음이니라 "
+  },
+  {
+    "cn" : "于是对门徒说：「要收的庄稼多，做工的人少。",
+    "reference" : "Matthew 9:37",
+    "en" : "Then He said to His disciples, “The harvest truly is plentiful, but the laborers are few.",
+    "kr" : "이에 제자들에게 이르시되 추수할 것은 많되 일꾼은 적으니 "
+  },
+  {
+    "cn" : "医治病人，叫死人复活，叫长大麻风的洁净，把鬼赶出去。你们白白地得来，也要白白地舍去。",
+    "reference" : "Matthew 10:8",
+    "kr" : "병든 자를 고치며 죽은 자를 살리며 문둥이를 깨끗하게 하며 귀신을 쫓아내되 너희가 거저 받았으니 거저 주어라 ",
+    "en" : "Heal the sick, cleanse the lepers, raise the dead, cast out demons. Freely you have received, freely give."
+  },
+  {
+    "cn" : "因为不是你们自己说的，乃是你们父的灵在你们里头说的。",
+    "kr" : "말하는 이는 너희가 아니라 너희 속에서 말씀하시는 자 곧 너희 아버지의 성령이시니라 ",
+    "reference" : "Matthew 10:20",
+    "en" : "for it is not you who speak, but the Spirit of your Father who speaks in you."
+  },
+  {
+    "cn" : "就是你们的头发也都被数过了。",
+    "kr" : "너희에게는 머리털까지 다 세신바 되었나니 ",
+    "en" : "But the very hairs of your head are all numbered.",
+    "reference" : "Matthew 10:30"
+  },
+  {
+    "en" : "Do not fear therefore; you are of more value than many sparrows.",
+    "cn" : "所以，不要惧怕，你们比许多麻雀还贵重！」",
+    "kr" : "두려워하지 말라 너희는 많은 참새보다 귀하니라 ",
+    "reference" : "Matthew 10:31"
+  },
+  {
+    "kr" : "수고하고 무거운 짐진 자들아 다 내게로 오라 내가 너희를 쉬게 하리라 ",
+    "en" : "Come to Me, all you who labor and are heavy laden, and I will give you rest.",
+    "cn" : "凡劳苦担重担的人可以到我这里来，我就使你们得安息。",
+    "reference" : "Matthew 11:28"
+  },
+  {
+    "cn" : "我心里柔和谦卑，你们当负我的轭，学我的样式；这样，你们心里就必得享安息。",
+    "en" : "Take My yoke upon you and learn from Me, for I am gentle and lowly in heart, and you will find rest for your souls.",
+    "kr" : "나는 마음이 온유하고 겸손하니 나의 멍에를 메고 내게 배우라 그러면 너희 마음이 쉼을 얻으리니 ",
+    "reference" : "Matthew 11:29"
+  },
+  {
+    "cn" : "因为我的轭是容易的，我的担子是轻省的。」",
+    "reference" : "Matthew 11:30",
+    "en" : "For My yoke is easy and My burden is light.”",
+    "kr" : "이는 내 멍에는 쉽고 내 짐은 가벼움이라 하시니라  "
+  },
+  {
+    "kr" : "이에 예수께서 제자들에게 이르시되 아무든지 나를 따라 오려거든 자기를 부인하고 자기 십자가를 지고 나를 좇을 것이니라 ",
+    "cn" : "于是耶稣对门徒说：「若有人要跟从我，就当舍己，背起他的十字架来跟从我。",
+    "en" : "Then Jesus said to His disciples, “If anyone desires to come after Me, let him deny himself, and take up his cross, and follow Me.",
+    "reference" : "Matthew 16:24"
+  },
+  {
+    "cn" : "人若赚得全世界，赔上自己的生命，有什么益处呢？人还能拿什么换生命呢？",
+    "reference" : "Matthew 16:26",
+    "kr" : "사람이 만일 온 천하를 얻고도 제 목숨을 잃으면 무엇이 유익하리요 사람이 무엇을 주고 제 목숨을 바꾸겠느냐 ",
+    "en" : "For what profit is it to a man if he gains the whole world, and loses his own soul? Or what will a man give in exchange for his soul?"
+  },
+  {
+    "kr" : "가라사대 너희 믿음이 적은 연고니라 진실로 너희에게 이르노니 너희가 만일 믿음이 한 겨자씨만큼만 있으면 이 산을 명하여 여기서 저기로 옮기라 하여도 옮길 것이요 또 너희가 못할 것이 없으리라 ",
+    "reference" : "Matthew 17:20",
+    "cn" : "耶稣说：「是因你们的信心小。我实在告诉你们，你们若有信心，像一粒芥菜种，就是对这座山说：『你从这边挪到那边』，它也必挪去；并且你们没有一件不能做的事了。",
+    "en" : "So Jesus said to them, “Because of your unbelief; for assuredly, I say to you, if you have faith as a mustard seed, you will say to this mountain, ‘Move from here to there,’ and it will move; and nothing will be impossible for you."
+  },
+  {
+    "en" : "For where two or three are gathered together in My name, I am there in the midst of them.”",
+    "kr" : "두세 사람이 내 이름으로 모인 곳에는 나도 그들 중에 있느니라 ",
+    "cn" : "因为无论在哪里，有两三个人奉我的名聚会，那里就有我在他们中间。」",
+    "reference" : "Matthew 18:20"
+  },
+  {
+    "en" : "But Jesus said, “Let the little children come to Me, and do not forbid them; for of such is the kingdom of heaven.”",
+    "kr" : "예수께서 가라사대 어린 아이들을 용납하고 내게 오는 것을 금하지 말라 천국이 이런 자의 것이니라 하시고 ",
+    "reference" : "Matthew 19:14",
+    "cn" : "耶稣说：「让小孩子到我这里来，不要禁止他们；因为在天国的，正是这样的人。」"
+  },
+  {
+    "en" : "But Jesus looked at them and said to them, “With men this is impossible, but with God all things are possible.”",
+    "kr" : "예수께서 저희를 보시며 가라사대 사람으로는 할 수 없으되 하나님으로서는 다 할 수 있느니라 ",
+    "reference" : "Matthew 19:26",
+    "cn" : "耶稣看着他们，说：「在人这是不能的，在　神凡事都能。」"
+  },
+  {
+    "kr" : "예수께서 가라사대 네 마음을 다하고 목숨을 다하고 뜻을 다하여 주 너의 하나님을 사랑하라 하셨으니 ",
+    "cn" : "耶稣对他说：「你要尽心、尽性、尽意爱主—你的　神。",
+    "en" : "Jesus said to him, “‘You shall love the Lord your God with all your heart, with all your soul, and with all your mind.’",
+    "reference" : "Matthew 22:37"
+  },
+  {
+    "en" : "And the second is like it: ‘You shall love your neighbor as yourself.’",
+    "reference" : "Matthew 22:39",
+    "kr" : "둘째는 그와 같으니 네 이웃을 네 몸과 같이 사랑하라 하셨으니 ",
+    "cn" : "其次也相仿，就是要爱人如己。"
+  },
+  {
+    "cn" : "天地要废去，我的话却不能废去。」",
+    "reference" : "Matthew 24:35",
+    "en" : "Heaven and earth will pass away, but My words will by no means pass away.",
+    "kr" : "천지는 없어지겠으나 내 말은 없어지지 아니하리라 "
+  },
+  {
+    "cn" : "王要回答说：『我实在告诉你们，这些事你们既做在我这弟兄中一个最小的身上，就是做在我身上了。』",
+    "en" : "And the King will answer and say to them, ‘Assuredly, I say to you, inasmuch as you did it to one of the least of these My brethren, you did it to Me.’",
+    "kr" : "임금이 대답하여 가라사대 내가 진실로 너희에게 이르노니 너희가 여기 내 형제 중에 지극히 작은 자 하나에게 한 것이 곧 내게 한 것이니라 하시고 ",
+    "reference" : "Matthew 25:40"
+  },
+  {
+    "cn" : "所以，你们要去，使万民作我的门徒，奉父、子、圣灵的名给他们施洗。",
+    "kr" : "그러므로 너희는 가서 모든 족속으로 제자를 삼아 아버지와 아들과 성령의 이름으로 침례를 주고 ",
+    "reference" : "Matthew 28:19",
+    "en" : "Go therefore and make disciples of all the nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit,"
+  },
+  {
+    "kr" : "내가 너희에게 분부한 모든 것을 가르쳐 지키게 하라 볼지어다 내가 세상 끝날까지 너희와 항상 함께 있으리라 하시니라   ",
+    "en" : "teaching them to observe all things that I have commanded you; and lo, I am with you always, even to the end of the age.” Amen.",
+    "cn" : "凡我所吩咐你们的，都教训他们遵守，我就常与你们同在，直到世界的末了。」",
+    "reference" : "Matthew 28:20"
+  },
+  {
+    "kr" : "예수께서 가라사대 나를 따라 오너라 내가 너희로 사람을 낚는 어부가 되게 하리라 하시니 ",
+    "reference" : "Mark 1:17",
+    "cn" : "耶稣对他们说：「来跟从我，我要叫你们得人如得鱼一样。」",
+    "en" : "Then Jesus said to them, “Follow Me, and I will make you become fishers of men.”"
+  },
+  {
+    "en" : "As soon as Jesus heard the word that was spoken, He said to the ruler of the synagogue, “Do not be afraid; only believe.”",
+    "cn" : "耶稣听见所说的话，就对管会堂的说：「不要怕，只要信！」",
+    "kr" : "예수께서 그 하는 말을 곁에서 들으시고 회당장에게 이르시되 두려워 말고 믿기만 하라 하시고 ",
+    "reference" : "Mark 5:36"
+  },
+  {
+    "reference" : "Mark 6:31",
+    "kr" : "이르시되 너희는 따로 한적한 곳에 와서 잠간 쉬어라 하시니 이는 오고 가는 사람이 많아 음식 먹을 겨를도 없음이라 ",
+    "cn" : "他就说：「你们来，同我暗暗地到旷野地方去歇一歇。」这是因为来往的人多，他们连吃饭也没有工夫。",
+    "en" : "And He said to them, “Come aside by yourselves to a deserted place and rest a while.” For there were many coming and going, and they did not even have time to eat."
+  },
+  {
+    "kr" : "사람이 만일 온 천하를 얻고도 제 목숨을 잃으면 무엇이 유익하리요 ",
+    "en" : "For what will it profit a man if he gains the whole world, and loses his own soul?",
+    "cn" : "人就是赚得全世界，赔上自己的生命，有什么益处呢？",
+    "reference" : "Mark 8:36"
+  },
+  {
+    "reference" : "Mark 9:23",
+    "en" : "Jesus said to him, “If you can believe, all things are possible to him who believes.”",
+    "kr" : "예수께서 이르시되 할 수 있거든이 무슨 말이냐 믿는 자에게는 능치 못할 일이 없느니라 하시니 ",
+    "cn" : "耶稣对他说：「你若能[信]，在信的人，凡事都能。」"
+  },
+  {
+    "reference" : "Mark 9:24",
+    "cn" : "孩子的父亲立时喊着说：「我信！但我信不足，求主帮助。」",
+    "kr" : "곧 그 아이의 아비가 소리를 질러 가로되 내가 믿나이다 나의 믿음 없는 것을 도와주소서 하더라 ",
+    "en" : "Immediately the father of the child cried out and said with tears, “Lord, I believe; help my unbelief!”"
+  },
+  {
+    "kr" : "예수께서 보시고 분히 여겨 이르시되 어린 아이들의 내게 오는 것을 용납하고 금하지 말라 하나님의 나라가 이런 자의 것이니라 ",
+    "reference" : "Mark 10:14",
+    "en" : "But when Jesus saw it, He was greatly displeased and said to them, “Let the little children come to Me, and do not forbid them; for of such is the kingdom of God.",
+    "cn" : "耶稣看见就恼怒，对门徒说：「让小孩子到我这里来，不要禁止他们；因为在　神国的，正是这样的人。"
+  },
+  {
+    "kr" : "예수께서 저희를 보시며 가라사대 사람으로는 할 수 없으되 하나님으로는 그렇지 아니하니 하나님으로서는 다 하실 수 있느니라 ",
+    "reference" : "Mark 10:27",
+    "en" : "But Jesus looked at them and said, “With men it is impossible, but not with God; for with God all things are possible.”",
+    "cn" : "耶稣看着他们，说：「在人是不能，在　神却不然，因为　神凡事都能。」"
+  },
+  {
+    "reference" : "Mark 10:45",
+    "kr" : "인자의 온 것은 섬김을 받으려 함이 아니라 도리어 섬기려 하고 자기 목숨을 많은 사람의 대속물로 주려 함이니라 ",
+    "en" : "For even the Son of Man did not come to be served, but to serve, and to give His life a ransom for many.”",
+    "cn" : "因为人子来，并不是要受人的服事，乃是要服事人，并且要舍命作多人的赎价。」"
+  },
+  {
+    "cn" : "耶稣回答说：「你们当信服　神。",
+    "kr" : "예수께서 대답하여 저희에게 이르시되 하나님을 믿으라 ",
+    "en" : "So Jesus answered and said to them, “Have faith in God.",
+    "reference" : "Mark 11:22"
+  },
+  {
+    "en" : "Therefore I say to you, whatever things you ask when you pray, believe that you receive them, and you will have them.",
+    "kr" : "그러므로 내가 너희에게 말하노니 무엇이든지 기도하고 구하는 것은 받은 줄로 믿으라 그리하면 너희에게 그대로 되리라 ",
+    "reference" : "Mark 11:24",
+    "cn" : "所以我告诉你们，凡你们祷告祈求的，无论是什么，只要信是得着的，就必得着。"
+  },
+  {
+    "kr" : "네 마음을 다하고 목숨을 다하고 뜻을 다하고 힘을 다하여 주 너의 하나님을 사랑하라 하신 것이요 ",
+    "reference" : "Mark 12:30",
+    "cn" : "你要尽心、尽性、尽意、尽力爱主—你的　神。』",
+    "en" : "And you shall love the Lord your God with all your heart, with all your soul, with all your mind, and with all your strength.’ This is the first commandment."
+  },
+  {
+    "kr" : "또 마음을 다하고 지혜를 다하고 힘을 다하여 하나님을 사랑하는 것과 또 이웃을 제 몸과 같이 사랑하는 것이 전체로 드리는 모든 번제물과 기타 제물보다 나으니이다 ",
+    "reference" : "Mark 12:33",
+    "cn" : "并且尽心、尽智、尽力爱他，又爱人如己，就比一切燔祭和各样祭祀好的多。」",
+    "en" : "And to love Him with all the heart, with all the understanding, with all the soul, and with all the strength, and to love one’s neighbor as oneself, is more than all the whole burnt offerings and sacrifices.”"
+  },
+  {
+    "cn" : "天地要废去，我的话却不能废去。」",
+    "en" : "Heaven and earth will pass away, but My words will by no means pass away.",
+    "reference" : "Mark 13:31",
+    "kr" : "천지는 없어지겠으나 내 말은 없어지지 아니하리라 "
+  },
+  {
+    "reference" : "Luke 1:37",
+    "en" : "For with God nothing will be impossible.”",
+    "kr" : "대저 하나님의 모든 말씀은 능치 못하심이 없느니라 ",
+    "cn" : "因为，出于　神的话，没有一句不带能力的。」"
+  },
+  {
+    "en" : "Then the angel said to them, “Do not be afraid, for behold, I bring you good tidings of great joy which will be to all people.",
+    "kr" : "천사가 이르되 무서워 말라 보라 내가 온 백성에게 미칠 큰 기쁨의 좋은 소식을 너희에게 전하노라 ",
+    "cn" : "那天使对他们说：「不要惧怕！我报给你们大喜的信息，是关乎万民的；",
+    "reference" : "Luke 2:10"
+  },
+  {
+    "reference" : "Luke 2:11",
+    "kr" : "오늘날 다윗의 동네에 너희를 위하여 구주가 나셨으니 곧 그리스도 주시니라 ",
+    "cn" : "因今天在大卫的城里，为你们生了救主，就是主基督。",
+    "en" : "For there is born to you this day in the city of David a Savior, who is Christ the Lord."
+  },
+  {
+    "reference" : "Luke 2:14",
+    "en" : "“Glory to God in the highest, And on earth peace, goodwill toward men!”",
+    "cn" : "在至高之处荣耀归与　神！ 在地上平安归与他所喜悦的人！",
+    "kr" : "지극히 높은 곳에서는 하나님께 영광이요 땅에서는 기뻐하심을 입은 사람들 중에 평화로다 하니라 "
+  },
+  {
+    "cn" : "耶稣的智慧和身量，并　神和人喜爱他的心，都一齐增长。",
+    "en" : "And Jesus increased in wisdom and stature, and in favor with God and men.",
+    "kr" : "예수는 그 지혜와 그 키가 자라가며 하나님과 사람에게 더 사랑스러워 가시더라  ",
+    "reference" : "Luke 2:52"
+  },
+  {
+    "en" : "“The Spirit of the Lord is upon Me, Because He has anointed Me To preach the gospel to the poor; He has sent Me to heal the brokenhearted, To proclaim liberty to the captives And recovery of sight to the blind, To set at liberty those who are oppressed;",
+    "cn" : "主的灵在我身上， 因为他用膏膏我， 叫我传福音给贫穷的人； 差遣我报告： 被掳的得释放， 瞎眼的得看见， 叫那受压制的得自由，",
+    "reference" : "Luke 4:18",
+    "kr" : "주의 성령이 내게 임하셨으니 이는 가난한 자에게 복음을 전하게 하시려고 내게 기름을 부으시고 나를 보내사 포로된 자에게 자유를, 눈먼 자에게 다시 보게 함을 전파하며 눌린 자를 자유케 하고 "
+  },
+  {
+    "cn" : "「只是我告诉你们这听道的人，你们的仇敌，要爱他！恨你们的，要待他好！",
+    "kr" : "그러나 너희 듣는 자에게 내가 이르노니 너희 원수를 사랑하며 너희를 미워하는 자를 선대하며 ",
+    "reference" : "Luke 6:27",
+    "en" : "“But I say to you who hear: Love your enemies, do good to those who hate you,"
+  },
+  {
+    "kr" : "남에게 대접을 받고자 하는 대로 너희도 남을 대접하라 ",
+    "reference" : "Luke 6:31",
+    "en" : "And just as you want men to do to you, you also do to them likewise.",
+    "cn" : "你们愿意人怎样待你们，你们也要怎样待人。"
+  },
+  {
+    "kr" : "오직 너희는 원수를 사랑하고 선대하며 아무 것도 바라지 말고 빌리라 그리하면 너희 상이 클 것이요 또 지극히 높으신 이의 아들이 되리니 그는 은혜를 모르는 자와 악한 자에게도 인자로우시니라 ",
+    "cn" : "你们倒要爱仇敌，也要善待他们，并要借给人不指望偿还，你们的赏赐就必大了，你们也必作至高者的儿子，因为他恩待那忘恩的和作恶的。",
+    "en" : "But love your enemies, do good, and lend, hoping for nothing in return; and your reward will be great, and you will be sons of the Most High. For He is kind to the unthankful and evil.",
+    "reference" : "Luke 6:35"
+  },
+  {
+    "reference" : "Luke 6:38",
+    "cn" : "你们要给人，就必有给你们的，并且用十足的升斗，连摇带按，上尖下流地倒在你们怀里；因为你们用什么量器量给人，也必用什么量器量给你们。」",
+    "en" : "Give, and it will be given to you: good measure, pressed down, shaken together, and running over will be put into your bosom. For with the same measure that you use, it will be measured back to you.”",
+    "kr" : "주라 그리하면 너희에게 줄 것이니 곧 후히 되어 누르고 흔들어 넘치도록 하여 너희에게 안겨 주리라 너희의 헤아리는 그 헤아림으로 너희도 헤아림을 도로 받을 것이니라 "
+  },
+  {
+    "kr" : "또 무리에게 이르시되 아무든지 나를 따라 오려거든 자기를 부인하고 날마다 제 십자가를 지고 나를 좇을 것이니라 ",
+    "en" : "Then He said to them all, “If anyone desires to come after Me, let him deny himself, and take up his cross daily, and follow Me.",
+    "reference" : "Luke 9:23",
+    "cn" : "耶稣又对众人说：「若有人要跟从我，就当舍己，天天背起他的十字架来跟从我。"
+  },
+  {
+    "en" : "and said to them, “Whoever receives this little child in My name receives Me; and whoever receives Me receives Him who sent Me. For he who is least among you all will be great.”",
+    "kr" : "저희에게 이르시되 누구든지 내 이름으로 이 어린 아이를 영접하면 곧 나를 영접함이요 또 누구든지 나를 영접하면 곧 나 보내신 이를 영접함이라 너희 모든 사람 중에 가장 작은 그이가 큰 자니라 ",
+    "reference" : "Luke 9:48",
+    "cn" : "对他们说：「凡为我名接待这小孩子的，就是接待我；凡接待我的，就是接待那差我来的。你们中间最小的，他便为大。」"
+  },
+  {
+    "en" : "Then He said to them, “The harvest truly is great, but the laborers are few; therefore pray the Lord of the harvest to send out laborers into His harvest.",
+    "cn" : "就对他们说：「要收的庄稼多，做工的人少。所以，你们当求庄稼的主打发工人出去收他的庄稼。",
+    "kr" : "이르시되 추수할 것은 많되 일꾼이 적으니 그러므로 추수하는 주인에게 청하여 추수할 일꾼들을 보내어 주소서 하라 ",
+    "reference" : "Luke 10:2"
+  },
+  {
+    "cn" : "我已经给你们权柄可以践踏蛇和蝎子，又胜过仇敌一切的能力，断没有什么能害你们。",
+    "kr" : "내가 너희에게 뱀과 전갈을 밟으며 원수의 모든 능력을 제어할 권세를 주었으니 너희를 해할 자가 결단코 없으리라 ",
+    "en" : "Behold, I give you the authority to trample on serpents and scorpions, and over all the power of the enemy, and nothing shall by any means hurt you.",
+    "reference" : "Luke 10:19"
+  },
+  {
+    "kr" : "대답하여 가로되 네 마음을 다하며 목숨을 다하며 힘을 다하며 뜻을 다하여 주 너의 하나님을 사랑하고 또한 네 이웃을 네 몸과 같이 사랑하라 하였나이다 ",
+    "cn" : "他回答说：「你要尽心、尽性、尽力、尽意爱主—你的　神；又要爱邻舍如同自己。」",
+    "en" : "So he answered and said, “ ‘You shall love the Lord your God with all your heart, with all your soul, with all your strength, and with all your mind,’ and ‘your neighbor as yourself.’ ”",
+    "reference" : "Luke 10:27"
+  },
+  {
+    "cn" : "我又告诉你们，你们祈求，就给你们；寻找，就寻见；叩门，就给你们开门。",
+    "en" : "“So I say to you, ask, and it will be given to you; seek, and you will find; knock, and it will be opened to you.",
+    "reference" : "Luke 11:9",
+    "kr" : "내가 또 너희에게 이르노니 구하라 그러면 너희에게 주실 것이요 찾으라 그러면 찾을 것이요 문을 두드리라 그러면 너희에게 열릴 것이니 "
+  },
+  {
+    "cn" : "耶稣说：「是，却还不如听　神之道而遵守的人有福。」",
+    "en" : "But He said, “More than that, blessed are those who hear the word of God and keep it!”",
+    "reference" : "Luke 11:28",
+    "kr" : "예수께서 가라사대 오히려 하나님의 말씀을 듣고 지키는 자가 복이 있느니라 하시니라 "
+  },
+  {
+    "en" : "But the very hairs of your head are all numbered. Do not fear therefore; you are of more value than many sparrows.",
+    "cn" : "就是你们的头发，也都被数过了。不要惧怕，你们比许多麻雀还贵重！」",
+    "reference" : "Luke 12:7",
+    "kr" : "너희에게는 오히려 머리털까지도 다 세신 바 되었나니 두려워하지 말라 너희는 많은 참새보다 귀하니라 "
+  },
+  {
+    "reference" : "Luke 12:15",
+    "en" : "And He said to them, “Take heed and beware of covetousness, for one’s life does not consist in the abundance of the things he possesses.”",
+    "kr" : "저희에게 이르시되 삼가 모든 탐심을 물리치라 사람의 생명이 그 소유의 넉넉한 데 있지 아니하니라 하시고 ",
+    "cn" : "于是对众人说：「你们要谨慎自守，免去一切的贪心，因为人的生命不在乎家道丰富。」"
+  },
+  {
+    "kr" : "또 제자들에게 이르시되 그러므로 내가 너희에게 이르노니 너희 목숨을 위하여 무엇을 먹을까 몸을 위하여 무엇을 입을까 염려하지 말라 ",
+    "cn" : "耶稣又对门徒说：「所以我告诉你们，不要为生命忧虑吃什么，为身体忧虑穿什么；",
+    "en" : "Then He said to His disciples, “Therefore I say to you, do not worry about your life, what you will eat; nor about the body, what you will put on.",
+    "reference" : "Luke 12:22"
+  },
+  {
+    "en" : "Consider the ravens, for they neither sow nor reap, which have neither storehouse nor barn; and God feeds them. Of how much more value are you than the birds?",
+    "cn" : "你想乌鸦，也不种也不收，又没有仓又没有库，　神尚且养活它。你们比飞鸟是何等地贵重呢！",
+    "reference" : "Luke 12:24",
+    "kr" : "까마귀를 생각하라 심지도 아니하고 거두지도 아니하며 골방도 없고 창고도 없으되 하나님이 기르시나니 너희는 새보다 얼마나 더 귀하냐 "
+  },
+  {
+    "kr" : "오직 너희는 그의 나라를 구하라 그리하면 이런 것을 너희에게 더하시리라 ",
+    "en" : "But seek the kingdom of God, and all these things shall be added to you.",
+    "reference" : "Luke 12:31",
+    "cn" : "你们只要求他的国，这些东西就必加给你们了。"
+  },
+  {
+    "cn" : "你们这小群，不要惧怕，因为你们的父乐意把国赐给你们。",
+    "reference" : "Luke 12:32",
+    "kr" : "적은 무리여 무서워 말라 너희 아버지께서 그 나라를 너희에게 주시기를 기뻐하시느니라 ",
+    "en" : "“Do not fear, little flock, for it is your Father’s good pleasure to give you the kingdom."
+  },
+  {
+    "cn" : "因为，你们的财宝在哪里，你们的心也在那里。」",
+    "kr" : "너희 보물 있는 곳에는 너희 마음도 있으리라 ",
+    "reference" : "Luke 12:34",
+    "en" : "For where your treasure is, there your heart will be also."
+  },
+  {
+    "en" : "Therefore you also be ready, for the Son of Man is coming at an hour you do not expect.”",
+    "cn" : "你们也要预备；因为你们想不到的时候，人子就来了。」",
+    "kr" : "이러므로 너희도 예비하고 있으라 생각지 않은 때에 인자가 오리라 하시니라 ",
+    "reference" : "Luke 12:40"
+  },
+  {
+    "reference" : "Luke 15:7",
+    "en" : "I say to you that likewise there will be more joy in heaven over one sinner who repents than over ninety-nine just persons who need no repentance.",
+    "kr" : "내가 너희에게 이르노니 이와 같이 죄인 하나가 회개하면 하늘에서는 회개할 것 없는 의인 아흔아홉을 인하여 기뻐하는 것보다 더하리라 ",
+    "cn" : "我告诉你们，一个罪人悔改，在天上也要这样为他欢喜，较比为九十九个不用悔改的义人欢喜更大。」"
+  },
+  {
+    "cn" : "我告诉你们，一个罪人悔改，在　神的使者面前也是这样为他欢喜。」",
+    "reference" : "Luke 15:10",
+    "en" : "Likewise, I say to you, there is joy in the presence of the angels of God over one sinner who repents.”",
+    "kr" : "내가 너희에게 이르노니 이와 같이 죄인 하나가 회개하면 하나님의 사자들 앞에 기쁨이 되느니라 "
+  },
+  {
+    "reference" : "Luke 15:32",
+    "kr" : "이 네 동생은 죽었다가 살았으며 내가 잃었다가 얻었기로 우리가 즐거워하고 기뻐하는 것이 마땅하다 하니라  ",
+    "en" : "It was right that we should make merry and be glad, for your brother was dead and is alive again, and was lost and is found.’ ”",
+    "cn" : "只是你这个兄弟是死而复活、失而又得的，所以我们理当欢喜快乐。』」"
+  },
+  {
+    "kr" : "지극히 작은 것에 충성된 자는 큰 것에도 충성되고 지극히 작은 것에 불의한 자는 큰 것에도 불의하니라 ",
+    "reference" : "Luke 16:10",
+    "cn" : "人在最小的事上忠心，在大事上也忠心；在最小的事上不义，在大事上也不义。",
+    "en" : "He who is faithful in what is least is faithful also in much; and he who is unjust in what is least is unjust also in much."
+  },
+  {
+    "kr" : "집 하인이 두 주인을 섬길 수 없나니 혹 이를 미워하고 저를 사랑하거나 혹 이를 중히 여기고 저를 경히 여길 것임이니라 너희가 하나님과 재물을 겸하여 섬길 수 없느니라 ",
+    "reference" : "Luke 16:13",
+    "cn" : "一个仆人不能事奉两个主；不是恶这个爱那个，就是重这个轻那个。你们不能又事奉　神，又事奉玛门。」",
+    "en" : "“No servant can serve two masters; for either he will hate the one and love the other, or else he will be loyal to the one and despise the other. You cannot serve God and mammon.”"
+  },
+  {
+    "cn" : "主说：「你们若有信心像一粒芥菜种，就是对这棵桑树说：『你要拔起根来，栽在海里』，它也必听从你们。",
+    "en" : "So the Lord said, “If you have faith as a mustard seed, you can say to this mulberry tree, ‘Be pulled up by the roots and be planted in the sea,’ and it would obey you.",
+    "kr" : "주께서 가라사대 너희에게 겨자씨 한 알만한 믿음이 있었더면 이 뽕나무더러 뿌리가 뽑혀 바다에 심기우라 하였을 것이요 그것이 너희에게 순종하였으리라 ",
+    "reference" : "Luke 17:6"
+  },
+  {
+    "cn" : "耶稣设一个比喻，是要人常常祷告，不可灰心。",
+    "en" : "Then He spoke a parable to them, that men always ought to pray and not lose heart,",
+    "reference" : "Luke 18:1",
+    "kr" : "항상 기도하고 낙망치 말아야 될 것을 저희에게 비유로 하여 "
+  },
+  {
+    "cn" : "耶稣说：「在人所不能的事，在　神却能。」",
+    "en" : "But He said, “The things which are impossible with men are possible with God.”",
+    "reference" : "Luke 18:27",
+    "kr" : "가라사대 무릇 사람의 할 수 없는 것을 하나님은 하실 수 있느니라 "
+  },
+  {
+    "en" : "for the Son of Man has come to seek and to save that which was lost.”",
+    "cn" : "人子来，为要寻找、拯救失丧的人。」",
+    "reference" : "Luke 19:10",
+    "kr" : "인자의 온 것은 잃어버린 자를 찾아 구원하려 함이니라 "
+  },
+  {
+    "reference" : "Luke 21:33",
+    "kr" : "천지는 없어지겠으나 내 말은 없어지지 아니하리라 ",
+    "cn" : "天地要废去，我的话却不能废去。」",
+    "en" : "Heaven and earth will pass away, but My words will by no means pass away."
+  },
+  {
+    "reference" : "Luke 22:19",
+    "kr" : "또 떡을 가져 사례하시고 떼어 저희에게 주시며 가라사대 이것은 너희를 위하여 주는 내 몸이라 너희가 이를 행하여 나를 기념하라 하시고 ",
+    "cn" : "又拿起饼来，祝谢了，就擘开，递给他们，说：「这是我的身体，为你们舍的，你们也应当如此行，为的是记念我。」",
+    "en" : "And He took bread, gave thanks and broke it, and gave it to them, saying, “This is My body which is given for you; do this in remembrance of Me.”"
+  },
+  {
+    "en" : "Then Jesus said, “Father, forgive them, for they do not know what they do.” And they divided His garments and cast lots.",
+    "cn" : "当下耶稣说：「父啊！赦免他们；因为他们所做的，他们不晓得。」[兵丁]就拈阄分他的衣服。",
+    "kr" : "이에 예수께서 가라사대 아버지여 저희를 사하여 주옵소서 자기의 하는 것을 알지 못함이니이다 하시더라 저희가 그의 옷을 나눠 제비 뽑을새 ",
+    "reference" : "Luke 23:34"
+  },
+  {
+    "reference" : "Luke 23:43",
+    "en" : "And Jesus said to him, “Assuredly, I say to you, today you will be with Me in Paradise.”",
+    "kr" : "예수께서 이르시되 내가 진실로 네게 이르노니 오늘 네가 나와 함께 낙원에 있으리라 하시니라 ",
+    "cn" : "耶稣对他说：「我实在告诉你，今日你要同我在乐园里了。」"
+  },
+  {
+    "en" : "In the beginning was the Word, and the Word was with God, and the Word was God.",
+    "cn" : "太初有道，道与　神同在，道就是　神。",
+    "kr" : "태초에 말씀이 계시니라 이 말씀이 하나님과 함께 계셨으니 이 말씀은 곧 하나님이시니라 ",
+    "reference" : "John 1:1"
+  },
+  {
+    "kr" : "그 안에 생명이 있었으니 이 생명은 사람들의 빛이라 ",
+    "reference" : "John 1:4",
+    "cn" : "生命在他里头，这生命就是人的光。",
+    "en" : "In Him was life, and the life was the light of men."
+  },
+  {
+    "reference" : "John 1:12",
+    "cn" : "凡接待他的，就是信他名的人，他就赐他们权柄作　神的儿女。",
+    "en" : "But as many as received Him, to them He gave the right to become children of God, to those who believe in His name:",
+    "kr" : "영접하는 자 곧 그 이름을 믿는 자들에게는 하나님의 자녀가 되는 권세를 주셨으니 "
+  },
+  {
+    "en" : "And the Word became flesh and dwelt among us, and we beheld His glory, the glory as of the only begotten of the Father, full of grace and truth.",
+    "cn" : "道成了肉身，住在我们中间，充充满满地有恩典有真理。我们也见过他的荣光，正是父独生子的荣光。",
+    "reference" : "John 1:14",
+    "kr" : "말씀이 육신이 되어 우리 가운데 거하시매 우리가 그 영광을 보니 아버지의 독생자의 영광이요 은혜와 진리가 충만하더라 "
+  },
+  {
+    "reference" : "John 1:29",
+    "kr" : "이튿날 요한이 예수께서 자기에게 나아오심을 보고 가로되 보라 세상 죄를 지고 가는 하나님의 어린 양이로다 ",
+    "cn" : "次日，约翰看见耶稣来到他那里，就说：「看哪，　神的羔羊，除去世人罪孽的！",
+    "en" : "The next day John saw Jesus coming toward him, and said, “Behold! The Lamb of God who takes away the sin of the world!"
+  },
+  {
+    "reference" : "John 3:3",
+    "cn" : "耶稣回答说：「我实实在在地告诉你，人若不重生，就不能见　神的国。」",
+    "kr" : "예수께서 대답하여 가라사대 진실로 진실로 네게 이르노니 사람이 거듭나지 아니하면 하나님 나라를 볼 수 없느니라 ",
+    "en" : "Jesus answered and said to him, “Most assuredly, I say to you, unless one is born again, he cannot see the kingdom of God.”"
+  },
+  {
+    "en" : "For God so loved the world that He gave His only begotten Son, that whoever believes in Him should not perish but have everlasting life.",
+    "kr" : "하나님이 세상을 이처럼 사랑하사 독생자를 주셨으니 이는 저를 믿는 자마다 멸망치 않고 영생을 얻게 하려 하심이니라 ",
+    "cn" : "「　神爱世人，甚至将他的独生子赐给[他们]，叫一切信他的，不致灭亡，反得永生。",
+    "reference" : "John 3:16"
+  },
+  {
+    "cn" : "因为　神差他的儿子降世，不是要定世人的罪，乃是要叫世人因他得救。",
+    "kr" : "하나님이 그 아들을 세상에 보내신 것은 세상을 심판하려 하심이 아니요 저로 말미암아 세상이 구원을 받게 하려 하심이라 ",
+    "reference" : "John 3:17",
+    "en" : "For God did not send His Son into the world to condemn the world, but that the world through Him might be saved."
+  },
+  {
+    "kr" : "그는 흥하여야 하겠고 나는 쇠하여야 하리라 하니라 ",
+    "reference" : "John 3:30",
+    "cn" : "他必兴旺，我必衰微。」",
+    "en" : "He must increase, but I must decrease."
+  },
+  {
+    "en" : "but whoever drinks of the water that I shall give him will never thirst. But the water that I shall give him will become in him a fountain of water springing up into everlasting life.”",
+    "reference" : "John 4:14",
+    "cn" : "人若喝我所赐的水就永远不渴。我所赐的水要在他里头成为泉源，直涌到永生。」",
+    "kr" : "내가 주는 물을 먹는 자는 영원히 목마르지 아니하리니 나의 주는 물은 그 속에서 영생하도록 솟아나는 샘물이 되리라 "
+  },
+  {
+    "kr" : "하나님은 영이시니 예배하는 자가 신령과 진정으로 예배할지니라 ",
+    "reference" : "John 4:24",
+    "cn" : "神是个灵，所以拜他的必须用心灵和诚实拜他。",
+    "en" : "God is Spirit, and those who worship Him must worship in spirit and truth.”"
+  },
+  {
+    "kr" : "내가 진실로 진실로 너희에게 이르노니 내 말을 듣고 또 나 보내신 이를 믿는 자는 영생을 얻었고 심판에 이르지 아니하나니 사망에서 생명으로 옮겼느니라 ",
+    "en" : "“Most assuredly, I say to you, he who hears My word and believes in Him who sent Me has everlasting life, and shall not come into judgment, but has passed from death into life.",
+    "cn" : "我实实在在地告诉你们，那听我话、又信差我来者的，就有永生；不至于定罪，是已经出死入生了。",
+    "reference" : "John 5:24"
+  },
+  {
+    "reference" : "John 6:35",
+    "cn" : "耶稣说：「我就是生命的粮。到我这里来的，必定不饿；信我的，永远不渴。",
+    "kr" : "예수께서 가라사대 내가 곧 생명의 떡이니 내게 오는 자는 결코 주리지 아니할 터이요 나를 믿는 자는 영원히 목마르지 아니하리라 ",
+    "en" : "And Jesus said to them, “I am the bread of life. He who comes to Me shall never hunger, and he who believes in Me shall never thirst."
+  },
+  {
+    "cn" : "凡父所赐给我的人必到我这里来；到我这里来的，我总不丢弃他。",
+    "kr" : "아버지께서 내게 주시는 자는 다 내게로 올 것이요 내게 오는 자는 내가 결코 내어 쫓지 아니하리라 ",
+    "en" : "All that the Father gives Me will come to Me, and the one who comes to Me I will by no means cast out.",
+    "reference" : "John 6:37"
+  },
+  {
+    "reference" : "John 6:63",
+    "en" : "It is the Spirit who gives life; the flesh profits nothing. The words that I speak to you are spirit, and they are life.",
+    "cn" : "叫人活着的乃是灵，肉体是无益的。我对你们所说的话就是灵，就是生命。",
+    "kr" : "살리는 것은 영이니 육은 무익하니라 내가 너희에게 이른 말이 영이요 생명이라 "
+  },
+  {
+    "cn" : "信我的人就如经上所说：『从他腹中要流出活水的江河来。』」",
+    "kr" : "나를 믿는 자는 성경에 이름과 같이 그 배에서 생수의 강이 흘러나리라 하시니 ",
+    "reference" : "John 7:38",
+    "en" : "He who believes in Me, as the Scripture has said, out of his heart will flow rivers of living water.”"
+  },
+  {
+    "reference" : "John 8:12",
+    "cn" : "耶稣又对众人说：「我是世界的光。跟从我的，就不在黑暗里走，必要得着生命的光。」",
+    "kr" : "예수께서 또 일러 가라사대 나는 세상의 빛이니 나를 따르는 자는 어두움에 다니지 아니하고 생명의 빛을 얻으리라 ",
+    "en" : "Then Jesus spoke to them again, saying, “I am the light of the world. He who follows Me shall not walk in darkness, but have the light of life.”"
+  },
+  {
+    "reference" : "John 8:31",
+    "kr" : "그러므로 예수께서 자기를 믿은 유대인들에게 이르시되 너희가 내 말에 거하면 참 내 제자가 되고 ",
+    "en" : "Then Jesus said to those Jews who believed Him, “If you abide in My word, you are My disciples indeed.",
+    "cn" : "耶稣对信他的犹太人说：「你们若常常遵守我的道，就真是我的门徒；"
+  },
+  {
+    "en" : "And you shall know the truth, and the truth shall make you free.”",
+    "cn" : "你们必晓得真理，真理必叫你们得以自由。」",
+    "reference" : "John 8:32",
+    "kr" : "진리를 알지니 진리가 너희를 자유케 하리라 "
+  },
+  {
+    "kr" : "그러므로 아들이 너희를 자유케 하면 너희가 참으로 자유하리라 ",
+    "reference" : "John 8:36",
+    "cn" : "所以[天父的]儿子若叫你们自由，你们就真自由了。",
+    "en" : "Therefore if the Son makes you free, you shall be free indeed."
+  },
+  {
+    "kr" : "도적이 오는 것은 도적질하고 죽이고 멸망시키려는 것뿐이요 내가 온 것은 양으로 생명을 얻게 하고 더 풍성히 얻게 하려는 것이라 ",
+    "reference" : "John 10:10",
+    "en" : "The thief does not come except to steal, and to kill, and to destroy. I have come that they may have life, and that they may have it more abundantly.",
+    "cn" : "盗贼来，无非要偷窃，杀害，毁坏；我来了，是要叫羊得生命，并且得的更丰盛。"
+  },
+  {
+    "kr" : "나는 선한 목자라 선한 목자는 양들을 위하여 목숨을 버리거니와 ",
+    "en" : "“I am the good shepherd. The good shepherd gives His life for the sheep.",
+    "cn" : "我是好牧人；好牧人为羊舍命。",
+    "reference" : "John 10:11"
+  },
+  {
+    "cn" : "我的羊听我的声音，我也认识他们，他们也跟着我。",
+    "reference" : "John 10:27",
+    "en" : "My sheep hear My voice, and I know them, and they follow Me.",
+    "kr" : "내 양은 내 음성을 들으며 나는 저희를 알며 저희는 나를 따르느니라 "
+  },
+  {
+    "en" : "And I give them eternal life, and they shall never perish; neither shall anyone snatch them out of My hand.",
+    "kr" : "내가 저희에게 영생을 주노니 영원히 멸망치 아니할 터이요 또 저희를 내 손에서 빼앗을 자가 없느니라 ",
+    "cn" : "我又赐给他们永生；他们永不灭亡，谁也不能从我手里把他们夺去。",
+    "reference" : "John 10:28"
+  },
+  {
+    "reference" : "John 10:29",
+    "en" : "My Father, who has given them to Me, is greater than all; and no one is able to snatch them out of My Father’s hand.",
+    "cn" : "我父把羊赐给我，他比万有都大，谁也不能从我父手里把他们夺去。",
+    "kr" : "저희를 주신 내 아버지는 만유보다 크시매 아무도 아버지 손에서 빼앗을 수 없느니라 "
+  },
+  {
+    "reference" : "John 11:25",
+    "en" : "Jesus said to her, “I am the resurrection and the life. He who believes in Me, though he may die, he shall live.",
+    "cn" : "耶稣对她说：「复活在我，生命也在我。信我的人虽然死了，也必复活；",
+    "kr" : "예수께서 가라사대 나는 부활이요 생명이니 나를 믿는 자는 죽어도 살겠고 "
+  },
+  {
+    "en" : "And whoever lives and believes in Me shall never die. Do you believe this?”",
+    "kr" : "무릇 살아서 나를 믿는 자는 영원히 죽지 아니하리니 이것을 네가 믿느냐 ",
+    "reference" : "John 11:26",
+    "cn" : "凡活着信我的人必永远不死。你信这话吗？」"
+  },
+  {
+    "cn" : "耶稣哭了。",
+    "reference" : "John 11:35",
+    "kr" : "예수께서 눈물을 흘리시더라 ",
+    "en" : "Jesus wept."
+  },
+  {
+    "en" : "I have come as a light into the world, that whoever believes in Me should not abide in darkness.",
+    "cn" : "我到世上来，乃是光，叫凡信我的，不住在黑暗里。",
+    "kr" : "나는 빛으로 세상에 왔나니 무릇 나를 믿는 자로 어두움에 거하지 않게 하려 함이로라 ",
+    "reference" : "John 12:46"
+  },
+  {
+    "cn" : "我赐给你们一条新命令，乃是叫你们彼此相爱；我怎样爱你们，你们也要怎样相爱。",
+    "reference" : "John 13:34",
+    "kr" : "새 계명을 너희에게 주노니 서로 사랑하라 내가 너희를 사랑한 것 같이 너희도 서로 사랑하라 ",
+    "en" : "A new commandment I give to you, that you love one another; as I have loved you, that you also love one another."
+  },
+  {
+    "cn" : "你们若有彼此相爱的心，众人因此就认出你们是我的门徒了。」",
+    "kr" : "너희가 서로 사랑하면 이로써 모든 사람이 너희가 내 제자인 줄 알리라 ",
+    "reference" : "John 13:35",
+    "en" : "By this all will know that you are My disciples, if you have love for one another.”"
+  },
+  {
+    "cn" : "「你们心里不要忧愁；你们信　神，也当信我。",
+    "en" : "“Let not your heart be troubled; you believe in God, believe also in Me.",
+    "kr" : "너희는 마음에 근심하지 말라 하나님을 믿으니 또 나를 믿으라 ",
+    "reference" : "John 14:1"
+  },
+  {
+    "cn" : "在我父的家里有许多住处；若是没有，我就早已告诉你们了。我去原是为你们预备地方去。",
+    "kr" : "내 아버지 집에 거할 곳이 많도다 그렇지 않으면 너희에게 일렀으리라 내가 너희를 위하여 처소를 예비하러 가노니 ",
+    "reference" : "John 14:2",
+    "en" : "In My Father’s house are many mansions; if it were not so, I would have told you. I go to prepare a place for you."
+  },
+  {
+    "reference" : "John 14:6",
+    "cn" : "耶稣说：「我就是道路、真理、生命；若不借着我，没有人能到父那里去。",
+    "en" : "Jesus said to him, “I am the way, the truth, and the life. No one comes to the Father except through Me.",
+    "kr" : "예수께서 가라사대 내가 곧 길이요 진리요 생명이니 나로 말미암지 않고는 아버지께로 올 자가 없느니라 "
+  },
+  {
+    "reference" : "John 14:13",
+    "kr" : "너희가 내 이름으로 무엇을 구하든지 내가 시행하리니 이는 아버지로 하여금 아들을 인하여 영광을 얻으시게 하려 함이라 ",
+    "en" : "And whatever you ask in My name, that I will do, that the Father may be glorified in the Son.",
+    "cn" : "你们奉我的名无论求什么，我必成就，叫父因儿子得荣耀。"
+  },
+  {
+    "reference" : "John 14:14",
+    "cn" : "你们若奉我的名求什么，我必成就。」",
+    "kr" : "내 이름으로 무엇이든지 내게 구하면 내가 시행하리라 ",
+    "en" : "If you ask anything in My name, I will do it."
+  },
+  {
+    "reference" : "John 14:15",
+    "en" : "“If you love Me, keep My commandments.",
+    "cn" : "「你们若爱我，就必遵守我的命令。",
+    "kr" : "너희가 나를 사랑하면 나의 계명을 지키리라 "
+  },
+  {
+    "cn" : "我要求父，父就另外赐给你们一位保惠师，叫他永远与你们同在，",
+    "kr" : "내가 아버지께 구하겠으니 그가 또 다른 보혜사를 너희에게 주사 영원토록 너희와 함께 있게 하시리니 ",
+    "en" : "And I will pray the Father, and He will give you another Helper, that He may abide with you forever—",
+    "reference" : "John 14:16"
+  },
+  {
+    "kr" : "보혜사 곧 아버지께서 내 이름으로 보내실 성령 그가 너희에게 모든 것을 가르치시고 내가 너희에게 말한 모든 것을 생각나게 하시리라 ",
+    "cn" : "但保惠师，就是父因我的名所要差来的圣灵，他要将一切的事指教你们，并且要叫你们想起我对你们所说的一切话。",
+    "reference" : "John 14:26",
+    "en" : "But the Helper, the Holy Spirit, whom the Father will send in My name, He will teach you all things, and bring to your remembrance all things that I said to you."
+  },
+  {
+    "cn" : "我留下平安给你们；我将我的平安赐给你们。我所赐的，不像世人所赐的。你们心里不要忧愁，也不要胆怯。",
+    "kr" : "평안을 너희에게 끼치노니 곧 나의 평안을 너희에게 주노라 내가 너희에게 주는 것은 세상이 주는 것 같지 아니하니라 너희는 마음에 근심도 말고 두려워하지도 말라 ",
+    "en" : "Peace I leave with you, My peace I give to you; not as the world gives do I give to you. Let not your heart be troubled, neither let it be afraid.",
+    "reference" : "John 14:27"
+  },
+  {
+    "reference" : "John 15:1",
+    "cn" : "「我是真葡萄树，我父是栽培的人。",
+    "en" : "“I am the true vine, and My Father is the vinedresser.",
+    "kr" : "내가 참 포도나무요 내 아버지는 그 농부라 "
+  },
+  {
+    "reference" : "John 15:4",
+    "cn" : "你们要常在我里面，我也常在你们里面。枝子若不常在葡萄树上，自己就不能结果子；你们若不常在我里面，也是这样。",
+    "en" : "Abide in Me, and I in you. As the branch cannot bear fruit of itself, unless it abides in the vine, neither can you, unless you abide in Me.",
+    "kr" : "내 안에 거하라 나도 너희 안에 거하리라 가지가 포도나무에 붙어 있지 아니하면 절로 과실을 맺을 수 없음 같이 너희도 내 안에 있지 아니하면 그러하리라 "
+  },
+  {
+    "cn" : "我是葡萄树，你们是枝子。常在我里面的，我也常在他里面，这人就多结果子；因为离了我，你们就不能做什么。",
+    "reference" : "John 15:5",
+    "en" : "“I am the vine, you are the branches. He who abides in Me, and I in him, bears much fruit; for without Me you can do nothing.",
+    "kr" : "나는 포도나무요 너희는 가지니 저가 내 안에, 내가 저 안에 있으면 이 사람은 과실을 많이 맺나니 나를 떠나서는 너희가 아무 것도 할 수 없음이라 "
+  },
+  {
+    "kr" : "너희가 내 안에 거하고 내 말이 너희 안에 거하면 무엇이든지 원하는 대로 구하라 그리하면 이루리라 ",
+    "en" : "If you abide in Me, and My words abide in you, you will ask what you desire, and it shall be done for you.",
+    "reference" : "John 15:7",
+    "cn" : "你们若常在我里面，我的话也常在你们里面，凡你们所愿意的，祈求，就给你们成就。"
+  },
+  {
+    "cn" : "我爱你们，正如父爱我一样；你们要常在我的爱里。",
+    "reference" : "John 15:9",
+    "kr" : "아버지께서 나를 사랑하신 것 같이 나도 너희를 사랑하였으니 나의 사랑 안에 거하라 ",
+    "en" : "“As the Father loved Me, I also have loved you; abide in My love."
+  },
+  {
+    "en" : "“These things I have spoken to you, that My joy may remain in you, and that your joy may be full.",
+    "reference" : "John 15:11",
+    "cn" : "「这些事我已经对你们说了，是要叫我的喜乐存在你们心里，并叫你们的喜乐可以满足。",
+    "kr" : "내가 이것을 너희에게 이름은 내 기쁨이 너희 안에 있어 너희 기쁨을 충만하게 하려 함이니라 "
+  },
+  {
+    "kr" : "내 계명은 곧 내가 너희를 사랑한 것 같이 너희도 서로 사랑하라 하는 이것이니라 ",
+    "reference" : "John 15:12",
+    "cn" : "你们要彼此相爱，像我爱你们一样；这就是我的命令。",
+    "en" : "This is My commandment, that you love one another as I have loved you."
+  },
+  {
+    "en" : "Greater love has no one than this, than to lay down one’s life for his friends.",
+    "cn" : "人为朋友舍命，人的爱心没有比这个大的。",
+    "reference" : "John 15:13",
+    "kr" : "사람이 친구를 위하여 자기 목숨을 버리면 이에서 더 큰 사랑이 없나니 "
+  },
+  {
+    "kr" : "너희가 나를 택한 것이 아니요 내가 너희를 택하여 세웠나니 이는 너희로 가서 과실을 맺게 하고 또 너희 과실이 항상 있게 하여 내 이름으로 아버지께 무엇을 구하든지 다 받게 하려 함이니라 ",
+    "cn" : "不是你们拣选了我，是我拣选了你们，并且分派你们去结果子，叫你们的果子常存，使你们奉我的名，无论向父求什么，他就赐给你们。",
+    "en" : "You did not choose Me, but I chose you and appointed you that you should go and bear fruit, and that your fruit should remain, that whatever you ask the Father in My name He may give you.",
+    "reference" : "John 15:16"
+  },
+  {
+    "cn" : "然而，我将真情告诉你们，我去是与你们有益的；我若不去，保惠师就不到你们这里来；我若去，就差他来。",
+    "kr" : "그러하나 내가 너희에게 실상을 말하노니 내가 떠나가는 것이 너희에게 유익이라 내가 떠나가지 아니하면 보혜사가 너희에게로 오시지 아니할 것이요 가면 내가 그를 너희에게로 보내리니 ",
+    "reference" : "John 16:7",
+    "en" : "Nevertheless I tell you the truth. It is to your advantage that I go away; for if I do not go away, the Helper will not come to you; but if I depart, I will send Him to you."
+  },
+  {
+    "reference" : "John 16:13",
+    "cn" : "只等真理的圣灵来了，他要引导你们明白一切的真理；因为他不是凭自己说的，乃是把他所听见的都说出来，并要把将来的事告诉你们。",
+    "en" : "However, when He, the Spirit of truth, has come, He will guide you into all truth; for He will not speak on His own authority, but whatever He hears He will speak; and He will tell you things to come.",
+    "kr" : "그러하나 진리의 성령이 오시면 그가 너희를 모든 진리 가운데로 인도하시리니 그가 자의로 말하지 않고 오직 듣는 것을 말하시며 장래 일을 너희에게 알리시리라 "
+  },
+  {
+    "en" : "Most assuredly, I say to you that you will weep and lament, but the world will rejoice; and you will be sorrowful, but your sorrow will be turned into joy.",
+    "cn" : "我实实在在地告诉你们，你们将要痛哭、哀号，世人倒要喜乐；你们将要忧愁，然而你们的忧愁要变为喜乐。",
+    "kr" : "내가 진실로 진실로 너희에게 이르노니 너희는 곡하고 애통하겠으나 세상은 기뻐하리라 너희는 근심하겠으나 너희 근심이 도리어 기쁨이 되리라 ",
+    "reference" : "John 16:20"
+  },
+  {
+    "cn" : "你们现在也是忧愁，但我要再见你们，你们的心就喜乐了；这喜乐也没有人能夺去。",
+    "reference" : "John 16:22",
+    "kr" : "지금은 너희가 근심하나 내가 다시 너희를 보리니 너희 마음이 기쁠 것이요 너희 기쁨을 빼앗을 자가 없느니라 ",
+    "en" : "Therefore you now have sorrow; but I will see you again and your heart will rejoice, and your joy no one will take from you."
+  },
+  {
+    "cn" : "向来你们没有奉我的名求什么，如今你们求，就必得着，叫你们的喜乐可以满足。」",
+    "kr" : "지금까지는 너희가 내 이름으로 아무 것도 구하지 아니하였으나 구하라 그리하면 받으리니 너희 기쁨이 충만하리라 ",
+    "en" : "Until now you have asked nothing in My name. Ask, and you will receive, that your joy may be full.",
+    "reference" : "John 16:24"
+  },
+  {
+    "reference" : "John 16:33",
+    "en" : "These things I have spoken to you, that in Me you may have peace. In the world you will have tribulation; but be of good cheer, I have overcome the world.”",
+    "cn" : "我将这些事告诉你们，是要叫你们在我里面有平安。在世上，你们有苦难；但你们可以放心，我已经胜了世界。」",
+    "kr" : "이것을 너희에게 이름은 너희로 내 안에서 평안을 누리게 하려 함이라 세상에서는 너희가 환난을 당하나 담대하라 내가 세상을 이기었노라 하시니라  "
+  },
+  {
+    "en" : "Sanctify them by Your truth. Your word is truth.",
+    "cn" : "求你用真理使他们成圣；你的道就是真理。",
+    "kr" : "저희를 진리로 거룩하게 하옵소서 아버지의 말씀은 진리니이다 ",
+    "reference" : "John 17:17"
+  },
+  {
+    "kr" : "예수께서 가라사대 너는 나를 본 고로 믿느냐 보지 못하고 믿는 자들은 복되도다 하시니라 ",
+    "en" : "Jesus said to him, “Thomas, because you have seen Me, you have believed. Blessed are those who have not seen and yet have believed.”",
+    "reference" : "John 20:29",
+    "cn" : "耶稣对他说：「你因看见了我才信；那没有看见就信的有福了。」"
+  },
+  {
+    "en" : "But you shall receive power when the Holy Spirit has come upon you; and you shall be witnesses to Me in Jerusalem, and in all Judea and Samaria, and to the end of the earth.”",
+    "cn" : "但圣灵降临在你们身上，你们就必得着能力，并要在耶路撒冷、犹太全地，和撒马利亚，直到地极，作我的见证。」",
+    "kr" : "오직 성령이 너희에게 임하시면 너희가 권능을 받고 예루살렘과 온 유대와 사마리아 땅 끝까지 이르러 내 증인이 되리라 하시니라 ",
+    "reference" : "Acts 1:8"
+  },
+  {
+    "reference" : "Acts 2:21",
+    "en" : "And it shall come to pass That whoever calls on the name of the Lord Shall be saved.’",
+    "cn" : "到那时候， 凡求告主名的，就必得救。",
+    "kr" : "누구든지 주의 이름을 부르는 자는 구원을 얻으리라 하였느니라 "
+  },
+  {
+    "cn" : "彼得说：「你们各人要悔改，奉耶稣基督的名受洗，叫你们的罪得赦，就必领受所赐的圣灵；",
+    "reference" : "Acts 2:38",
+    "kr" : "베드로가 가로되 너희가 회개하여 각각 예수 그리스도의 이름으로 침례를 받고 죄 사함을 얻으라 그리하면 성령을 선물로 받으리니 ",
+    "en" : "Then Peter said to them, “Repent, and let every one of you be baptized in the name of Jesus Christ for the remission of sins; and you shall receive the gift of the Holy Spirit."
+  },
+  {
+    "kr" : "다른 이로서는 구원을 얻을 수 없나니 천하 인간에 구원을 얻을 만한 다른 이름을 우리에게 주신 일이 없음이니라 하였더라 ",
+    "reference" : "Acts 4:12",
+    "en" : "Nor is there salvation in any other, for there is no other name under heaven given among men by which we must be saved.”",
+    "cn" : "除他以外，别无拯救；因为在天下人间，没有赐下别的名，我们可以靠着得救。」"
+  },
+  {
+    "en" : "Then Peter opened his mouth and said: “In truth I perceive that God shows no partiality.",
+    "kr" : "베드로가 입을 열어 가로되 내가 참으로 하나님은 사람의 외모를 취하지 아니하시고 ",
+    "cn" : "彼得就开口说：「我真看出　神是不偏待人。",
+    "reference" : "Acts 10:34"
+  },
+  {
+    "cn" : "他们说：「当信主耶稣，你和你一家都必得救。」",
+    "kr" : "가로되 주 예수를 믿으라 그리하면 너와 네 집이 구원을 얻으리라 하고 ",
+    "reference" : "Acts 16:31",
+    "en" : "So they said, “Believe on the Lord Jesus Christ, and you will be saved, you and your household.”"
+  },
+  {
+    "kr" : "베뢰아 사람은 데살로니가에 있는 사람보다 더 신사적이어서 간절한 마음으로 말씀을 받고 이것이 그러한가 하여 날마다 성경을 상고하므로 ",
+    "cn" : "这地方的人贤于帖撒罗尼迦的人，甘心领受这道，天天考查圣经，要晓得这道是与不是。",
+    "en" : "These were more fair-minded than those in Thessalonica, in that they received the word with all readiness, and searched the Scriptures daily to find out whether these things were so.",
+    "reference" : "Acts 17:11"
+  },
+  {
+    "en" : "for in Him we live and move and have our being, as also some of your own poets have said, ‘For we are also His offspring.’",
+    "reference" : "Acts 17:28",
+    "kr" : "우리가 그를 힘입어 살며 기동하며 있느니라 너희 시인 중에도 어떤 사람들의 말과 같이 우리가 그의 소생이라 하니 ",
+    "cn" : "我们生活、动作、存留，都在乎他。就如你们作诗的，有人说：『我们也是他所生的。』"
+  },
+  {
+    "en" : "I have shown you in every way, by laboring like this, that you must support the weak. And remember the words of the Lord Jesus, that He said, ‘It is more blessed to give than to receive.’ ”",
+    "kr" : "범사에 너희에게 모본을 보였노니 곧 이같이 수고하여 약한 사람들을 돕고 또 주 예수의 친히 말씀하신 바 주는 것이 받는 것보다 복이 있다 하심을 기억하여야 할지니라 ",
+    "cn" : "我凡事给你们作榜样，叫你们知道应当这样劳苦，扶助软弱的人，又当记念主耶稣的话，说：『施比受更为有福。』」",
+    "reference" : "Acts 20:35"
+  },
+  {
+    "kr" : "내가 복음을 부끄러워하지 아니하노니 이 복음은 모든 믿는 자에게 구원을 주시는 하나님의 능력이 됨이라 첫째는 유대인에게요 또한 헬라인에게로다 ",
+    "reference" : "Romans 1:16",
+    "en" : "For I am not ashamed of the gospel of Christ, for it is the power of God to salvation for everyone who believes, for the Jew first and also for the Greek.",
+    "cn" : "我不以福音为耻；这福音本是　神的大能，要救一切相信的，先是犹太人，后是希腊人。"
+  },
+  {
+    "cn" : "自从造天地以来，　神的永能和神性是明明可知的，虽是眼不能见，但借着所造之物就可以晓得，叫人无可推诿。",
+    "kr" : "창세로부터 그의 보이지 아니하는 것들 곧 그의 영원하신 능력과 신성이 그 만드신 만물에 분명히 보여 알게 되나니 그러므로 저희가 핑계치 못할지니라 ",
+    "reference" : "Romans 1:20",
+    "en" : "For since the creation of the world His invisible attributes are clearly seen, being understood by the things that are made, even His eternal power and Godhead, so that they are without excuse,"
+  },
+  {
+    "cn" : "因为世人都犯了罪，亏缺了　神的荣耀；",
+    "kr" : "모든 사람이 죄를 범하였으매 하나님의 영광에 이르지 못하더니 ",
+    "reference" : "Romans 3:23",
+    "en" : "for all have sinned and fall short of the glory of God,"
+  },
+  {
+    "cn" : "我们既因信称义，就借着我们的主耶稣基督得与　神相和。",
+    "en" : "Therefore, having been justified by faith, we have peace with God through our Lord Jesus Christ,",
+    "reference" : "Romans 5:1",
+    "kr" : "그러므로 우리가 믿음으로 의롭다 하심을 얻었은즉 우리 주 예수 그리스도로 말미암아 하나님으로 더불어 화평을 누리자 "
+  },
+  {
+    "cn" : "不但如此，就是在患难中也是欢欢喜喜的；因为知道患难生忍耐，",
+    "kr" : "다만 이뿐 아니라 우리가 환난 중에도 즐거워하나니 이는 환난은 인내를, ",
+    "reference" : "Romans 5:3",
+    "en" : "And not only that, but we also glory in tribulations, knowing that tribulation produces perseverance;"
+  },
+  {
+    "kr" : "소망이 부끄럽게 아니함은 우리에게 주신 성령으로 말미암아 하나님의 사랑이 우리 마음에 부은 바 됨이니 ",
+    "cn" : "盼望不至于羞耻，因为所赐给我们的圣灵将　神的爱浇灌在我们心里。",
+    "reference" : "Romans 5:5",
+    "en" : "Now hope does not disappoint, because the love of God has been poured out in our hearts by the Holy Spirit who was given to us."
+  },
+  {
+    "reference" : "Romans 5:8",
+    "en" : "But God demonstrates His own love toward us, in that while we were still sinners, Christ died for us.",
+    "cn" : "惟有基督在我们还作罪人的时候为我们死，　神的爱就在此向我们显明了。",
+    "kr" : "우리가 아직 죄인 되었을 때에 그리스도께서 우리를 위하여 죽으심으로 하나님께서 우리에게 대한 자기의 사랑을 확증하셨느니라 "
+  },
+  {
+    "en" : "What shall we say then? Shall we continue in sin that grace may abound?",
+    "reference" : "Romans 6:1",
+    "kr" : "그런즉 우리가 무슨 말 하리요 은혜를 더하게 하려고 죄에 거하겠느뇨 ",
+    "cn" : "这样，怎么说呢？我们可以仍在罪中、叫恩典显多吗？"
+  },
+  {
+    "reference" : "Romans 6:11",
+    "en" : "Likewise you also, reckon yourselves to be dead indeed to sin, but alive to God in Christ Jesus our Lord.",
+    "kr" : "이와 같이 너희도 너희 자신을 죄에 대하여는 죽은 자요 그리스도 예수 안에서 하나님을 대하여는 산 자로 여길지어다 ",
+    "cn" : "这样，你们向罪也当看自己是死的；向　神在基督耶稣里，却当看自己是活的。"
+  },
+  {
+    "en" : "For the wages of sin is death, but the gift of God is eternal life in Christ Jesus our Lord.",
+    "cn" : "因为罪的工价乃是死；惟有　神的恩赐，在我们的主基督耶稣里，乃是永生。",
+    "kr" : "죄의 삯은 사망이요 하나님의 은사는 그리스도 예수 우리 주 안에 있는 영생이니라  ",
+    "reference" : "Romans 6:23"
+  },
+  {
+    "reference" : "Romans 8:1",
+    "cn" : "如今，那些在基督耶稣里的就不定罪了。",
+    "kr" : "그러므로 이제 그리스도 예수 안에 있는 자에게는 결코 정죄함이 없나니 ",
+    "en" : "There is therefore now no condemnation to those who are in Christ Jesus, who do not walk according to the flesh, but according to the Spirit."
+  },
+  {
+    "en" : "For to be carnally minded is death, but to be spiritually minded is life and peace.",
+    "cn" : "体贴肉体的，就是死；体贴[圣]灵的，乃是生命、平安。",
+    "kr" : "육신의 생각은 사망이요 영의 생각은 생명과 평안이니라 ",
+    "reference" : "Romans 8:6"
+  },
+  {
+    "reference" : "Romans 8:18",
+    "kr" : "생각건대 현재의 고난은 장차 우리에게 나타날 영광과 족히 비교할 수 없도다 ",
+    "cn" : "我想，现在的苦楚若比起将来要显于我们的荣耀就不足介意了。",
+    "en" : "For I consider that the sufferings of this present time are not worthy to be compared with the glory which shall be revealed in us."
+  },
+  {
+    "reference" : "Romans 8:26",
+    "kr" : "이와 같이 성령도 우리 연약함을 도우시나니 우리가 마땅히 빌 바를 알지 못하나 오직 성령이 말할 수 없는 탄식으로 우리를 위하여 친히 간구하시느니라 ",
+    "en" : "Likewise the Spirit also helps in our weaknesses. For we do not know what we should pray for as we ought, but the Spirit Himself makes intercession for us with groanings which cannot be uttered.",
+    "cn" : "况且，我们的软弱有[圣]灵帮助；我们本不晓得当怎样祷告，只是[圣]灵亲自用说不出来的叹息替我们祷告。"
+  },
+  {
+    "en" : "And we know that all things work together for good to those who love God, to those who are the called according to His purpose.",
+    "reference" : "Romans 8:28",
+    "kr" : "우리가 알거니와 하나님을 사랑하는 자 곧 그 뜻대로 부르심을 입은 자들에게는 모든 것이 합력하여 선을 이루느니라 ",
+    "cn" : "我们晓得万事都互相效力，叫爱　神的人得益处，就是按他旨意被召的人。"
+  },
+  {
+    "kr" : "그런즉 이 일에 대하여 우리가 무슨 말 하리요 만일 하나님이 우리를 위하시면 누가 우리를 대적하리요 ",
+    "en" : "What then shall we say to these things? If God is for us, who can be against us?",
+    "reference" : "Romans 8:31",
+    "cn" : "既是这样，还有什么说的呢？　神若帮助我们，谁能敌挡我们呢？"
+  },
+  {
+    "cn" : "神既不爱惜自己的儿子，为我们众人舍了，岂不也把万物和他一同白白地赐给我们吗？",
+    "reference" : "Romans 8:32",
+    "kr" : "자기 아들을 아끼지 아니하시고 우리 모든 사람을 위하여 내어 주신 이가 어찌 그 아들과 함께 모든 것을 우리에게 은사로 주지 아니하시겠느뇨 ",
+    "en" : "He who did not spare His own Son, but delivered Him up for us all, how shall He not with Him also freely give us all things?"
+  },
+  {
+    "reference" : "Romans 8:35",
+    "en" : "Who shall separate us from the love of Christ? Shall tribulation, or distress, or persecution, or famine, or nakedness, or peril, or sword?",
+    "kr" : "누가 우리를 그리스도의 사랑에서 끊으리요 환난이나 곤고나 핍박이나 기근이나 적신이나 위협이나 칼이랴 ",
+    "cn" : "谁能使我们与基督的爱隔绝呢？难道是患难吗？是困苦吗？是逼迫吗？是饥饿吗？是赤身露体吗？是危险吗？是刀剑吗？"
+  },
+  {
+    "cn" : "然而，靠着爱我们的[主]，在这一切的事上已经得胜有余了。",
+    "kr" : "그러나 이 모든 일에 우리를 사랑하시는 이로 말미암아 우리가 넉넉히 이기느니라 ",
+    "reference" : "Romans 8:37",
+    "en" : "Yet in all these things we are more than conquerors through Him who loved us."
+  },
+  {
+    "cn" : "因为我深信无论是死，是生，是天使，是掌权的，是有能的，是现在的事，是将来的事，",
+    "kr" : "내가 확신하노니 사망이나 생명이나 천사들이나 권세자들이나 현재 일이나 장래 일이나 능력이나 ",
+    "en" : "For I am persuaded that neither death nor life, nor angels nor principalities nor powers, nor things present nor things to come,",
+    "reference" : "Romans 8:38"
+  },
+  {
+    "reference" : "Romans 8:39",
+    "kr" : "높음이나 깊음이나 다른 아무 피조물이라도 우리를 우리 주 그리스도 예수 안에 있는 하나님의 사랑에서 끊을 수 없으리라  ",
+    "en" : "nor height nor depth, nor any other created thing, shall be able to separate us from the love of God which is in Christ Jesus our Lord.",
+    "cn" : "是高处的，是低处的，是别的受造之物，都不能叫我们与　神的爱隔绝；这爱是在我们的主基督耶稣里的。"
+  },
+  {
+    "kr" : "네가 만일 네 입으로 예수를 주로 시인하며 또 하나님께서 그를 죽은 자 가운데서 살리신 것을 네 마음에 믿으면 구원을 얻으리니 ",
+    "en" : "that if you confess with your mouth the Lord Jesus and believe in your heart that God has raised Him from the dead, you will be saved.",
+    "cn" : "你若口里认耶稣为主，心里信　神叫他从死里复活，就必得救。",
+    "reference" : "Romans 10:9"
+  },
+  {
+    "kr" : "사람이 마음으로 믿어 의에 이르고 입으로 시인하여 구원에 이르느니라 ",
+    "reference" : "Romans 10:10",
+    "en" : "For with the heart one believes unto righteousness, and with the mouth confession is made unto salvation.",
+    "cn" : "因为，人心里相信就可以称义，口里承认就可以得救。"
+  },
+  {
+    "cn" : "因为「凡求告主名的就必得救」。",
+    "reference" : "Romans 10:13",
+    "kr" : "누구든지 주의 이름을 부르는 자는 구원을 얻으리라 ",
+    "en" : "For “whoever calls on the name of the Lord shall be saved.”"
+  },
+  {
+    "kr" : "그러므로 믿음은 들음에서 나며 들음은 그리스도의 말씀으로 말미암았느니라 ",
+    "reference" : "Romans 10:17",
+    "cn" : "可见，信道是从听道来的，听道是从基督的话来的。",
+    "en" : "So then faith comes by hearing, and hearing by the word of God."
+  },
+  {
+    "en" : "I beseech you therefore, brethren, by the mercies of God, that you present your bodies a living sacrifice, holy, acceptable to God, which is your reasonable service.",
+    "reference" : "Romans 12:1",
+    "cn" : "所以，弟兄们，我以　神的慈悲劝你们，将身体献上，当作活祭，是圣洁的，是　神所喜悦的；你们如此事奉乃是理所当然的。",
+    "kr" : "그러므로 형제들아 내가 하나님의 모든 자비하심으로 너희를 권하노니 너희 몸을 하나님이 기뻐하시는 거룩한 산 제사로 드리라 이는 너희의 드릴 영적 예배니라 "
+  },
+  {
+    "kr" : "너희는 이 세대를 본받지 말고 오직 마음을 새롭게 함으로 변화를 받아 하나님의 선하시고 기뻐하시고 온전하신 뜻이 무엇인지 분별하도록 하라 ",
+    "en" : "And do not be conformed to this world, but be transformed by the renewing of your mind, that you may prove what is that good and acceptable and perfect will of God.",
+    "cn" : "不要效法这个世界，只要心意更新而变化，叫你们察验何为　神的善良、纯全、可喜悦的旨意。",
+    "reference" : "Romans 12:2"
+  },
+  {
+    "en" : "For I say, through the grace given to me, to everyone who is among you, not to think of himself more highly than he ought to think, but to think soberly, as God has dealt to each one a measure of faith.",
+    "cn" : "我凭着所赐我的恩对你们各人说：不要看自己过于所当看的；要照着　神所分给各人信心的大小，看得合乎中道。",
+    "reference" : "Romans 12:3",
+    "kr" : "내게 주신 은혜로 말미암아 너희 중 각 사람에게 말하노니 마땅히 생각할 그 이상의 생각을 품지 말고 오직 하나님께서 각 사람에게 나눠주신 믿음의 분량대로 지혜롭게 생각하라 "
+  },
+  {
+    "cn" : "爱人不可虚假。恶，要厌恶；善，要亲近。",
+    "kr" : "사랑엔 거짓이 없나니 악을 미워하고 선에 속하라 ",
+    "reference" : "Romans 12:9",
+    "en" : "Let love be without hypocrisy. Abhor what is evil. Cling to what is good."
+  },
+  {
+    "reference" : "Romans 12:10",
+    "en" : "Be kindly affectionate to one another with brotherly love, in honor giving preference to one another;",
+    "cn" : "爱弟兄，要彼此亲热；恭敬人，要彼此推让。",
+    "kr" : "형제를 사랑하여 서로 우애하고 존경하기를 서로 먼저 하며 "
+  },
+  {
+    "reference" : "Romans 12:10",
+    "en" : "Be kindly affectionate to one another with brotherly love, in honor giving preference to one another;",
+    "cn" : "爱弟兄，要彼此亲热；恭敬人，要彼此推让。",
+    "kr" : "형제를 사랑하여 서로 우애하고 존경하기를 서로 먼저 하며 "
+  },
+  {
+    "en" : "rejoicing in hope, patient in tribulation, continuing steadfastly in prayer;",
+    "cn" : "在指望中要喜乐；在患难中要忍耐；祷告要恒切。",
+    "kr" : "소망 중에 즐거워하며 환난 중에 참으며 기도에 항상 힘쓰며 ",
+    "reference" : "Romans 12:12"
+  },
+  {
+    "cn" : "与喜乐的人要同乐；与哀哭的人要同哭。",
+    "en" : "Rejoice with those who rejoice, and weep with those who weep.",
+    "kr" : "즐거워하는 자들로 함께 즐거워하고 우는 자들로 함께 울라 ",
+    "reference" : "Romans 12:15"
+  },
+  {
+    "kr" : "서로 마음을 같이 하며 높은 데 마음을 두지 말고 도리어 낮은 데 처하며 스스로 지혜 있는 체 말라 ",
+    "en" : "Be of the same mind toward one another. Do not set your mind on high things, but associate with the humble. Do not be wise in your own opinion.",
+    "reference" : "Romans 12:16",
+    "cn" : "要彼此同心；不要志气高大，倒要俯就卑微的人。不要自以为聪明。"
+  },
+  {
+    "en" : "If it is possible, as much as depends on you, live peaceably with all men.",
+    "reference" : "Romans 12:18",
+    "cn" : "若是能行，总要尽力与众人和睦。",
+    "kr" : "할 수 있거든 너희로서는 모든 사람으로 더불어 평화하라 "
+  },
+  {
+    "kr" : "내 사랑하는 자들아 너희가 친히 원수를 갚지 말고 진노하심에 맡기라 기록되었으되 원수 갚는 것이 내게 있으니 내가 갚으리라고 주께서 말씀하시니라 ",
+    "en" : "Beloved, do not avenge yourselves, but rather give place to wrath; for it is written, “Vengeance is Mine, I will repay,” says the Lord.",
+    "cn" : "亲爱的弟兄，不要自己伸冤，宁可让步，听凭主怒；因为[经上]记着：「主说：『伸冤在我，我必报应。』」",
+    "reference" : "Romans 12:19"
+  },
+  {
+    "kr" : "악에게 지지 말고 선으로 악을 이기라  ",
+    "cn" : "你不可为恶所胜，反要以善胜恶。",
+    "en" : "Do not be overcome by evil, but overcome evil with good.",
+    "reference" : "Romans 12:21"
+  },
+  {
+    "cn" : "在上有权柄的，人人当顺服他，因为没有权柄不是出于　神的。凡掌权的都是　神所命的。",
+    "en" : "Let every soul be subject to the governing authorities. For there is no authority except from God, and the authorities that exist are appointed by God.",
+    "reference" : "Romans 13:1",
+    "kr" : "각 사람은 위에 있는 권세들에게 굴복하라 권세는 하나님께로 나지 않음이 없나니 모든 권세는 다 하나님의 정하신 바라 "
+  },
+  {
+    "reference" : "Romans 13:8",
+    "kr" : "피차 사랑의 빚 외에는 아무에게든지 아무 빚도 지지 말라 남을 사랑하는 자는 율법을 다 이루었느니라 ",
+    "en" : "Owe no one anything except to love one another, for he who loves another has fulfilled the law.",
+    "cn" : "凡事都不可亏欠人，惟有彼此相爱要常以为亏欠，因为爱人的就完全了律法。"
+  },
+  {
+    "kr" : "사랑은 이웃에게 악을 행치 아니하나니 그러므로 사랑은 율법의 완성이니라 ",
+    "en" : "Love does no harm to a neighbor; therefore love is the fulfillment of the law.",
+    "reference" : "Romans 13:10",
+    "cn" : "爱是不加害与人的，所以爱就完全了律法。"
+  },
+  {
+    "kr" : "우리가 살아도 주를 위하여 살고 죽어도 주를 위하여 죽나니 그러므로 사나 죽으나 우리가 주의 것이로라 ",
+    "reference" : "Romans 14:8",
+    "cn" : "我们若活着，是为主而活；若死了，是为主而死。所以，我们或活或死总是主的人。",
+    "en" : "For if we live, we live to the Lord; and if we die, we die to the Lord. Therefore, whether we live or die, we are the Lord’s."
+  },
+  {
+    "reference" : "Romans 14:11",
+    "cn" : "[经上]写着： 主说：我凭着我的永生起誓： 万膝必向我跪拜； 万口必向我承认。",
+    "en" : "For it is written: “As I live, says the Lord, Every knee shall bow to Me, And every tongue shall confess to God.”",
+    "kr" : "기록되었으되 주께서 가라사대 내가 살았노니 모든 무릎이 내게 꿇을 것이요 모든 혀가 하나님께 자백하리라 하였느니라 "
+  },
+  {
+    "kr" : "무엇이든지 전에 기록한 바는 우리의 교훈을 위하여 기록된 것이니 우리로 하여금 인내로 또는 성경의 안위로 소망을 가지게 함이니라 ",
+    "en" : "For whatever things were written before were written for our learning, that we through the patience and comfort of the Scriptures might have hope.",
+    "reference" : "Romans 15:4",
+    "cn" : "从前所写的[圣经]都是为教训我们写的，叫我们因圣经所生的忍耐和安慰可以得着盼望。"
+  },
+  {
+    "reference" : "Romans 15:13",
+    "cn" : "但愿使人有盼望的　神，因信将诸般的喜乐、平安充满你们的心，使你们借着圣灵的能力大有盼望！",
+    "kr" : "소망의 하나님이 모든 기쁨과 평강을 믿음 안에서 너희에게 충만케 하사 성령의 능력으로 소망이 넘치게 하시기를 원하노라 ",
+    "en" : "Now may the God of hope fill you with all joy and peace in believing, that you may abound in hope by the power of the Holy Spirit."
+  },
+  {
+    "reference" : "I Corinthians 1:18",
+    "cn" : "因为十字架的道理，在那灭亡的人为愚拙；在我们得救的人，却为　神的大能。",
+    "kr" : "십자가의 도가 멸망하는 자들에게는 미련한 것이요 구원을 얻는 우리에게는 하나님의 능력이라 ",
+    "en" : "For the message of the cross is foolishness to those who are perishing, but to us who are being saved it is the power of God."
+  },
+  {
+    "cn" : "如[经上]所记： 　神为爱他的人所预备的 是眼睛未曾看见， 耳朵未曾听见， 人心也未曾想到的。",
+    "en" : "But as it is written: “Eye has not seen, nor ear heard, Nor have entered into the heart of man The things which God has prepared for those who love Him.”",
+    "reference" : "I Corinthians 2:9",
+    "kr" : "기록된 바 하나님이 자기를 사랑하는 자들을 위하여 예비하신 모든 것은 눈으로 보지 못하고 귀로도 듣지 못하고 사람의 마음으로도 생각지 못하였다 함과 같으니라 "
+  },
+  {
+    "kr" : "너희가 하나님의 성전인 것과 하나님의 성령이 너희 안에 거하시는 것을 알지 못하느뇨 ",
+    "en" : "Do you not know that you are the temple of God and that the Spirit of God dwells in you?",
+    "cn" : "岂不知你们是　神的殿，　神的灵住在你们里头吗？",
+    "reference" : "I Corinthians 3:16"
+  },
+  {
+    "en" : "Or do you not know that your body is the temple of the Holy Spirit who is in you, whom you have from God, and you are not your own?",
+    "kr" : "너희 몸은 너희가 하나님께로부터 받은 바 너희 가운데 계신 성령의 전인 줄을 알지 못하느냐 너희는 너희의 것이 아니라 ",
+    "cn" : "岂不知你们的身子就是圣灵的殿吗？这圣灵是从　神而来，住在你们里头的；并且你们不是自己的人，",
+    "reference" : "I Corinthians 6:19"
+  },
+  {
+    "en" : "For you were bought at a price; therefore glorify God in your body and in your spirit, which are God’s.",
+    "cn" : "因为你们是重价买来的。所以，要在你们的身子上荣耀　神。",
+    "kr" : "값으로 산 것이 되었으니 그런즉 너희 몸으로 하나님께 영광을 돌리라  ",
+    "reference" : "I Corinthians 6:20"
+  },
+  {
+    "en" : "No temptation has overtaken you except such as is common to man; but God is faithful, who will not allow you to be tempted beyond what you are able, but with the temptation will also make the way of escape, that you may be able to bear it.",
+    "reference" : "I Corinthians 10:13",
+    "kr" : "사람이 감당할 시험 밖에는 너희에게 당한 것이 없나니 오직 하나님은 미쁘사 너희가 감당치 못할 시험 당함을 허락지 아니하시고 시험 당할 즈음에 또한 피할 길을 내사 너희로 능히 감당하게 하시느니라 ",
+    "cn" : "你们所遇见的试探，无非是人所能受的。　神是信实的，必不叫你们受试探过于所能受的；在受试探的时候，总要给你们开一条出路，叫你们能忍受得住。"
+  },
+  {
+    "reference" : "I Corinthians 10:31",
+    "cn" : "所以，你们或吃或喝，无论做什么，都要为荣耀　神而行。",
+    "en" : "Therefore, whether you eat or drink, or whatever you do, do all to the glory of God.",
+    "kr" : "그런즉 너희가 먹든지 마시든지 무엇을 하든지 다 하나님의 영광을 위하여 하라 "
+  },
+  {
+    "reference" : "I Corinthians 12:7",
+    "cn" : "[圣]灵显在各人身上，是叫人得益处。",
+    "en" : "But the manifestation of the Spirit is given to each one for the profit of all:",
+    "kr" : "각 사람에게 성령의 나타남을 주심은 유익하게 하려 하심이라 "
+  },
+  {
+    "reference" : "I Corinthians 13:1",
+    "cn" : "我若能说万人的方言，并天使的话语，却没有爱，我就成了鸣的锣，响的钹一般。",
+    "en" : "Though I speak with the tongues of men and of angels, but have not love, I have become sounding brass or a clanging cymbal.",
+    "kr" : "내가 사람의 방언과 천사의 말을 할지라도 사랑이 없으면 소리나는 구리와 울리는 꽹과리가 되고 "
+  },
+  {
+    "cn" : "爱是恒久忍耐，又有恩慈；爱是不嫉妒；爱是不自夸，不张狂，",
+    "kr" : "사랑은 오래 참고 사랑은 온유하며 투기하는 자가 되지 아니하며 사랑은 자랑하지 아니하며 교만하지 아니하며 ",
+    "reference" : "I Corinthians 13:4",
+    "en" : "Love suffers long and is kind; love does not envy; love does not parade itself, is not puffed up;"
+  },
+  {
+    "reference" : "I Corinthians 13:7",
+    "kr" : "모든 것을 참으며 모든 것을 믿으며 모든 것을 바라며 모든 것을 견디느니라 ",
+    "en" : "bears all things, believes all things, hopes all things, endures all things.",
+    "cn" : "凡事包容，凡事相信，凡事盼望，凡事忍耐。"
+  },
+  {
+    "cn" : "如今常存的有信，有望，有爱这三样，其中最大的是爱。",
+    "kr" : "그런즉 믿음, 소망, 사랑, 이 세가지는 항상 있을 것인데 그 중에 제일은 사랑이라  ",
+    "reference" : "I Corinthians 13:13",
+    "en" : "And now abide faith, hope, love, these three; but the greatest of these is love."
+  },
+  {
+    "kr" : "그러나 나의 나 된 것은 하나님의 은혜로 된 것이니 내게 주신 그의 은혜가 헛되지 아니하여 내가 모든 사도보다 더 많이 수고하였으나 내가 아니요 오직 나와 함께 하신 하나님의 은혜로라 ",
+    "cn" : "然而，我今日成了何等人，是蒙　神的恩才成的，并且他所赐我的恩不是徒然的。我比众使徒格外劳苦；这原不是我，乃是　神的恩与我同在。",
+    "en" : "But by the grace of God I am what I am, and His grace toward me was not in vain; but I labored more abundantly than they all, yet not I, but the grace of God which was with me.",
+    "reference" : "I Corinthians 15:10"
+  },
+  {
+    "en" : "Do not be deceived: “Evil company corrupts good habits.”",
+    "kr" : "속지 말라 악한 동무들은 선한 행실을 더럽히나니 ",
+    "reference" : "I Corinthians 15:33",
+    "cn" : "你们不要自欺；滥交是败坏善行。"
+  },
+  {
+    "cn" : "所以，我亲爱的弟兄们，你们务要坚固，不可摇动，常常竭力多做主工；因为知道，你们的劳苦在主里面不是徒然的。",
+    "kr" : "그러므로 내 사랑하는 형제들아 견고하며 흔들리지 말며 항상 주의 일에 더욱 힘쓰는 자들이 되라 이는 너희 수고가 주 안에서 헛되지 않은 줄을 앎이니라  ",
+    "en" : "Therefore, my beloved brethren, be steadfast, immovable, always abounding in the work of the Lord, knowing that your labor is not in vain in the Lord.",
+    "reference" : "I Corinthians 15:58"
+  },
+  {
+    "reference" : "I Corinthians 16:14",
+    "cn" : "凡你们所做的都要凭爱心而做。",
+    "en" : "Let all that you do be done with love.",
+    "kr" : "너희 모든 일을 사랑으로 행하라 "
+  },
+  {
+    "en" : "Blessed be the God and Father of our Lord Jesus Christ, the Father of mercies and God of all comfort,",
+    "kr" : "찬송하리로다 그는 우리 주 예수 그리스도의 하나님이시요 자비의 아버지시요 모든 위로의 하나님이시며 ",
+    "cn" : "愿颂赞归与我们的主耶稣基督的父　神，就是发慈悲的父，赐各样安慰的　神。",
+    "reference" : "II Corinthians 1:3"
+  },
+  {
+    "en" : "who comforts us in all our tribulation, that we may be able to comfort those who are in any trouble, with the comfort with which we ourselves are comforted by God.",
+    "reference" : "II Corinthians 1:4",
+    "cn" : "我们在一切患难中，他就安慰我们，叫我们能用　神所赐的安慰去安慰那遭各样患难的人。",
+    "kr" : "우리의 모든 환난 중에서 우리를 위로하사 우리로 하여금 하나님께 받는 위로로써 모든 환난 중에 있는 자들을 능히 위로하게 하시는 이시로다 "
+  },
+  {
+    "cn" : "我们有这宝贝放在瓦器里，要显明这莫大的能力是出于　神，不是出于我们。",
+    "reference" : "II Corinthians 4:7",
+    "en" : "But we have this treasure in earthen vessels, that the excellence of the power may be of God and not of us.",
+    "kr" : "우리가 이 보배를 질그릇에 가졌으니 이는 능력의 심히 큰 것이 하나님께 있고 우리에게 있지 아니함을 알게 하려 함이라 "
+  },
+  {
+    "reference" : "II Corinthians 4:16",
+    "en" : "Therefore we do not lose heart. Even though our outward man is perishing, yet the inward man is being renewed day by day.",
+    "kr" : "그러므로 우리가 낙심하지 아니하노니 겉 사람은 후패하나 우리의 속은 날로 새롭도다 ",
+    "cn" : "所以，我们不丧胆。外体虽然毁坏，内心却一天新似一天。"
+  },
+  {
+    "en" : "while we do not look at the things which are seen, but at the things which are not seen. For the things which are seen are temporary, but the things which are not seen are eternal.",
+    "kr" : "우리의 돌아보는 것은 보이는 것이 아니요 보이지 않는 것이니 보이는 것은 잠간이요 보이지 않는 것은 영원함이니라  ",
+    "reference" : "II Corinthians 4:18",
+    "cn" : "原来我们不是顾念所见的，乃是顾念所不见的；因为所见的是暂时的，所不见的是永远的。"
+  },
+  {
+    "cn" : "因我们行事为人是凭着信心，不是凭着眼见。",
+    "reference" : "II Corinthians 5:7",
+    "en" : "For we walk by faith, not by sight.",
+    "kr" : "이는 우리가 믿음으로 행하고 보는 것으로 하지 아니함이로라 "
+  },
+  {
+    "kr" : "그런즉 누구든지 그리스도 안에 있으면 새로운 피조물이라 이전 것은 지나갔으니 보라 새 것이 되었도다 ",
+    "cn" : "若有人在基督里，他就是新造的人，旧事已过，都变成新的了。",
+    "reference" : "II Corinthians 5:17",
+    "en" : "Therefore, if anyone is in Christ, he is a new creation; old things have passed away; behold, all things have become new."
+  },
+  {
+    "cn" : "神使那无罪的，替我们成为罪，好叫我们在他里面成为　神的义。",
+    "reference" : "II Corinthians 5:21",
+    "kr" : "하나님이 죄를 알지도 못하신 자로 우리를 대신하여 죄를 삼으신 것은 우리로 하여금 저의 안에서 하나님의 의가 되게 하려 하심이니라  ",
+    "en" : "For He made Him who knew no sin to be sin for us, that we might become the righteousness of God in Him."
+  },
+  {
+    "cn" : "各人要随本心所酌定的，不要作难，不要勉强，因为捐得乐意的人是　神所喜爱的。",
+    "reference" : "II Corinthians 9:7",
+    "kr" : "각각 그 마음에 정한 대로 할 것이요 인색함으로나 억지로 하지 말지니 하나님은 즐겨 내는 자를 사랑하시느니라 ",
+    "en" : "So let each one give as he purposes in his heart, not grudgingly or of necessity; for God loves a cheerful giver."
+  },
+  {
+    "en" : "And He said to me, “My grace is sufficient for you, for My strength is made perfect in weakness.” Therefore most gladly I will rather boast in my infirmities, that the power of Christ may rest upon me.",
+    "cn" : "他对我说：「我的恩典够你用的，因为我的能力是在人的软弱上显得完全。」所以，我更喜欢夸自己的软弱，好叫基督的能力覆庇我。",
+    "kr" : "내게 이르시기를 내 은혜가 네게 족하도다 이는 내 능력이 약한 데서 온전하여짐이라 하신지라 이러므로 도리어 크게 기뻐함으로 나의 여러 약한 것들에 대하여 자랑하리니 이는 그리스도의 능력으로 내게 머물게 하려 함이라 ",
+    "reference" : "II Corinthians 12:9"
+  },
+  {
+    "cn" : "我为基督的缘故，就以软弱、凌辱、急难、逼迫、困苦为可喜乐的；因我什么时候软弱，什么时候就刚强了。",
+    "en" : "Therefore I take pleasure in infirmities, in reproaches, in needs, in persecutions, in distresses, for Christ’s sake. For when I am weak, then I am strong.",
+    "kr" : "그러므로 내가 그리스도를 위하여 약한 것들과 능욕과 궁핍과 핍박과 곤란을 기뻐하노니 이는 내가 약할 그 때에 곧 강함이니라 ",
+    "reference" : "II Corinthians 12:10"
+  },
+  {
+    "cn" : "我已经与基督同钉十字架，现在活着的不再是我，乃是基督在我里面活着；并且我如今在肉身活着，是因信　神的儿子而活；他是爱我，为我舍己。",
+    "kr" : "내가 그리스도와 함께 십자가에 못 박혔나니 그런즉 이제는 내가 산 것이 아니요 오직 내 안에 그리스도께서 사신 것이라 이제 내가 육체 가운데 사는 것은 나를 사랑하사 나를 위하여 자기 몸을 버리신 하나님의 아들을 믿는 믿음 안에서 사는 것이라 ",
+    "reference" : "Galatians 2:20",
+    "en" : "I have been crucified with Christ; it is no longer I who live, but Christ lives in me; and the life which I now live in the flesh I live by faith in the Son of God, who loved me and gave Himself for me."
+  },
+  {
+    "kr" : "너희는 유대인이나 헬라인이나 종이나 자주자나 남자나 여자 없이 다 그리스도 예수 안에서 하나이니라 ",
+    "reference" : "Galatians 3:28",
+    "en" : "There is neither Jew nor Greek, there is neither slave nor free, there is neither male nor female; for you are all one in Christ Jesus.",
+    "cn" : "并不分犹太人、希腊人，自主的、为奴的，或男或女，因为你们在基督耶稣里都成为一了。"
+  },
+  {
+    "reference" : "Galatians 5:1",
+    "en" : "Stand fast therefore in the liberty by which Christ has made us free, and do not be entangled again with a yoke of bondage.",
+    "kr" : "그리스도께서 우리로 자유케 하려고 자유를 주셨으니 그러므로 굳세게 서서 다시는 종의 멍에를 메지 말라 ",
+    "cn" : "基督释放了我们，叫我们得以自由。所以要站立得稳，不要再被奴仆的轭挟制。"
+  },
+  {
+    "reference" : "Galatians 5:13",
+    "en" : "For you, brethren, have been called to liberty; only do not use liberty as an opportunity for the flesh, but through love serve one another.",
+    "cn" : "弟兄们，你们蒙召是要得自由，只是不可将你们的自由当作放纵情欲的机会，总要用爱心互相服事。",
+    "kr" : "형제들아 너희가 자유를 위하여 부르심을 입었으나 그러나 그 자유로 육체의 기회를 삼지 말고 오직 사랑으로 서로 종 노릇 하라 "
+  },
+  {
+    "en" : "But the fruit of the Spirit is love, joy, peace, longsuffering, kindness, goodness, faithfulness,",
+    "reference" : "Galatians 5:22",
+    "cn" : "圣灵所结的果子，就是仁爱、喜乐、和平、忍耐、恩慈、良善、信实、",
+    "kr" : "오직 성령의 열매는 사랑과 희락과 화평과 오래 참음과 자비와 양선과 충성과 "
+  },
+  {
+    "en" : "Bear one another’s burdens, and so fulfill the law of Christ.",
+    "kr" : "너희가 짐을 서로 지라 그리하여 그리스도의 법을 성취하라 ",
+    "reference" : "Galatians 6:2",
+    "cn" : "你们各人的重担要互相担当，如此，就完全了基督的律法。"
+  },
+  {
+    "en" : "Do not be deceived, God is not mocked; for whatever a man sows, that he will also reap.",
+    "cn" : "不要自欺，　神是轻慢不得的。人种的是什么，收的也是什么。",
+    "kr" : "스스로 속이지 말라 하나님은 만홀히 여김을 받지 아니하시나니 사람이 무엇으로 심든지 그대로 거두리라 ",
+    "reference" : "Galatians 6:7"
+  },
+  {
+    "en" : "For he who sows to his flesh will of the flesh reap corruption, but he who sows to the Spirit will of the Spirit reap everlasting life.",
+    "reference" : "Galatians 6:8",
+    "kr" : "자기의 육체를 위하여 심는 자는 육체로부터 썩어진 것을 거두고 성령을 위하여 심는 자는 성령으로부터 영생을 거두리라 ",
+    "cn" : "顺着情欲撒种的，必从情欲收败坏；顺着[圣]灵撒种的，必从[圣]灵收永生。"
+  },
+  {
+    "en" : "And let us not grow weary while doing good, for in due season we shall reap if we do not lose heart.",
+    "cn" : "我们行善，不可丧志；若不灰心，到了时候就要收成。",
+    "kr" : "우리가 선을 행하되 낙심하지 말지니 피곤하지 아니하면 때가 이르매 거두리라 ",
+    "reference" : "Galatians 6:9"
+  },
+  {
+    "en" : "For by grace you have been saved through faith, and that not of yourselves; it is the gift of God,",
+    "cn" : "你们得救是本乎恩，也因着信；这并不是出于自己，乃是　神所赐的；",
+    "kr" : "너희가 그 은혜를 인하여 믿음으로 말미암아 구원을 얻었나니 이것이 너희에게서 난 것이 아니요 하나님의 선물이라 ",
+    "reference" : "Ephesians 2:8"
+  },
+  {
+    "reference" : "Ephesians 2:10",
+    "cn" : "我们原是他的工作，在基督耶稣里造成的，为要叫我们行善，就是　神所预备叫我们行的。",
+    "en" : "For we are His workmanship, created in Christ Jesus for good works, which God prepared beforehand that we should walk in them.",
+    "kr" : "우리는 그의 만드신 바라 그리스도 예수 안에서 선한 일을 위하여 지으심을 받은 자니 이 일은 하나님이 전에 예비하사 우리로 그 가운데서 행하게 하려 하심이니라 "
+  },
+  {
+    "kr" : "그 영광의 풍성을 따라 그의 성령으로 말미암아 너희 속 사람을 능력으로 강건하게 하옵시며 ",
+    "en" : "that He would grant you, according to the riches of His glory, to be strengthened with might through His Spirit in the inner man,",
+    "cn" : "求他按着他丰盛的荣耀，借着他的灵，叫你们心里的力量刚强起来，",
+    "reference" : "Ephesians 3:16"
+  },
+  {
+    "en" : "Now to Him who is able to do exceedingly abundantly above all that we ask or think, according to the power that works in us,",
+    "kr" : "우리 가운데서 역사하시는 능력대로 우리의 온갖 구하는 것이나 생각하는 것에 더 넘치도록 능히 하실 이에게 ",
+    "reference" : "Ephesians 3:20",
+    "cn" : "神能照着运行在我们心里的大力充充足足地成就一切，超过我们所求所想的。"
+  },
+  {
+    "en" : "with all lowliness and gentleness, with longsuffering, bearing with one another in love,",
+    "kr" : "모든 겸손과 온유로 하고 오래 참음으로 사랑 가운데서 서로 용납하고 ",
+    "reference" : "Ephesians 4:2",
+    "cn" : "凡事谦虚、温柔、忍耐，用爱心互相宽容，"
+  },
+  {
+    "cn" : "惟用爱心说诚实话，凡事长进，连于元首基督，",
+    "kr" : "오직 사랑 안에서 참된 것을 하여 범사에 그에게까지 자랄지라 그는 머리니 곧 그리스도라 ",
+    "reference" : "Ephesians 4:15",
+    "en" : "but, speaking the truth in love, may grow up in all things into Him who is the head—Christ—"
+  },
+  {
+    "kr" : "분을 내어도 죄를 짓지 말며 해가 지도록 분을 품지 말고 ",
+    "reference" : "Ephesians 4:26",
+    "cn" : "生气却不要犯罪；不可含怒到日落，",
+    "en" : "“Be angry, and do not sin”: do not let the sun go down on your wrath,"
+  },
+  {
+    "en" : "And be kind to one another, tenderhearted, forgiving one another, even as God in Christ forgave you.",
+    "cn" : "并要以恩慈相待，存怜悯的心，彼此饶恕，正如　神在基督里饶恕了你们一样。",
+    "reference" : "Ephesians 4:32",
+    "kr" : "서로 인자하게 하며 불쌍히 여기며 서로 용서하기를 하나님이 그리스도 안에서 너희를 용서하심과 같이 하라  "
+  },
+  {
+    "reference" : "Ephesians 5:1",
+    "en" : "Therefore be imitators of God as dear children.",
+    "kr" : "그러므로 사랑을 입은 자녀 같이 너희는 하나님을 본받는 자가 되고 ",
+    "cn" : "所以，你们该效法　神，好像蒙慈爱的儿女一样。"
+  },
+  {
+    "en" : "For you were once darkness, but now you are light in the Lord. Walk as children of light",
+    "kr" : "너희가 전에는 어두움이더니 이제는 주 안에서 빛이라 빛의 자녀들처럼 행하라 ",
+    "reference" : "Ephesians 5:8",
+    "cn" : "从前你们是暗昧的，但如今在主里面是光明的，行事为人就当像光明的子女。"
+  },
+  {
+    "kr" : "그런즉 너희가 어떻게 행할 것을 자세히 주의하여 지혜 없는 자 같이 말고 오직 지혜 있는 자 같이 하여 ",
+    "en" : "See then that you walk circumspectly, not as fools but as wise,",
+    "reference" : "Ephesians 5:15",
+    "cn" : "你们要谨慎行事，不要像愚昧人，当像智慧人。"
+  },
+  {
+    "reference" : "Ephesians 5:20",
+    "en" : "giving thanks always for all things to God the Father in the name of our Lord Jesus Christ,",
+    "kr" : "범사에 우리 주 예수 그리스도의 이름으로 항상 아버지 하나님께 감사하며 ",
+    "cn" : "凡事要奉我们主耶稣基督的名常常感谢父　神。"
+  },
+  {
+    "cn" : "我还有末了的话：你们要靠着主，倚赖他的大能大力作刚强的人。",
+    "en" : "Finally, my brethren, be strong in the Lord and in the power of His might.",
+    "kr" : "종말로 너희가 주 안에서와 그 힘의 능력으로 강건하여지고 ",
+    "reference" : "Ephesians 6:10"
+  },
+  {
+    "cn" : "要穿戴　神[所赐]的全副军装，就能抵挡魔鬼的诡计。",
+    "reference" : "Ephesians 6:11",
+    "kr" : "마귀의 궤계를 능히 대적하기 위하여 하나님의 전신 갑주를 입으라 ",
+    "en" : "Put on the whole armor of God, that you may be able to stand against the wiles of the devil."
+  },
+  {
+    "cn" : "因我们并不是与属血气的争战，乃是与那些执政的、掌权的、管辖这幽暗世界的，以及天空属灵气的恶魔争战。",
+    "en" : "For we do not wrestle against flesh and blood, but against principalities, against powers, against the rulers of the darkness of this age, against spiritual hosts of wickedness in the heavenly places.",
+    "reference" : "Ephesians 6:12",
+    "kr" : "우리의 씨름은 혈과 육에 대한 것이 아니요 정사와 권세와 이 어두움의 세상 주관자들과 하늘에 있는 악의 영들에게 대함이라 "
+  },
+  {
+    "kr" : "그러므로 하나님의 전신 갑주를 취하라 이는 악한 날에 너희가 능히 대적하고 모든 일을 행한 후에 서기 위함이라 ",
+    "cn" : "所以，要拿起　神[所赐]的全副军装，好在磨难的日子抵挡[仇敌]，并且成就了一切，还能站立得住。",
+    "en" : "Therefore take up the whole armor of God, that you may be able to withstand in the evil day, and having done all, to stand.",
+    "reference" : "Ephesians 6:13"
+  },
+  {
+    "cn" : "此外，又拿着信德当作盾牌，可以灭尽那恶者一切的火箭；",
+    "en" : "above all, taking the shield of faith with which you will be able to quench all the fiery darts of the wicked one.",
+    "kr" : "모든 것 위에 믿음의 방패를 가지고 이로써 능히 악한 자의 모든 화전을 소멸하고 ",
+    "reference" : "Ephesians 6:16"
+  },
+  {
+    "en" : "being confident of this very thing, that He who has begun a good work in you will complete it until the day of Jesus Christ;",
+    "kr" : "너희 속에 착한 일을 시작하신 이가 그리스도 예수의 날까지 이루실 줄을 우리가 확신하노라 ",
+    "cn" : "我深信那在你们心里动了善工的，必成全这工，直到耶稣基督的日子。",
+    "reference" : "Philippians 1:6"
+  },
+  {
+    "cn" : "因我活着就是基督，我死了就有益处。",
+    "en" : "For to me, to live is Christ, and to die is gain.",
+    "reference" : "Philippians 1:21",
+    "kr" : "이는 내게 사는 것이 그리스도니 죽는 것도 유익함이니라 "
+  },
+  {
+    "cn" : "凡事不可结党，不可贪图虚浮的荣耀；只要存心谦卑，各人看别人比自己强。",
+    "kr" : "아무 일에든지 다툼이나 허영으로 하지 말고 오직 겸손한 마음으로 각각 자기보다 남을 낫게 여기고 ",
+    "reference" : "Philippians 2:3",
+    "en" : "Let nothing be done through selfish ambition or conceit, but in lowliness of mind let each esteem others better than himself."
+  },
+  {
+    "reference" : "Philippians 2:4",
+    "cn" : "各人不要单顾自己的事，也要顾别人的事。",
+    "kr" : "각각 자기 일을 돌아볼 뿐더러 또한 각각 다른 사람들의 일을 돌아보아 나의 기쁨을 충만케 하라 ",
+    "en" : "Let each of you look out not only for his own interests, but also for the interests of others."
+  },
+  {
+    "en" : "Let this mind be in you which was also in Christ Jesus,",
+    "kr" : "너희 안에 이 마음을 품으라 곧 그리스도 예수의 마음이니 ",
+    "cn" : "你们当以基督耶稣的心为心：",
+    "reference" : "Philippians 2:5"
+  },
+  {
+    "en" : "Do all things without complaining and disputing,",
+    "cn" : "凡所行的，都不要发怨言，起争论，",
+    "kr" : "모든 일을 원망과 시비가 없이 하라 ",
+    "reference" : "Philippians 2:14"
+  },
+  {
+    "cn" : "弟兄们，我不是以为自己已经得着了；我只有一件事，就是忘记背后，努力面前的，",
+    "en" : "Brethren, I do not count myself to have apprehended; but one thing I do, forgetting those things which are behind and reaching forward to those things which are ahead,",
+    "reference" : "Philippians 3:13",
+    "kr" : "형제들아 나는 아직 내가 잡은 줄로 여기지 아니하고 오직 한 일 즉 뒤에 있는 것은 잊어버리고 앞에 있는 것을 잡으려고 "
+  },
+  {
+    "kr" : "푯대를 향하여 그리스도 예수 안에서 하나님이 위에서 부르신 부름의 상을 위하여 좇아가노라 ",
+    "cn" : "向着标竿直跑，要得　神在基督耶稣里从上面召我来得的奖赏。",
+    "en" : "I press toward the goal for the prize of the upward call of God in Christ Jesus.",
+    "reference" : "Philippians 3:14"
+  },
+  {
+    "kr" : "주 안에서 항상 기뻐하라 내가 다시 말하노니 기뻐하라 ",
+    "cn" : "你们要靠主常常喜乐。我再说，你们要喜乐。",
+    "en" : "Rejoice in the Lord always. Again I will say, rejoice!",
+    "reference" : "Philippians 4:4"
+  },
+  {
+    "cn" : "应当一无挂虑，只要凡事借着祷告、祈求，和感谢，将你们所要的告诉　神。",
+    "reference" : "Philippians 4:6",
+    "kr" : "아무 것도 염려하지 말고 오직 모든 일에 기도와 간구로, 너희 구할 것을 감사함으로 하나님께 아뢰라 ",
+    "en" : "Be anxious for nothing, but in everything by prayer and supplication, with thanksgiving, let your requests be made known to God;"
+  },
+  {
+    "en" : "and the peace of God, which surpasses all understanding, will guard your hearts and minds through Christ Jesus.",
+    "kr" : "그리하면 모든 지각에 뛰어난 하나님의 평강이 그리스도 예수 안에서 너희 마음과 생각을 지키시리라 ",
+    "reference" : "Philippians 4:7",
+    "cn" : "神所赐、出人意外的平安必在基督耶稣里保守你们的心怀意念。"
+  },
+  {
+    "kr" : "종말로 형제들아 무엇에든지 참되며 무엇에든지 경건하며 무엇에든지 옳으며 무엇에든지 정결하며 무엇에든지 사랑할 만하며 무엇에든지 칭찬할 만하며 무슨 덕이 있든지 무슨 기림이 있든지 이것들을 생각하라 ",
+    "en" : "Finally, brethren, whatever things are true, whatever things are noble, whatever things are just, whatever things are pure, whatever things are lovely, whatever things are of good report, if there is any virtue and if there is anything praiseworthy—meditate on these things.",
+    "cn" : "弟兄们，我还有未尽的话：凡是真实的、可敬的、公义的、清洁的、可爱的、有美名的，若有什么德行，若有什么称赞，这些事你们都要思念。",
+    "reference" : "Philippians 4:8"
+  },
+  {
+    "kr" : "내게 능력 주시는 자 안에서 내가 모든 것을 할 수 있느니라 ",
+    "en" : "I can do all things through Christ who strengthens me.",
+    "reference" : "Philippians 4:13",
+    "cn" : "我靠着那加给我力量的，凡事都能做。"
+  },
+  {
+    "kr" : "나의 하나님이 그리스도 예수 안에서 영광 가운게 그 풍성한 대로 너희 모든 쓸 것을 채우시리라 ",
+    "reference" : "Philippians 4:19",
+    "en" : "And my God shall supply all your need according to His riches in glory by Christ Jesus.",
+    "cn" : "我的　神必照他荣耀的丰富，在基督耶稣里，使你们一切所需用的都充足。"
+  },
+  {
+    "reference" : "Colossians 1:17",
+    "kr" : "또한 그가 만물보다 먼저 계시고 만물이 그 안에 함께 섰느니라 ",
+    "en" : "And He is before all things, and in Him all things consist.",
+    "cn" : "他在万有之先；万有也靠他而立。"
+  },
+  {
+    "en" : "Set your mind on things above, not on things on the earth.",
+    "cn" : "你们要思念上面的事，不要思念地上的事。",
+    "reference" : "Colossians 3:2",
+    "kr" : "위엣 것을 생각하고 땅엣 것을 생각지 말라 "
+  },
+  {
+    "en" : "Therefore, as the elect of God, holy and beloved, put on tender mercies, kindness, humility, meekness, longsuffering;",
+    "reference" : "Colossians 3:12",
+    "kr" : "그러므로 너희는 하나님의 택하신 거룩하고 사랑하신 자처럼 긍휼과 자비와 겸손과 온유와 오래 참음을 옷입고 ",
+    "cn" : "所以，你们既是　神的选民，圣洁蒙爱的人，就要存怜悯、恩慈、谦虚、温柔、忍耐的心。"
+  },
+  {
+    "cn" : "倘若这人与那人有嫌隙，总要彼此包容，彼此饶恕；主怎样饶恕了你们，你们也要怎样饶恕人。",
+    "reference" : "Colossians 3:13",
+    "en" : "bearing with one another, and forgiving one another, if anyone has a complaint against another; even as Christ forgave you, so you also must do.",
+    "kr" : "누가 뉘게 혐의가 있거든 서로 용납하여 피차 용서하되 주께서 너희를 용서하신 것과 같이 너희도 그리하고 "
+  },
+  {
+    "kr" : "이 모든 것 위에 사랑을 더하라 이는 온전하게 매는 띠니라 ",
+    "reference" : "Colossians 3:14",
+    "cn" : "在这一切之外，要存着爱心，爱心就是联络全德的。",
+    "en" : "But above all these things put on love, which is the bond of perfection."
+  },
+  {
+    "en" : "And whatever you do, do it heartily, as to the Lord and not to men,",
+    "kr" : "무슨 일을 하든지 마음을 다하여 주께 하듯 하고 사람에게 하듯 하지 말라 ",
+    "reference" : "Colossians 3:23",
+    "cn" : "无论做什么，都要从心里做，像是给主做的，不是给人做的，"
+  },
+  {
+    "reference" : "Colossians 4:2",
+    "kr" : "기도를 항상 힘쓰고 기도에 감사함으로 깨어 있으라 ",
+    "en" : "Continue earnestly in prayer, being vigilant in it with thanksgiving;",
+    "cn" : "你们要恒切祷告，在此警醒感恩。"
+  },
+  {
+    "reference" : "I Thessalonians 5:11",
+    "cn" : "所以，你们该彼此劝慰，互相建立，正如你们素常所行的。",
+    "kr" : "그러므로 피차 권면하고 피차 덕을 세우기를 너희가 하는 것 같이 하라 ",
+    "en" : "Therefore comfort each other and edify one another, just as you also are doing."
+  },
+  {
+    "en" : "Rejoice always,",
+    "kr" : "항상 기뻐하라 ",
+    "reference" : "I Thessalonians 5:16",
+    "cn" : "要常常喜乐，"
+  },
+  {
+    "cn" : "不住地祷告，",
+    "kr" : "쉬지 말고 기도하라 ",
+    "en" : "pray without ceasing,",
+    "reference" : "I Thessalonians 5:17"
+  },
+  {
+    "cn" : "凡事谢恩；因为这是　神在基督耶稣里向你们所定的旨意。",
+    "kr" : "범사에 감사하라 이는 그리스도 예수 안에서 너희를 향하신 하나님의 뜻이니라 ",
+    "reference" : "I Thessalonians 5:18",
+    "en" : "in everything give thanks; for this is the will of God in Christ Jesus for you."
+  },
+  {
+    "kr" : "너희를 부르시는 이는 미쁘시니 그가 또한 이루시리라 ",
+    "en" : "He who calls you is faithful, who also will do it.",
+    "cn" : "那召你们的本是信实的，他必成就这事。",
+    "reference" : "I Thessalonians 5:24"
+  },
+  {
+    "reference" : "II Thessalonians 3:3",
+    "cn" : "但主是信实的，要坚固你们，保护你们脱离那恶者。",
+    "kr" : "주는 미쁘사 너희를 굳게 하시고 악한 자에게서 지키시리라 ",
+    "en" : "But the Lord is faithful, who will establish you and guard you from the evil one."
+  },
+  {
+    "kr" : "미쁘다 모든 사람이 받을 만한 이 말이여 그리스도 예수께서 죄인을 구원하시려고 세상에 임하셨다 하였도다 죄인 중에 내가 괴수니라 ",
+    "reference" : "I Timothy 1:15",
+    "en" : "This is a faithful saying and worthy of all acceptance, that Christ Jesus came into the world to save sinners, of whom I am chief.",
+    "cn" : "「基督耶稣降世，为要拯救罪人。」这话是可信的，是十分可佩服的。在罪人中我是个罪魁。"
+  },
+  {
+    "reference" : "I Timothy 2:5",
+    "kr" : "하나님은 한 분이시요 또 하나님과 사람 사이에 중보도 한 분이시니 곧 사람이신 그리스도 예수라 ",
+    "cn" : "因为只有一位　神，在　神和人中间，只有一位中保，乃是[降世]为人的基督耶稣；",
+    "en" : "For there is one God and one Mediator between God and men, the Man Christ Jesus,"
+  },
+  {
+    "kr" : "누구든지 네 연소함을 업신여기지 못하게 하고 오직 말과 행실과 사랑과 믿음과 정절에 대하여 믿는 자에게 본이 되어 ",
+    "en" : "Let no one despise your youth, but be an example to the believers in word, in conduct, in love, in spirit, in faith, in purity.",
+    "reference" : "I Timothy 4:12",
+    "cn" : "不可叫人小看你年轻，总要在言语、行为、爱心、信心、清洁上，都作信徒的榜样。"
+  },
+  {
+    "en" : "Now godliness with contentment is great gain.",
+    "cn" : "然而，敬虔加上知足的心便是大利了；",
+    "reference" : "I Timothy 6:6",
+    "kr" : "그러나 지족하는 마음이 있으면 경건이 큰 이익이 되느니라 "
+  },
+  {
+    "reference" : "I Timothy 6:10",
+    "kr" : "돈을 사랑함이 일만 악의 뿌리가 되나니 이것을 사모하는 자들이 미혹을 받아 믿음에서 떠나 많은 근심으로써 자기를 찔렀도다 ",
+    "cn" : "贪财是万恶之根。有人贪恋钱财，就被引诱离了真道，用许多愁苦把自己刺透了。",
+    "en" : "For the love of money is a root of all kinds of evil, for which some have strayed from the faith in their greediness, and pierced themselves through with many sorrows."
+  },
+  {
+    "kr" : "믿음의 선한 싸움을 싸우라 영생을 취하라 이를 위하여 네가 부르심을 입었고 많은 증인 앞에서 선한 증거를 증거하였도다 ",
+    "cn" : "你要为真道打那美好的仗，持定永生。你为此被召，也在许多见证人面前，已经作了那美好的见证。",
+    "en" : "Fight the good fight of faith, lay hold on eternal life, to which you were also called and have confessed the good confession in the presence of many witnesses.",
+    "reference" : "I Timothy 6:12"
+  },
+  {
+    "reference" : "II Timothy 1:7",
+    "kr" : "하나님이 우리에게 주신 것은 두려워하는 마음이 아니요 오직 능력과 사랑과 근신하는 마음이니 ",
+    "cn" : "因为　神赐给我们，不是胆怯的心，乃是刚强、仁爱、谨守的心。",
+    "en" : "For God has not given us a spirit of fear, but of power and of love and of a sound mind."
+  },
+  {
+    "kr" : "네가 진리의 말씀을 옳게 분변하여 부끄러울 것이 없는 일꾼으로 인정된 자로 자신을 하나님 앞에 드리기를 힘쓰라 ",
+    "reference" : "II Timothy 2:15",
+    "cn" : "你当竭力在　神面前得蒙喜悦，作无愧的工人，按着正意分解真理的道。",
+    "en" : "Be diligent to present yourself approved to God, a worker who does not need to be ashamed, rightly dividing the word of truth."
+  },
+  {
+    "cn" : "圣经都是　神所默示的，于教训、督责、使人归正、教导人学义都是有益的，",
+    "kr" : "모든 성경은 하나님의 감동으로 된 것으로 교훈과 책망과 바르게 함과 의로 교육하기에 유익하니 ",
+    "reference" : "II Timothy 3:16",
+    "en" : "All Scripture is given by inspiration of God, and is profitable for doctrine, for reproof, for correction, for instruction in righteousness,"
+  },
+  {
+    "cn" : "那美好的仗我已经打过了，当跑的路我已经跑尽了，所信的道我已经守住了。",
+    "reference" : "II Timothy 4:7",
+    "kr" : "내가 선한 싸움을 싸우고 나의 달려갈 길을 마치고 믿음을 지켰으니 ",
+    "en" : "I have fought the good fight, I have finished the race, I have kept the faith."
+  },
+  {
+    "en" : "not by works of righteousness which we have done, but according to His mercy He saved us, through the washing of regeneration and renewing of the Holy Spirit,",
+    "kr" : "우리를 구원하시되 우리의 행한 바 의로운 행위로 말미암지 아니하고 오직 그의 긍휼하심을 좇아 중생의 씻음과 성령의 새롭게 하심으로 하셨나니 ",
+    "reference" : "Titus 3:5",
+    "cn" : "他便救了我们；并不是因我们自己所行的义，乃是照他的怜悯，借着重生的洗和圣灵的更新。"
+  },
+  {
+    "cn" : "愿你与人所同有的信心显出功效，使人知道你们各样善事都是为基督做的。",
+    "reference" : "Philemon 1:6",
+    "kr" : "이로써 네 믿음의 교제가 우리 가운데 있는 선을 알게 하고 그리스도께 미치도록 역사하느니라 ",
+    "en" : "that the sharing of your faith may become effective by the acknowledgment of every good thing which is in you in Christ Jesus."
+  },
+  {
+    "cn" : "神的道是活泼的，是有功效的，比一切两刃的剑更快，甚至魂与灵，骨节与骨髓，都能刺入、剖开，连心中的思念和主意都能辨明。",
+    "kr" : "하나님의 말씀은 살았고 운동력이 있어 죄우에 날선 어떤 검보다도 예리하여 혼과 영과 및 관절과 골수를 찔러 쪼개기까지 하며 또 마음의 생각과 뜻을 감찰하나니 ",
+    "reference" : "Hebrews 4:12",
+    "en" : "For the word of God is living and powerful, and sharper than any two-edged sword, piercing even to the division of soul and spirit, and of joints and marrow, and is a discerner of the thoughts and intents of the heart."
+  },
+  {
+    "cn" : "所以，我们只管坦然无惧地来到施恩的宝座前，为要得怜恤，蒙恩惠，作随时的帮助。",
+    "reference" : "Hebrews 4:16",
+    "en" : "Let us therefore come boldly to the throne of grace, that we may obtain mercy and find grace to help in time of need.",
+    "kr" : "그러므로 우리가 긍휼하심을 받고 때를 따라 돕는 은혜를 얻기 위하여 은혜의 보좌 앞에 담대히 나아갈 것이니라  "
+  },
+  {
+    "reference" : "Hebrews 6:19",
+    "en" : "This hope we have as an anchor of the soul, both sure and steadfast, and which enters the Presence behind the veil,",
+    "cn" : "我们有这指望，如同灵魂的锚，又坚固又牢靠，且通入幔内。",
+    "kr" : "우리가 이 소망이 있는 것은 영혼의 닻 같아서 튼튼하고 견고하여 휘장 안에 들어가나니 "
+  },
+  {
+    "cn" : "又要彼此相顾，激发爱心，勉励行善。",
+    "en" : "And let us consider one another in order to stir up love and good works,",
+    "reference" : "Hebrews 10:24",
+    "kr" : "서로 돌아보아 사랑과 선행을 격려하며 "
+  },
+  {
+    "en" : "not forsaking the assembling of ourselves together, as is the manner of some, but exhorting one another, and so much the more as you see the Day approaching.",
+    "reference" : "Hebrews 10:25",
+    "kr" : "모이기를 폐하는 어떤 사람들의 습관과 같이 하지 말고 오직 권하여 그 날이 가까움을 볼수록 더욱 그리하자 ",
+    "cn" : "你们不可停止聚会，好像那些停止惯了的人，倒要彼此劝勉，既知道那日子临近，就更当如此。"
+  },
+  {
+    "kr" : "믿음은 바라는 것들의 실상이요 보지 못하는 것들의 증거니 ",
+    "reference" : "Hebrews 11:1",
+    "en" : "Now faith is the substance of things hoped for, the evidence of things not seen.",
+    "cn" : "信就是所望之事的实底，是未见之事的确据。"
+  },
+  {
+    "cn" : "人非有信，就不能得　神的喜悦；因为到　神面前来的人必须信有　神，且信他赏赐那寻求他的人。",
+    "reference" : "Hebrews 11:6",
+    "kr" : "믿음이 없이는 기쁘시게 못하나니 하나님께 나아가는 자는 반드시 그가 계신 것과 또한 그가 자기를 찾는 자들에게 상 주시는 이심을 믿어야 할지니라 ",
+    "en" : "But without faith it is impossible to please Him, for he who comes to God must believe that He is, and that He is a rewarder of those who diligently seek Him."
+  },
+  {
+    "kr" : "이러므로 우리에게 구름 같이 둘러싼 허다한 증인들이 있으니 모든 무거운 것과 얽매이기 쉬운 죄를 벗어 버리고 인내로써 우리 앞에 당한 경주를 경주하며 ",
+    "reference" : "Hebrews 12:1",
+    "cn" : "我们既有这许多的见证人，如同云彩围着我们，就当放下各样的重担，脱去容易缠累我们的罪，存心忍耐，奔那摆在我们前头的路程，",
+    "en" : "Therefore we also, since we are surrounded by so great a cloud of witnesses, let us lay aside every weight, and the sin which so easily ensnares us, and let us run with endurance the race that is set before us,"
+  },
+  {
+    "cn" : "仰望为我们信心创始成终的耶稣。他因那摆在前面的喜乐，就轻看羞辱，忍受了十字架[的苦难]，便坐在　神宝座的右边。",
+    "kr" : "믿음의 주요 또 온전케 하시는 이인 예수를 바라보자 저는 그 앞에 있는 즐거움을 위하여 십자가를 참으사 부끄러움을 개의치 아니하시더니 하나님 보좌 우편에 앉으셨느니라 ",
+    "en" : "looking unto Jesus, the author and finisher of our faith, who for the joy that was set before Him endured the cross, despising the shame, and has sat down at the right hand of the throne of God.",
+    "reference" : "Hebrews 12:2"
+  },
+  {
+    "reference" : "Hebrews 12:11",
+    "kr" : "무릇 징계가 당시에는 즐거워 보이지 않고 슬퍼 보이나 후에 그로 말미암아 연달한 자에게는 의의 평강한 열매를 맺나니 ",
+    "en" : "Now no chastening seems to be joyful for the present, but painful; nevertheless, afterward it yields the peaceable fruit of righteousness to those who have been trained by it.",
+    "cn" : "凡管教的事，当时不觉得快乐，反觉得愁苦；后来却为那经练过的人结出平安的果子，就是义。"
+  },
+  {
+    "reference" : "Hebrews 13:5",
+    "en" : "Let your conduct be without covetousness; be content with such things as you have. For He Himself has said, “I will never leave you nor forsake you.”",
+    "kr" : "돈을 사랑치 말고 있는 바를 족한 줄로 알라 그가 친히 말씀하시기를 내가 과연 너희를 버리지 아니하고 과연 너희를 떠나지 아니하리라 하셨느니라 ",
+    "cn" : "你们存心不可贪爱钱财，要以自己所有的为足；因为主曾说：「我总不撇下你，也不丢弃你。」"
+  },
+  {
+    "cn" : "所以我们可以放胆说： 主是帮助我的，我必不惧怕； 人能把我怎么样呢？",
+    "reference" : "Hebrews 13:6",
+    "kr" : "그러므로 우리가 담대히 가로되 주는 나를 돕는 자시니 내가 무서워 아니하겠노라 사람이 내게 어찌하리요 하노라 ",
+    "en" : "So we may boldly say: “The Lord is my helper; I will not fear. What can man do to me?”"
+  },
+  {
+    "reference" : "Hebrews 13:8",
+    "en" : "Jesus Christ is the same yesterday, today, and forever.",
+    "cn" : "耶稣基督昨日、今日、一直到永远，是一样的。",
+    "kr" : "예수 그리스도는 어제나 오늘이나 영원토록 동일하시니라 "
+  },
+  {
+    "en" : "My brethren, count it all joy when you fall into various trials,",
+    "reference" : "James 1:2",
+    "cn" : "我的弟兄们，你们落在百般试炼中，都要以为大喜乐；",
+    "kr" : "내 형제들아 너희가 여러 가지 시험을 만나거든 온전히 기쁘게 여기라 "
+  },
+  {
+    "kr" : "너희 중에 누구든지 지혜가 부족하거든 모든 사람에게 후히 주시고 꾸짖지 아니하시는 하나님께 구하라 그리하면 주시리라 ",
+    "en" : "If any of you lacks wisdom, let him ask of God, who gives to all liberally and without reproach, and it will be given to him.",
+    "reference" : "James 1:5",
+    "cn" : "你们中间若有缺少智慧的，应当求那厚赐与众人、也不斥责人的　神，[主]就必赐给他。"
+  },
+  {
+    "reference" : "James 1:6",
+    "kr" : "오직 믿음으로 구하고 조금도 의심하지 말라 의심하는 자는 마치 바람에 밀려 요동하는 바다 물결 같으니 ",
+    "en" : "But let him ask in faith, with no doubting, for he who doubts is like a wave of the sea driven and tossed by the wind.",
+    "cn" : "只要凭着信心求，一点不疑惑；因为那疑惑的人，就像海中的波浪，被风吹动翻腾。"
+  },
+  {
+    "cn" : "忍受试探的人是有福的，因为他经过试验以后，必得生命的冠冕；这是[主]应许给那些爱他之人的。",
+    "kr" : "시험을 참는 자는 복이 있도다 이것이 옳다 인정하심을 받은 후에 주께서 자기를 사랑하는 자들에게 약속하신 생명의 면류관을 얻을 것임이니라 ",
+    "en" : "Blessed is the man who endures temptation; for when he has been approved, he will receive the crown of life which the Lord has promised to those who love Him.",
+    "reference" : "James 1:12"
+  },
+  {
+    "en" : "Every good gift and every perfect gift is from above, and comes down from the Father of lights, with whom there is no variation or shadow of turning.",
+    "kr" : "각양 좋은 은사와 온전한 선물이 다 위로부터 빛들의 아버지께로서 내려오나니 그는 변함도 없으시고 회전하는 그림자도 없으시니라 ",
+    "cn" : "各样美善的恩赐和各样全备的赏赐都是从上头来的，从众光之父那里降下来的；在他并没有改变，也没有转动的影儿。",
+    "reference" : "James 1:17"
+  },
+  {
+    "cn" : "我亲爱的弟兄们，这是你们所知道的。但你们各人要快快地听，慢慢地说，慢慢地动怒，",
+    "reference" : "James 1:19",
+    "kr" : "내 사랑하는 형제들아 너희가 알거니와 사람마다 듣기는 속히 하고 말하기는 더디 하며 성내기도 더디하라 ",
+    "en" : "So then, my beloved brethren, let every man be swift to hear, slow to speak, slow to wrath;"
+  },
+  {
+    "en" : "But be doers of the word, and not hearers only, deceiving yourselves.",
+    "kr" : "너희는 도를 행하는 자가 되고 듣기만 하여 자신을 속이는 자가 되지 말라 ",
+    "reference" : "James 1:22",
+    "cn" : "只是你们要行道，不要单单听道，自己欺哄自己。"
+  },
+  {
+    "kr" : "이와 같이 행함이 없는 믿음은 그 자체가 죽은 것이라 ",
+    "en" : "Thus also faith by itself, if it does not have works, is dead.",
+    "cn" : "这样，信心若没有行为就是死的。",
+    "reference" : "James 2:17"
+  },
+  {
+    "en" : "Therefore submit to God. Resist the devil and he will flee from you.",
+    "reference" : "James 4:7",
+    "cn" : "故此，你们要顺服　神。务要抵挡魔鬼，魔鬼就必离开你们逃跑了。",
+    "kr" : "그런즉 너희는 하나님께 순복할지어다 마귀를 대적하라 그리하면 너희를 피하리라 "
+  },
+  {
+    "en" : "Draw near to God and He will draw near to you. Cleanse your hands, you sinners; and purify your hearts, you double-minded.",
+    "reference" : "James 4:8",
+    "kr" : "하나님을 가까이 하라 그리하면 너희를 가까이 하시리라 죄인들아 손을 깨끗이 하라 두 마음을 품은 자들아 마음을 성결케 하라 ",
+    "cn" : "你们亲近　神，　神就必亲近你们。有罪的人哪，要洁净你们的手！心怀二意的人哪，要清洁你们的心！"
+  },
+  {
+    "reference" : "James 5:16",
+    "kr" : "이러므로 너희 죄를 서로 고하며 병 낫기를 위하여 서로 기도하라 의인의 간구는 역사하는 힘이 많으니라 ",
+    "en" : "Confess your trespasses to one another, and pray for one another, that you may be healed. The effective, fervent prayer of a righteous man avails much.",
+    "cn" : "所以你们要彼此认罪，互相代求，使你们可以得医治。义人祈祷所发的力量是大有功效的。"
+  },
+  {
+    "en" : "Blessed be the God and Father of our Lord Jesus Christ, who according to His abundant mercy has begotten us again to a living hope through the resurrection of Jesus Christ from the dead,",
+    "kr" : "찬송하리로다 우리 주 예수 그리스도의 아버지 하나님이 그 많으신 긍휼대로 예수 그리스도의 죽은 자 가운데서 부활하심으로 말미암아 우리를 거듭나게 하사 산 소망이 있게 하시며 ",
+    "cn" : "愿颂赞归与我们主耶稣基督的父　神！他曾照自己的大怜悯，借耶稣基督从死里复活，重生了我们，叫我们有活泼的盼望，",
+    "reference" : "I Peter 1:3"
+  },
+  {
+    "kr" : "예수를 너희가 보지 못하였으나 사랑하는도다 이제도 보지 못하나 믿고 말할 수 없는 영광스러운 즐거움으로 기뻐하니 ",
+    "en" : "whom having not seen you love. Though now you do not see Him, yet believing, you rejoice with joy inexpressible and full of glory,",
+    "reference" : "I Peter 1:8",
+    "cn" : "你们虽然没有见过他，却是爱他；如今虽不得看见，却因信他就有说不出来、满有荣光的大喜乐；"
+  },
+  {
+    "kr" : "오직 너희는 택하신 족속이요 왕같은 제사장들이요 거룩한 나라요 그의 소유된 백성이니 이는 너희를 어두운 데서 불러내어 그의 기이한 빛에 들어가게 하신 자의 아름다운 덕을 선전하게 하려 하심이라 ",
+    "cn" : "惟有你们是被拣选的族类，是有君尊的祭司，是圣洁的国度，是属　[神]的子民，要叫你们宣扬那召你们出黑暗入奇妙光明者的美德。",
+    "reference" : "I Peter 2:9",
+    "en" : "But you are a chosen generation, a royal priesthood, a holy nation, His own special people, that you may proclaim the praises of Him who called you out of darkness into His marvelous light;"
+  },
+  {
+    "cn" : "他被挂在木头上，亲身担当了我们的罪，使我们既然在罪上死，就得以在义上活。因他受的鞭伤，你们便得了医治。",
+    "kr" : "친히 나무에 달려 그 몸으로 우리 죄를 담당하셨으니 이는 우리로 죄에 대하여 죽고 의에 대하여 살게 하려 하심이라 저가 채찍에 맞음으로 너희는 나음을 얻었나니 ",
+    "reference" : "I Peter 2:24",
+    "en" : "who Himself bore our sins in His own body on the tree, that we, having died to sins, might live for righteousness—by whose stripes you were healed."
+  },
+  {
+    "cn" : "只要心里尊主基督为圣。有人问你们心中盼望的缘由，就要常作准备，以温柔、敬畏的心回答各人；",
+    "reference" : "I Peter 3:15",
+    "kr" : "너희 마음에 그리스도를 주로 삼아 거룩하게 하고 너희 속에 있는 소망에 관한 이유를 묻는 자에게는 대답할 것을 항상 예비하되 온유와 두려움으로 하고 ",
+    "en" : "But sanctify the Lord God in your hearts, and always be ready to give a defense to everyone who asks you a reason for the hope that is in you, with meekness and fear;"
+  },
+  {
+    "cn" : "最要紧的是彼此切实相爱，因为爱能遮掩许多的罪。",
+    "en" : "And above all things have fervent love for one another, for “love will cover a multitude of sins.”",
+    "reference" : "I Peter 4:8",
+    "kr" : "무엇보다도 열심으로 서로 사랑할지니 사랑은 허다한 죄를 덮느니라 "
+  },
+  {
+    "en" : "casting all your care upon Him, for He cares for you.",
+    "reference" : "I Peter 5:7",
+    "cn" : "你们要将一切的忧虑卸给　神，因为他顾念你们。",
+    "kr" : "너희 염려를 다 주께 맡겨 버리라 이는 저가 너희를 권고하심이니라 "
+  },
+  {
+    "kr" : "근신하라 깨어라 너희 대적 마귀가 우는 사자 같이 두루 다니며 삼킬 자를 찾나니 ",
+    "cn" : "务要谨守，警醒。[因为]你们的仇敌魔鬼，如同吼叫的狮子，遍地游行，寻找可吞吃的人。",
+    "en" : "Be sober, be vigilant; because your adversary the devil walks about like a roaring lion, seeking whom he may devour.",
+    "reference" : "I Peter 5:8"
+  },
+  {
+    "cn" : "因此，他已将又宝贵又极大的应许赐给我们，叫我们既脱离世上从情欲来的败坏，就得与　神的性情有分。",
+    "en" : "by which have been given to us exceedingly great and precious promises, that through these you may be partakers of the divine nature, having escaped the corruption that is in the world through lust.",
+    "kr" : "이로써 그 보배롭고 지극히 큰 약속을 우리에게 주사 이 약속으로 말미암아 너희로 정욕을 인하여 세상에서 썩어질 것을 피하여 신의 성품에 참예하는 자가 되게 하려 하셨으니 ",
+    "reference" : "II Peter 1:4"
+  },
+  {
+    "en" : "The Lord is not slack concerning His promise, as some count slackness, but is longsuffering toward us, not willing that any should perish but that all should come to repentance.",
+    "reference" : "II Peter 3:9",
+    "cn" : "主所应许的[尚未成就]，有人以为他是耽延，其实不是耽延，乃是宽容你们，不愿有一人沉沦，乃愿人人都悔改。",
+    "kr" : "주의 약속은 어떤 이의 더디다고 생각하는 것 같이 더딘 것이 아니라 오직 너희를 대하여 오래 참으사 아무도 멸망치 않고 다 회개하기에 이르기를 원하시느니라 "
+  },
+  {
+    "cn" : "我们若认自己的罪，　神是信实的，是公义的，必要赦免我们的罪，洗净我们一切的不义。",
+    "reference" : "I John 1:9",
+    "kr" : "만일 우리가 우리 죄를 자백하면 저는 미쁘시고 의로우사 우리 죄를 사하시며 모든 불의에서 우리를 깨끗케 하실 것이요 ",
+    "en" : "If we confess our sins, He is faithful and just to forgive us our sins and to cleanse us from all unrighteousness."
+  },
+  {
+    "kr" : "보라 아버지께서 어떠한 사랑을 우리에게 주사 하나님의 자녀라 일컬음을 얻게 하셨는고 우리가 그러하도다 그러므로 세상이 우리를 알지 못함은 그를 알지 못함이니라 ",
+    "en" : "Behold what manner of love the Father has bestowed on us, that we should be called children of God! Therefore the world does not know us, because it did not know Him.",
+    "cn" : "你看父赐给我们是何等的慈爱，使我们得称为　神的儿女；我们也真是他的儿女。世人所以不认识我们，是因未曾认识他。",
+    "reference" : "I John 3:1"
+  },
+  {
+    "cn" : "小子们哪，我们相爱，不要只在言语和舌头上，总要在行为和诚实上。",
+    "kr" : "자녀들아 우리가 말과 혀로만 사랑하지 말고 오직 행함과 진실함으로 하자 ",
+    "en" : "My little children, let us not love in word or in tongue, but in deed and in truth.",
+    "reference" : "I John 3:18"
+  },
+  {
+    "kr" : "사랑하는 자들아 영을 다 믿지 말고 오직 영들이 하나님께 속하였나 시험하라 많은 거짓 선지자가 세상에 나왔음이니라 ",
+    "cn" : "亲爱的[弟兄]啊，一切的灵，你们不可都信，总要试验那些灵是出于　神的不是，因为世上有许多假先知已经出来了。",
+    "en" : "Beloved, do not believe every spirit, but test the spirits, whether they are of God; because many false prophets have gone out into the world.",
+    "reference" : "I John 4:1"
+  },
+  {
+    "en" : "You are of God, little children, and have overcome them, because He who is in you is greater than he who is in the world.",
+    "reference" : "I John 4:4",
+    "cn" : "小子们哪，你们是属　神的，并且胜了他们；因为那在你们里面的，比那在世界上的更大。",
+    "kr" : "자녀들아 너희는 하나님께 속하였고 또 저희를 이기었나니 이는 너희 안에 계신 이가 세상에 있는 이보다 크심이라 "
+  },
+  {
+    "kr" : "사랑하는 자들아 우리가 서로 사랑하자 사랑은 하나님께 속한 것이니 사랑하는 자마다 하나님께로 나서 하나님을 알고 ",
+    "en" : "Beloved, let us love one another, for love is of God; and everyone who loves is born of God and knows God.",
+    "cn" : "亲爱的[弟兄]啊，我们应当彼此相爱，因为爱是从　神来的。凡有爱心的，都是由　神而生，并且认识　神。",
+    "reference" : "I John 4:7"
+  },
+  {
+    "en" : "He who does not love does not know God, for God is love.",
+    "kr" : "사랑하지 아니하는 자는 하나님을 알지 못하나니 이는 하나님은 사랑이심이라 ",
+    "reference" : "I John 4:8",
+    "cn" : "没有爱心的，就不认识　神，因为　神就是爱。"
+  },
+  {
+    "kr" : "어느 때나 하나님을 본 사람이 없으되 만일 우리가 서로 사랑하면 하나님이 우리 안에 거하시고 그의 사랑이 우리 안에 온전히 이루느니라 ",
+    "en" : "No one has seen God at any time. If we love one another, God abides in us, and His love has been perfected in us.",
+    "reference" : "I John 4:12",
+    "cn" : "从来没有人见过　神，我们若彼此相爱，　神就住在我们里面，爱他的心在我们里面得以完全了。"
+  },
+  {
+    "en" : "There is no fear in love; but perfect love casts out fear, because fear involves torment. But he who fears has not been made perfect in love.",
+    "kr" : "사랑 안에 두려움이 없고 온전한 사랑이 두려움을 내어 쫓나니 두려움에는 형벌이 있음이라 두려워하는 자는 사랑 안에서 온전히 이루지 못하였느니라 ",
+    "cn" : "爱里没有惧怕；爱既完全，就把惧怕除去。因为惧怕里含着刑罚，惧怕的人在爱里未得完全。",
+    "reference" : "I John 4:18"
+  },
+  {
+    "kr" : "우리가 사랑함은 그가 먼저 우리를 사랑하셨음이라 ",
+    "en" : "We love Him because He first loved us.",
+    "reference" : "I John 4:19",
+    "cn" : "我们爱，因为　神先爱我们。"
+  },
+  {
+    "cn" : "我们遵守　神的诫命，这就是爱他了，并且他的诫命不是难守的。",
+    "reference" : "I John 5:3",
+    "en" : "For this is the love of God, that we keep His commandments. And His commandments are not burdensome.",
+    "kr" : "하나님을 사랑하는 것은 이것이니 우리가 그의 계명들을 지키는 것이라 그의 계명들은 무거운 것이 아니로다 "
+  },
+  {
+    "kr" : "대저 하나님께로서 난 자마다 세상을 이기느니라 세상을 이긴 이김은 이것이니 우리의 믿음이니라 ",
+    "cn" : "因为凡从　神生的，就胜过世界；使我们胜了世界的，就是我们的信心。",
+    "reference" : "I John 5:4",
+    "en" : "For whatever is born of God overcomes the world. And this is the victory that has overcome the world—our faith."
+  },
+  {
+    "cn" : "我们若照他的旨意求什么，他就听我们，这是我们向他所存坦然无惧的心。",
+    "reference" : "I John 5:14",
+    "kr" : "그를 향하여 우리의 가진 바 담대한 것이 이것이니 그의 뜻대로 무엇을 구하면 들으심이라 ",
+    "en" : "Now this is the confidence that we have in Him, that if we ask anything according to His will, He hears us."
+  },
+  {
+    "kr" : "또 사랑은 이것이니 우리가 그 계명을 좇아 행하는 것이요 계명은 이것이니 너희가 처음부터 들은 바와 같이 그 가운데서 행하라 하심이라 ",
+    "reference" : "II John 1:6",
+    "en" : "This is love, that we walk according to His commandments. This is the commandment, that as you have heard from the beginning, you should walk in it.",
+    "cn" : "我们若照他的命令行，这就是爱。你们从起初所听见当行的，就是这命令。"
+  },
+  {
+    "reference" : "III John 1:4",
+    "kr" : "내가 내 자녀들이 진리 안에서 행한다 함을 듣는 것보다 더 즐거움이 없도다 ",
+    "cn" : "我听见我的儿女们按真理而行，我的喜乐就没有比这个大的。",
+    "en" : "I have no greater joy than to hear that my children walk in truth."
+  },
+  {
+    "kr" : "능히 너희를 보호하사 거침이 없게 하시고 너희로 그 영광 앞에 흠이 없이 즐거움으로 서게 하실 자 ",
+    "en" : "Now to Him who is able to keep you from stumbling, And to present you faultless Before the presence of His glory with exceeding joy,",
+    "reference" : "Jude 1:24",
+    "cn" : "那能保守你们不失脚、叫你们无瑕无疵、欢欢喜喜站在他荣耀之前的我们的救主—独一的　神，"
+  },
+  {
+    "cn" : "主　神说：「我是阿拉法，我是俄梅戛，是昔在、今在、以后[永]在的全能者。」",
+    "reference" : "Revelation 1:8",
+    "kr" : "주 하나님이 가라사대 나는 알파와 오메가라 이제도 있고 전에도 있었고 장차 올 자요 전능한 자라 하시더라 ",
+    "en" : "“I am the Alpha and the Omega, the Beginning and the End,” says the Lord, “who is and who was and who is to come, the Almighty.”"
+  },
+  {
+    "reference" : "Revelation 3:20",
+    "kr" : "볼지어다 내가 문 밖에 서서 두드리노니 누구든지 내 음성을 듣고 문을 열면 내가 그에게로 들어가 그로 더불어 먹고 그는 나로 더불어 먹으리라 ",
+    "en" : "Behold, I stand at the door and knock. If anyone hears My voice and opens the door, I will come in to him and dine with him, and he with Me.",
+    "cn" : "看哪，我站在门外叩门，若有听见我声音就开门的，我要进到他那里去，我与他，他与我一同坐席。"
+  },
+  {
+    "kr" : "우리 주 하나님이여 영광과 존귀와 능력을 받으시는 것이 합당하오니 주께서 만물을 지으신지라 만물이 주의 뜻대로 있었고 또 지으심을 받았나이다 하더라  ",
+    "en" : "“You are worthy, O Lord, To receive glory and honor and power; For You created all things, And by Your will they exist and were created.”",
+    "cn" : "我们的主，我们的　神， 你是配得荣耀、尊贵、权柄的； 因为你创造了万物， 并且万物是因你的旨意被创造而有的。",
+    "reference" : "Revelation 4:11"
+  },
+  {
+    "cn" : "因为宝座中的羔羊必牧养他们，领他们到生命水的泉源；　神也必擦去他们一切的眼泪。」",
+    "kr" : "이는 보좌 가운데 계신 어린 양이 저희의 목자가 되사 생명수 샘으로 인도하시고 하나님께서 저희 눈에서 모든 눈물을 씻어 주실 것임이러라  ",
+    "en" : "for the Lamb who is in the midst of the throne will shepherd them and lead them to living fountains of waters. And God will wipe away every tear from their eyes.”",
+    "reference" : "Revelation 7:17"
+  },
+  {
+    "kr" : "또 여러 형제가 어린 양의 피와 자기의 증거하는 말을 인하여 저를 이기었으니 그들은 죽기까지 자기 생명을 아끼지 아니하였도다 ",
+    "reference" : "Revelation 12:11",
+    "cn" : "弟兄胜过它，是因羔羊的血和自己所见证的道。他们虽至于死，也不爱惜性命。",
+    "en" : "And they overcame him by the blood of the Lamb and by the word of their testimony, and they did not love their lives to the death."
+  },
+  {
+    "cn" : "神要擦去他们一切的眼泪；不再有死亡，也不再有悲哀、哭号、疼痛，因为以前的事都过去了。」",
+    "kr" : "모든 눈물을 그 눈에서 씻기시매 다시 사망이 없고 애통하는 것이나 곡하는 것이나 아픈 것이 다시 있지 아니하리니 처음 것들이 다 지나갔음이러라 ",
+    "en" : "And God will wipe away every tear from their eyes; there shall be no more death, nor sorrow, nor crying. There shall be no more pain, for the former things have passed away.”",
+    "reference" : "Revelation 21:4"
+  },
+  {
+    "kr" : "보좌에 앉으신 이가 가라사대 보라 내가 만물을 새롭게 하노라 하시고 또 가라사대 이 말은 신실하고 참되니 기록하라 하시고 ",
+    "en" : "Then He who sat on the throne said, “Behold, I make all things new.” And He said to me, “Write, for these words are true and faithful.”",
+    "reference" : "Revelation 21:5",
+    "cn" : "坐宝座的说：「看哪，我将一切都更新了！」又说：「你要写上；因这些话是可信的，是真实的。」"
+  },
+  {
+    "en" : "And He said to me, “It is done! I am the Alpha and the Omega, the Beginning and the End. I will give of the fountain of the water of life freely to him who thirsts.",
+    "reference" : "Revelation 21:6",
+    "kr" : "또 내게 말씀하시되 이루었도다 나는 알파와 오메가요 처음과 나중이라 내가 생명수 샘물로 목마른 자에게 값없이 주리니 ",
+    "cn" : "他又对我说：「都成了！我是阿拉法，我是俄梅戛；我是初，我是终。我要将生命泉的水白白赐给那口渴的人喝。"
+  },
+  {
+    "kr" : "그러나 두려워하는 자들과 믿지 아니하는 자들과 흉악한 자들과 살인자들과 행음자들과 술객들과 우상 숭배자들과 모든 거짓말하는 자들은 불과 유황으로 타는 못에 참예하리니 이것이 둘째 사망이라 ",
+    "reference" : "Revelation 21:8",
+    "en" : "But the cowardly, unbelieving, abominable, murderers, sexually immoral, sorcerers, idolaters, and all liars shall have their part in the lake which burns with fire and brimstone, which is the second death.”",
+    "cn" : "惟有胆怯的、不信的、可憎的、杀人的、淫乱的、行邪术的、拜偶像的，和一切说谎话的，他们的分就在烧着硫磺的火湖里；这是第二次的死。」"
+  },
+  {
+    "cn" : "我是阿拉法，我是俄梅戛；我是首先的，我是末后的；我是初，我是终。」",
+    "reference" : "Revelation 22:13",
+    "kr" : "나는 알파와 오메가요 처음과 나중이요 시작과 끝이라 ",
+    "en" : "I am the Alpha and the Omega, the Beginning and the End, the First and the Last.”"
+  },
+  {
+    "reference" : "Revelation 22:17",
+    "cn" : "[圣]灵和新妇都说：「来！」听见的人也该说：「来！」口渴的人也当来；愿意的，都可以白白取生命的水[喝]。",
+    "kr" : "성령과 신부가 말씀하시기를 오라 하시는도다 듣는 자도 오라 할 것이요 목마른 자도 올 것이요 또 원하는 자는 값없이 생명수를 받으라 하시더라 ",
+    "en" : "And the Spirit and the bride say, “Come!” And let him who hears say, “Come!” And let him who thirsts come. Whoever desires, let him take the water of life freely."
+  }
+]

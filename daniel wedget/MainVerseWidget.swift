@@ -95,10 +95,10 @@ struct MainVerseWidgetEntryView: View {
                     Spacer(minLength: 0) // 进一步减少空间
                     
                     // 经文引用 - 右下角但更上移
-                    Text(CoreModels.VerseLanguage.localizeReference(entry.verse.reference, to: entry.preferredLanguage))
+                    Text(localizeReference(entry.verse.reference, to: entry.preferredLanguage))
                         .font(getFontForLanguage(size: 14, isBold: true))
                         .foregroundColor(Color(hex: "F0C030")) // 统一使用相同的亮金色
-                        .fontWeight(entry.preferredLanguage == .english ? .bold : .black) // 中韩文使用最粗字重
+                        .fontWeight(entry.preferredLanguage == "en" ? .bold : .black) // 中韩文使用最粗字重
                         .shadow(color: .black.opacity(0.7), radius: 2, x: 1, y: 1)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                         .padding(.trailing, 4) // 减少右侧内边距，使reference更靠右
@@ -128,7 +128,7 @@ struct MainVerseWidgetEntryView: View {
             print("⏰ 当前时间段: \(entry.timePeriod), 使用背景: \(entry.timePeriod.backgroundImageName)")
             
             // 显示首选语言
-            print("🌐 使用首选语言: \(entry.preferredLanguage.rawValue)")
+            print("🌐 使用首选语言: \(entry.preferredLanguage)")
             
             // 当前缓存状态
             if let groupDefaults = UserDefaults(suiteName: "group.com.daniel.DanielApp") {
@@ -147,18 +147,36 @@ struct MainVerseWidgetEntryView: View {
     // 根据语言选择字体
     func getFontForLanguage(size: CGFloat, isBold: Bool = false) -> Font {
         switch entry.preferredLanguage {
-        case .chinese:
+        case "zh-CN":
             return isBold ? 
                 .custom("SimSun", size: size).weight(.black) : 
                 .custom("SimSun", size: size)
-        case .english:
+        case "en":
             return isBold ? 
                 .custom("TimesNewRomanPSMT", size: size).weight(.bold) : 
                 .custom("TimesNewRomanPSMT", size: size)
-        case .korean:
+        case "ko":
             return isBold ? 
                 .custom("NanumMyeongjo", size: size).weight(.black) : 
                 .custom("NanumMyeongjo", size: size)
+        default:
+            return isBold ? 
+                .custom("SimSun", size: size).weight(.black) : 
+                .custom("SimSun", size: size)
+        }
+    }
+    
+    // 本地化经文引用
+    func localizeReference(_ reference: String, to language: String) -> String {
+        switch language {
+        case "zh-CN":
+            return reference
+        case "en":
+            return reference
+        case "ko":
+            return reference
+        default:
+            return reference
         }
     }
 }

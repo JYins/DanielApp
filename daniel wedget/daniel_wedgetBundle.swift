@@ -18,6 +18,9 @@ struct daniel_wedgetBundle: WidgetBundle {
         // 注册自定义字体
         registerFonts()
         
+        // 初始化Widget独立系统
+        initializeWidgetSystems()
+        
         print("💠 加载MainVerseWidget...")
         print("🔒 加载LockScreenVerseWidget...")
     }
@@ -27,6 +30,32 @@ struct daniel_wedgetBundle: WidgetBundle {
         MainVerseWidget()
         // 锁屏矩形Widget
         LockScreenVerseWidget()
+    }
+    
+    // 初始化Widget独立系统
+    private func initializeWidgetSystems() {
+        print("🚀 初始化Widget独立系统")
+        
+        // 尝试从主应用迁移设置（仅在首次运行时）
+        VerseWidgetSettingsManager.migrateFromMainAppIfNeeded()
+        
+        // 初始化数据管理器
+        let dataManager = WidgetDataManager.shared
+        print("📊 数据管理器初始化: \(dataManager.isDataReady() ? "成功" : "等待中")")
+        
+        // 初始化生命周期管理器
+        let lifecycleManager = WidgetLifecycleManager.shared
+        print("🔄 生命周期管理器初始化完成")
+        
+        // 检查并执行必要的更新
+        lifecycleManager.checkAndUpdateIfNeeded()
+        
+        // 同步数据状态
+        lifecycleManager.syncDataState()
+        
+        print("✅ Widget独立系统初始化完成")
+        print("📋 系统状态: \(lifecycleManager.getWidgetStatus())")
+        print("⚙️ 设置状态: \(VerseWidgetSettingsManager.getDebugInfo())")
     }
     
     // 注册自定义字体函数

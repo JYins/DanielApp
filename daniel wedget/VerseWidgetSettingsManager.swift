@@ -1,145 +1,157 @@
+//
+//  VerseWidgetSettingsManager.swift
+//  daniel wedgetExtension
+//
+//  Widget独立设置管理器
+//  完全独立于主应用的UserDefaults
+//
+
 import Foundation
 import WidgetKit
 
-// Widget设置管理器 - 用于在App和Widget之间共享设置
-public struct VerseWidgetSettingsManager {
-    // 静态实例
-    public static let shared = VerseWidgetSettingsManager()
+class VerseWidgetSettingsManager {
     
-    // App Group标识符 - 必须与主应用相同
-    private static let appGroupIdentifier = "group.com.daniel.DanielApp"
+    // MARK: - 初始化
+    private init() {
+        VerseWidgetSettingsManager.initializeDefaultSettings()
+    }
     
-    // UserDefaults键 - 与VerseData.swift中定义的保持一致
+    /// Widget独立的UserDefaults
+    private static var widgetDefaults: UserDefaults {
+        return UserDefaults.standard
+    }
+    
+    // MARK: - 默认设置初始化
+    static func initializeDefaultSettings() {
+        let defaults = widgetDefaults
+        
+        // 设置默认语言
+        if defaults.string(forKey: Keys.widgetLanguage) == nil {
+            defaults.set("zh-CN", forKey: Keys.widgetLanguage)
+            print("🔧 设置默认Widget语言: zh-CN")
+        }
+        
+        // 设置默认更新模式
+        if defaults.string(forKey: Keys.widgetUpdateMode) == nil {
+            defaults.set("daily", forKey: Keys.widgetUpdateMode)
+            print("🔧 设置默认Widget更新模式: daily")
+        }
+    }
+    
+    // MARK: - 语言设置
+    static func getPreferredLanguage() -> String {
+        initializeDefaultSettings()
+        return widgetDefaults.string(forKey: Keys.widgetLanguage) ?? "zh-CN"
+    }
+    
+    static func setPreferredLanguage(_ language: String) {
+        widgetDefaults.set(language, forKey: Keys.widgetLanguage)
+        print("🔧 Widget语言设置已更新为: \(language)")
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+    
+    // MARK: - 更新模式设置
+    static func getUpdateMode() -> String {
+        initializeDefaultSettings()
+        return widgetDefaults.string(forKey: Keys.widgetUpdateMode) ?? "daily"
+    }
+    
+    static func setUpdateMode(_ mode: String) {
+        widgetDefaults.set(mode, forKey: Keys.widgetUpdateMode)
+        print("🔧 Widget更新模式已设置为: \(mode)")
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+    
+    // MARK: - 最后更新时间
+    static func getLastUpdateTime() -> Date? {
+        return widgetDefaults.object(forKey: Keys.widgetLastUpdate) as? Date
+    }
+    
+    static func setLastUpdateTime(_ date: Date) {
+        widgetDefaults.set(date, forKey: Keys.widgetLastUpdate)
+        print("🔧 Widget最后更新时间已记录: \(date)")
+    }
+    
+    // MARK: - 数据版本管理
+    static func getDataVersion() -> String {
+        return widgetDefaults.string(forKey: Keys.widgetDataVersion) ?? "1.0.0"
+    }
+    
+    static func setDataVersion(_ version: String) {
+        widgetDefaults.set(version, forKey: Keys.widgetDataVersion)
+        print("🔧 Widget数据版本已更新为: \(version)")
+    }
+    
+    // MARK: - 重置所有设置
+    static func resetAllSettings() {
+        let defaults = widgetDefaults
+        defaults.removeObject(forKey: Keys.widgetLanguage)
+        defaults.removeObject(forKey: Keys.widgetUpdateMode)
+        defaults.removeObject(forKey: Keys.widgetLastUpdate)
+        defaults.removeObject(forKey: Keys.widgetDataVersion)
+        defaults.removeObject(forKey: Keys.migrationCompleted)
+        
+        print("🔧 所有Widget设置已重置")
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+    
+    // MARK: - 设置迁移
+    static func migrateFromMainAppIfNeeded() {
+        guard !UserDefaults.standard.bool(forKey: Keys.migrationCompleted) else {
+            print("🔧 Widget 设置迁移已完成，跳过")
+            return
+        }
+        
+        print("🔧 开始从主应用迁移 Widget 设置...")
+        
+        // 尝试从主应用的 UserDefaults 获取设置
+        let appGroupDefaults = UserDefaults(suiteName: "group.yinshi.DanielApp")
+        
+        // 迁移语言设置
+        if let mainAppLanguage = appGroupDefaults?.string(forKey: "preferredLanguage") {
+            setPreferredLanguage(mainAppLanguage)
+            print("🔧 已迁移语言设置: \(mainAppLanguage)")
+        }
+        
+        // 迁移更新模式设置
+        if let mainAppUpdateMode = appGroupDefaults?.string(forKey: "updateMode") {
+            setUpdateMode(mainAppUpdateMode)
+            print("🔧 已迁移更新模式设置: \(mainAppUpdateMode)")
+        }
+        
+        // 标记迁移完成
+        UserDefaults.standard.set(true, forKey: Keys.migrationCompleted)
+        print("🔧 Widget 设置迁移完成")
+    }
+    
+    // MARK: - 调试信息
+    static func getDebugInfo() -> String {
+        let language = getPreferredLanguage()
+        let updateMode = getUpdateMode()
+        let lastUpdate = getLastUpdateTime()
+        let dataVersion = getDataVersion()
+        
+        return """
+        语言: \(language)
+        更新模式: \(updateMode)
+        最后更新: \(lastUpdate?.description ?? "无")
+        数据版本: \(dataVersion)
+        """
+    }
+    
+    // MARK: - 私有键定义
     private struct Keys {
-        static let selectedLanguage = "selectedLanguage"
-        static let updateMode = "updateMode"
-        static let currentVerseReference = "currentVerseReference"
-        static let isVerseFixed = "isVerseFixed"
+        static let widgetLanguage = "widget_language"
+        static let widgetUpdateMode = "widget_update_mode"
+        static let widgetLastUpdate = "widget_last_update"
+        static let widgetDataVersion = "widget_data_version"
+        static let migrationCompleted = "widget_migration_completed"
     }
     
-    // 获取共享UserDefaults - 直接通过App Group标识符获取
-    private static func getSharedDefaults() -> UserDefaults {
-        print("Widget尝试获取共享UserDefaults，App Group: \(appGroupIdentifier)")
-        if let defaults = UserDefaults(suiteName: appGroupIdentifier) {
-            print("✅ 成功获取App Group UserDefaults")
-            
-            // 调试：输出所有已保存的键
-            print("👀 UserDefaults中的键:")
-            for key in defaults.dictionaryRepresentation().keys {
-                print(" - \(key)")
-            }
-            
-            return defaults
-        } else {
-            print("⚠️ 无法获取App Group UserDefaults")
-            print("🔍 检查应用扩展Entitlements文件")
-            print("🔍 App Group ID: \(appGroupIdentifier)")
-            
-            // 尝试检查entitlements文件
-            if let bundleId = Bundle.main.bundleIdentifier {
-                print("🔍 Bundle ID: \(bundleId)")
-            }
-            
-            return UserDefaults.standard
-        }
-    }
-    
-    // 获取偏好语言设置
-    public static func getPreferredLanguage() -> CoreModels.VerseLanguage {
-        let defaults = getSharedDefaults()
-        let savedValue = defaults.string(forKey: Keys.selectedLanguage)
-        
-        if let savedValue = savedValue, let language = CoreModels.VerseLanguage(rawValue: savedValue) {
-            return language
-        }
-        
-        // 默认使用中文
-        return .chinese
-    }
-    
-    // 设置偏好语言
-    public static func setPreferredLanguage(_ language: CoreModels.VerseLanguage) {
-        let defaults = getSharedDefaults()
-        defaults.set(language.rawValue, forKey: Keys.selectedLanguage)
-        defaults.synchronize()
-        
-        // 重新加载所有Widget时间线
-        WidgetCenter.shared.reloadAllTimelines()
-    }
-    
-    // 获取更新模式 (automatic/manual)
-    public static func getUpdateMode() -> String {
-        let defaults = getSharedDefaults()
-        return defaults.string(forKey: Keys.updateMode) ?? "automatic"
-    }
-    
-    // 设置更新模式
-    public static func setUpdateMode(_ mode: String) {
-        let defaults = getSharedDefaults()
-        defaults.set(mode, forKey: Keys.updateMode)
-        defaults.synchronize()
-        
-        // 重新加载所有Widget时间线
-        WidgetCenter.shared.reloadAllTimelines()
-    }
-    
-    // 获取当前选择的经文引用
-    public static func getCurrentVerseReference() -> String? {
-        let defaults = getSharedDefaults()
-        return defaults.string(forKey: Keys.currentVerseReference)
-    }
-    
-    // 设置当前选择的经文引用
-    public static func setCurrentVerseReference(_ reference: String?) {
-        let defaults = getSharedDefaults()
-        
-        if let reference = reference {
-            defaults.set(reference, forKey: Keys.currentVerseReference)
-        } else {
-            defaults.removeObject(forKey: Keys.currentVerseReference)
-        }
-        
-        defaults.synchronize()
-        
-        // 重新加载所有Widget时间线
-        WidgetCenter.shared.reloadAllTimelines()
-    }
-    
-    // 获取临时切换的经文引用（仅自动模式当天有效）
-    public static func getTempSwitchedReference() -> String? {
-        let defaults = getSharedDefaults()
-        return defaults.string(forKey: "tempSwitchedReference")
-    }
-    
-    // 设置临时切换的经文引用（仅自动模式当天有效）
-    public static func setTempSwitchedReference(_ reference: String?) {
-        let defaults = getSharedDefaults()
-        
-        if let reference = reference {
-            defaults.set(reference, forKey: "tempSwitchedReference")
-        } else {
-            defaults.removeObject(forKey: "tempSwitchedReference")
-        }
-        
-        defaults.synchronize()
-        
-        // 重新加载所有Widget时间线
-        WidgetCenter.shared.reloadAllTimelines()
-    }
-    
-    // 获取经文是否被固定
-    public static func isVerseFixed() -> Bool {
-        let defaults = getSharedDefaults()
-        return defaults.bool(forKey: Keys.isVerseFixed)
-    }
-    
-    // 设置经文是否被固定
-    public static func setVerseFixed(_ fixed: Bool) {
-        let defaults = getSharedDefaults()
-        defaults.set(fixed, forKey: Keys.isVerseFixed)
-        defaults.synchronize()
-        
-        // 重新加载所有Widget时间线
-        WidgetCenter.shared.reloadAllTimelines()
+    // MARK: - 兼容性方法（已弃用）
+    @available(*, deprecated, message: "使用新的Widget独立设置方法")
+    static func setCurrentVerse(_ verse: [String: Any]) {
+        // 为了向后兼容而保留，但不实现功能
+        print("⚠️ setCurrentVerse方法已弃用，请使用新的Widget独立数据管理")
     }
 } 

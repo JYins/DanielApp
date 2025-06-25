@@ -6,8 +6,9 @@
 //
 
 import SwiftUI
-import WidgetKit
 import CoreText
+import Firebase
+import UserNotifications
 
 @main
 struct DanielAppApp: App {
@@ -20,8 +21,20 @@ struct DanielAppApp: App {
     private let lastRefreshDateKey = "lastDailyVerseRefreshDate"
     
     init() {
+        // 配置全局UI样式
+        configureGlobalAppearance()
+        
+        // 设置应用通知
+        setupNotifications()
+        
+        // 配置Firebase
+        FirebaseApp.configure()
+        
         // 注册自定义字体
-        registerFonts()
+        registerCustomFonts()
+        
+        // 初始化应用数据
+        initializeAppData()
         
         // 初始化午夜更新管理器
         _ = MidnightUpdateManager.shared
@@ -29,7 +42,7 @@ struct DanielAppApp: App {
         // 初始化背景时间段管理器
         _ = BackgroundTimePeriodManager.shared
         
-        print("✅ DanielApp 启动完成，午夜更新管理器和背景管理器已激活")
+        print("✅ DanielApp主应用初始化完成")
     }
     
     var body: some Scene {
@@ -37,27 +50,22 @@ struct DanielAppApp: App {
             MainTabView()
                 .environmentObject(appState)
                 .onOpenURL { url in
-                    // 处理从小组件深层链接
+                    // 处理深层链接
                     if url.isVerseDeepLink {
                         appState.handleWidgetURL(url)
                     }
                 }
                 .onAppear {
-                    // 设置共享App Group
-                    if let suiteName = Bundle.main.object(forInfoDictionaryKey: "AppGroupIdentifier") as? String {
-                        UserDefaults(suiteName: suiteName)?.synchronize()
-                    }
-                    
                     // 优化启动时的初始化流程
                     initializeAppData()
                     
-                    // 注册应用激活时更新Widget - 避免重复更新
+                    // 注册应用激活时的处理
                     NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: .main) { _ in
                         self.handleAppActivation()
                     }
                 }
         }
-        .onChange(of: scenePhase) { newPhase in
+        .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .active {
                 // 应用变为活动状态时检查是否需要刷新
                 checkAndRefreshDailyVerse()
@@ -66,7 +74,7 @@ struct DanielAppApp: App {
     }
     
     // 注册自定义字体函数
-    private func registerFonts() {
+    private func registerCustomFonts() {
         // 宋体
         if let fontURL = Bundle.main.url(forResource: "SimSun Font", withExtension: "ttf") {
             CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, nil)
@@ -90,15 +98,9 @@ struct DanielAppApp: App {
         
         // 异步初始化，避免阻塞UI
         DispatchQueue.global(qos: .userInitiated).async {
-            // 立即加载并缓存当前经文，以便Widget可以访问
+            // 立即加载并缓存当前经文
             if let currentVerse = VerseDataService.shared.getCurrentVerseToDisplay() {
                 print("应用启动：已加载当前经文 - \(currentVerse.reference)")
-                
-                // 在主线程中更新Widget（只执行一次）
-                DispatchQueue.main.async {
-                    WidgetCenter.shared.reloadAllTimelines()
-                    print("📢 应用启动时已通知Widget更新")
-                }
             } else {
                 print("应用启动：无法加载当前经文")
             }
@@ -116,11 +118,10 @@ struct DanielAppApp: App {
     }
     
     private func performAppActivationTasks() {
-        // 每次应用被激活时，确保Widget数据是最新的
+        // 每次应用被激活时，确保数据是最新的
         if let currentVerse = VerseDataService.shared.getCurrentVerseToDisplay() {
             print("应用激活：已更新当前经文 - \(currentVerse.reference)")
         }
-        WidgetCenter.shared.reloadAllTimelines()
     }
     
     // 检查并刷新每日经文
@@ -195,34 +196,13 @@ struct DanielAppApp: App {
             defaults.synchronize()
             print("📝 已更新刷新日期为今天: \(today)")
             
-            // === 第五步：多次通知Widget更新，提高成功率 ===
-            print("📢 通知Widget更新...")
-            WidgetCenter.shared.reloadAllTimelines()
-            
-            // 延迟再次通知，确保更新成功
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                print("📢 第二次通知Widget更新...")
-                WidgetCenter.shared.reloadAllTimelines()
-                
-                // 最终确认
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    if let finalVerse = VerseDataService.shared.getCurrentVerseToDisplay() {
-                        print("✅ 刷新完成，当前经文: \(finalVerse.reference)")
-                    }
-                    print("📢 第三次通知Widget更新...")
-                    WidgetCenter.shared.reloadAllTimelines()
-                }
-            }
-            
             print("✅ 每日经文刷新过程完成")
         } else {
             print("ℹ️ 今天已经刷新过，无需重复刷新")
             
-            // 即使不需要刷新，也要确保Widget有最新数据
+            // 即使不需要刷新，也要确保数据是最新的
             if let currentVerse = VerseDataService.shared.getCurrentVerseToDisplay() {
                 print("📋 当前显示经文: \(currentVerse.reference)")
-                // 确保Widget数据同步
-                WidgetCenter.shared.reloadAllTimelines()
             }
         }
         
@@ -243,6 +223,18 @@ struct DanielAppApp: App {
         print("📱 Scene 即将失去活跃状态")
         // 通知午夜更新管理器应用即将进入后台
         MidnightUpdateManager.shared.applicationDidEnterBackground()
+    }
+    
+    // 配置全局UI样式
+    private func configureGlobalAppearance() {
+        print("🎨 配置全局UI样式")
+        // 在这里添加全局UI配置代码
+    }
+    
+    // 设置应用通知
+    private func setupNotifications() {
+        print("🔔 设置应用通知")
+        // 在这里添加通知设置代码
     }
 }
 
@@ -272,9 +264,6 @@ class AppState: ObservableObject {
         
         // 同时更新持久化存储的语言设置
         VerseDataService.shared.setSelectedLanguage(language)
-        
-        // 触发Widget更新
-        WidgetCenter.shared.reloadAllTimelines()
         
         print("应用语言已更新为: \(language.description)")
     }

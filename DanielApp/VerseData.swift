@@ -910,4 +910,54 @@ public class VerseDataService {
             print("📆 仍是当天，无需清理临时状态")
         }
     }
+    
+    // MARK: - Widget数据生成函数
+    
+    // 独立的静态函数来生成Widget数据
+    static func generateWidgetDataFile() {
+        print("✓ 开始生成Widget数据文件...")
+        
+        // 使用硬编码路径确保数据可以找到
+        guard let versesPath = Bundle.main.path(forResource: "verses_merged", ofType: "json"),
+              let versesData = NSData(contentsOfFile: versesPath) else {
+            print("❌ 无法找到verses_merged.json文件")
+            return
+        }
+        
+        guard let indexPath = Bundle.main.path(forResource: "verses_index", ofType: "json"),
+              let indexData = NSData(contentsOfFile: indexPath) else {
+            print("❌ 无法找到verses_index.json文件")
+            return
+        }
+        
+        do {
+            // 解析经文数据
+            let allVerses = try JSONDecoder().decode([MultiLanguageVerse].self, from: versesData as Data)
+            print("✓ 成功加载 \(allVerses.count) 条经文")
+            
+            // 解析索引
+            let verseIndex = try JSONDecoder().decode([String].self, from: indexData as Data)
+            print("✓ 成功加载 \(verseIndex.count) 条索引")
+            
+            // 匹配经文
+            let widgetVerses = verseIndex.compactMap { reference in
+                allVerses.first { $0.reference == reference }
+            }
+            
+            print("✓ 匹配到 \(widgetVerses.count) 条Widget经文")
+            
+            // 生成JSON数据
+            let jsonData = try JSONEncoder().encode(widgetVerses)
+            print("✓ 生成JSON数据，大小：\(jsonData.count) 字节")
+            
+            // 写入文件到Widget目录
+            let widgetPath = "/Users/yinshi/Documents/DanielApp_new/daniel wedget/widget_verses.json"
+            try jsonData.write(to: URL(fileURLWithPath: widgetPath))
+            
+            print("✓ 成功生成Widget数据文件：\(widgetPath)")
+            
+        } catch {
+            print("❌ 生成Widget数据失败：\(error)")
+        }
+    }
 }

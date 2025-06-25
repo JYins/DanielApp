@@ -104,11 +104,11 @@ struct LockScreenVerseWidgetEntryView: View {
                 .minimumScaleFactor(0.8)
             
             // 经文引用 - 底部对齐
-            Text(CoreModels.VerseLanguage.localizeReference(entry.verse.reference, to: entry.preferredLanguage))
+            Text(localizeReference(entry.verse.reference, to: entry.preferredLanguage))
                 .font(getFontForLanguage(size: 11, isBold: true))
-                .foregroundColor(entry.preferredLanguage == .english ? 
+                .foregroundColor(entry.preferredLanguage == "en" ? 
                     .white.opacity(0.95) : .white) // 中文和韩文使用不透明白色
-                .fontWeight(entry.preferredLanguage == .english ? .medium : .bold) // 中文和韩文使用粗体
+                .fontWeight(entry.preferredLanguage == "en" ? .medium : .bold) // 中文和韩文使用粗体
                 .frame(maxWidth: .infinity, alignment: .trailing)
         }
         .padding(.horizontal, 4)
@@ -120,26 +120,44 @@ struct LockScreenVerseWidgetEntryView: View {
         .onAppear {
             print("🔒 矩形锁屏Widget视图显示")
             print("📚 锁屏经文: \(entry.verse.reference)")
-            print("🌐 锁屏使用首选语言: \(entry.preferredLanguage.rawValue)")
+            print("🌐 锁屏使用首选语言: \(entry.preferredLanguage)")
             print("⏰ 当前时间段: \(entry.timePeriod), 使用背景: \(entry.timePeriod.backgroundImageName)")
+        }
+    }
+    
+    // 本地化经文引用
+    private func localizeReference(_ reference: String, to language: String) -> String {
+        switch language {
+        case "zh-CN":
+            return reference // 中文引用保持原样
+        case "en":
+            return reference // 英文引用保持原样
+        case "ko":
+            return reference // 韩文引用保持原样
+        default:
+            return reference
         }
     }
     
     // 根据语言选择字体
     func getFontForLanguage(size: CGFloat, isBold: Bool = false) -> Font {
         switch entry.preferredLanguage {
-        case .chinese:
+        case "zh-CN":
             return isBold ? 
                 .custom("SimSun", size: size).weight(.bold) : 
                 .custom("SimSun", size: size)
-        case .english:
+        case "en":
             return isBold ? 
                 .custom("TimesNewRomanPSMT", size: size).weight(.bold) : 
                 .custom("TimesNewRomanPSMT", size: size)
-        case .korean:
+        case "ko":
             return isBold ? 
                 .custom("NanumMyeongjo", size: size).weight(.bold) : 
                 .custom("NanumMyeongjo", size: size)
+        default:
+            return isBold ? 
+                .custom("TimesNewRomanPSMT", size: size).weight(.bold) : 
+                .custom("TimesNewRomanPSMT", size: size)
         }
     }
 }
