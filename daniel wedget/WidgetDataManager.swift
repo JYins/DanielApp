@@ -2,7 +2,7 @@ import Foundation
 import GameplayKit
 
 /// Widget独立数据管理器
-/// 用于Widget内部数据加载、经文选择和缓存管理
+/// 优先从主App共享缓存读取数据，确保与主App同步
 public class WidgetDataManager {
     
     // MARK: - 单例
@@ -11,6 +11,7 @@ public class WidgetDataManager {
     // MARK: - 属性
     private var allVerses: [MultiLanguageVerse] = []
     private var isDataLoaded = false
+    private let appGroupIdentifier = "group.com.daniel.DanielApp"
     
     // MARK: - 初始化
     private init() {
@@ -19,26 +20,77 @@ public class WidgetDataManager {
     
     // MARK: - 数据加载
     
-    /// 加载Widget经文数据
+    /// 加载Widget经文数据 - 优先从主App共享缓存读取
     private func loadWidgetData() {
-        guard let url = Bundle.main.url(forResource: "widget_verses", withExtension: "json") else {
-            print("❌ Widget: 找不到widget_verses.json文件")
-            loadFallbackData()
+        print("🔄 Widget开始加载数据...")
+        
+        // 优先尝试从主App共享缓存读取当前经文
+        if let sharedVerse = loadVerseFromMainAppCache() {
+            print("✅ Widget成功从主App缓存读取经文: \(sharedVerse.reference)")
+            // 为了保持Widget功能完整，仍需要加载完整数据集
+            loadCompleteDataSet()
             return
         }
         
-        do {
-            let data = try Data(contentsOf: url)
-            let verses = try JSONDecoder().decode([MultiLanguageVerse].self, from: data)
-            self.allVerses = verses
-            self.isDataLoaded = true
-            print("✅ Widget: 成功加载 \(verses.count) 条经文")
-        } catch {
-            print("❌ Widget: 解析经文数据失败 - \(error)")
-            loadFallbackData()
-        }
+        // 如果无法从主App读取，则加载Widget独立数据
+        loadCompleteDataSet()
     }
     
+    /// 从主App缓存读取当前经文
+    private func loadVerseFromMainAppCache() -> MultiLanguageVerse? {
+        guard let groupDefaults = UserDefaults(suiteName: appGroupIdentifier) else {
+            print("❌ Widget无法获取App Group UserDefaults")
+            return nil
+        }
+        
+        // 强制同步获取最新数据
+        groupDefaults.synchronize()
+        
+        // 方法1: 尝试读取主App缓存的简化格式数据
+        if let reference = groupDefaults.string(forKey: "widget_verse_reference"),
+           let cnText = groupDefaults.string(forKey: "widget_verse_cn"),
+           let enText = groupDefaults.string(forKey: "widget_verse_en"),
+           let krText = groupDefaults.string(forKey: "widget_verse_kr") {
+            
+            print("✅ Widget读取到主App缓存的简化格式经文")
+            return MultiLanguageVerse(reference: reference, cn: cnText, en: enText, kr: krText)
+        }
+        
+        // 方法2: 尝试读取主App缓存的JSON格式数据
+        if let verseData = groupDefaults.data(forKey: "cachedCurrentVerse") {
+            do {
+                let verse = try JSONDecoder().decode(MultiLanguageVerse.self, from: verseData)
+                print("✅ Widget读取到主App缓存的JSON格式经文")
+                return verse
+            } catch {
+                print("❌ Widget解析主App缓存的JSON数据失败: \(error)")
+            }
+        }
+        
+        print("⚠️ Widget无法从主App缓存读取经文")
+        return nil
+    }
+    
+    /// 加载完整数据集（用于随机经文等功能）
+    private func loadCompleteDataSet() {
+        // 首先尝试从主Bundle加载完整数据
+        if let url = Bundle.main.url(forResource: "widget_verses", withExtension: "json") {
+            do {
+                let data = try Data(contentsOf: url)
+                let verses = try JSONDecoder().decode([MultiLanguageVerse].self, from: data)
+                self.allVerses = verses
+                self.isDataLoaded = true
+                print("✅ Widget: 成功加载完整数据集 \(verses.count) 条经文")
+                return
+            } catch {
+                print("❌ Widget: 解析完整数据集失败 - \(error)")
+            }
+        }
+        
+        // 如果无法加载完整数据，使用备用数据
+        loadFallbackData()
+    }
+
     /// 加载备用数据（当主数据文件不可用时）
     private func loadFallbackData() {
         // 提供一些备用经文，确保Widget始终有内容显示
@@ -68,9 +120,15 @@ public class WidgetDataManager {
     
     // MARK: - 经文选择算法
     
-    /// 获取今日经文
+    /// 获取今日经文 - 优先从主App缓存读取
     /// - Returns: 今日的经文
     public func getTodaysVerse() -> MultiLanguageVerse {
+        // 首先尝试从主App缓存读取最新经文
+        if let cachedVerse = loadVerseFromMainAppCache() {
+            return cachedVerse
+        }
+        
+        // 如果无法从缓存读取，使用日期算法
         return getVerseForDate(Date())
     }
     
@@ -150,8 +208,15 @@ public class WidgetDataManager {
     
     /// 强制重新加载数据
     public func reloadData() {
+        print("🔄 Widget强制重新加载数据...")
         isDataLoaded = false
         allVerses.removeAll()
+        loadWidgetData()
+    }
+    
+    /// 强制从主App同步最新数据
+    public func syncWithMainApp() {
+        print("🔄 Widget强制从主App同步数据...")
         loadWidgetData()
     }
 }
@@ -160,11 +225,13 @@ public class WidgetDataManager {
 extension WidgetDataManager {
     /// 获取调试信息
     public func getDebugInfo() -> String {
+        let cachedVerse = loadVerseFromMainAppCache()
         return """
         Widget数据管理器状态:
         - 数据已加载: \(isDataLoaded)
         - 经文数量: \(allVerses.count)
+        - 主App缓存经文: \(cachedVerse?.reference ?? "无")
         - 今日经文: \(getTodaysVerse().reference)
         """
     }
-} 
+}

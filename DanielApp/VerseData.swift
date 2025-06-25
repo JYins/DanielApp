@@ -625,7 +625,7 @@ public class VerseDataService {
         return resultVerse
     }
     
-    // 缓存当前经文到UserDefaults
+    // 缓存当前经文到UserDefaults供Widget使用
     public func cacheCurrentVerse(_ verse: MultiLanguageVerse) {
         let defaults = getSharedDefaults()
         
@@ -636,13 +636,27 @@ public class VerseDataService {
         
         // 使用更可靠的缓存策略
         autoreleasepool {
+            // 清除旧数据，确保写入干净的数据
+            let keysToRemove = [
+                Keys.cachedCurrentVerse,
+                "widget_verse_reference",
+                "widget_verse_cn", 
+                "widget_verse_en",
+                "widget_verse_kr",
+                "widget_verse_timestamp"
+            ]
+            
+            for key in keysToRemove {
+                defaults.removeObject(forKey: key)
+            }
+            
+            // 强制同步删除操作
+            defaults.synchronize()
+            
             // 方法1：缓存完整JSON数据 (用于复杂场景)
             do {
                 let encoder = JSONEncoder()
                 let verseData = try encoder.encode(verse)
-                
-                // 清除并写入JSON缓存
-                defaults.removeObject(forKey: Keys.cachedCurrentVerse)
                 defaults.set(verseData, forKey: Keys.cachedCurrentVerse)
                 print("✅ 已缓存JSON格式经文数据")
             } catch {
@@ -658,27 +672,25 @@ public class VerseDataService {
             print("✅ 已缓存Widget专用简化格式数据")
         }
         
-        // 立即强制同步，不使用重试机制（避免阻塞）
-        let syncResult = defaults.synchronize()
-        print(syncResult ? "✅ 同步成功" : "⚠️ 同步返回false，但数据可能已写入")
+        // 强制同步多次，确保数据写入
+        var syncAttempts = 0
+        var syncSuccess = false
         
-        // 异步验证数据写入成功
-        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 0.1) {
-            if let verifyRef = defaults.string(forKey: "widget_verse_reference") {
-                print("✅ 验证成功: Widget可读取经文 \(verifyRef)")
-            } else {
-                print("❌ 验证失败: Widget无法读取缓存数据，尝试重新写入")
-                
-                // 如果验证失败，使用标准UserDefaults作为备用
-                let standardDefaults = UserDefaults.standard
-                standardDefaults.set(verse.reference, forKey: "widget_verse_reference")
-                standardDefaults.set(verse.cn, forKey: "widget_verse_cn")
-                standardDefaults.set(verse.en, forKey: "widget_verse_en")
-                standardDefaults.set(verse.kr, forKey: "widget_verse_kr")
-                standardDefaults.set(Date().timeIntervalSince1970, forKey: "widget_verse_timestamp")
-                standardDefaults.synchronize()
-                print("🔄 已使用标准UserDefaults重新写入数据")
+        while syncAttempts < 3 && !syncSuccess {
+            syncSuccess = defaults.synchronize()
+            syncAttempts += 1
+            
+            if !syncSuccess {
+                print("⚠️ 同步尝试 \(syncAttempts) 失败，等待后重试...")
+                Thread.sleep(forTimeInterval: 0.1)
             }
+        }
+        
+        print(syncSuccess ? "✅ 同步成功" : "⚠️ 多次同步尝试后仍失败")
+        
+        // 立即验证数据写入成功
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.verifyAndFixCache(verse: verse, defaults: defaults)
         }
         
         // 通知Widget更新
@@ -686,6 +698,58 @@ public class VerseDataService {
         WidgetCenter.shared.reloadAllTimelines()
         
         print("=== 经文缓存完成 ===")
+    }
+    
+    // 验证并修复缓存
+    private func verifyAndFixCache(verse: MultiLanguageVerse, defaults: UserDefaults) {
+        // 再次强制同步
+        defaults.synchronize()
+        
+        // 验证简化格式数据
+        if let verifyRef = defaults.string(forKey: "widget_verse_reference"),
+           let verifyCn = defaults.string(forKey: "widget_verse_cn"),
+           verifyRef == verse.reference && verifyCn == verse.cn {
+            print("✅ 验证成功: Widget可读取经文 \(verifyRef)")
+            return
+        }
+        
+        print("❌ 验证失败: Widget无法读取缓存数据，尝试修复...")
+        
+        // 尝试使用标准UserDefaults作为备用
+        let standardDefaults = UserDefaults.standard
+        standardDefaults.set(verse.reference, forKey: "widget_verse_reference")
+        standardDefaults.set(verse.cn, forKey: "widget_verse_cn")
+        standardDefaults.set(verse.en, forKey: "widget_verse_en")
+        standardDefaults.set(verse.kr, forKey: "widget_verse_kr")
+        standardDefaults.set(Date().timeIntervalSince1970, forKey: "widget_verse_timestamp")
+        
+        if standardDefaults.synchronize() {
+            print("🔄 已使用标准UserDefaults重新写入数据")
+        } else {
+            print("❌ 标准UserDefaults写入也失败")
+        }
+        
+        // 再次尝试App Group UserDefaults
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            defaults.set(verse.reference, forKey: "widget_verse_reference")
+            defaults.set(verse.cn, forKey: "widget_verse_cn")
+            defaults.set(verse.en, forKey: "widget_verse_en")
+            defaults.set(verse.kr, forKey: "widget_verse_kr")
+            defaults.set(Date().timeIntervalSince1970, forKey: "widget_verse_timestamp")
+            
+            if defaults.synchronize() {
+                print("🔄 延迟重试App Group UserDefaults成功")
+                
+                // 最终验证
+                if let finalRef = defaults.string(forKey: "widget_verse_reference") {
+                    print("✅ 最终验证成功: Widget可读取经文 \(finalRef)")
+                } else {
+                    print("❌ 最终验证仍失败")
+                }
+            } else {
+                print("❌ 延迟重试App Group UserDefaults也失败")
+            }
+        }
     }
     
     // 获取所有经文引用
