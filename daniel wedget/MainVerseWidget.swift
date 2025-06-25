@@ -168,16 +168,21 @@ struct MainVerseWidgetEntryView: View {
     
     // 本地化经文引用
     func localizeReference(_ reference: String, to language: String) -> String {
+        // 将字符串语言代码转换为VerseLanguage枚举
+        let verseLanguage: CoreModels.VerseLanguage
         switch language {
         case "zh-CN":
-            return reference
+            verseLanguage = .chinese
         case "en":
-            return reference
+            verseLanguage = .english
         case "ko":
-            return reference
+            verseLanguage = .korean
         default:
-            return reference
+            verseLanguage = .chinese
         }
+        
+        // 使用CoreModels中的本地化方法
+        return CoreModels.VerseLanguage.localizeReference(reference, to: verseLanguage)
     }
 }
 
