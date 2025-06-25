@@ -31,11 +31,11 @@ public class VerseDataService {
         let defaults = getSharedDefaults()
         
         // 设置默认值
-        if defaults.string(forKey: Keys.updateMode) == nil {
-            defaults.set("automatic", forKey: Keys.updateMode)
+        if defaults.string(forKey: VerseDataService.Keys.updateMode) == nil {
+            defaults.set("automatic", forKey: VerseDataService.Keys.updateMode)
         }
-        if defaults.object(forKey: Keys.isVerseFixed) == nil {
-            defaults.set(false, forKey: Keys.isVerseFixed)
+        if defaults.object(forKey: VerseDataService.Keys.isVerseFixed) == nil {
+            defaults.set(false, forKey: VerseDataService.Keys.isVerseFixed)
         }
         
         // 应用启动时清理过期的临时状态
@@ -393,7 +393,7 @@ public class VerseDataService {
     // 获取当前语言设置
     public func getSelectedLanguage() -> CoreModels.VerseLanguage {
         let defaults = getSharedDefaults()
-        let savedValue = defaults.string(forKey: Keys.selectedLanguage)
+        let savedValue = defaults.string(forKey: VerseDataService.Keys.selectedLanguage)
         
         if let savedValue = savedValue, let language = CoreModels.VerseLanguage(rawValue: savedValue) {
             return language
@@ -406,7 +406,7 @@ public class VerseDataService {
     // 设置语言
     public func setSelectedLanguage(_ language: CoreModels.VerseLanguage) {
         let defaults = getSharedDefaults()
-        defaults.set(language.rawValue, forKey: Keys.selectedLanguage)
+        defaults.set(language.rawValue, forKey: VerseDataService.Keys.selectedLanguage)
         defaults.synchronize()
         
         // 重新加载所有Widget时间线
@@ -416,13 +416,13 @@ public class VerseDataService {
     // 获取更新模式
     public func getUpdateMode() -> String {
         let defaults = getSharedDefaults()
-        return defaults.string(forKey: Keys.updateMode) ?? "automatic"
+        return defaults.string(forKey: VerseDataService.Keys.updateMode) ?? "automatic"
     }
     
     // 设置更新模式
     public func setUpdateMode(_ mode: String) {
         let defaults = getSharedDefaults()
-        defaults.set(mode, forKey: Keys.updateMode)
+        defaults.set(mode, forKey: VerseDataService.Keys.updateMode)
         defaults.synchronize()
         
         // 重新加载所有Widget时间线
@@ -432,16 +432,16 @@ public class VerseDataService {
     // 获取当前选择的经文引用
     public func getCurrentVerseReference() -> String? {
         let defaults = getSharedDefaults()
-        return defaults.string(forKey: Keys.currentVerseReference)
+        return defaults.string(forKey: VerseDataService.Keys.currentVerseReference)
     }
     
     // 设置当前选择的经文引用
     public func setCurrentVerseReference(_ reference: String?) {
         let defaults = getSharedDefaults()
         if let reference = reference {
-            defaults.set(reference, forKey: Keys.currentVerseReference)
+            defaults.set(reference, forKey: VerseDataService.Keys.currentVerseReference)
         } else {
-            defaults.removeObject(forKey: Keys.currentVerseReference)
+            defaults.removeObject(forKey: VerseDataService.Keys.currentVerseReference)
         }
         defaults.synchronize()
         
@@ -452,16 +452,16 @@ public class VerseDataService {
     // 获取临时切换的经文引用（仅自动模式当天有效）
     public func getTempSwitchedReference() -> String? {
         let defaults = getSharedDefaults()
-        return defaults.string(forKey: Keys.tempSwitchedReference)
+        return defaults.string(forKey: VerseDataService.Keys.tempSwitchedReference)
     }
     
     // 设置临时切换的经文引用（仅自动模式当天有效）
     public func setTempSwitchedReference(_ reference: String?) {
         let defaults = getSharedDefaults()
         if let reference = reference {
-            defaults.set(reference, forKey: Keys.tempSwitchedReference)
+            defaults.set(reference, forKey: VerseDataService.Keys.tempSwitchedReference)
         } else {
-            defaults.removeObject(forKey: Keys.tempSwitchedReference)
+            defaults.removeObject(forKey: VerseDataService.Keys.tempSwitchedReference)
         }
         defaults.synchronize()
         
@@ -472,13 +472,13 @@ public class VerseDataService {
     // 获取经文是否被固定
     public func isVerseFixed() -> Bool {
         let defaults = getSharedDefaults()
-        return defaults.bool(forKey: Keys.isVerseFixed)
+        return defaults.bool(forKey: VerseDataService.Keys.isVerseFixed)
     }
     
     // 设置经文是否被固定
     public func setVerseFixed(_ fixed: Bool) {
         let defaults = getSharedDefaults()
-        defaults.set(fixed, forKey: Keys.isVerseFixed)
+        defaults.set(fixed, forKey: VerseDataService.Keys.isVerseFixed)
         defaults.synchronize()
         
         // 重新加载所有Widget时间线
@@ -531,7 +531,7 @@ public class VerseDataService {
             
             // 获取上次刷新日期
             let lastRefreshDate: Date?
-            if let savedDate = defaults.object(forKey: Keys.lastDailyVerseRefreshDate) as? Date {
+            if let savedDate = defaults.object(forKey: VerseDataService.Keys.lastDailyVerseRefreshDate) as? Date {
                 lastRefreshDate = calendar.startOfDay(for: savedDate)
             } else {
                 lastRefreshDate = nil
@@ -559,7 +559,7 @@ public class VerseDataService {
                     resultVerse = verse
                     
                     // 更新刷新日期
-                    defaults.set(today, forKey: Keys.lastDailyVerseRefreshDate)
+                    defaults.set(today, forKey: VerseDataService.Keys.lastDailyVerseRefreshDate)
                     defaults.synchronize()
                     print("📝 已更新刷新日期为今天")
                 } else {
@@ -614,9 +614,9 @@ public class VerseDataService {
         // === 最终处理和缓存 ===
         if let verse = resultVerse {
             print("✅ 最终选定经文: \(verse.reference)")
-            // 缓存当前经文供widget使用
-            cacheCurrentVerse(verse)
-            print("💾 已缓存经文供widget使用")
+            // 使用优化的同步缓存方法
+            syncVerseToWidget(verse, mode: updateMode, isFixed: isFixed)
+            print("💾 已同步经文到Widget")
         } else {
             print("❌ 警告：无法获取任何经文")
         }
@@ -625,7 +625,168 @@ public class VerseDataService {
         return resultVerse
     }
     
-    // 缓存当前经文到UserDefaults供Widget使用
+    // 优化的Widget同步方法 - 根据不同模式采用不同的同步策略
+    private func syncVerseToWidget(_ verse: MultiLanguageVerse, mode: String, isFixed: Bool) {
+        print("=== 开始同步经文到Widget ===")
+        print("📋 模式: \(mode), 固定: \(isFixed)")
+        print("📖 经文: \(verse.reference)")
+        
+        let defaults = getSharedDefaults()
+        let currentLanguage = getSelectedLanguage()
+        
+        // 根据模式确定同步策略
+        let syncStrategy: String
+        if isFixed {
+            syncStrategy = "固定经文"
+        } else if mode == "manual" {
+            syncStrategy = "手动选择"
+        } else {
+            syncStrategy = "自动模式"
+        }
+        print("🔄 同步策略: \(syncStrategy)")
+        
+        // 异步执行同步，避免阻塞UI
+        DispatchQueue.global(qos: .userInitiated).async {
+            autoreleasepool {
+                // 1. 清除旧数据
+                let keysToRemove = [
+                    VerseDataService.Keys.cachedCurrentVerse,
+                    "widget_verse_reference",
+                    "widget_verse_cn", 
+                    "widget_verse_en",
+                    "widget_verse_kr",
+                    "widget_verse_timestamp",
+                    "widget_sync_mode",
+                    "widget_is_fixed"
+                ]
+                
+                for key in keysToRemove {
+                    defaults.removeObject(forKey: key)
+                }
+                
+                // 2. 写入新数据
+                do {
+                    // JSON格式（主要数据）
+                    let encoder = JSONEncoder()
+                    let verseData = try encoder.encode(verse)
+                    defaults.set(verseData, forKey: VerseDataService.Keys.cachedCurrentVerse)
+                    
+                    // 简化格式（Widget专用）
+                    defaults.set(verse.reference, forKey: "widget_verse_reference")
+                    defaults.set(verse.cn, forKey: "widget_verse_cn")
+                    defaults.set(verse.en, forKey: "widget_verse_en")
+                    defaults.set(verse.kr, forKey: "widget_verse_kr")
+                    defaults.set(Date().timeIntervalSince1970, forKey: "widget_verse_timestamp")
+                    
+                    // 模式信息（Widget用于判断更新策略）
+                    defaults.set(mode, forKey: "widget_sync_mode")
+                    defaults.set(isFixed, forKey: "widget_is_fixed")
+                    
+                    // 语言设置
+                    defaults.set(currentLanguage.rawValue, forKey: VerseDataService.Keys.selectedLanguage)
+                    
+                    print("✅ 数据写入完成")
+                } catch {
+                    print("❌ JSON编码失败: \(error)")
+                    // 即使JSON失败，简化格式数据已写入
+                }
+                
+                // 3. 执行同步（最多重试3次）
+                var syncSuccess = false
+                for attempt in 1...3 {
+                    syncSuccess = defaults.synchronize()
+                    if syncSuccess {
+                        print("✅ 同步成功 (尝试 \(attempt))")
+                        break
+                    } else {
+                        print("⚠️ 同步尝试 \(attempt) 失败")
+                        if attempt < 3 {
+                            Thread.sleep(forTimeInterval: 0.1 * Double(attempt))
+                        }
+                    }
+                }
+                
+                // 4. 验证同步结果
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    self.verifyWidgetSync(verse: verse, expectedMode: mode, expectedFixed: isFixed)
+                }
+            }
+        }
+        
+        // 5. 通知Widget更新
+        WidgetCenter.shared.reloadAllTimelines()
+        print("📢 已通知Widget更新")
+    }
+    
+    // 验证Widget同步结果
+    private func verifyWidgetSync(verse: MultiLanguageVerse, expectedMode: String, expectedFixed: Bool) {
+        let defaults = getSharedDefaults()
+        defaults.synchronize()
+        
+        // 验证基础数据
+        guard let syncedRef = defaults.string(forKey: "widget_verse_reference"),
+              let syncedCn = defaults.string(forKey: "widget_verse_cn"),
+              syncedRef == verse.reference && syncedCn == verse.cn else {
+            print("❌ Widget同步验证失败 - 基础数据不匹配")
+            // 尝试修复
+            self.repairWidgetSync(verse: verse, mode: expectedMode, isFixed: expectedFixed)
+            return
+        }
+        
+        // 验证模式信息
+        let syncedMode = defaults.string(forKey: "widget_sync_mode") ?? "unknown"
+        let syncedFixed = defaults.bool(forKey: "widget_is_fixed")
+        
+        if syncedMode != expectedMode || syncedFixed != expectedFixed {
+            print("⚠️ Widget模式信息不匹配 - 期望: \(expectedMode)/\(expectedFixed), 实际: \(syncedMode)/\(syncedFixed)")
+            // 修复模式信息
+            defaults.set(expectedMode, forKey: "widget_sync_mode")
+            defaults.set(expectedFixed, forKey: "widget_is_fixed")
+            defaults.synchronize()
+        }
+        
+        print("✅ Widget同步验证通过: \(verse.reference) (\(expectedMode), 固定:\(expectedFixed))")
+    }
+    
+    // 修复Widget同步
+    private func repairWidgetSync(verse: MultiLanguageVerse, mode: String, isFixed: Bool) {
+        print("🔧 尝试修复Widget同步...")
+        
+        let defaults = getSharedDefaults()
+        let currentLanguage = getSelectedLanguage()
+        
+        // 使用更强制的方式写入数据
+        DispatchQueue.global(qos: .userInitiated).async {
+            // 重新写入所有数据
+            defaults.set(verse.reference, forKey: "widget_verse_reference")
+            defaults.set(verse.cn, forKey: "widget_verse_cn")
+            defaults.set(verse.en, forKey: "widget_verse_en")
+            defaults.set(verse.kr, forKey: "widget_verse_kr")
+            defaults.set(Date().timeIntervalSince1970, forKey: "widget_verse_timestamp")
+            defaults.set(mode, forKey: "widget_sync_mode")
+            defaults.set(isFixed, forKey: "widget_is_fixed")
+            defaults.set(currentLanguage.rawValue, forKey: VerseDataService.Keys.selectedLanguage)
+            
+            // 强制同步
+            if defaults.synchronize() {
+                print("✅ Widget同步修复成功")
+                
+                // 再次验证
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    if let verifyRef = defaults.string(forKey: "widget_verse_reference"),
+                       verifyRef == verse.reference {
+                        print("✅ 修复验证通过")
+                    } else {
+                        print("❌ 修复验证仍失败，可能存在权限问题")
+                    }
+                }
+            } else {
+                print("❌ Widget同步修复失败")
+            }
+        }
+    }
+    
+    // 缓存当前经文到UserDefaults
     public func cacheCurrentVerse(_ verse: MultiLanguageVerse) {
         let defaults = getSharedDefaults()
         
@@ -636,28 +797,14 @@ public class VerseDataService {
         
         // 使用更可靠的缓存策略
         autoreleasepool {
-            // 清除旧数据，确保写入干净的数据
-            let keysToRemove = [
-                Keys.cachedCurrentVerse,
-                "widget_verse_reference",
-                "widget_verse_cn", 
-                "widget_verse_en",
-                "widget_verse_kr",
-                "widget_verse_timestamp"
-            ]
-            
-            for key in keysToRemove {
-                defaults.removeObject(forKey: key)
-            }
-            
-            // 强制同步删除操作
-            defaults.synchronize()
-            
             // 方法1：缓存完整JSON数据 (用于复杂场景)
             do {
                 let encoder = JSONEncoder()
                 let verseData = try encoder.encode(verse)
-                defaults.set(verseData, forKey: Keys.cachedCurrentVerse)
+                
+                // 清除并写入JSON缓存
+                defaults.removeObject(forKey: VerseDataService.Keys.cachedCurrentVerse)
+                defaults.set(verseData, forKey: VerseDataService.Keys.cachedCurrentVerse)
                 print("✅ 已缓存JSON格式经文数据")
             } catch {
                 print("❌ JSON缓存失败: \(error)")
@@ -672,25 +819,27 @@ public class VerseDataService {
             print("✅ 已缓存Widget专用简化格式数据")
         }
         
-        // 强制同步多次，确保数据写入
-        var syncAttempts = 0
-        var syncSuccess = false
+        // 立即强制同步，不使用重试机制（避免阻塞）
+        let syncResult = defaults.synchronize()
+        print(syncResult ? "✅ 同步成功" : "⚠️ 同步返回false，但数据可能已写入")
         
-        while syncAttempts < 3 && !syncSuccess {
-            syncSuccess = defaults.synchronize()
-            syncAttempts += 1
-            
-            if !syncSuccess {
-                print("⚠️ 同步尝试 \(syncAttempts) 失败，等待后重试...")
-                Thread.sleep(forTimeInterval: 0.1)
+        // 异步验证数据写入成功
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 0.1) {
+            if let verifyRef = defaults.string(forKey: "widget_verse_reference") {
+                print("✅ 验证成功: Widget可读取经文 \(verifyRef)")
+            } else {
+                print("❌ 验证失败: Widget无法读取缓存数据，尝试重新写入")
+                
+                // 如果验证失败，使用标准UserDefaults作为备用
+                let standardDefaults = UserDefaults.standard
+                standardDefaults.set(verse.reference, forKey: "widget_verse_reference")
+                standardDefaults.set(verse.cn, forKey: "widget_verse_cn")
+                standardDefaults.set(verse.en, forKey: "widget_verse_en")
+                standardDefaults.set(verse.kr, forKey: "widget_verse_kr")
+                standardDefaults.set(Date().timeIntervalSince1970, forKey: "widget_verse_timestamp")
+                standardDefaults.synchronize()
+                print("🔄 已使用标准UserDefaults重新写入数据")
             }
-        }
-        
-        print(syncSuccess ? "✅ 同步成功" : "⚠️ 多次同步尝试后仍失败")
-        
-        // 立即验证数据写入成功
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            self.verifyAndFixCache(verse: verse, defaults: defaults)
         }
         
         // 通知Widget更新
@@ -698,58 +847,6 @@ public class VerseDataService {
         WidgetCenter.shared.reloadAllTimelines()
         
         print("=== 经文缓存完成 ===")
-    }
-    
-    // 验证并修复缓存
-    private func verifyAndFixCache(verse: MultiLanguageVerse, defaults: UserDefaults) {
-        // 再次强制同步
-        defaults.synchronize()
-        
-        // 验证简化格式数据
-        if let verifyRef = defaults.string(forKey: "widget_verse_reference"),
-           let verifyCn = defaults.string(forKey: "widget_verse_cn"),
-           verifyRef == verse.reference && verifyCn == verse.cn {
-            print("✅ 验证成功: Widget可读取经文 \(verifyRef)")
-            return
-        }
-        
-        print("❌ 验证失败: Widget无法读取缓存数据，尝试修复...")
-        
-        // 尝试使用标准UserDefaults作为备用
-        let standardDefaults = UserDefaults.standard
-        standardDefaults.set(verse.reference, forKey: "widget_verse_reference")
-        standardDefaults.set(verse.cn, forKey: "widget_verse_cn")
-        standardDefaults.set(verse.en, forKey: "widget_verse_en")
-        standardDefaults.set(verse.kr, forKey: "widget_verse_kr")
-        standardDefaults.set(Date().timeIntervalSince1970, forKey: "widget_verse_timestamp")
-        
-        if standardDefaults.synchronize() {
-            print("🔄 已使用标准UserDefaults重新写入数据")
-        } else {
-            print("❌ 标准UserDefaults写入也失败")
-        }
-        
-        // 再次尝试App Group UserDefaults
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            defaults.set(verse.reference, forKey: "widget_verse_reference")
-            defaults.set(verse.cn, forKey: "widget_verse_cn")
-            defaults.set(verse.en, forKey: "widget_verse_en")
-            defaults.set(verse.kr, forKey: "widget_verse_kr")
-            defaults.set(Date().timeIntervalSince1970, forKey: "widget_verse_timestamp")
-            
-            if defaults.synchronize() {
-                print("🔄 延迟重试App Group UserDefaults成功")
-                
-                // 最终验证
-                if let finalRef = defaults.string(forKey: "widget_verse_reference") {
-                    print("✅ 最终验证成功: Widget可读取经文 \(finalRef)")
-                } else {
-                    print("❌ 最终验证仍失败")
-                }
-            } else {
-                print("❌ 延迟重试App Group UserDefaults也失败")
-            }
-        }
     }
     
     // 获取所有经文引用
@@ -809,9 +906,9 @@ public class VerseDataService {
         let defaults = getSharedDefaults()
         
         // 清除所有临时状态
-        defaults.removeObject(forKey: Keys.tempSwitchedReference)
-        defaults.removeObject(forKey: Keys.currentVerseReference)
-        defaults.removeObject(forKey: Keys.cachedCurrentVerse)
+        defaults.removeObject(forKey: VerseDataService.Keys.tempSwitchedReference)
+        defaults.removeObject(forKey: VerseDataService.Keys.currentVerseReference)
+        defaults.removeObject(forKey: VerseDataService.Keys.cachedCurrentVerse)
         defaults.removeObject(forKey: "widget_verse_reference")
         defaults.removeObject(forKey: "widget_verse_cn")
         defaults.removeObject(forKey: "widget_verse_en")
@@ -821,7 +918,7 @@ public class VerseDataService {
         // 重置刷新日期，强制重新获取今日经文
         let calendar = Calendar.current
         let yesterday = calendar.date(byAdding: .day, value: -1, to: Date())!
-        defaults.set(yesterday, forKey: Keys.lastDailyVerseRefreshDate)
+        defaults.set(yesterday, forKey: VerseDataService.Keys.lastDailyVerseRefreshDate)
         
         // 强制同步
         defaults.synchronize()
@@ -860,14 +957,14 @@ public class VerseDataService {
             let defaults = getSharedDefaults()
             
             // 清除临时切换引用（不清除永久引用）
-            defaults.removeObject(forKey: Keys.tempSwitchedReference)
+            defaults.removeObject(forKey: VerseDataService.Keys.tempSwitchedReference)
             setTempSwitchedReference(nil)
             print("✓ 已清除临时切换引用")
             
             // 标记当天已刷新
             let calendar = Calendar.current
             let today = calendar.startOfDay(for: Date())
-            defaults.set(today, forKey: Keys.lastDailyVerseRefreshDate)
+            defaults.set(today, forKey: VerseDataService.Keys.lastDailyVerseRefreshDate)
             
             // 强制同步到磁盘
             defaults.synchronize()
@@ -930,7 +1027,7 @@ public class VerseDataService {
         
         // 获取上次刷新日期
         let lastRefreshDate: Date?
-        if let savedDate = defaults.object(forKey: Keys.lastDailyVerseRefreshDate) as? Date {
+        if let savedDate = defaults.object(forKey: VerseDataService.Keys.lastDailyVerseRefreshDate) as? Date {
             lastRefreshDate = calendar.startOfDay(for: savedDate)
         } else {
             lastRefreshDate = nil
@@ -948,7 +1045,7 @@ public class VerseDataService {
             // 清除临时切换引用
             if let tempRef = getTempSwitchedReference() {
                 print("🧹 清除昨日临时切换引用: \(tempRef)")
-                defaults.removeObject(forKey: Keys.tempSwitchedReference)
+                defaults.removeObject(forKey: VerseDataService.Keys.tempSwitchedReference)
             }
             
             // 如果是自动模式且非固定，清除永久引用（让系统重新生成今日经文）
@@ -958,12 +1055,12 @@ public class VerseDataService {
             if updateMode == "automatic" && !isFixed {
                 if let currentRef = getCurrentVerseReference() {
                     print("🧹 自动模式下清除昨日永久引用: \(currentRef)")
-                    defaults.removeObject(forKey: Keys.currentVerseReference)
+                    defaults.removeObject(forKey: VerseDataService.Keys.currentVerseReference)
                 }
             }
             
             // 更新刷新日期
-            defaults.set(today, forKey: Keys.lastDailyVerseRefreshDate)
+            defaults.set(today, forKey: VerseDataService.Keys.lastDailyVerseRefreshDate)
             
             // 强制同步
             let syncSuccess = defaults.synchronize()
@@ -972,56 +1069,6 @@ public class VerseDataService {
             print("✅ 过期临时状态清理完成")
         } else {
             print("📆 仍是当天，无需清理临时状态")
-        }
-    }
-    
-    // MARK: - Widget数据生成函数
-    
-    // 独立的静态函数来生成Widget数据
-    static func generateWidgetDataFile() {
-        print("✓ 开始生成Widget数据文件...")
-        
-        // 使用硬编码路径确保数据可以找到
-        guard let versesPath = Bundle.main.path(forResource: "verses_merged", ofType: "json"),
-              let versesData = NSData(contentsOfFile: versesPath) else {
-            print("❌ 无法找到verses_merged.json文件")
-            return
-        }
-        
-        guard let indexPath = Bundle.main.path(forResource: "verses_index", ofType: "json"),
-              let indexData = NSData(contentsOfFile: indexPath) else {
-            print("❌ 无法找到verses_index.json文件")
-            return
-        }
-        
-        do {
-            // 解析经文数据
-            let allVerses = try JSONDecoder().decode([MultiLanguageVerse].self, from: versesData as Data)
-            print("✓ 成功加载 \(allVerses.count) 条经文")
-            
-            // 解析索引
-            let verseIndex = try JSONDecoder().decode([String].self, from: indexData as Data)
-            print("✓ 成功加载 \(verseIndex.count) 条索引")
-            
-            // 匹配经文
-            let widgetVerses = verseIndex.compactMap { reference in
-                allVerses.first { $0.reference == reference }
-            }
-            
-            print("✓ 匹配到 \(widgetVerses.count) 条Widget经文")
-            
-            // 生成JSON数据
-            let jsonData = try JSONEncoder().encode(widgetVerses)
-            print("✓ 生成JSON数据，大小：\(jsonData.count) 字节")
-            
-            // 写入文件到Widget目录
-            let widgetPath = "/Users/yinshi/Documents/DanielApp_new/daniel wedget/widget_verses.json"
-            try jsonData.write(to: URL(fileURLWithPath: widgetPath))
-            
-            print("✓ 成功生成Widget数据文件：\(widgetPath)")
-            
-        } catch {
-            print("❌ 生成Widget数据失败：\(error)")
         }
     }
 }

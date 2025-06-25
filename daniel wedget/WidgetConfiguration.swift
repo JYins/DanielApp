@@ -117,10 +117,14 @@ struct VerseTimelineProvider: TimelineProvider {
         print("✅ Widget快照获取今日经文: \(verse.reference)")
         print("📊 数据管理器状态: \(dataManager.isDataReady() ? "已就绪" : "未就绪")")
         
+        // 从主App获取语言设置
+        let preferredLanguage = dataManager.getLanguageFromMainApp()
+        print("🌐 Widget快照使用语言: \(preferredLanguage)")
+        
         completion(WidgetVerseEntry(
             date: Date(),
             verse: verse,
-            preferredLanguage: VerseWidgetSettingsManager.getPreferredLanguage(),
+            preferredLanguage: preferredLanguage,
             timePeriod: currentTimePeriod
         ))
     }
@@ -145,11 +149,15 @@ struct VerseTimelineProvider: TimelineProvider {
         print("✅ Widget独立获取今日经文: \(todaysVerse.reference)")
         print("📊 数据状态: \(dataManager.getDebugInfo())")
         
+        // 从主App获取语言设置
+        let preferredLanguage = dataManager.getLanguageFromMainApp()
+        print("🌐 Widget时间线使用语言: \(preferredLanguage)")
+        
         // 创建当前Entry
         let currentEntry = WidgetVerseEntry(
             date: now, 
             verse: todaysVerse,
-            preferredLanguage: VerseWidgetSettingsManager.getPreferredLanguage(),
+            preferredLanguage: preferredLanguage,
             timePeriod: currentTimePeriod
         )
         

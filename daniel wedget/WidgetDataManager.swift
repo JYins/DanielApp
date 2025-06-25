@@ -39,28 +39,49 @@ public class WidgetDataManager {
     /// 从主App缓存读取当前经文
     private func loadVerseFromMainAppCache() -> MultiLanguageVerse? {
         guard let groupDefaults = UserDefaults(suiteName: appGroupIdentifier) else {
-            print("❌ Widget无法获取App Group UserDefaults")
+            print("❌ Widget无法获取App Group UserDefaults for cache")
             return nil
         }
         
         // 强制同步获取最新数据
         groupDefaults.synchronize()
         
-        // 方法1: 尝试读取主App缓存的简化格式数据
-        if let reference = groupDefaults.string(forKey: "widget_verse_reference"),
-           let cnText = groupDefaults.string(forKey: "widget_verse_cn"),
-           let enText = groupDefaults.string(forKey: "widget_verse_en"),
-           let krText = groupDefaults.string(forKey: "widget_verse_kr") {
-            
-            print("✅ Widget读取到主App缓存的简化格式经文")
-            return MultiLanguageVerse(reference: reference, cn: cnText, en: enText, kr: krText)
+        print("=== Widget尝试从主App缓存读取经文 ===")
+        
+        // 读取同步模式信息
+        let syncMode = groupDefaults.string(forKey: "widget_sync_mode") ?? "unknown"
+        let isFixed = groupDefaults.bool(forKey: "widget_is_fixed")
+        let timestamp = groupDefaults.double(forKey: "widget_verse_timestamp")
+        
+        print("📋 同步模式: \(syncMode)")
+        print("📌 是否固定: \(isFixed)")
+        print("⏰ 时间戳: \(Date(timeIntervalSince1970: timestamp))")
+        
+        // 验证数据新鲜度（避免使用过期数据）
+        let dataAge = Date().timeIntervalSince1970 - timestamp
+        if timestamp > 0 && dataAge > 86400 { // 超过24小时
+            print("⚠️ 缓存数据过期 (超过24小时)，忽略")
+            return nil
         }
         
-        // 方法2: 尝试读取主App缓存的JSON格式数据
+        // 方法1：尝试读取简化格式数据（优先）
+        if let reference = groupDefaults.string(forKey: "widget_verse_reference"),
+           let cn = groupDefaults.string(forKey: "widget_verse_cn"),
+           let en = groupDefaults.string(forKey: "widget_verse_en"),
+           let kr = groupDefaults.string(forKey: "widget_verse_kr") {
+            
+            let verse = MultiLanguageVerse(reference: reference, cn: cn, en: en, kr: kr)
+            print("✅ Widget读取到主App缓存的简化格式经文: \(reference)")
+            print("🔄 经文模式: \(syncMode), 固定: \(isFixed)")
+            return verse
+        }
+        
+        // 方法2：尝试读取JSON格式数据（备用）
         if let verseData = groupDefaults.data(forKey: "cachedCurrentVerse") {
             do {
                 let verse = try JSONDecoder().decode(MultiLanguageVerse.self, from: verseData)
-                print("✅ Widget读取到主App缓存的JSON格式经文")
+                print("✅ Widget读取到主App缓存的JSON格式经文: \(verse.reference)")
+                print("🔄 经文模式: \(syncMode), 固定: \(isFixed)")
                 return verse
             } catch {
                 print("❌ Widget解析主App缓存的JSON数据失败: \(error)")
@@ -69,6 +90,30 @@ public class WidgetDataManager {
         
         print("⚠️ Widget无法从主App缓存读取经文")
         return nil
+    }
+    
+    /// 从主App读取完整状态信息
+    private func getMainAppStatus() -> (mode: String, isFixed: Bool, language: String) {
+        guard let groupDefaults = UserDefaults(suiteName: appGroupIdentifier) else {
+            return ("automatic", false, "zh-CN")
+        }
+        
+        groupDefaults.synchronize()
+        
+        let mode = groupDefaults.string(forKey: "widget_sync_mode") ?? "automatic"
+        let isFixed = groupDefaults.bool(forKey: "widget_is_fixed")
+        let languageRaw = groupDefaults.string(forKey: "selectedLanguage") ?? "chinese"
+        
+        // 转换语言格式
+        let language: String
+        switch languageRaw {
+        case "chinese", "cn": language = "zh-CN"
+        case "english", "en": language = "en"
+        case "korean", "kr": language = "ko"
+        default: language = "zh-CN"
+        }
+        
+        return (mode, isFixed, language)
     }
     
     /// 加载完整数据集（用于随机经文等功能）
@@ -123,13 +168,51 @@ public class WidgetDataManager {
     /// 获取今日经文 - 优先从主App缓存读取
     /// - Returns: 今日的经文
     public func getTodaysVerse() -> MultiLanguageVerse {
+        print("=== Widget开始获取今日经文 ===")
+        
+        // 获取主应用状态
+        let appStatus = getMainAppStatus()
+        print("📱 主应用状态 - 模式: \(appStatus.mode), 固定: \(appStatus.isFixed), 语言: \(appStatus.language)")
+        
         // 首先尝试从主App缓存读取最新经文
         if let cachedVerse = loadVerseFromMainAppCache() {
+            print("✅ 从主应用缓存获取经文: \(cachedVerse.reference)")
             return cachedVerse
         }
         
-        // 如果无法从缓存读取，使用日期算法
-        return getVerseForDate(Date())
+        print("⚠️ 无法从主应用缓存读取，使用Widget本地策略")
+        
+        // 根据模式采用不同的fallback策略
+        switch appStatus.mode {
+        case "automatic":
+            if appStatus.isFixed {
+                print("🔒 固定模式fallback - 尝试使用本地数据")
+                // 固定模式下，如果无法从缓存读取，使用稳定的经文
+                return getStableVerse()
+            } else {
+                print("🔄 自动模式fallback - 使用日期算法")
+                // 自动模式下，使用日期算法
+                return getVerseForDate(Date())
+            }
+        case "manual":
+            print("👐 手动模式fallback - 使用稳定经文")
+            // 手动模式下，使用稳定的经文避免随机变化
+            return getStableVerse()
+        default:
+            print("❓ 未知模式fallback - 使用日期算法")
+            return getVerseForDate(Date())
+        }
+    }
+    
+    /// 获取稳定经文（用于固定模式和手动模式的fallback）
+    private func getStableVerse() -> MultiLanguageVerse {
+        guard isDataLoaded && !allVerses.isEmpty else {
+            return getDefaultVerse()
+        }
+        
+        // 使用固定索引，确保稳定性
+        let stableIndex = 0 // 总是返回第一个经文，保证稳定
+        return allVerses[stableIndex]
     }
     
     /// 获取指定日期的经文
@@ -218,6 +301,13 @@ public class WidgetDataManager {
     public func syncWithMainApp() {
         print("🔄 Widget强制从主App同步数据...")
         loadWidgetData()
+    }
+    
+    /// 从主App读取语言设置（公共接口）
+    public func getLanguageFromMainApp() -> String {
+        let appStatus = getMainAppStatus()
+        print("✅ Widget读取到主App语言设置: \(appStatus.language)")
+        return appStatus.language
     }
 }
 
