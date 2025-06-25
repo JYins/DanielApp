@@ -336,7 +336,7 @@ class MidnightUpdateManager: NSObject {
                 
                 print("💾 已缓存新经文并更新刷新日期")
                 
-                // 4. 发送每日经文通知
+                // 4. 发送新的一天通知
                 scheduleVerseNotification(verse: verse)
                 
                 // 5. 通知Widget更新
@@ -381,31 +381,28 @@ class MidnightUpdateManager: NSObject {
         }
     }
     
-    /// 发送每日经文通知
+    /// 发送新的一天通知
     private func scheduleVerseNotification(verse: MultiLanguageVerse) {
-        print("📮 准备发送每日经文通知...")
+        print("📮 准备发送新的一天通知...")
         
         let language = VerseDataService.shared.getSelectedLanguage()
-        let verseText = getVerseText(verse, language: language)
-        let localizedReference = CoreModels.VerseLanguage.localizeReference(verse.reference, to: language)
         
         // 创建通知内容
         let content = UNMutableNotificationContent()
         
-        // 根据语言设置标题
+        // 根据语言设置标题和内容
         switch language {
         case .chinese:
-            content.title = "今日经文 📖"
-            content.subtitle = localizedReference
+            content.title = "新的一天 🌅"
+            content.body = "新的一天开始了，愿神的话语与您同在"
         case .english:
-            content.title = "Verse of the Day 📖"
-            content.subtitle = localizedReference
+            content.title = "New Day 🌅"
+            content.body = "A new day has begun, may God's word be with you"
         case .korean:
-            content.title = "오늘의 말씀 📖"
-            content.subtitle = localizedReference
+            content.title = "새로운 하루 🌅"
+            content.body = "새로운 하루가 시작되었습니다. 하나님의 말씀이 함께하시길"
         }
         
-        content.body = verseText
         content.sound = .default
         content.badge = 1
         
@@ -414,7 +411,7 @@ class MidnightUpdateManager: NSObject {
         
         // 创建通知请求
         let request = UNNotificationRequest(
-            identifier: "dailyVerse-\(Date().timeIntervalSince1970)",
+            identifier: "newDay-\(Date().timeIntervalSince1970)",
             content: content,
             trigger: trigger
         )
@@ -423,12 +420,11 @@ class MidnightUpdateManager: NSObject {
         UNUserNotificationCenter.current().add(request) { error in
             DispatchQueue.main.async {
                 if let error = error {
-                    print("❌ 通知发送失败: \(error.localizedDescription)")
+                    print("❌ 新的一天通知发送失败: \(error.localizedDescription)")
                 } else {
-                    print("✅ 每日经文通知已发送")
+                    print("✅ 新的一天通知已发送")
                     print("   📖 标题: \(content.title)")
-                    print("   📄 副标题: \(content.subtitle)")
-                    print("   📝 内容: \(verseText.prefix(50))...")
+                    print("   📝 内容: \(content.body)")
                 }
             }
         }
@@ -453,15 +449,6 @@ class MidnightUpdateManager: NSObject {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return formatter.string(from: date)
-    }
-    
-    /// 根据语言获取经文文本
-    private func getVerseText(_ verse: MultiLanguageVerse, language: CoreModels.VerseLanguage) -> String {
-        switch language {
-        case .chinese: return verse.cn
-        case .english: return verse.en
-        case .korean: return verse.kr
-        }
     }
     
     /// 检查更新状态
