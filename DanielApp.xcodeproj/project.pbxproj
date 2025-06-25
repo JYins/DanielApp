@@ -66,14 +66,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		445802472D9BDA2100B80771 /* Exceptions for "DanielApp" folder in "DanielApp" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				VerseWidgets/verses_index.json,
-				VerseWidgets/verses_merged.json,
-			);
-			target = 441492BF2D98935200C3DCF4 /* DanielApp */;
-		};
 		449D3FCB2D99FE1A00CB1993 /* Exceptions for "daniel wedget" folder in "daniel wedgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -97,7 +89,6 @@
 		441492C22D98935200C3DCF4 /* DanielApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				445802472D9BDA2100B80771 /* Exceptions for "DanielApp" folder in "DanielApp" target */,
 				449DB1882D9C6C16007A9872 /* Exceptions for "DanielApp" folder in "daniel wedgetExtension" target */,
 			);
 			path = DanielApp;
