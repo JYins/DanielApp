@@ -109,6 +109,10 @@ struct VerseTimelineProvider: TimelineProvider {
     func getSnapshot(in context: Context, completion: @escaping (WidgetVerseEntry) -> Void) {
         print("📸 Widget快照请求 - 使用独立数据管理器")
         
+        // 🔄 添加生命周期检查，确保快照数据是最新的
+        let lifecycleManager = WidgetLifecycleManager.shared
+        lifecycleManager.checkAndUpdateIfNeeded()
+        
         // 使用Widget独立数据管理器
         let dataManager = WidgetDataManager.shared
         let verse = dataManager.getTodaysVerse()
@@ -137,6 +141,13 @@ struct VerseTimelineProvider: TimelineProvider {
         let now = Date()
         print("⏰ 当前时间: \(now)")
         
+        // 🔥 核心修复：添加Widget生命周期管理 - 执行跨天检测和自动更新逻辑
+        print("🔄 执行Widget生命周期检查...")
+        let lifecycleManager = WidgetLifecycleManager.shared
+        lifecycleManager.checkAndUpdateIfNeeded()
+        lifecycleManager.syncDataState()
+        print("✅ Widget生命周期检查完成")
+        
         // 使用Widget独立数据管理器
         let dataManager = WidgetDataManager.shared
         
@@ -161,46 +172,9 @@ struct VerseTimelineProvider: TimelineProvider {
             timePeriod: currentTimePeriod
         )
         
-        // 计算下一次更新时间
-        let calendar = Calendar.current
-        let hour = calendar.component(.hour, from: now)
-        
-        // 背景变化时间点：5:00 (早晨)、10:00 (白天)、18:00 (晚上)
-        var nextBackgroundChangeHour: Int?
-        if hour < 5 {
-            nextBackgroundChangeHour = 5  // 今天5点变为早晨
-        } else if hour < 10 {
-            nextBackgroundChangeHour = 10 // 今天10点变为白天
-        } else if hour < 18 {
-            nextBackgroundChangeHour = 18 // 今天18点变为晚上
-        } else {
-            nextBackgroundChangeHour = 5  // 明天5点变为早晨
-        }
-        
-        // 计算下次背景变化时间
-        var nextBackgroundChangeDate: Date?
-        if let changeHour = nextBackgroundChangeHour {
-            if changeHour > hour || (changeHour == 5 && hour >= 18) {
-                // 今天的背景变化时间或明天5点
-                let targetDay = (changeHour == 5 && hour >= 18) ? 
-                    calendar.date(byAdding: .day, value: 1, to: now)! : now
-                nextBackgroundChangeDate = calendar.date(bySettingHour: changeHour, minute: 0, second: 0, of: targetDay)
-            }
-        }
-        
-        // 计算明天午夜0点（经文更新时间）
-        let tomorrowMidnight = calendar.date(byAdding: .day, value: 1, to: calendar.startOfDay(for: now))!
-        
-        // 选择最近的更新时间
-        var nextUpdateDate = tomorrowMidnight
-        if let backgroundChangeDate = nextBackgroundChangeDate,
-           backgroundChangeDate < tomorrowMidnight {
-            nextUpdateDate = backgroundChangeDate
-            print("🎨 下次更新时间: \(nextUpdateDate) (背景变化)")
-        } else {
-            print("🕛 下次更新时间: \(nextUpdateDate) (午夜经文更新)")
-        }
-        
+        // 计算下一次更新时间 - 使用WidgetLifecycleManager的智能计算
+        let nextUpdateDate = lifecycleManager.calculateNextUpdateTime()
+        print("⏰ 下次智能更新时间: \(nextUpdateDate)")
         print("⏰ 距离下次更新还有: \(String(format: "%.1f", nextUpdateDate.timeIntervalSince(now)/3600.0)) 小时")
         
         // 创建Timeline，设置在下次更新时间刷新
@@ -210,6 +184,7 @@ struct VerseTimelineProvider: TimelineProvider {
         print("✅ Widget独立时间线设置完成")
         print("📊 Widget当前显示: \(todaysVerse.reference)")
         print("🎨 当前背景: \(currentTimePeriod.backgroundImageName)")
+        print("🔄 生命周期状态: \(lifecycleManager.getWidgetStatus())")
         print("─────────────────────────────────────")
     }
 }

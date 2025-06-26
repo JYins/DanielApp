@@ -34,11 +34,27 @@ public class WidgetLifecycleManager {
     
     /// 触发Widget立即更新
     public func triggerImmediateUpdate() {
-        print("⚡ 触发Widget立即更新")
+        let now = Date()
+        print("⚡ 触发Widget立即更新 - 时间: \(now)")
+        
+        // 记录更新时间和详细信息
+        let defaults = UserDefaults(suiteName: "group.com.daniel.DanielApp")
+        defaults?.set(now, forKey: "lastWidgetUpdate")
+        defaults?.set(now.timeIntervalSince1970, forKey: "lastWidgetUpdateTimestamp")
+        
+        // 记录更新计数
+        let updateCount = defaults?.integer(forKey: "widgetUpdateCount") ?? 0
+        defaults?.set(updateCount + 1, forKey: "widgetUpdateCount")
+        
+        // 强制同步UserDefaults
+        defaults?.synchronize()
+        
+        print("📊 更新记录: 第\(updateCount + 1)次更新，时间戳: \(now.timeIntervalSince1970)")
+        
+        // 触发Widget时间线重新加载
         WidgetCenter.shared.reloadAllTimelines()
         
-        // 记录更新时间
-        UserDefaults(suiteName: "group.com.daniel.DanielApp")?.set(Date(), forKey: "lastWidgetUpdate")
+        print("✅ Widget时间线重新加载完成")
     }
     
     /// 检查是否需要更新Widget
@@ -52,11 +68,26 @@ public class WidgetLifecycleManager {
         let defaults = UserDefaults(suiteName: "group.com.daniel.DanielApp")
         let lastUpdate = defaults?.object(forKey: "lastWidgetUpdate") as? Date ?? Date.distantPast
         
-        // 检查是否跨天了
-        let isSameDay = calendar.isDate(now, inSameDayAs: lastUpdate)
+        print("⏰ 当前时间: \(now)")
+        print("⏰ 上次更新: \(lastUpdate)")
         
-        if !isSameDay {
+        // 检查是否跨天了 - 使用多重检测机制确保可靠性
+        let isSameDay = calendar.isDate(now, inSameDayAs: lastUpdate)
+        let currentDay = calendar.component(.day, from: now)
+        let lastUpdateDay = calendar.component(.day, from: lastUpdate)
+        let daysDifference = calendar.dateComponents([.day], from: calendar.startOfDay(for: lastUpdate), to: calendar.startOfDay(for: now)).day ?? 0
+        
+        print("📅 日期检测: 同一天=\(isSameDay), 当前日=\(currentDay), 上次日=\(lastUpdateDay), 天数差=\(daysDifference)")
+        
+        // 如果检测到跨天（使用多重条件确保准确性）
+        if !isSameDay || daysDifference > 0 || currentDay != lastUpdateDay {
             print("📅 检测到跨天，需要更新Widget")
+            print("🔄 触发原因: 同一天=\(isSameDay), 天数差=\(daysDifference), 日期变化=\(currentDay != lastUpdateDay)")
+            
+            // 记录跨天更新事件
+            defaults?.set("midnight_update", forKey: "lastUpdateReason")
+            defaults?.set(now, forKey: "lastMidnightUpdate")
+            
             triggerImmediateUpdate()
             return
         }
@@ -67,15 +98,33 @@ public class WidgetLifecycleManager {
         
         let backgroundChangeHours = [5, 10, 18] // 5:00, 10:00, 18:00
         
+        print("🕐 时间检测: 当前小时=\(hour), 上次小时=\(lastHour)")
+        
         for changeHour in backgroundChangeHours {
             if hour >= changeHour && lastHour < changeHour {
-                print("🎨 检测到背景变化时间点，需要更新Widget")
+                print("🎨 检测到背景变化时间点(\(changeHour):00)，需要更新Widget")
+                
+                // 记录背景变化更新事件
+                defaults?.set("background_change", forKey: "lastUpdateReason")
+                
                 triggerImmediateUpdate()
                 return
             }
         }
         
-        print("✅ Widget无需更新")
+        // 额外检查：如果上次更新超过25小时，强制更新（防止意外情况）
+        let hoursSinceLastUpdate = now.timeIntervalSince(lastUpdate) / 3600
+        if hoursSinceLastUpdate > 25 {
+            print("⚠️ 上次更新超过25小时(\(String(format: "%.1f", hoursSinceLastUpdate))小时)，强制更新")
+            
+            // 记录强制更新事件
+            defaults?.set("force_update", forKey: "lastUpdateReason")
+            
+            triggerImmediateUpdate()
+            return
+        }
+        
+        print("✅ Widget无需更新 (距上次更新\(String(format: "%.1f", hoursSinceLastUpdate))小时)")
     }
     
     // MARK: - 时间线管理
