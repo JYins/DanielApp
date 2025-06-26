@@ -54,8 +54,6 @@ struct daniel_wedgetBundle: WidgetBundle {
         lifecycleManager.syncDataState()
         
         print("✅ Widget独立系统初始化完成")
-        print("📋 系统状态: \(lifecycleManager.getWidgetStatus())")
-        print("⚙️ 设置状态: \(VerseWidgetSettingsManager.getDebugInfo())")
     }
     
     // 注册自定义字体函数

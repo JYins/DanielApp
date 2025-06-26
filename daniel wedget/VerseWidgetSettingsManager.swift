@@ -124,21 +124,6 @@ class VerseWidgetSettingsManager {
         print("🔧 Widget 设置迁移完成")
     }
     
-    // MARK: - 调试信息
-    static func getDebugInfo() -> String {
-        let language = getPreferredLanguage()
-        let updateMode = getUpdateMode()
-        let lastUpdate = getLastUpdateTime()
-        let dataVersion = getDataVersion()
-        
-        return """
-        语言: \(language)
-        更新模式: \(updateMode)
-        最后更新: \(lastUpdate?.description ?? "无")
-        数据版本: \(dataVersion)
-        """
-    }
-    
     // MARK: - 私有键定义
     private struct Keys {
         static let widgetLanguage = "widget_language"

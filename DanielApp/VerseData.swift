@@ -899,42 +899,6 @@ public class VerseDataService {
     
     // MARK: - 工具方法
     
-    // 临时重置方法 - 用于清除错误状态（调试用）
-    public func forceResetTempState() {
-        print("🔄 强制重置临时状态...")
-        
-        let defaults = getSharedDefaults()
-        
-        // 清除所有临时状态
-        defaults.removeObject(forKey: VerseDataService.Keys.tempSwitchedReference)
-        defaults.removeObject(forKey: VerseDataService.Keys.currentVerseReference)
-        defaults.removeObject(forKey: VerseDataService.Keys.cachedCurrentVerse)
-        defaults.removeObject(forKey: "widget_verse_reference")
-        defaults.removeObject(forKey: "widget_verse_cn")
-        defaults.removeObject(forKey: "widget_verse_en")
-        defaults.removeObject(forKey: "widget_verse_kr")
-        defaults.removeObject(forKey: "widget_verse_timestamp")
-        
-        // 重置刷新日期，强制重新获取今日经文
-        let calendar = Calendar.current
-        let yesterday = calendar.date(byAdding: .day, value: -1, to: Date())!
-        defaults.set(yesterday, forKey: VerseDataService.Keys.lastDailyVerseRefreshDate)
-        
-        // 强制同步
-        defaults.synchronize()
-        
-        print("✅ 临时状态重置完成")
-        
-        // 立即获取今日经文
-        if let todayVerse = getVerseForToday() {
-            print("📅 重新获取今日经文: \(todayVerse.reference)")
-            cacheCurrentVerse(todayVerse)
-        }
-        
-        // 通知Widget更新
-        WidgetCenter.shared.reloadAllTimelines()
-    }
-    
     // 清除缓存，强制重新加载
     public func clearCache() {
         print("🧹 清除经文数据缓存...")

@@ -158,7 +158,6 @@ struct VerseTimelineProvider: TimelineProvider {
         // Widget独立获取今日经文
         let todaysVerse = dataManager.getTodaysVerse()
         print("✅ Widget独立获取今日经文: \(todaysVerse.reference)")
-        print("📊 数据状态: \(dataManager.getDebugInfo())")
         
         // 从主App获取语言设置
         let preferredLanguage = dataManager.getLanguageFromMainApp()
@@ -184,7 +183,6 @@ struct VerseTimelineProvider: TimelineProvider {
         print("✅ Widget独立时间线设置完成")
         print("📊 Widget当前显示: \(todaysVerse.reference)")
         print("🎨 当前背景: \(currentTimePeriod.backgroundImageName)")
-        print("🔄 生命周期状态: \(lifecycleManager.getWidgetStatus())")
         print("─────────────────────────────────────")
     }
 }

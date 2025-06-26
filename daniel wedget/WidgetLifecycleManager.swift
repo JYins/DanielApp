@@ -200,38 +200,4 @@ public class WidgetLifecycleManager {
             }
         }
     }
-    
-    // MARK: - 调试工具
-    
-    /// 获取Widget状态信息
-    public func getWidgetStatus() -> String {
-        let dataManager = WidgetDataManager.shared
-        let now = Date()
-        let nextUpdate = calculateNextUpdateTime()
-        
-        return """
-        Widget生命周期状态:
-        - 当前时间: \(now)
-        - 下次更新: \(nextUpdate)
-        - 数据状态: \(dataManager.isDataReady() ? "就绪" : "未就绪")
-        - 经文数量: \(dataManager.getVersesCount())
-        - 今日经文: \(dataManager.getTodaysVerse().reference)
-        """
-    }
-    
-    /// 强制刷新所有Widget数据
-    public func forceRefreshAll() {
-        print("🔥 强制刷新所有Widget数据")
-        
-        // 重新加载数据
-        WidgetDataManager.shared.reloadData()
-        
-        // 立即更新Widget
-        triggerImmediateUpdate()
-        
-        // 同步数据状态
-        syncDataState()
-        
-        print("✅ 强制刷新完成")
-    }
 } 

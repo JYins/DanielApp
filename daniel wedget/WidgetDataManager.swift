@@ -310,18 +310,3 @@ public class WidgetDataManager {
         return appStatus.language
     }
 }
-
-// MARK: - 调试扩展
-extension WidgetDataManager {
-    /// 获取调试信息
-    public func getDebugInfo() -> String {
-        let cachedVerse = loadVerseFromMainAppCache()
-        return """
-        Widget数据管理器状态:
-        - 数据已加载: \(isDataLoaded)
-        - 经文数量: \(allVerses.count)
-        - 主App缓存经文: \(cachedVerse?.reference ?? "无")
-        - 今日经文: \(getTodaysVerse().reference)
-        """
-    }
-}
