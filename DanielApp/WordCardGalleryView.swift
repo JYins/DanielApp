@@ -5,6 +5,7 @@ import FirebaseStorage
 struct WordCardGalleryView: View {
     @EnvironmentObject var appState: AppState // Access AppState for language
     @StateObject private var viewModel = WordCardViewModel()
+    @StateObject private var authManager = AuthManager.shared
 
     // Define category keys for localization and state management
     let categoryKeys: [LocalizedText.WordCardGallery] = [.categoryAll, .categoryGrace, .categoryEncouragement, .categoryWisdom]
@@ -101,7 +102,7 @@ struct WordCardGalleryView: View {
                 }
                 .background(Color(hex: "#020f2e")) // Ensure background covers pill area
 
-                // Content area - conditionally show loading, error, or cards
+                // Content area - show loading, error, or cards (无需登录检查)
                 if viewModel.isLoading {
                     Spacer()
                     ProgressView()
@@ -153,6 +154,7 @@ struct WordCardGalleryView: View {
             .background(Color(hex: "#020f2e").edgesIgnoringSafeArea(.all)) // Set background color
             .navigationBarHidden(true) // 隐藏导航栏，避免与自定义标题重复
             .onAppear {
+                // 话语卡片无需登录即可查看
                 viewModel.loadCards() // 加载卡片数据
                 
                 // 设置导航栏外观

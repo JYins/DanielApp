@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import FirebaseAuth
 
 // 本地化文本系统 - 支持中英韩三语
 struct LocalizedText {
@@ -16,6 +17,7 @@ struct LocalizedText {
         case copyright
         case bibleVersionInfo
         case wordCardsTab // New key for the tab title
+        case newsletterTab // Newsletter tab title
         
         // 获取对应语言的文本
         func text(for language: CoreModels.VerseLanguage) -> String {
@@ -67,6 +69,12 @@ struct LocalizedText {
                 case .chinese: return "话语卡片"
                 case .english: return "Words of Life" // Refined translation
                 case .korean: return "생명의 말씀" // Refined translation (Saengmyeong-ui Malsseum)
+                }
+            case .newsletterTab:
+                switch language {
+                case .chinese: return "教会通讯"
+                case .english: return "Newsletter"
+                case .korean: return "교회 소식지"
                 }
             }
         }
@@ -357,6 +365,7 @@ struct LocalizedStringKeys {
         var copyright: (CoreModels.VerseLanguage) -> String { { LocalizedText.Common.copyright.text(for: $0) } }
         var bibleVersionInfo: (CoreModels.VerseLanguage) -> String { { LocalizedText.Common.bibleVersionInfo.text(for: $0) } }
         var wordCardsTab: (CoreModels.VerseLanguage) -> String { { LocalizedText.Common.wordCardsTab.text(for: $0) } } // New key path
+        var newsletterTab: (CoreModels.VerseLanguage) -> String { { LocalizedText.Common.newsletterTab.text(for: $0) } } // Newsletter tab key path
     }
     
     struct SettingsKeys {

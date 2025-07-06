@@ -28,23 +28,31 @@ struct MainTabView: View {
                 }
                 .tag(1) // Changed tag
 
-            // Tab 2: Settings (Moved down)
+            // Tab 2: Newsletter (New tab)
+            NewsletterView()
+                .tabItem {
+                    Image(systemName: "newspaper.fill")
+                    Text(LocalizedText.Common.newsletterTab.text(for: appState.selectedLanguage))
+                }
+                .tag(2)
+
+            // Tab 3: Settings (Moved down)
             SettingsView()
                 .tabItem {
                     Image(systemName: "gear")
                     Text(LocalizedText.Common.settings.text(for: appState.selectedLanguage))
                 }
-                .tag(2) // Changed tag
+                .tag(3) // Changed tag
 
-            // Tab 3: Connect (Moved down)
+            // Tab 4: Connect (Moved down)
             ConnectView()
                 .tabItem {
                     Image(systemName: "link")
                     Text(LocalizedText.Common.connect.text(for: appState.selectedLanguage))
                 }
-                .tag(3) // Changed tag
+                .tag(4) // Changed tag
         }
-        .accentColor(AppStyles.goldColor) // Use AppStyles for consistency
+        .accentColor(StyleConstants.goldColor) // Use StyleConstants for consistency
         .onAppear {
             // 将tabSelection与appState同步
             appState.selectedTab = tabSelection.selectedTab

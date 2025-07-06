@@ -10,10 +10,25 @@ class FirebaseStorageService {
     // 用于缓存已下载的图片
     private var imageCache = NSCache<NSString, UIImage>()
     
+    // 默认bucket用于话语卡片
+    private let defaultBucket = "daniel1-ca1e7.firebasestorage.app"
+    // Newsletter专用bucket
+    private let newsletterBucket = "daniel1-ca1e7"
+    
     // 初始化
     private init() {
         // 可以在这里设置缓存大小
         imageCache.countLimit = 100
+    }
+    
+    // 获取指定bucket的Storage引用
+    private func getStorageReference(forBucket bucket: String) -> StorageReference {
+        return Storage.storage().reference(forURL: "gs://\(bucket)")
+    }
+    
+    // 获取Newsletter的Storage引用
+    private func getNewsletterStorageReference() -> StorageReference {
+        return getStorageReference(forBucket: newsletterBucket)
     }
     
     // 获取所有文件夹
@@ -93,6 +108,12 @@ class FirebaseStorageService {
             print("下载并缓存图片: \(reference.name)")
             completion(image, nil)
         }
+    }
+    
+    // 从Newsletter bucket下载图片
+    func downloadNewsletterImage(imagePath: String, completion: @escaping (UIImage?, Error?) -> Void) {
+        let reference = getNewsletterStorageReference().child(imagePath)
+        downloadImage(from: reference, completion: completion)
     }
     
     // 获取文本文件内容

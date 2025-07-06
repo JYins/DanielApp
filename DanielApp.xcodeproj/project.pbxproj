@@ -14,6 +14,7 @@
 		449D3FB42D99FE1800CB1993 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 449D3FB32D99FE1800CB1993 /* WidgetKit.framework */; };
 		449D3FB62D99FE1800CB1993 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 449D3FB52D99FE1800CB1993 /* SwiftUI.framework */; };
 		449D3FC72D99FE1A00CB1993 /* daniel wedgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 449D3FB12D99FE1800CB1993 /* daniel wedgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		44A949E82E14428B00BEC5D9 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 44A949E72E14428A00BEC5D9 /* FirebaseAuth */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,16 +95,6 @@
 			path = DanielApp;
 			sourceTree = "<group>";
 		};
-		441492D32D98935400C3DCF4 /* DanielAppTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = DanielAppTests;
-			sourceTree = "<group>";
-		};
-		441492DD2D98935400C3DCF4 /* DanielAppUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = DanielAppUITests;
-			sourceTree = "<group>";
-		};
 		449D3FB72D99FE1800CB1993 /* daniel wedget */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -122,6 +113,7 @@
 				446D831A2DAB271C0041449F /* FirebaseAnalytics in Frameworks */,
 				446D831C2DAB271C0041449F /* FirebaseFirestore in Frameworks */,
 				446D831E2DAB271C0041449F /* FirebaseStorage in Frameworks */,
+				44A949E82E14428B00BEC5D9 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,8 +149,6 @@
 				4429A8802DBC105800F30770 /* GoogleService-Info.plist */,
 				44CF2D592D9DDA6400C0F5A8 /* daniel wedgetExtension.entitlements */,
 				441492C22D98935200C3DCF4 /* DanielApp */,
-				441492D32D98935400C3DCF4 /* DanielAppTests */,
-				441492DD2D98935400C3DCF4 /* DanielAppUITests */,
 				449D3FB72D99FE1800CB1993 /* daniel wedget */,
 				449D3FB22D99FE1800CB1993 /* Frameworks */,
 				441492C12D98935200C3DCF4 /* Products */,
@@ -210,6 +200,7 @@
 				446D83192DAB271C0041449F /* FirebaseAnalytics */,
 				446D831B2DAB271C0041449F /* FirebaseFirestore */,
 				446D831D2DAB271C0041449F /* FirebaseStorage */,
+				44A949E72E14428A00BEC5D9 /* FirebaseAuth */,
 			);
 			productName = DanielApp;
 			productReference = 441492C02D98935200C3DCF4 /* DanielApp.app */;
@@ -227,9 +218,6 @@
 			);
 			dependencies = (
 				441492D22D98935400C3DCF4 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				441492D32D98935400C3DCF4 /* DanielAppTests */,
 			);
 			name = DanielAppTests;
 			packageProductDependencies = (
@@ -250,9 +238,6 @@
 			);
 			dependencies = (
 				441492DC2D98935400C3DCF4 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				441492DD2D98935400C3DCF4 /* DanielAppUITests */,
 			);
 			name = DanielAppUITests;
 			packageProductDependencies = (
@@ -801,6 +786,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 446D83182DAB271C0041449F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		44A949E72E14428A00BEC5D9 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 446D83182DAB271C0041449F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

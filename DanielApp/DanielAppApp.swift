@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreText
 import Firebase
+import FirebaseAuth
 import UserNotifications
 
 @main
