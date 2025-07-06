@@ -54,6 +54,11 @@ struct NewsletterView: View {
                     viewModel.loadNewsletters()
                 }
             }
+            .onChange(of: authManager.authState) { newState in
+                if authManager.hasContentAccess() {
+                    viewModel.loadNewsletters()
+                }
+            }
             .sheet(isPresented: $showingLogin) {
                 LoginView()
                     .environmentObject(appState)

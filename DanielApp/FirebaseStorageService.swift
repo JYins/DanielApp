@@ -12,8 +12,8 @@ class FirebaseStorageService {
     
     // 默认bucket用于话语卡片
     private let defaultBucket = "daniel1-ca1e7.firebasestorage.app"
-    // Newsletter专用bucket
-    private let newsletterBucket = "daniel1-ca1e7"
+    // Newsletter专用bucket (实际上应该使用同一个bucket的不同文件夹)
+    private let newsletterBucket = "daniel1-ca1e7.firebasestorage.app"
     
     // 初始化
     private init() {

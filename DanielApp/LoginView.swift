@@ -98,7 +98,7 @@ struct LoginView: View {
                         }
                         
                         // 审核状态提示
-                        if case .pending = authManager.authState {
+                        if authManager.authState.isPending {
                             VStack(spacing: StyleConstants.compactSpacing) {
                                 HStack {
                                     Image(systemName: "clock")
@@ -126,6 +126,14 @@ struct LoginView: View {
                                     ProgressView()
                                         .progressViewStyle(CircularProgressViewStyle(tint: Color(hex: "#020f2e")))
                                         .scaleEffect(0.8)
+                                } else if authManager.authState.isSignedIn {
+                                    HStack {
+                                        Image(systemName: "checkmark")
+                                            .font(.system(size: 16, weight: .bold))
+                                        Text("登录成功！")
+                                            .font(StyleConstants.sansFontBody(18))
+                                            .fontWeight(.semibold)
+                                    }
                                 } else {
                                     Text("登录")
                                         .font(StyleConstants.sansFontBody(18))
@@ -135,14 +143,13 @@ struct LoginView: View {
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, StyleConstants.standardSpacing)
                             .background(
-                                (!email.isEmpty && !password.isEmpty) ? 
-                                StyleConstants.goldColor : 
-                                Color.gray.opacity(0.5)
+                                authManager.authState.isSignedIn ? Color.green :
+                                ((!email.isEmpty && !password.isEmpty) ? StyleConstants.goldColor : Color.gray.opacity(0.5))
                             )
                             .foregroundColor(Color(hex: "#020f2e"))
                             .cornerRadius(StyleConstants.buttonCornerRadius)
                         }
-                        .disabled(email.isEmpty || password.isEmpty || authManager.isLoading)
+                        .disabled(email.isEmpty || password.isEmpty || authManager.isLoading || authManager.authState.isSignedIn)
                     }
                     .padding(.horizontal, StyleConstants.containerPadding)
                     
@@ -172,7 +179,7 @@ struct LoginView: View {
                     .environmentObject(appState)
             }
             .onChange(of: authManager.authState) { newState in
-                if case .signedIn(_) = newState {
+                if newState.isSignedIn {
                     // 登录成功，关闭登录页面
                     presentationMode.wrappedValue.dismiss()
                 }

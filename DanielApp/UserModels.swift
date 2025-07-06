@@ -67,6 +67,21 @@ enum AuthState: Equatable {
             return false
         }
     }
+    
+    // 便利属性检查状态
+    var isPending: Bool {
+        if case .pending = self {
+            return true
+        }
+        return false
+    }
+    
+    var isSignedIn: Bool {
+        if case .signedIn(_) = self {
+            return true
+        }
+        return false
+    }
 }
 
 // 注册表单数据

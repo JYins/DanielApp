@@ -172,6 +172,14 @@ struct RegistrationView: View {
                                     ProgressView()
                                         .progressViewStyle(CircularProgressViewStyle(tint: Color(hex: "#020f2e")))
                                         .scaleEffect(0.8)
+                                } else if authManager.authState.isPending {
+                                    HStack {
+                                        Image(systemName: "checkmark")
+                                            .font(.system(size: 16, weight: .bold))
+                                        Text("注册成功！")
+                                            .font(StyleConstants.sansFontBody(18))
+                                            .fontWeight(.semibold)
+                                    }
                                 } else {
                                     Text("注册")
                                         .font(StyleConstants.sansFontBody(18))
@@ -181,14 +189,13 @@ struct RegistrationView: View {
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, StyleConstants.standardSpacing)
                             .background(
-                                formData.isValid ? 
-                                StyleConstants.goldColor : 
-                                Color.gray.opacity(0.5)
+                                authManager.authState.isPending ? Color.green :
+                                (formData.isValid ? StyleConstants.goldColor : Color.gray.opacity(0.5))
                             )
                             .foregroundColor(Color(hex: "#020f2e"))
                             .cornerRadius(StyleConstants.buttonCornerRadius)
                         }
-                        .disabled(!formData.isValid || authManager.isLoading)
+                        .disabled(!formData.isValid || authManager.isLoading || authManager.authState.isPending)
                         
                         // 返回登录
                         Button(action: {
@@ -212,8 +219,10 @@ struct RegistrationView: View {
             }
             .onChange(of: authManager.authState) { newState in
                 if case .pending = newState {
-                    // 注册成功，返回到登录页面
-                    presentationMode.wrappedValue.dismiss()
+                    // 注册成功，显示成功消息后返回到登录页面
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        presentationMode.wrappedValue.dismiss()
+                    }
                 }
             }
         }
