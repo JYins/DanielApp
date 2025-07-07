@@ -121,7 +121,7 @@ struct RegistrationFormData {
 
 // Newsletter数据模型
 struct Newsletter: Codable, Identifiable {
-    @DocumentID var id: String?
+    var id: String
     
     var title: String
     var titleKorean: String
@@ -133,10 +133,24 @@ struct Newsletter: Codable, Identifiable {
     var description: String?
     var descriptionKorean: String?
     var descriptionChinese: String?
-    var createdAt: Date
-    var updatedAt: Date
+    var isPublished: Bool
     
-    init(title: String, titleKorean: String, titleChinese: String, year: Int, month: Int, publishDate: Date, imageURLs: [String], description: String? = nil, descriptionKorean: String? = nil, descriptionChinese: String? = nil) {
+    // Newsletter配置文件模型（与话语卡片类似）
+    struct NewsletterConfig: Codable {
+        let title: String
+        let titleKorean: String
+        let titleChinese: String
+        let year: Int
+        let month: Int
+        let publishDate: String  // 格式: "2025-01-15"
+        let description: String
+        let descriptionKorean: String
+        let descriptionChinese: String
+        let isPublished: Bool?
+    }
+    
+    init(id: String, title: String, titleKorean: String, titleChinese: String, year: Int, month: Int, publishDate: Date, imageURLs: [String], description: String? = nil, descriptionKorean: String? = nil, descriptionChinese: String? = nil, isPublished: Bool = true) {
+        self.id = id
         self.title = title
         self.titleKorean = titleKorean
         self.titleChinese = titleChinese
@@ -147,7 +161,6 @@ struct Newsletter: Codable, Identifiable {
         self.description = description
         self.descriptionKorean = descriptionKorean
         self.descriptionChinese = descriptionChinese
-        self.createdAt = Date()
-        self.updatedAt = Date()
+        self.isPublished = isPublished
     }
 } 

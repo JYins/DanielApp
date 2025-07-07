@@ -343,28 +343,126 @@ class NewsletterViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
         
-        // 创建示例Newsletter数据
-        let sampleNewsletters = [
-            Newsletter(
-                title: "January Newsletter",
-                titleKorean: "1월 소식지",
-                titleChinese: "一月通讯",
-                year: 2025,
-                month: 1,
-                publishDate: Date(),
-                imageURLs: ["newsletters/sample-image.jpg"], // 您在新bucket中的图片路径，如果没有这个文件，会显示默认图标
-                description: "Welcome to our January newsletter with important updates and announcements.",
-                descriptionKorean: "중요한 업데이트와 공지사항을 담은 1월 소식지를 확인해 주세요.",
-                descriptionChinese: "欢迎阅读我们的一月通讯，包含重要更新和公告。"
-            )
-        ]
-        
-        // 模拟加载过程
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.newsletters = sampleNewsletters
-            self.isLoading = false
-            print("✅ Newsletter数据加载成功")
+        // 从Firebase Storage的newsletters文件夹加载真实数据
+        storageService.getNewsletterFolders { [weak self] folders, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.errorMessage = "加载Newsletter文件夹失败: \(error.localizedDescription)"
+                    self.isLoading = false
+                }
+                return
+            }
+            
+            if folders.isEmpty {
+                // 如果没有Newsletter文件夹，显示提示信息
+                DispatchQueue.main.async {
+                    self.newsletters = []
+                    self.isLoading = false
+                    self.errorMessage = "暂时没有Newsletter内容"
+                    print("ℹ️ Newsletter文件夹为空")
+                }
+                return
+            }
+            
+            let dispatchGroup = DispatchGroup()
+            var newNewsletters: [Newsletter] = []
+            
+            for folder in folders {
+                dispatchGroup.enter()
+                self.loadNewsletterFromFolder(folder) { newsletter in
+                    if let newsletter = newsletter {
+                        newNewsletters.append(newsletter)
+                    }
+                    dispatchGroup.leave()
+                }
+            }
+            
+            dispatchGroup.notify(queue: .main) {
+                // 按日期排序，最新的在前
+                self.newsletters = newNewsletters.sorted { $0.publishDate > $1.publishDate }
+                self.isLoading = false
+                print("✅ Newsletter数据加载成功，共\(newNewsletters.count)个")
+            }
         }
+    }
+    
+    private func loadNewsletterFromFolder(_ folderName: String, completion: @escaping (Newsletter?) -> Void) {
+        print("正在加载Newsletter文件夹: \(folderName)")
+        
+        storageService.getFilesInNewsletterFolder(folderName: folderName) { [weak self] files, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                print("获取Newsletter文件夹\(folderName)失败: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            
+            // 分离图片文件和配置文件
+            let imageFiles = files.filter { 
+                $0.name.lowercased().hasSuffix(".jpg") || 
+                $0.name.lowercased().hasSuffix(".jpeg") ||
+                $0.name.lowercased().hasSuffix(".png") 
+            }
+            
+            let configFile = files.first { $0.name.lowercased() == "config.json" }
+            
+            print("Newsletter文件夹 \(folderName) - 图片: \(imageFiles.count), 配置: \(configFile?.name ?? "无")")
+            
+            if let configFile = configFile {
+                // 解析配置文件
+                self.storageService.getJSONFile(reference: configFile, type: Newsletter.NewsletterConfig.self) { config, error in
+                    if let error = error {
+                        print("解析Newsletter配置失败: \(error.localizedDescription)")
+                        completion(nil)
+                        return
+                    }
+                    
+                    if let config = config {
+                        let newsletter = Newsletter(
+                            id: folderName,
+                            title: config.title,
+                            titleKorean: config.titleKorean,
+                            titleChinese: config.titleChinese,
+                            year: config.year,
+                            month: config.month,
+                            publishDate: DateFormatter.parseNewsletterDate(from: config.publishDate) ?? Date(),
+                            imageURLs: imageFiles.map { "newsletters/\(folderName)/\($0.name)" },
+                            description: config.description,
+                            descriptionKorean: config.descriptionKorean,
+                            descriptionChinese: config.descriptionChinese,
+                            isPublished: config.isPublished ?? true
+                        )
+                        completion(newsletter)
+                    } else {
+                        completion(nil)
+                    }
+                }
+            } else {
+                // 如果没有配置文件，使用默认值
+                self.createDefaultNewsletter(folderName: folderName, imageFiles: imageFiles, completion: completion)
+            }
+        }
+    }
+    
+    private func createDefaultNewsletter(folderName: String, imageFiles: [StorageReference], completion: @escaping (Newsletter?) -> Void) {
+        let newsletter = Newsletter(
+            id: folderName,
+            title: folderName,
+            titleKorean: folderName,
+            titleChinese: folderName,
+            year: 2025,
+            month: 1,
+            publishDate: Date(),
+            imageURLs: imageFiles.map { "newsletters/\(folderName)/\($0.name)" },
+            description: "",
+            descriptionKorean: "",
+            descriptionChinese: "",
+            isPublished: true
+        )
+        completion(newsletter)
     }
 }
 
@@ -397,6 +495,13 @@ extension DateFormatter {
         formatter.locale = Locale(identifier: "zh_CN")
         return formatter
     }()
+    
+    // 用于解析配置文件中的日期字符串
+    static func parseNewsletterDate(from dateString: String) -> Date? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.date(from: dateString)
+    }
 }
 
 // Newsletter本地化文本

@@ -10,10 +10,8 @@ class FirebaseStorageService {
     // 用于缓存已下载的图片
     private var imageCache = NSCache<NSString, UIImage>()
     
-    // 默认bucket用于话语卡片
+    // 默认bucket用于话语卡片和Newsletter
     private let defaultBucket = "daniel1-ca1e7.firebasestorage.app"
-    // Newsletter专用bucket (实际上应该使用同一个bucket的不同文件夹)
-    private let newsletterBucket = "daniel1-ca1e7.firebasestorage.app"
     
     // 初始化
     private init() {
@@ -26,12 +24,9 @@ class FirebaseStorageService {
         return Storage.storage().reference(forURL: "gs://\(bucket)")
     }
     
-    // 获取Newsletter的Storage引用
-    private func getNewsletterStorageReference() -> StorageReference {
-        return getStorageReference(forBucket: newsletterBucket)
-    }
+
     
-    // 获取所有文件夹
+    // 获取话语卡片文件夹（排除newsletters文件夹）
     func getFolders(completion: @escaping ([String], Error?) -> Void) {
         let storageRef = storage.reference()
         
@@ -49,10 +44,12 @@ class FirebaseStorageService {
                 return
             }
             
-            // 获取顶级文件夹（前缀）
-            let folders = result.prefixes.map { $0.name }
-            print("找到\(folders.count)个文件夹: \(folders)")
-            completion(folders, nil)
+            // 获取顶级文件夹，但排除newsletters文件夹
+            let allFolders = result.prefixes.map { $0.name }
+            let wordCardFolders = allFolders.filter { $0 != "newsletters" }
+            print("找到\(allFolders.count)个总文件夹: \(allFolders)")
+            print("话语卡片文件夹\(wordCardFolders.count)个: \(wordCardFolders)")
+            completion(wordCardFolders, nil)
         }
     }
     
@@ -110,10 +107,60 @@ class FirebaseStorageService {
         }
     }
     
-    // 从Newsletter bucket下载图片
+    // 从Newsletter文件夹下载图片
     func downloadNewsletterImage(imagePath: String, completion: @escaping (UIImage?, Error?) -> Void) {
-        let reference = getNewsletterStorageReference().child(imagePath)
+        let reference = storage.reference().child(imagePath)
+        print("📷 正在下载Newsletter图片: gs://\(defaultBucket)/\(imagePath)")
         downloadImage(from: reference, completion: completion)
+    }
+    
+    // 获取newsletters文件夹下的所有子文件夹
+    func getNewsletterFolders(completion: @escaping ([String], Error?) -> Void) {
+        let newslettersRef = storage.reference().child("newsletters")
+        
+        print("📂 正在访问Newsletter文件夹: gs://\(defaultBucket)/newsletters")
+        
+        newslettersRef.listAll { (result, error) in
+            if let error = error {
+                print("❌ 获取Newsletter文件夹失败: \(error.localizedDescription)")
+                completion([], error)
+                return
+            }
+            
+            guard let result = result else {
+                print("❌ 获取Newsletter文件夹失败: 结果为空")
+                completion([], NSError(domain: "FirebaseStorageService", code: 4, userInfo: [NSLocalizedDescriptionKey: "结果为空"]))
+                return
+            }
+            
+            let folders = result.prefixes.map { $0.name }
+            print("✅ 找到Newsletter文件夹: \(folders)")
+            completion(folders, nil)
+        }
+    }
+    
+    // 获取指定Newsletter文件夹中的所有文件
+    func getFilesInNewsletterFolder(folderName: String, completion: @escaping ([StorageReference], Error?) -> Void) {
+        let folderRef = storage.reference().child("newsletters/\(folderName)")
+        
+        print("📂 正在访问Newsletter子文件夹: gs://\(defaultBucket)/newsletters/\(folderName)")
+        
+        folderRef.listAll { (result, error) in
+            if let error = error {
+                print("❌ 获取Newsletter文件夹\(folderName)中的文件失败: \(error.localizedDescription)")
+                completion([], error)
+                return
+            }
+            
+            guard let result = result else {
+                print("❌ 获取Newsletter文件夹\(folderName)中的文件失败: 结果为空")
+                completion([], NSError(domain: "FirebaseStorageService", code: 5, userInfo: [NSLocalizedDescriptionKey: "结果为空"]))
+                return
+            }
+            
+            print("✅ 在Newsletter文件夹\(folderName)中找到\(result.items.count)个文件")
+            completion(result.items, nil)
+        }
     }
     
     // 获取文本文件内容
