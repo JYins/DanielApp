@@ -430,6 +430,9 @@ class NewsletterViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
         
+        // 添加测试Newsletter来验证文字显示
+        addTestNewsletter()
+        
         // 从Firebase Storage的newsletters文件夹加载真实数据
         storageService.getNewsletterFolders { [weak self] folders, error in
             guard let self = self else { return }
@@ -458,6 +461,10 @@ class NewsletterViewModel: ObservableObject {
             
             for folder in folders {
                 dispatchGroup.enter()
+                
+                // 调试：下载配置文件进行检查
+                self.downloadConfigForDebug(folderName: folder)
+                
                 self.loadNewsletterFromFolder(folder) { newsletter in
                     if let newsletter = newsletter {
                         newNewsletters.append(newsletter)
@@ -500,14 +507,28 @@ class NewsletterViewModel: ObservableObject {
             
             if let configFile = configFile {
                 // 解析配置文件
+                print("正在解析Newsletter配置文件: \(configFile.name)")
+                
                 self.storageService.getJSONFile(reference: configFile, type: Newsletter.NewsletterConfig.self) { config, error in
                     if let error = error {
-                        print("解析Newsletter配置失败: \(error.localizedDescription)")
-                        completion(nil)
+                        print("❌ 解析Newsletter配置失败: \(error.localizedDescription)")
+                        // 尝试读取为文本，看看内容是什么
+                        self.storageService.getTextFile(reference: configFile) { text, _ in
+                            if let text = text {
+                                print("📄 配置文件内容: \(text)")
+                            }
+                        }
+                        // 使用默认值而不是返回nil
+                        self.createDefaultNewsletter(folderName: folderName, imageFiles: imageFiles, completion: completion)
                         return
                     }
                     
                     if let config = config {
+                        print("✅ 成功解析Newsletter配置，文字内容：")
+                        print("  - 中文: \(config.captions.chinese)")
+                        print("  - 英文: \(config.captions.english)")
+                        print("  - 韩文: \(config.captions.korean)")
+                        
                         let caption = NewsletterCaption(
                             chinese: config.captions.chinese,
                             english: config.captions.english,
@@ -521,9 +542,12 @@ class NewsletterViewModel: ObservableObject {
                             caption: caption,
                             isPublished: config.isPublished ?? true
                         )
+                        
+                        print("✅ 创建Newsletter成功，ID: \(folderName)")
                         completion(newsletter)
                     } else {
-                        completion(nil)
+                        print("❌ 配置解析结果为nil")
+                        self.createDefaultNewsletter(folderName: folderName, imageFiles: imageFiles, completion: completion)
                     }
                 }
             } else {
@@ -534,6 +558,7 @@ class NewsletterViewModel: ObservableObject {
     }
     
     private func createDefaultNewsletter(folderName: String, imageFiles: [StorageReference], completion: @escaping (Newsletter?) -> Void) {
+        print("⚠️ 为\(folderName)创建默认Newsletter")
         let caption = NewsletterCaption(
             chinese: "默认Newsletter内容 - \(folderName)",
             english: "Default Newsletter Content - \(folderName)",
@@ -548,6 +573,72 @@ class NewsletterViewModel: ObservableObject {
             isPublished: true
         )
         completion(newsletter)
+    }
+    
+    // 添加测试Newsletter来验证文字显示
+    private func addTestNewsletter() {
+        print("🧪 添加测试Newsletter")
+        let testCaption = NewsletterCaption(
+            chinese: "【测试】亲爱的弟兄姐妹们，新年快乐！愿主的恩典与平安常与你们同在。这个月我们一同学习了关于信心的功课，让我们继续在主的道路上前行。",
+            english: "【Test】Dear brothers and sisters, Happy New Year! May the grace and peace of the Lord be with you always. This month we learned about faith together, let us continue on the Lord's path.",
+            korean: "【테스트】사랑하는 형제자매 여러분, 새해 복 많이 받으세요! 주님의 은혜와 평안이 항상 여러분과 함께하시길 기원합니다. 이번 달 우리는 함께 믿음에 대해 배웠습니다. 계속해서 주님의 길을 걸어갑시다."
+        )
+        
+        let testNewsletter = Newsletter(
+            id: "test-2025-01",
+            publishDate: Date(),
+            imageURLs: [], // 暂时没有图片
+            caption: testCaption,
+            isPublished: true
+        )
+        
+        DispatchQueue.main.async {
+            self.newsletters.insert(testNewsletter, at: 0) // 插入到最前面
+            print("✅ 测试Newsletter已添加")
+        }
+    }
+    
+    // 新增调试方法：直接下载配置文件进行检查
+    private func downloadConfigForDebug(folderName: String) {
+        storageService.getFilesInNewsletterFolder(folderName: folderName) { [weak self] files, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                print("❌ 调试：获取\(folderName)文件失败: \(error.localizedDescription)")
+                return
+            }
+            
+            print("🔍 调试：\(folderName)文件夹包含的文件:")
+            for file in files {
+                print("  - \(file.name) (全路径: \(file.fullPath))")
+            }
+            
+            if let configFile = files.first(where: { $0.name.lowercased() == "config.json" }) {
+                print("🔍 调试：找到配置文件\(configFile.name)，正在下载...")
+                
+                self.storageService.getTextFile(reference: configFile) { text, error in
+                    if let error = error {
+                        print("❌ 调试：下载配置文件失败: \(error.localizedDescription)")
+                    } else if let text = text {
+                        print("📄 调试：配置文件原始内容:")
+                        print(text)
+                        
+                        // 尝试手动解析JSON
+                        if let data = text.data(using: .utf8) {
+                            do {
+                                let json = try JSONSerialization.jsonObject(with: data, options: [])
+                                print("📄 调试：JSON解析成功:")
+                                print(json)
+                            } catch {
+                                print("❌ 调试：JSON解析失败: \(error)")
+                            }
+                        }
+                    }
+                }
+            } else {
+                print("❌ 调试：未找到config.json文件")
+            }
+        }
     }
 }
 
