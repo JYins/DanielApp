@@ -119,48 +119,50 @@ struct RegistrationFormData {
     }
 }
 
+// Newsletter文案的多语言支持
+struct NewsletterCaption: Codable {
+    let chinese: String
+    let english: String
+    let korean: String
+    
+    func text(for language: CoreModels.VerseLanguage) -> String {
+        switch language {
+        case .chinese:
+            return chinese
+        case .english:
+            return english
+        case .korean:
+            return korean
+        }
+    }
+}
+
 // Newsletter数据模型
 struct Newsletter: Codable, Identifiable {
     var id: String
-    
-    var title: String
-    var titleKorean: String
-    var titleChinese: String
-    var year: Int
-    var month: Int
     var publishDate: Date
     var imageURLs: [String] // Firebase Storage中的图片路径
-    var description: String?
-    var descriptionKorean: String?
-    var descriptionChinese: String?
+    var caption: NewsletterCaption
     var isPublished: Bool
     
-    // Newsletter配置文件模型（与话语卡片类似）
+    // Newsletter配置文件模型（与话语卡片一致）
     struct NewsletterConfig: Codable {
-        let title: String
-        let titleKorean: String
-        let titleChinese: String
-        let year: Int
-        let month: Int
+        let captions: CaptionData
         let publishDate: String  // 格式: "2025-01-15"
-        let description: String
-        let descriptionKorean: String
-        let descriptionChinese: String
         let isPublished: Bool?
+        
+        struct CaptionData: Codable {
+            let chinese: String
+            let english: String
+            let korean: String
+        }
     }
     
-    init(id: String, title: String, titleKorean: String, titleChinese: String, year: Int, month: Int, publishDate: Date, imageURLs: [String], description: String? = nil, descriptionKorean: String? = nil, descriptionChinese: String? = nil, isPublished: Bool = true) {
+    init(id: String, publishDate: Date, imageURLs: [String], caption: NewsletterCaption, isPublished: Bool = true) {
         self.id = id
-        self.title = title
-        self.titleKorean = titleKorean
-        self.titleChinese = titleChinese
-        self.year = year
-        self.month = month
         self.publishDate = publishDate
         self.imageURLs = imageURLs
-        self.description = description
-        self.descriptionKorean = descriptionKorean
-        self.descriptionChinese = descriptionChinese
+        self.caption = caption
         self.isPublished = isPublished
     }
 } 

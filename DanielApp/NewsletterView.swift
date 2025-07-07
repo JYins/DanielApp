@@ -14,12 +14,22 @@ struct NewsletterView: View {
                 Color(hex: "#020f2e").edgesIgnoringSafeArea(.all)
                 
                 VStack(spacing: 0) {
-                    // 标题
-                    Text(LocalizedText.Newsletter.navTitle.text(for: appState.selectedLanguage))
-                        .font(StyleConstants.serifTitle(24, language: appState.selectedLanguage))
-                        .foregroundColor(StyleConstants.goldColor)
-                        .padding(.top, StyleConstants.standardSpacing)
-                        .padding(.bottom, StyleConstants.compactSpacing)
+                    // 标题和用户按钮
+                    HStack {
+                        Text(LocalizedText.Newsletter.navTitle.text(for: appState.selectedLanguage))
+                            .font(StyleConstants.serifTitle(24, language: appState.selectedLanguage))
+                            .foregroundColor(StyleConstants.goldColor)
+                        
+                        Spacer()
+                        
+                        // 用户按钮（仅在登录后显示）
+                        if authManager.hasContentAccess() {
+                            UserButtonView()
+                        }
+                    }
+                    .padding(.horizontal, StyleConstants.standardSpacing)
+                    .padding(.top, StyleConstants.standardSpacing)
+                    .padding(.bottom, StyleConstants.compactSpacing)
                     
                     // 分隔线
                     Rectangle()
@@ -163,7 +173,66 @@ struct LoginPromptView: View {
     }
 }
 
-// Newsletter卡片视图
+// 用户按钮组件
+struct UserButtonView: View {
+    @StateObject private var authManager = AuthManager.shared
+    @State private var showingUserMenu = false
+    
+    var body: some View {
+        Button(action: {
+            showingUserMenu = true
+        }) {
+            HStack(spacing: 6) {
+                Image(systemName: "person.circle.fill")
+                    .font(.system(size: 20))
+                    .foregroundColor(StyleConstants.goldColor)
+                
+                if case .signedIn(let profile) = authManager.authState {
+                    Text(profile.name)
+                        .font(StyleConstants.sansFontBody(14))
+                        .foregroundColor(StyleConstants.goldColor)
+                        .lineLimit(1)
+                } else {
+                    Text("用户")
+                        .font(StyleConstants.sansFontBody(14))
+                        .foregroundColor(StyleConstants.goldColor)
+                }
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 6)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color.white.opacity(0.1))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(StyleConstants.goldColor.opacity(0.3), lineWidth: 1)
+                    )
+            )
+        }
+        .actionSheet(isPresented: $showingUserMenu) {
+            ActionSheet(
+                title: Text("用户菜单"),
+                message: getUserInfo(),
+                buttons: [
+                    .destructive(Text("退出登录")) {
+                        authManager.signOut()
+                    },
+                    .cancel(Text("取消"))
+                ]
+            )
+        }
+    }
+    
+    private func getUserInfo() -> Text {
+        if case .signedIn(let profile) = authManager.authState {
+            return Text("用户：\(profile.name)\n邮箱：\(profile.email)")
+        } else {
+            return Text("当前用户信息")
+        }
+    }
+}
+
+// Newsletter卡片视图（照搬话语卡片设计）
 struct NewsletterCardView: View {
     let newsletter: Newsletter
     let language: CoreModels.VerseLanguage
@@ -189,7 +258,7 @@ struct NewsletterCardView: View {
                         .fill(Color.gray.opacity(0.3))
                         .aspectRatio(1080/1350, contentMode: .fit)
                         .overlay(
-                            Image(systemName: "newspaper")
+                            Image(systemName: "photo")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 60, height: 60)
@@ -201,102 +270,117 @@ struct NewsletterCardView: View {
                             if let image = images[index] {
                                 Image(uiImage: image)
                                     .resizable()
-                                    .aspectRatio(contentMode: .fit)
+                                    .scaledToFill()
                                     .tag(index)
                             } else {
                                 Rectangle()
                                     .fill(Color.gray.opacity(0.3))
-                                    .aspectRatio(1080/1350, contentMode: .fit)
-                                    .overlay(
-                                        ProgressView()
-                                            .progressViewStyle(CircularProgressViewStyle(tint: StyleConstants.goldColor))
-                                    )
                                     .tag(index)
                             }
                         }
                     }
-                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                    .tabViewStyle(.page(indexDisplayMode: .never))
                     .aspectRatio(1080/1350, contentMode: .fit)
+                    .clipped()
                     
-                    // 图片指示器
+                    // 如果有多张图片，显示分页指示器
                     if images.count > 1 {
-                        HStack(spacing: 8) {
+                        HStack(spacing: 4) {
                             ForEach(0..<images.count, id: \.self) { index in
                                 Circle()
-                                    .fill(index == currentImageIndex ? StyleConstants.goldColor : Color.white.opacity(0.5))
-                                    .frame(width: 8, height: 8)
+                                    .fill(currentImageIndex == index ? Color.white : Color.white.opacity(0.5))
+                                    .frame(width: 6, height: 6)
                             }
                         }
-                        .padding(.bottom, 16)
+                        .padding(.bottom, 12)
                     }
                 }
             }
-            .background(Color.black.opacity(0.1))
-            .cornerRadius(12, corners: [.topLeft, .topRight])
-            .clipped()
             
-            // 信息区域
-            VStack(alignment: .leading, spacing: 8) {
-                // 标题
-                Text(getLocalizedTitle())
-                    .font(StyleConstants.serifTitle(18, language: language))
-                    .foregroundColor(StyleConstants.goldColor)
-                    .multilineTextAlignment(.leading)
-                    .lineLimit(2)
-                
-                // 日期信息
+            // 重新设计的文案区域（照搬话语卡片）
+            VStack(alignment: .leading, spacing: 0) {
+                // 添加顶部装饰线
                 HStack {
-                    Text("\(newsletter.year)年\(newsletter.month)月")
-                        .font(StyleConstants.sansFontBody(14))
-                        .foregroundColor(.white.opacity(0.8))
+                    Rectangle()
+                        .fill(LinearGradient(
+                            gradient: Gradient(colors: [
+                                StyleConstants.goldColor.opacity(0.6),
+                                StyleConstants.goldColor.opacity(0.2),
+                                Color.clear
+                            ]),
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        ))
+                        .frame(height: 2)
                     
                     Spacer()
                     
-                    Text(DateFormatter.newsletterFormatter.string(from: newsletter.publishDate))
-                        .font(StyleConstants.sansFontBody(12))
-                        .foregroundColor(.white.opacity(0.6))
+                    // 小装饰图标
+                    Image(systemName: "quote.opening")
+                        .font(.system(size: 12, weight: .light))
+                        .foregroundColor(StyleConstants.goldColor.opacity(0.7))
                 }
+                .padding(.horizontal, 20)
+                .padding(.top, 16)
                 
-                // 描述（如果有）
-                if let description = getLocalizedDescription(), !description.isEmpty {
-                    Text(description)
-                        .font(StyleConstants.sansFontBody(14))
-                        .foregroundColor(.white.opacity(0.9))
-                        .lineLimit(3)
-                        .multilineTextAlignment(.leading)
-                }
+                // 文案内容
+                Text(newsletter.caption.text(for: language))
+                    .font(StyleConstants.serifBody(16, language: language))
+                    .foregroundColor(Color(hex: "#2D3748")) // 更深的灰色，增强对比度
+                    .lineSpacing(4)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 16)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
+                // 底部渐变装饰
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color.clear,
+                        StyleConstants.goldColor.opacity(0.1)
+                    ]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .frame(height: 8)
             }
-            .padding(16)
-            .background(Color.white.opacity(0.05))
-            .cornerRadius(12, corners: [.bottomLeft, .bottomRight])
+            .background(
+                // 奶白色渐变背景
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(hex: "#FEFCF8"), // 更纯净的奶白色顶部
+                        Color(hex: "#FAF7F0"), // 中间色调
+                        Color(hex: "#F5F1E8")  // 底部稍微偏暖的奶白色
+                    ]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+            )
         }
-        .background(Color.white.opacity(0.03))
-        .cornerRadius(12)
-        .shadow(color: Color.black.opacity(0.3), radius: 8, x: 0, y: 4)
+        .background(Color.white) // 确保整体背景为白色
+        .cornerRadius(26) // 增加圆角半径使其更现代
+        .overlay(
+            // 多层边框效果
+            RoundedRectangle(cornerRadius: 26)
+                .stroke(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            StyleConstants.goldColor.opacity(0.5),
+                            StyleConstants.goldColor.opacity(0.25),
+                            StyleConstants.goldColor.opacity(0.1)
+                        ]),
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    lineWidth: 1.8
+                )
+        )
+        .shadow(color: Color.black.opacity(0.06), radius: 16, x: 0, y: 4) // 更柔和的阴影
+        .shadow(color: Color.black.opacity(0.03), radius: 32, x: 0, y: 12) // 添加第二层阴影增加深度
+        .shadow(color: StyleConstants.goldColor.opacity(0.08), radius: 24, x: 0, y: 8) // 添加金色阴影
+        .padding(.horizontal, 4)
+        .clipped()
         .onAppear {
             loadImages()
-        }
-    }
-    
-    private func getLocalizedTitle() -> String {
-        switch language {
-        case .korean:
-            return newsletter.titleKorean
-        case .chinese:
-            return newsletter.titleChinese
-        case .english:
-            return newsletter.title
-        }
-    }
-    
-    private func getLocalizedDescription() -> String? {
-        switch language {
-        case .korean:
-            return newsletter.descriptionKorean
-        case .chinese:
-            return newsletter.descriptionChinese
-        case .english:
-            return newsletter.description
         }
     }
     
@@ -380,10 +464,10 @@ class NewsletterViewModel: ObservableObject {
             }
             
             dispatchGroup.notify(queue: .main) {
-                // 按日期排序，最新的在前
-                self.newsletters = newNewsletters.sorted { $0.publishDate > $1.publishDate }
+                // 按文件夹名排序，最新的在前（假设文件夹命名为YYYY-MM格式）
+                self.newsletters = newNewsletters.sorted { $0.id > $1.id }
                 self.isLoading = false
-                print("✅ Newsletter数据加载成功，共\(newNewsletters.count)个")
+                print("✅ Newsletter数据加载成功，共\(newNewsletters.count)个，排序：\(newNewsletters.map { $0.id })")
             }
         }
     }
@@ -421,18 +505,17 @@ class NewsletterViewModel: ObservableObject {
                     }
                     
                     if let config = config {
+                        let caption = NewsletterCaption(
+                            chinese: config.captions.chinese,
+                            english: config.captions.english,
+                            korean: config.captions.korean
+                        )
+                        
                         let newsletter = Newsletter(
                             id: folderName,
-                            title: config.title,
-                            titleKorean: config.titleKorean,
-                            titleChinese: config.titleChinese,
-                            year: config.year,
-                            month: config.month,
                             publishDate: DateFormatter.parseNewsletterDate(from: config.publishDate) ?? Date(),
                             imageURLs: imageFiles.map { "newsletters/\(folderName)/\($0.name)" },
-                            description: config.description,
-                            descriptionKorean: config.descriptionKorean,
-                            descriptionChinese: config.descriptionChinese,
+                            caption: caption,
                             isPublished: config.isPublished ?? true
                         )
                         completion(newsletter)
@@ -448,18 +531,17 @@ class NewsletterViewModel: ObservableObject {
     }
     
     private func createDefaultNewsletter(folderName: String, imageFiles: [StorageReference], completion: @escaping (Newsletter?) -> Void) {
+        let caption = NewsletterCaption(
+            chinese: "默认Newsletter内容 - \(folderName)",
+            english: "Default Newsletter Content - \(folderName)",
+            korean: "기본 Newsletter 내용 - \(folderName)"
+        )
+        
         let newsletter = Newsletter(
             id: folderName,
-            title: folderName,
-            titleKorean: folderName,
-            titleChinese: folderName,
-            year: 2025,
-            month: 1,
             publishDate: Date(),
             imageURLs: imageFiles.map { "newsletters/\(folderName)/\($0.name)" },
-            description: "",
-            descriptionKorean: "",
-            descriptionChinese: "",
+            caption: caption,
             isPublished: true
         )
         completion(newsletter)

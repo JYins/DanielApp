@@ -1,12 +1,9 @@
 {
-  "title": "January 2025 Newsletter",
-  "titleKorean": "2025년 1월 소식지",
-  "titleChinese": "2025年1月通讯",
-  "year": 2025,
-  "month": 1,
+  "captions": {
+    "chinese": "欢迎阅读2025年1月的教会通讯！本期包含最新的教会活动、见证分享和重要通知。愿主的恩典与大家同在。",
+    "english": "Welcome to the January 2025 church newsletter! This issue features the latest church activities, testimonies, and important announcements. May God's grace be with you all.",
+    "korean": "2025년 1월 교회 소식지에 오신 것을 환영합니다! 이번 호에는 최신 교회 활동, 간증, 중요한 공지사항이 포함되어 있습니다. 하나님의 은혜가 여러분과 함께하시기를 바랍니다."
+  },
   "publishDate": "2025-01-15",
-  "description": "Welcome to our January newsletter featuring upcoming events and church updates.",
-  "descriptionKorean": "다가오는 행사와 교회 소식을 담은 1월 소식지입니다.",
-  "descriptionChinese": "欢迎阅读包含即将举行活动和教会最新动态的一月通讯。",
   "isPublished": true
 } 
