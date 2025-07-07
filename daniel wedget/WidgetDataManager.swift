@@ -165,42 +165,66 @@ public class WidgetDataManager {
     
     // MARK: - 经文选择算法
     
-    /// 获取今日经文 - 优先从主App缓存读取
+    /// 获取今日经文 - 采用智能决策，确保午夜更新和日内同步的准确性
     /// - Returns: 今日的经文
     public func getTodaysVerse() -> MultiLanguageVerse {
-        print("=== Widget开始获取今日经文 ===")
+        print("=== Widget开始获取今日经文（智能决策模式） ===")
         
         // 获取主应用状态
         let appStatus = getMainAppStatus()
         print("📱 主应用状态 - 模式: \(appStatus.mode), 固定: \(appStatus.isFixed), 语言: \(appStatus.language)")
         
-        // 首先尝试从主App缓存读取最新经文
-        if let cachedVerse = loadVerseFromMainAppCache() {
-            print("✅ 从主应用缓存获取经文: \(cachedVerse.reference)")
-            return cachedVerse
+        // 场景 1: 手动模式或经文已固定。这种情况下，主 App 的缓存是绝对的权威。
+        if appStatus.mode == "manual" || appStatus.isFixed {
+            print("🔒 模式为手动或已固定，优先使用App缓存")
+            if let cachedVerse = loadVerseFromMainAppCache() {
+                print("✅ (手动/固定模式) 从主应用缓存获取经文: \(cachedVerse.reference)")
+                return cachedVerse
+            }
+            print("⚠️ (手动/固定模式) 缓存读取失败，使用稳定的备用经文")
+            return getStableVerse()
         }
         
-        print("⚠️ 无法从主应用缓存读取，使用Widget本地策略")
-        
-        // 根据模式采用不同的fallback策略
-        switch appStatus.mode {
-        case "automatic":
-            if appStatus.isFixed {
-                print("🔒 固定模式fallback - 尝试使用本地数据")
-                // 固定模式下，如果无法从缓存读取，使用稳定的经文
-                return getStableVerse()
+        // 场景 2: 自动模式，未固定。这是最需要智能判断的场景。
+        print("🔄 自动模式，需要智能判断数据来源")
+        if let cachedVerse = loadVerseFromMainAppCache(), let timestamp = getCacheTimestamp() {
+            // 检查缓存的时间戳是不是今天
+            if Calendar.current.isDateInToday(timestamp) {
+                // 如果是今天，说明用户今天打开过App并产生了操作，应予以尊重
+                print("✅ (自动模式) 发现今天更新的缓存，使用它: \(cachedVerse.reference)")
+                return cachedVerse
             } else {
-                print("🔄 自动模式fallback - 使用日期算法")
-                // 自动模式下，使用日期算法
-                return getVerseForDate(Date())
+                // 如果是昨天的缓存，说明是午夜更新场景，必须忽略它
+                print("⚠️ (自动模式) 发现旧的缓存(时间戳: \(timestamp))，忽略它。Widget将独立计算新一天的经文。")
             }
-        case "manual":
-            print("👐 手动模式fallback - 使用稳定经文")
-            // 手动模式下，使用稳定的经文避免随机变化
-            return getStableVerse()
-        default:
-            print("❓ 未知模式fallback - 使用日期算法")
-            return getVerseForDate(Date())
+        } else {
+            print("ℹ️ (自动模式) 未找到有效缓存，Widget将独立计算。")
+        }
+        
+        // 最终备选：Widget独立计算当天的经文
+        print("🌍 (自动模式) Widget独立计算今日经文...")
+        return getVerseForDate(Date())
+    }
+    
+    /// 获取缓存的时间戳
+    /// - Returns: 缓存的时间戳，如果不存在则返回nil
+    private func getCacheTimestamp() -> Date? {
+        guard let groupDefaults = UserDefaults(suiteName: appGroupIdentifier) else {
+            print("❌ Widget无法获取App Group UserDefaults for timestamp")
+            return nil
+        }
+        
+        groupDefaults.synchronize()
+        let timestampValue = groupDefaults.double(forKey: "widget_verse_timestamp")
+        
+        // 确保时间戳有效
+        if timestampValue > 0 {
+            let timestamp = Date(timeIntervalSince1970: timestampValue)
+            print("📅 Widget读取到缓存时间戳: \(timestamp)")
+            return timestamp
+        } else {
+            print("⚠️ Widget未找到有效的缓存时间戳")
+            return nil
         }
     }
     
