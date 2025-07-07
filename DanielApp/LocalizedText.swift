@@ -329,6 +329,72 @@ struct LocalizedText {
             }
         }
     }
+    
+    // MARK: - Newsletter页面文本
+    enum NewsletterView: String {
+        case title
+        case loginPrompt
+        case loginButton
+        case userMenuTitle
+        case userInfo
+        case logout
+        case cancel
+        case defaultUserName
+        
+        // 获取对应语言的文本
+        func text(for language: CoreModels.VerseLanguage) -> String {
+            switch self {
+            case .title:
+                switch language {
+                case .chinese: return "教会Newsletter"
+                case .english: return "Church Newsletter"
+                case .korean: return "교회 뉴스레터"
+                }
+            case .loginPrompt:
+                switch language {
+                case .chinese: return "请登录以查看教会每月Newsletter"
+                case .english: return "Please login to view the church monthly newsletter"
+                case .korean: return "교회 월간 뉴스레터를 보려면 로그인하세요"
+                }
+            case .loginButton:
+                switch language {
+                case .chinese: return "立即登录"
+                case .english: return "Login Now"
+                case .korean: return "지금 로그인"
+                }
+            case .userMenuTitle:
+                switch language {
+                case .chinese: return "用户菜单"
+                case .english: return "User Menu"
+                case .korean: return "사용자 메뉴"
+                }
+            case .userInfo:
+                switch language {
+                case .chinese: return "当前用户信息"
+                case .english: return "Current User Information"
+                case .korean: return "현재 사용자 정보"
+                }
+            case .logout:
+                switch language {
+                case .chinese: return "退出登录"
+                case .english: return "Logout"
+                case .korean: return "로그아웃"
+                }
+            case .cancel:
+                switch language {
+                case .chinese: return "取消"
+                case .english: return "Cancel"
+                case .korean: return "취소"
+                }
+            case .defaultUserName:
+                switch language {
+                case .chinese: return "用户"
+                case .english: return "User"
+                case .korean: return "사용자"
+                }
+            }
+        }
+    }
 }
 
 // 扩展用于文本获取的属性包装器
@@ -355,6 +421,7 @@ struct LocalizedStringKeys {
     var verse: VerseKeys { VerseKeys() }
     var wordCardGallery: WordCardGalleryKeys { WordCardGalleryKeys() } // New keys struct
     var connect: ConnectKeys { ConnectKeys() }
+    var newsletter: NewsletterKeys { NewsletterKeys() } // Newsletter keys struct
     
     struct CommonKeys {
         var appTitle: (CoreModels.VerseLanguage) -> String { { LocalizedText.Common.appTitle.text(for: $0) } }
@@ -409,6 +476,17 @@ struct LocalizedStringKeys {
         var shareApp: (CoreModels.VerseLanguage) -> String { { LocalizedText.ConnectView.shareApp.text(for: $0) } }
         var contactUs: (CoreModels.VerseLanguage) -> String { { LocalizedText.ConnectView.contactUs.text(for: $0) } }
     }
+    
+    struct NewsletterKeys {
+        var title: (CoreModels.VerseLanguage) -> String { { LocalizedText.NewsletterView.title.text(for: $0) } }
+        var loginPrompt: (CoreModels.VerseLanguage) -> String { { LocalizedText.NewsletterView.loginPrompt.text(for: $0) } }
+        var loginButton: (CoreModels.VerseLanguage) -> String { { LocalizedText.NewsletterView.loginButton.text(for: $0) } }
+        var userMenuTitle: (CoreModels.VerseLanguage) -> String { { LocalizedText.NewsletterView.userMenuTitle.text(for: $0) } }
+        var userInfo: (CoreModels.VerseLanguage) -> String { { LocalizedText.NewsletterView.userInfo.text(for: $0) } }
+        var logout: (CoreModels.VerseLanguage) -> String { { LocalizedText.NewsletterView.logout.text(for: $0) } }
+        var cancel: (CoreModels.VerseLanguage) -> String { { LocalizedText.NewsletterView.cancel.text(for: $0) } }
+        var defaultUserName: (CoreModels.VerseLanguage) -> String { { LocalizedText.NewsletterView.defaultUserName.text(for: $0) } }
+    }
 }
 
 // 用于直接使用当前语言获取本地化文本的便捷函数
@@ -431,5 +509,9 @@ extension View {
     
     func localizedText(_ connect: LocalizedText.ConnectView, language: CoreModels.VerseLanguage) -> String {
         return connect.text(for: language)
+    }
+    
+    func localizedText(_ newsletter: LocalizedText.NewsletterView, language: CoreModels.VerseLanguage) -> String {
+        return newsletter.text(for: language)
     }
 }

@@ -146,11 +146,11 @@ struct LoginPromptView: View {
                 .font(.system(size: 60))
                 .foregroundColor(StyleConstants.goldColor.opacity(0.8))
             
-            Text("教会Newsletter")
+            Text(LocalizedText.NewsletterView.title.text(for: appState.selectedLanguage))
                 .font(StyleConstants.serifTitle(22, language: appState.selectedLanguage))
                 .foregroundColor(StyleConstants.goldColor)
             
-            Text("请登录以查看教会每月Newsletter")
+            Text(LocalizedText.NewsletterView.loginPrompt.text(for: appState.selectedLanguage))
                 .font(StyleConstants.sansFontBody(16))
                 .foregroundColor(.white.opacity(0.8))
                 .multilineTextAlignment(.center)
@@ -159,7 +159,7 @@ struct LoginPromptView: View {
             Button(action: {
                 showingLogin = true
             }) {
-                Text("立即登录")
+                Text(LocalizedText.NewsletterView.loginButton.text(for: appState.selectedLanguage))
                     .font(StyleConstants.sansFontBody(18))
                     .fontWeight(.semibold)
                     .foregroundColor(Color(hex: "#020f2e"))
@@ -176,6 +176,7 @@ struct LoginPromptView: View {
 // 用户按钮组件
 struct UserButtonView: View {
     @StateObject private var authManager = AuthManager.shared
+    @EnvironmentObject var appState: AppState
     @State private var showingUserMenu = false
     
     var body: some View {
@@ -193,7 +194,7 @@ struct UserButtonView: View {
                         .foregroundColor(StyleConstants.goldColor)
                         .lineLimit(1)
                 } else {
-                    Text("用户")
+                    Text(LocalizedText.NewsletterView.defaultUserName.text(for: appState.selectedLanguage))
                         .font(StyleConstants.sansFontBody(14))
                         .foregroundColor(StyleConstants.goldColor)
                 }
@@ -211,13 +212,13 @@ struct UserButtonView: View {
         }
         .actionSheet(isPresented: $showingUserMenu) {
             ActionSheet(
-                title: Text("用户菜单"),
+                title: Text(LocalizedText.NewsletterView.userMenuTitle.text(for: appState.selectedLanguage)),
                 message: getUserInfo(),
                 buttons: [
-                    .destructive(Text("退出登录")) {
+                    .destructive(Text(LocalizedText.NewsletterView.logout.text(for: appState.selectedLanguage))) {
                         authManager.signOut()
                     },
-                    .cancel(Text("取消"))
+                    .cancel(Text(LocalizedText.NewsletterView.cancel.text(for: appState.selectedLanguage)))
                 ]
             )
         }
@@ -225,9 +226,11 @@ struct UserButtonView: View {
     
     private func getUserInfo() -> Text {
         if case .signedIn(let profile) = authManager.authState {
-            return Text("用户：\(profile.name)\n邮箱：\(profile.email)")
+            let userText = LocalizedText.NewsletterView.defaultUserName.text(for: appState.selectedLanguage)
+            let emailText = appState.selectedLanguage == .chinese ? "邮箱" : (appState.selectedLanguage == .english ? "Email" : "이메일")
+            return Text("\(userText)：\(profile.name)\n\(emailText)：\(profile.email)")
         } else {
-            return Text("当前用户信息")
+            return Text(LocalizedText.NewsletterView.userInfo.text(for: appState.selectedLanguage))
         }
     }
 }
@@ -247,7 +250,7 @@ struct NewsletterCardView: View {
                 if isLoading {
                     Rectangle()
                         .fill(Color.gray.opacity(0.3))
-                        .aspectRatio(1080/1350, contentMode: .fit)
+                        .aspectRatio(1004.0/1440.0, contentMode: .fit) // Newsletter专用尺寸比例
                         .overlay(
                             ProgressView()
                                 .progressViewStyle(CircularProgressViewStyle(tint: StyleConstants.goldColor))
@@ -256,7 +259,7 @@ struct NewsletterCardView: View {
                 } else if images.isEmpty {
                     Rectangle()
                         .fill(Color.gray.opacity(0.3))
-                        .aspectRatio(1080/1350, contentMode: .fit)
+                        .aspectRatio(1004.0/1440.0, contentMode: .fit) // Newsletter专用尺寸比例
                         .overlay(
                             Image(systemName: "photo")
                                 .resizable()
@@ -280,7 +283,7 @@ struct NewsletterCardView: View {
                         }
                     }
                     .tabViewStyle(.page(indexDisplayMode: .never))
-                    .aspectRatio(1080/1350, contentMode: .fit)
+                    .aspectRatio(1004.0/1440.0, contentMode: .fit) // Newsletter专用尺寸比例
                     .clipped()
                     
                     // 如果有多张图片，显示分页指示器
