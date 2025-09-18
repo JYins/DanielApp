@@ -1,5 +1,6 @@
 import WidgetKit
 import SwiftUI
+import UIKit
 
 // 主桌面Widget
 struct MainVerseWidget: Widget {
@@ -82,23 +83,23 @@ struct MainVerseWidgetEntryView: View {
                 VStack(alignment: .leading, spacing: 0) { // 进一步减少整体间距
                     // 经文内容 - 左对齐
                     Text(entry.verseText)
-                        .font(getFontForLanguage(size: 14))
+                        .font(getFontForLanguage(size: entry.preferredLanguage == "ko" ? 14 : 16)) // 韩语使用更小字体
                         .foregroundColor(lightGoldColor)
-                        .lineLimit(7) // 允许7行
-                        .lineSpacing(1.6) // 稍微减少行距以容纳更多文本
+                        .lineLimit(entry.preferredLanguage == "ko" ? 6 : 7) // 韩语限制6行，其他7行
+                        .lineSpacing(entry.preferredLanguage == "ko" ? 0.2 : 1.6) // 韩语使用极小行距
                         .multilineTextAlignment(.leading)
                         .shadow(color: .black.opacity(0.85), radius: 2.5, x: 1.2, y: 1.2) // 增强阴影效果
                         .fixedSize(horizontal: false, vertical: true) // 确保显示完整的内容
-                        .minimumScaleFactor(0.95) // 允许轻微缩放以适应更多文本
+                        .minimumScaleFactor(entry.preferredLanguage == "ko" ? 0.7 : 0.8) // 韩语更强的自动缩放
                         .layoutPriority(1) // 给予文本更高的布局优先级
                     
                     Spacer(minLength: 0) // 进一步减少空间
                     
                     // 经文引用 - 右下角但更上移
                     Text(localizeReference(entry.verse.reference, to: entry.preferredLanguage))
-                        .font(getFontForLanguage(size: 14, isBold: true))
+                        .font(getFontForLanguage(size: entry.preferredLanguage == "ko" ? 14 : 16)) // 韩语使用更小字体
                         .foregroundColor(Color(hex: "F0C030")) // 统一使用相同的亮金色
-                        .fontWeight(entry.preferredLanguage == "en" ? .bold : .black) // 中韩文使用最粗字重
+                        .fontWeight(entry.preferredLanguage == "en" ? .medium : .semibold) // 减轻字重避免过粗
                         .shadow(color: .black.opacity(0.7), radius: 2, x: 1, y: 1)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                         .padding(.trailing, 4) // 减少右侧内边距，使reference更靠右
@@ -144,33 +145,41 @@ struct MainVerseWidgetEntryView: View {
         }
     }
     
-    // 根据语言选择字体
-    func getFontForLanguage(size: CGFloat, isBold: Bool = false) -> Font {
+    // 根据语言选择字体 - 简化版，字重通过fontWeight修饰符控制
+    func getFontForLanguage(size: CGFloat) -> Font {
+        print("🎨 Widget请求字体 - 语言: \(entry.preferredLanguage), 大小: \(size)")
+        
         switch entry.preferredLanguage {
         case "zh-CN":
-            // 尝试使用自定义中文字体，如果失败则fallback到系统字体
-            if isBold {
-                return .custom("AidianFengYaHeiChangTi", size: size).weight(.black)
-            } else {
+            // 测试中文字体是否可用
+            if UIFont(name: "AidianFengYaHeiChangTi", size: size) != nil {
+                print("✅ 中文字体可用，使用自定义字体")
                 return .custom("AidianFengYaHeiChangTi", size: size)
+            } else {
+                print("❌ 中文字体不可用，使用系统字体")
+                return .system(size: size, weight: .regular, design: .serif)
             }
         case "en":
-            return isBold ? 
-                .system(size: size, weight: .bold, design: .rounded) : 
-                .system(size: size, weight: .regular, design: .rounded)
+            print("🔤 使用英文系统字体")
+            return .system(size: size, weight: .regular, design: .rounded)
         case "ko":
-            // 尝试使用自定义韩文字体，如果失败则fallback到系统字体
-            if isBold {
-                return .custom("GowunDodum-Regular", size: size).weight(.black)
-            } else {
+            // 测试韩文字体是否可用
+            if UIFont(name: "GowunDodum-Regular", size: size) != nil {
+                print("✅ 韩文字体可用，使用自定义字体")
                 return .custom("GowunDodum-Regular", size: size)
+            } else {
+                print("❌ 韩文字体不可用，使用系统字体")
+                return .system(size: size, weight: .regular, design: .serif)
             }
         default:
-            // 默认使用中文字体
-            if isBold {
-                return .custom("AidianFengYaHeiChangTi", size: size).weight(.black)
-            } else {
+            print("🔧 使用默认字体")
+            // 默认尝试中文字体，如果不可用则使用系统字体
+            if UIFont(name: "AidianFengYaHeiChangTi", size: size) != nil {
+                print("✅ 默认中文字体可用")
                 return .custom("AidianFengYaHeiChangTi", size: size)
+            } else {
+                print("❌ 默认使用系统字体")
+                return .system(size: size, weight: .regular, design: .serif)
             }
         }
     }

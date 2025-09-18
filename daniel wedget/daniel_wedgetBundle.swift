@@ -76,68 +76,47 @@ struct daniel_wedgetBundle: WidgetBundle {
         // 中文字体注册
         print("📝 尝试注册中文字体...")
         if let fontURL = Bundle.main.url(forResource: "爱点风雅黑长体(商用免费)", withExtension: "ttf") {
-            print("   找到字体文件: \(fontURL.path)")
+            print("   ✅ Widget找到字体文件: \(fontURL.path)")
             var error: Unmanaged<CFError>?
             let success = CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, &error)
             if success {
                 print("✅ Widget成功注册中文字体")
             } else {
-                let errorMessage = error?.takeRetainedValue().localizedDescription ?? "未知错误"
+                let errorMessage: String
+                if let errorRef = error?.takeRetainedValue() {
+                    errorMessage = errorRef.localizedDescription
+                } else {
+                    errorMessage = "未知错误"
+                }
                 print("❌ Widget注册中文字体失败: \(errorMessage)")
             }
             _ = testFont("AidianFengYaHeiChangTi")
         } else {
-            print("   从Widget Bundle未找到字体，尝试从主应用加载...")
-            let mainBundlePath = Bundle.main.bundlePath.components(separatedBy: "/").dropLast().joined(separator: "/")
-            print("   主应用路径: \(mainBundlePath)")
-            if let appBundle = Bundle(path: "\(mainBundlePath)/DanielApp.app"),
-               let fontURL = appBundle.url(forResource: "爱点风雅黑长体(商用免费)", withExtension: "ttf") {
-                print("   找到主应用字体文件: \(fontURL.path)")
-                var error: Unmanaged<CFError>?
-                let success = CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, &error)
-                if success {
-                    print("✅ Widget从主应用成功注册中文字体")
-                } else {
-                    let errorMessage = error?.takeRetainedValue().localizedDescription ?? "未知错误"
-                    print("❌ Widget从主应用注册中文字体失败: \(errorMessage)")
-                }
-                _ = testFont("AidianFengYaHeiChangTi")
-            } else {
-                print("❌ Widget未找到中文字体文件")
-            }
+            print("❌ Widget未找到中文字体文件")
+            print("   请检查字体文件是否包含在daniel wedgetExtension target中")
         }
         
         // 韩文字体注册
         print("📝 尝试注册韩文字体...")
         if let fontURL = Bundle.main.url(forResource: "GowunDodum-Regular", withExtension: "ttf") {
-            print("   找到字体文件: \(fontURL.path)")
+            print("   ✅ Widget找到字体文件: \(fontURL.path)")
             var error: Unmanaged<CFError>?
             let success = CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, &error)
             if success {
                 print("✅ Widget成功注册韩文字体")
             } else {
-                let errorMessage = error?.takeRetainedValue().localizedDescription ?? "未知错误"
+                let errorMessage: String
+                if let errorRef = error?.takeRetainedValue() {
+                    errorMessage = errorRef.localizedDescription
+                } else {
+                    errorMessage = "未知错误"
+                }
                 print("❌ Widget注册韩文字体失败: \(errorMessage)")
             }
             _ = testFont("GowunDodum-Regular")
         } else {
-            print("   从Widget Bundle未找到字体，尝试从主应用加载...")
-            let mainBundlePath = Bundle.main.bundlePath.components(separatedBy: "/").dropLast().joined(separator: "/")
-            if let appBundle = Bundle(path: "\(mainBundlePath)/DanielApp.app"),
-               let fontURL = appBundle.url(forResource: "GowunDodum-Regular", withExtension: "ttf") {
-                print("   找到主应用字体文件: \(fontURL.path)")
-                var error: Unmanaged<CFError>?
-                let success = CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, &error)
-                if success {
-                    print("✅ Widget从主应用成功注册韩文字体")
-                } else {
-                    let errorMessage = error?.takeRetainedValue().localizedDescription ?? "未知错误"
-                    print("❌ Widget从主应用注册韩文字体失败: \(errorMessage)")
-                }
-                _ = testFont("GowunDodum-Regular")
-            } else {
-                print("❌ Widget未找到韩文字体文件")
-            }
+            print("❌ Widget未找到韩文字体文件")
+            print("   请检查字体文件是否包含在daniel wedgetExtension target中")
         }
         
         print("🏁 Widget字体注册完成")
