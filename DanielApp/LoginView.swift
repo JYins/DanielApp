@@ -25,7 +25,7 @@ struct LoginView: View {
                             .foregroundColor(StyleConstants.goldColor)
                         
                         Text("请登录以访问教会内容")
-                            .font(StyleConstants.sansFontBody(16))
+                            .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
                             .foregroundColor(.white.opacity(0.8))
                     }
                     .padding(.bottom, StyleConstants.mediumSpacing)
@@ -35,11 +35,11 @@ struct LoginView: View {
                         // 邮箱输入
                         VStack(alignment: .leading, spacing: 8) {
                             Text("邮箱")
-                                .font(StyleConstants.sansFontBody(14))
+                                .font(StyleConstants.sansFontBody(14, language: appState.selectedLanguage))
                                 .foregroundColor(StyleConstants.goldColor)
                             
                             TextField("请输入邮箱地址", text: $email)
-                                .font(StyleConstants.sansFontBody(16))
+                                .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
                                 .foregroundColor(.white)
                                 .keyboardType(.emailAddress)
                                 .autocapitalization(.none)
@@ -56,17 +56,17 @@ struct LoginView: View {
                         // 密码输入
                         VStack(alignment: .leading, spacing: 8) {
                             Text("密码")
-                                .font(StyleConstants.sansFontBody(14))
+                                .font(StyleConstants.sansFontBody(14, language: appState.selectedLanguage))
                                 .foregroundColor(StyleConstants.goldColor)
                             
                             HStack {
                                 if isShowingPassword {
                                     TextField("请输入密码", text: $password)
-                                        .font(StyleConstants.sansFontBody(16))
+                                        .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
                                         .foregroundColor(.white)
                                 } else {
                                     SecureField("请输入密码", text: $password)
-                                        .font(StyleConstants.sansFontBody(16))
+                                        .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
                                         .foregroundColor(.white)
                                 }
                                 
@@ -90,7 +90,7 @@ struct LoginView: View {
                         // 错误消息
                         if let errorMessage = authManager.errorMessage {
                             Text(errorMessage)
-                                .font(StyleConstants.sansFontBody(14))
+                                .font(StyleConstants.sansFontBody(14, language: appState.selectedLanguage))
                                 .foregroundColor(.red)
                                 .padding()
                                 .background(Color.red.opacity(0.1))
@@ -104,11 +104,11 @@ struct LoginView: View {
                                     Image(systemName: "clock")
                                         .foregroundColor(.orange)
                                     Text("账户正在审核中")
-                                        .font(StyleConstants.sansFontBody(14))
+                                        .font(StyleConstants.sansFontBody(14, language: appState.selectedLanguage))
                                         .foregroundColor(.orange)
                                 }
                                 Text("您的注册申请正在审核中，请耐心等待管理员审核通过")
-                                    .font(StyleConstants.sansFontBody(12))
+                                    .font(StyleConstants.sansFontBody(12, language: appState.selectedLanguage))
                                     .foregroundColor(.white.opacity(0.7))
                                     .multilineTextAlignment(.center)
                             }
@@ -128,15 +128,15 @@ struct LoginView: View {
                                         .scaleEffect(0.8)
                                 } else if authManager.authState.isSignedIn {
                                     HStack {
-                                        Image(systemName: "checkmark")
-                                            .font(.system(size: 16, weight: .bold))
+                                                                                  Image(systemName: "checkmark")
+                                             .font(.system(size: 16, weight: .bold))
                                         Text("登录成功！")
-                                            .font(StyleConstants.sansFontBody(18))
+                                            .font(StyleConstants.sansFontBody(18, language: appState.selectedLanguage))
                                             .fontWeight(.semibold)
                                     }
                                 } else {
                                     Text("登录")
-                                        .font(StyleConstants.sansFontBody(18))
+                                        .font(StyleConstants.sansFontBody(18, language: appState.selectedLanguage))
                                         .fontWeight(.semibold)
                                 }
                             }
@@ -158,14 +158,14 @@ struct LoginView: View {
                     // 注册链接
                     VStack(spacing: StyleConstants.compactSpacing) {
                         Text("还没有账户？")
-                            .font(StyleConstants.sansFontBody(16))
+                            .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
                             .foregroundColor(.white.opacity(0.7))
                         
                         Button(action: {
                             showingRegistration = true
                         }) {
                             Text("立即注册")
-                                .font(StyleConstants.sansFontBody(16))
+                                .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
                                 .fontWeight(.semibold)
                                 .foregroundColor(StyleConstants.goldColor)
                         }

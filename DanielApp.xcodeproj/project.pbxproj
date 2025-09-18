@@ -77,8 +77,6 @@
 		449DB1882D9C6C16007A9872 /* Exceptions for "DanielApp" folder in "daniel wedgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				"fonts/NanumMyeongjo-Regular.ttf",
-				"fonts/SimSun Font.ttf",
 				verses_index.json,
 				verses_merged.json,
 			);

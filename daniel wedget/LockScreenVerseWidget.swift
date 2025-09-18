@@ -148,21 +148,30 @@ struct LockScreenVerseWidgetEntryView: View {
     func getFontForLanguage(size: CGFloat, isBold: Bool = false) -> Font {
         switch entry.preferredLanguage {
         case "zh-CN":
-            return isBold ? 
-                .custom("SimSun", size: size).weight(.bold) : 
-                .custom("SimSun", size: size)
+            // 尝试使用自定义中文字体，如果失败则fallback到系统字体
+            if isBold {
+                return .custom("AidianFengYaHeiChangTi", size: size).weight(.bold)
+            } else {
+                return .custom("AidianFengYaHeiChangTi", size: size)
+            }
         case "en":
             return isBold ? 
-                .custom("TimesNewRomanPSMT", size: size).weight(.bold) : 
-                .custom("TimesNewRomanPSMT", size: size)
+                .system(size: size, weight: .bold, design: .rounded) : 
+                .system(size: size, weight: .regular, design: .rounded)
         case "ko":
-            return isBold ? 
-                .custom("NanumMyeongjo", size: size).weight(.bold) : 
-                .custom("NanumMyeongjo", size: size)
+            // 尝试使用自定义韩文字体，如果失败则fallback到系统字体
+            if isBold {
+                return .custom("GowunDodum-Regular", size: size).weight(.bold)
+            } else {
+                return .custom("GowunDodum-Regular", size: size)
+            }
         default:
-            return isBold ? 
-                .custom("TimesNewRomanPSMT", size: size).weight(.bold) : 
-                .custom("TimesNewRomanPSMT", size: size)
+            // 默认使用中文字体
+            if isBold {
+                return .custom("AidianFengYaHeiChangTi", size: size).weight(.bold)
+            } else {
+                return .custom("AidianFengYaHeiChangTi", size: size)
+            }
         }
     }
 }

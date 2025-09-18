@@ -21,155 +21,131 @@ struct WordCardGalleryView: View {
     }
 
     var body: some View {
-        NavigationView { // Use NavigationView for potential title/navigation bar features
+        ZStack {
+            // 背景色
+            DesignSystem.Colors.background.ignoresSafeArea()
+            
             VStack(spacing: 0) {
-                // 添加与其他页面一致的标题
-                Text(LocalizedText.WordCardGallery.navTitle.text(for: appState.selectedLanguage))
-                    .font(StyleConstants.serifTitle(24, language: appState.selectedLanguage))
-                    .foregroundColor(StyleConstants.goldColor)
-                    .padding(.top, StyleConstants.standardSpacing)
-                    .padding(.bottom, StyleConstants.compactSpacing)
+                // 顶部标题区域
+                VStack(spacing: DesignSystem.Spacing.md) {
+                    HStack {
+                        Text(LocalizedText.WordCardGallery.navTitle.text(for: appState.selectedLanguage))
+                            .font(DesignSystem.Typography.title(DesignSystem.Typography.title1, weight: .bold, language: appState.selectedLanguage))
+                            .foregroundColor(DesignSystem.Colors.primaryText)
+                        
+                        Spacer()
+                    }
+                    .padding(.horizontal, DesignSystem.Spacing.contentMargin)
+                    .padding(.top, DesignSystem.Spacing.lg)
+                }
                 
-                // 添加分隔线
-                Rectangle()
-                    .fill(
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                StyleConstants.goldColor.opacity(0.5),
-                                StyleConstants.goldColor.opacity(0.2),
-                                Color.clear
-                            ]),
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .frame(height: 1)
-                    .padding(.horizontal, 40)
-                    .padding(.bottom, StyleConstants.compactSpacing)
-                
-                // Category Pills
+                // 分类选择器
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: StyleConstants.compactSpacing + 2) {
+                    HStack(spacing: DesignSystem.Spacing.sm) {
                         ForEach(categoryKeys, id: \.self) { key in
                             let categoryText = key.text(for: appState.selectedLanguage)
                             Button {
-                                selectedCategoryKey = key
+                                withAnimation(.easeInOut(duration: 0.2)) {
+                                    selectedCategoryKey = key
+                                }
                             } label: {
                                 Text(categoryText)
-                                    .font(StyleConstants.sansFontBody(14))
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 8)
+                                    .font(DesignSystem.Typography.smart(DesignSystem.Typography.callout, weight: .medium, language: appState.selectedLanguage))
+                                    .padding(.horizontal, DesignSystem.Spacing.md)
+                                    .padding(.vertical, DesignSystem.Spacing.sm)
                                     .background(
                                         selectedCategoryKey == key ? 
-                                        LinearGradient(
-                                            gradient: Gradient(colors: [
-                                                StyleConstants.goldColor,
-                                                StyleConstants.goldColor.opacity(0.8)
-                                            ]),
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        ) :
-                                        LinearGradient(
-                                            gradient: Gradient(colors: [
-                                                Color.white.opacity(0.15),
-                                                Color.white.opacity(0.1)
-                                            ]),
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        )
+                                        DesignSystem.Colors.accent :
+                                        DesignSystem.Colors.cardBackground
                                     )
-                                    .foregroundColor(selectedCategoryKey == key ? Color(hex: "#020f2e") : Color.white)
+                                    .foregroundColor(
+                                        selectedCategoryKey == key ? 
+                                        Color.white : 
+                                        DesignSystem.Colors.primaryText
+                                    )
+                                    .clipShape(Capsule())
                                     .overlay(
                                         Capsule()
                                             .stroke(
                                                 selectedCategoryKey == key ? 
-                                                StyleConstants.goldColor.opacity(0.3) : 
-                                                StyleConstants.goldColor.opacity(0.4), 
-                                                lineWidth: selectedCategoryKey == key ? 0.5 : 1
+                                                DesignSystem.Colors.accent : 
+                                                DesignSystem.Colors.border, 
+                                                lineWidth: selectedCategoryKey == key ? 0 : 1
                                             )
                                     )
-                                    .clipShape(Capsule())
                                     .shadow(
                                         color: selectedCategoryKey == key ? 
-                                        StyleConstants.goldColor.opacity(0.3) : Color.clear, 
+                                        DesignSystem.Colors.accent.opacity(0.3) : Color.clear, 
                                         radius: 4, x: 0, y: 2
                                     )
                             }
                         }
                     }
-                    .padding(.horizontal)
-                    .padding(.vertical, StyleConstants.compactSpacing)
+                    .padding(.horizontal, DesignSystem.Spacing.contentMargin)
+                    .padding(.vertical, DesignSystem.Spacing.md)
                 }
-                .background(Color(hex: "#020f2e")) // Ensure background covers pill area
+                .background(DesignSystem.Colors.background)
 
-                // Content area - show loading, error, or cards (无需登录检查)
+                // 内容区域
                 if viewModel.isLoading {
                     Spacer()
                     ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: StyleConstants.goldColor))
-                        .scaleEffect(1.5)
+                        .progressViewStyle(CircularProgressViewStyle(tint: DesignSystem.Colors.accent))
+                        .scaleEffect(1.2)
                     Spacer()
                 } else if let errorMessage = viewModel.errorMessage {
                     Spacer()
-                    VStack {
+                    VStack(spacing: DesignSystem.Spacing.md) {
                         Text("加载出错")
-                            .font(StyleConstants.serifTitle(18, language: appState.selectedLanguage))
-                            .foregroundColor(StyleConstants.goldColor)
+                            .font(DesignSystem.Typography.title(DesignSystem.Typography.title3, weight: .semibold, language: appState.selectedLanguage))
+                            .foregroundColor(DesignSystem.Colors.primaryText)
                         
                         Text(errorMessage)
-                            .font(StyleConstants.sansFontBody(14))
-                            .foregroundColor(.white)
+                            .font(DesignSystem.Typography.body(DesignSystem.Typography.callout))
+                            .foregroundColor(DesignSystem.Colors.secondaryText)
                             .multilineTextAlignment(.center)
-                            .padding()
                         
                         Button("重试") {
                             viewModel.loadCards()
                         }
-                        .padding()
-                        .background(StyleConstants.goldColor)
-                        .foregroundColor(Color(hex: "#020f2e"))
-                        .cornerRadius(8)
+                        .buttonStyle(ModernButtonStyle(language: appState.selectedLanguage))
                     }
+                    .padding(DesignSystem.Spacing.lg)
+                    .modernCard()
+                    .padding(.horizontal, DesignSystem.Spacing.contentMargin)
                     Spacer()
                 } else if filteredCards.isEmpty {
                     Spacer()
-                    Text("没有找到卡片")
-                        .font(StyleConstants.serifBody(16, language: appState.selectedLanguage))
-                        .foregroundColor(.white)
+                    VStack(spacing: DesignSystem.Spacing.md) {
+                        Image(systemName: "photo.on.rectangle")
+                            .font(.system(size: 48))
+                            .foregroundColor(DesignSystem.Colors.mutedText)
+                        
+                        Text("没有找到卡片")
+                            .font(DesignSystem.Typography.body(DesignSystem.Typography.callout, language: appState.selectedLanguage))
+                            .foregroundColor(DesignSystem.Colors.secondaryText)
+                    }
                     Spacer()
                 } else {
-                    // Gallery List with actual card data
+                    // 话语卡片列表
                     ScrollView {
-                        LazyVStack(spacing: StyleConstants.mediumSpacing - 2) {
+                        LazyVStack(spacing: DesignSystem.Spacing.lg) {
                             ForEach(filteredCards) { card in
-                                FirebaseWordCardView(card: card, language: appState.selectedLanguage)
-                                    .padding(.horizontal, 12)
+                                ModernWordCardView(card: card, language: appState.selectedLanguage)
                             }
                         }
-                        .padding(.top, StyleConstants.standardSpacing)
-                        .padding(.bottom, StyleConstants.mediumSpacing)
+                        .padding(.top, DesignSystem.Spacing.md)
+                        .padding(.bottom, DesignSystem.Spacing.xxl)
+                        .padding(.horizontal, DesignSystem.Spacing.contentMargin)
                     }
                 }
             }
-            .background(Color(hex: "#020f2e").edgesIgnoringSafeArea(.all)) // Set background color
-            .navigationBarHidden(true) // 隐藏导航栏，避免与自定义标题重复
-            .onAppear {
-                // 话语卡片无需登录即可查看
-                viewModel.loadCards() // 加载卡片数据
-                
-                // 设置导航栏外观
-                let appearance = UINavigationBarAppearance()
-                appearance.configureWithOpaqueBackground()
-                appearance.backgroundColor = UIColor(Color(hex: "#020f2e"))
-                appearance.titleTextAttributes = [.foregroundColor: UIColor(StyleConstants.goldColor)]
-                appearance.largeTitleTextAttributes = [.foregroundColor: UIColor(StyleConstants.goldColor)]
-
-                UINavigationBar.appearance().standardAppearance = appearance
-                UINavigationBar.appearance().scrollEdgeAppearance = appearance
-                UINavigationBar.appearance().compactAppearance = appearance
-            }
         }
-        .navigationViewStyle(.stack) // Use stack style for consistent behavior
+        .watermark("@但以理和他的朋友们")
+        .onAppear {
+            // 话语卡片无需登录即可查看
+            viewModel.loadCards()
+        }
     }
 }
 
@@ -385,3 +361,155 @@ struct WordCardGalleryView_Previews: PreviewProvider {
  }
  */
 // Note: CoreModels.VerseLanguage is defined in DanielApp/SharedModels/VerseModels.swift
+
+// MARK: - 现代化话语卡片组件
+struct ModernWordCardView: View {
+    let card: WordCard
+    let language: CoreModels.VerseLanguage
+    @State private var currentImageIndex = 0
+    @State private var images: [UIImage?] = []
+    @State private var isLoading = true
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            // 图片区域
+            ZStack(alignment: .bottom) {
+                if isLoading {
+                    Rectangle()
+                        .fill(DesignSystem.Colors.mutedText.opacity(0.1))
+                        .aspectRatio(1080/1350, contentMode: .fit)
+                        .overlay(
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: DesignSystem.Colors.accent))
+                                .scaleEffect(1.2)
+                        )
+                } else if images.isEmpty {
+                    Rectangle()
+                        .fill(DesignSystem.Colors.mutedText.opacity(0.1))
+                        .aspectRatio(1080/1350, contentMode: .fit)
+                        .overlay(
+                            Image(systemName: "photo")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 40, height: 40)
+                                .foregroundColor(DesignSystem.Colors.mutedText)
+                        )
+                } else {
+                    TabView(selection: $currentImageIndex) {
+                        ForEach(0..<images.count, id: \.self) { index in
+                            if let image = images[index] {
+                                Image(uiImage: image)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .tag(index)
+                            } else {
+                                Rectangle()
+                                    .fill(DesignSystem.Colors.mutedText.opacity(0.1))
+                                    .tag(index)
+                            }
+                        }
+                    }
+                    .tabViewStyle(.page(indexDisplayMode: .never))
+                    .aspectRatio(1080/1350, contentMode: .fit)
+                    .clipped()
+                    
+                    // 如果有多张图片，显示分页指示器
+                    if images.count > 1 {
+                        HStack(spacing: 4) {
+                            ForEach(0..<images.count, id: \.self) { index in
+                                Circle()
+                                    .fill(currentImageIndex == index ? Color.white : Color.white.opacity(0.5))
+                                    .frame(width: 6, height: 6)
+                            }
+                        }
+                        .padding(.bottom, 12)
+                    }
+                }
+            }
+            .cornerRadius(DesignSystem.CornerRadius.card, corners: [.topLeft, .topRight])
+            
+            // 文案区域
+            VStack(alignment: .leading, spacing: DesignSystem.Spacing.md) {
+                // 装饰性分隔线
+                HStack {
+                    Rectangle()
+                        .fill(DesignSystem.Colors.accent.opacity(0.3))
+                        .frame(height: 2)
+                        .frame(maxWidth: 40)
+                    
+                    Spacer()
+                    
+                    Image(systemName: "quote.opening")
+                        .font(.system(size: 12, weight: .light))
+                        .foregroundColor(DesignSystem.Colors.accent.opacity(0.6))
+                }
+                
+                // 文案内容
+                Text(card.caption.text(for: language))
+                    .font(DesignSystem.Typography.body(DesignSystem.Typography.callout, weight: .regular, language: language))
+                    .foregroundColor(DesignSystem.Colors.primaryText)
+                    .lineSpacing(3)
+                    .multilineTextAlignment(.leading)
+            }
+            .padding(DesignSystem.Spacing.cardPadding)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color.white)
+            .cornerRadius(DesignSystem.CornerRadius.card, corners: [.bottomLeft, .bottomRight])
+        }
+        .modernCard()
+        .onAppear {
+            loadImages()
+        }
+    }
+    
+    private func loadImages() {
+        isLoading = true
+        images = Array(repeating: nil, count: card.images.count)
+        
+        let group = DispatchGroup()
+        
+        for (index, imageRef) in card.images.enumerated() {
+            group.enter()
+            
+            FirebaseStorageService.shared.downloadImage(from: imageRef) { image, error in
+                defer { group.leave() }
+                
+                if let image = image {
+                    DispatchQueue.main.async {
+                        if index < self.images.count {
+                            self.images[index] = image
+                        }
+                    }
+                } else if let error = error {
+                    print("加载图片失败: \(error.localizedDescription)")
+                }
+            }
+        }
+        
+        group.notify(queue: .main) {
+            isLoading = false
+        }
+    }
+}
+
+// 自定义圆角扩展
+extension View {
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape(RoundedCorner(radius: radius, corners: corners))
+    }
+}
+
+struct RoundedCorner: Shape {
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(
+            roundedRect: rect,
+            byRoundingCorners: corners,
+            cornerRadii: CGSize(width: radius, height: radius)
+        )
+        return Path(path.cgPath)
+    }
+}
+

@@ -1,5 +1,4 @@
 import SwiftUI
-
 struct ConnectView: View {
     @EnvironmentObject var appState: AppState
     
@@ -22,123 +21,145 @@ struct ConnectView: View {
     private var followText: String {
         switch appState.selectedLanguage {
         case .chinese:
-            return "关注我们获取更多灵感内容："
+            return "关注我们的社交媒体获取最新内容"
         case .english:
-            return "Follow us for more inspiring content:"
+            return "Follow our social media for the latest content"
         case .korean:
-            return "더 많은 영감을 주는 콘텐츠를 위해 팔로우하세요:"
+            return "소셜 미디어를 팔로우하여 최신 콘텐츠를 받아보세요"
         }
     }
     
     var body: some View {
-        NavigationView {
-            ZStack {
-                // 背景色
-                StyleConstants.backgroundColor.ignoresSafeArea()
-                
-                VStack(spacing: StyleConstants.largeSpacing) {
-                    // 标题
-                    Text(LocalizedText.ConnectView.connect.text(for: appState.selectedLanguage))
-                        .font(StyleConstants.serifTitle(30, language: appState.selectedLanguage))
-                        .foregroundColor(StyleConstants.goldColor)
-                        .padding(.top, StyleConstants.standardSpacing)
-                    
-                    // 应用名称
-                    Text(LocalizedText.Common.appTitle.text(for: appState.selectedLanguage))
-                        .font(StyleConstants.serifTitle(24, language: appState.selectedLanguage))
-                        .foregroundColor(StyleConstants.goldColor)
-                        .padding(.top, 5)
-                    
-                    // 欢迎文案
-                    Text(welcomeText)
-                        .font(StyleConstants.sansFontBody(18))
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, StyleConstants.mediumSpacing)
-                    
-                    // 关注提示
-                    Text(followText)
-                        .font(StyleConstants.sansFontBody(16))
-                        .foregroundColor(.white)
-                        .padding(.top, StyleConstants.compactSpacing)
-                    
-                    Spacer()
-                        .frame(height: StyleConstants.mediumSpacing)
-                    
-                    // 社交媒体连接按钮
-                    VStack(spacing: StyleConstants.standardSpacing + 2) {
-                        // Instagram 按钮
-                        Link(destination: instagramUrl!, label: {
-                            HStack {
-                                Image(systemName: "camera.circle.fill")
-                                    .font(.system(size: 24))
-                                
-                                Text("Instagram")
-                                    .font(StyleConstants.sansFontBody(18))
-                            }
-                            .frame(maxWidth: .infinity)
-                            .padding(StyleConstants.buttonPadding + 2)
-                            .foregroundColor(StyleConstants.goldColor)
-                            .background(
-                                RoundedRectangle(cornerRadius: StyleConstants.buttonCornerRadius)
-                                    .stroke(
-                                        LinearGradient(
-                                            gradient: Gradient(colors: [
-                                                StyleConstants.goldColor,
-                                                StyleConstants.goldColor.opacity(0.6)
-                                            ]),
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        ),
-                                        lineWidth: StyleConstants.buttonBorderWidth
-                                    )
-                                    .background(
-                                        RoundedRectangle(cornerRadius: StyleConstants.buttonCornerRadius)
-                                            .fill(StyleConstants.goldColor.opacity(0.05))
-                                    )
-                            )
-                        })
-                        .padding(.horizontal, StyleConstants.largeSpacing)
+        ZStack {
+            DesignSystem.Colors.background.ignoresSafeArea()
+            
+            ScrollView {
+                VStack(spacing: 40) {
+                    // 顶部标题区域
+                    VStack(spacing: 32) {
+                        HStack {
+                            Text(LocalizedText.ConnectView.connect.text(for: appState.selectedLanguage))
+                                .font(DesignSystem.Typography.title(DesignSystem.Typography.title1, weight: .bold, language: appState.selectedLanguage))
+                                .foregroundColor(DesignSystem.Colors.primaryText)
+                            
+                            Spacer()
+                        }
+                        .padding(.horizontal, 24)
+                        .padding(.top, 32)
                         
-                        // YouTube 按钮
-                        Link(destination: youtubeUrl!, label: {
-                            HStack {
-                                Image(systemName: "play.rectangle.fill")
-                                    .font(.system(size: 24))
+                        // 应用介绍卡片 - 大幅改进尺寸
+                        VStack(spacing: 28) {
+                            VStack(spacing: 20) {
+                                Text("但以理和他的朋友们")
+                                    .font(DesignSystem.Typography.title(DesignSystem.Typography.title2, weight: .bold, language: .chinese))
+                                    .foregroundColor(DesignSystem.Colors.primaryText)
+                                    .multilineTextAlignment(.center)
+                                    .lineLimit(1)
                                 
-                                Text("YouTube")
-                                    .font(StyleConstants.sansFontBody(18))
+                                Text(welcomeText)
+                                    .font(DesignSystem.Typography.body(DesignSystem.Typography.body, weight: .medium, language: appState.selectedLanguage))
+                                    .foregroundColor(DesignSystem.Colors.secondaryText)
+                                    .multilineTextAlignment(.center)
+                                    .lineSpacing(6)
+                                    .lineLimit(nil)
                             }
-                            .frame(maxWidth: .infinity)
-                            .padding(StyleConstants.buttonPadding + 2)
-                            .foregroundColor(StyleConstants.goldColor)
-                            .background(
-                                RoundedRectangle(cornerRadius: StyleConstants.buttonCornerRadius)
-                                    .stroke(
-                                        LinearGradient(
-                                            gradient: Gradient(colors: [
-                                                StyleConstants.goldColor,
-                                                StyleConstants.goldColor.opacity(0.6)
-                                            ]),
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        ),
-                                        lineWidth: StyleConstants.buttonBorderWidth
-                                    )
-                                    .background(
-                                        RoundedRectangle(cornerRadius: StyleConstants.buttonCornerRadius)
-                                            .fill(StyleConstants.goldColor.opacity(0.05))
-                                    )
-                            )
-                        })
-                        .padding(.horizontal, StyleConstants.largeSpacing)
-                    }
+                            
+                            Text(followText)
+                                .font(DesignSystem.Typography.smart(DesignSystem.Typography.callout, weight: .semibold, language: appState.selectedLanguage))
+                                .foregroundColor(DesignSystem.Colors.primaryText)
+                                .multilineTextAlignment(.center)
+                                .lineSpacing(5)
+                                .lineLimit(nil)
+                        }
+                        .padding(.vertical, 36)
+                        .padding(.horizontal, 32)
+                        .modernCard()
+                        .padding(.horizontal, 24)
                     
-                    Spacer()
+                    // 社交媒体链接区域
+                    VStack(spacing: 20) {
+                        // Instagram 链接
+                        if let instagramUrl = instagramUrl {
+                            Link(destination: instagramUrl) {
+                                HStack(spacing: 24) {
+                                    Image(systemName: "camera.circle.fill")
+                                        .font(.system(size: 30))
+                                        .foregroundColor(DesignSystem.Colors.accent)
+                                    
+                                    VStack(alignment: .leading, spacing: 8) {
+                                        Text("Instagram")
+                                            .font(DesignSystem.Typography.title(DesignSystem.Typography.body, weight: .bold, language: appState.selectedLanguage))
+                                            .foregroundColor(DesignSystem.Colors.primaryText)
+                                        
+                                        Text("@daniel_fs0691")
+                                            .font(DesignSystem.Typography.body(DesignSystem.Typography.callout, language: appState.selectedLanguage))
+                                            .foregroundColor(DesignSystem.Colors.secondaryText)
+                                    }
+                                    
+                                    Spacer(minLength: 24)
+                                    
+                                    Image(systemName: "arrow.up.right")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(DesignSystem.Colors.accent)
+                                }
+                                .padding(.horizontal, 28)
+                                .padding(.vertical, 24)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .fill(DesignSystem.Colors.cardBackground.opacity(0.6))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 20)
+                                                .stroke(DesignSystem.Colors.divider, lineWidth: 1.2)
+                                        )
+                                )
+                            }
+                        }
+                        
+                        // YouTube 链接
+                        if let youtubeUrl = youtubeUrl {
+                            Link(destination: youtubeUrl) {
+                                HStack(spacing: 24) {
+                                    Image(systemName: "play.circle.fill")
+                                        .font(.system(size: 30))
+                                        .foregroundColor(DesignSystem.Colors.accent)
+                                    
+                                    VStack(alignment: .leading, spacing: 8) {
+                                        Text("YouTube")
+                                            .font(DesignSystem.Typography.title(DesignSystem.Typography.body, weight: .bold, language: appState.selectedLanguage))
+                                            .foregroundColor(DesignSystem.Colors.primaryText)
+                                        
+                                        Text("但以理和他的朋友们")
+                                            .font(DesignSystem.Typography.body(DesignSystem.Typography.callout, language: appState.selectedLanguage))
+                                            .foregroundColor(DesignSystem.Colors.secondaryText)
+                                            .lineLimit(nil)
+                                    }
+                                    
+                                    Spacer(minLength: 24)
+                                    
+                                    Image(systemName: "arrow.up.right")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(DesignSystem.Colors.accent)
+                                }
+                                .padding(.horizontal, 28)
+                                .padding(.vertical, 24)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .fill(DesignSystem.Colors.cardBackground.opacity(0.6))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 20)
+                                                .stroke(DesignSystem.Colors.divider, lineWidth: 1.2)
+                                        )
+                                )
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 24)
+                    
+                    Spacer(minLength: 50)
                 }
-                .padding()
             }
-            .navigationBarHidden(true)
         }
+        .watermark("@但以理和他的朋友们")
     }
-} 
+}
+}

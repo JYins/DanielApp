@@ -14,5 +14,10 @@
 			<string>$(PRODUCT_MODULE_NAME).daniel_wedgetBundle</string> <!-- Points to your @main WidgetBundle struct -->
 		</dict>
 	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>爱点风雅黑长体(商用免费).ttf</string>
+		<string>GowunDodum-Regular.ttf</string>
+	</array>
 </dict>
 </plist>

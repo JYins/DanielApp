@@ -85,6 +85,7 @@ struct LocalizedText {
         case pushSettings
         case updateMode
         case autoUpdate
+        case manualUpdate
         case manualSelect
         case displayLanguage
         case languageHint
@@ -94,6 +95,7 @@ struct LocalizedText {
         case unfixVerse
         case autoUpdateMode
         case bookPlaceholder
+        case chapterPlaceholder
         case versePlaceholder
         
         // 获取对应语言的文本
@@ -116,6 +118,12 @@ struct LocalizedText {
                 case .chinese: return "自动每日更新"
                 case .english: return "Auto Daily Update"
                 case .korean: return "자동 일일 업데이트"
+                }
+            case .manualUpdate:
+                switch language {
+                case .chinese: return "手动更新"
+                case .english: return "Manual Update"
+                case .korean: return "수동 업데이트"
                 }
             case .manualSelect:
                 switch language {
@@ -170,6 +178,12 @@ struct LocalizedText {
                 case .chinese: return "选择书卷"
                 case .english: return "Select Book"
                 case .korean: return "책 선택"
+                }
+            case .chapterPlaceholder:
+                switch language {
+                case .chinese: return "选择章"
+                case .english: return "Select Chapter"
+                case .korean: return "장 선택"
                 }
             case .versePlaceholder:
                 switch language {

@@ -29,7 +29,7 @@ struct RegistrationView: View {
                             .padding(.top, StyleConstants.standardSpacing)
                         
                         Text("请填写以下信息完成注册")
-                            .font(StyleConstants.sansFontBody(16))
+                            .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
                             .foregroundColor(.white.opacity(0.8))
                             .padding(.bottom, StyleConstants.compactSpacing)
                         
@@ -41,14 +41,16 @@ struct RegistrationView: View {
                             CustomTextField(
                                 title: "姓名",
                                 text: $formData.name,
-                                placeholder: "请输入您的姓名"
+                                placeholder: "请输入您的姓名",
+                                language: appState.selectedLanguage
                             )
                             
                             // 出生年月日
                             DateInputField(
                                 title: "出生年月日",
                                 date: formData.birthDate,
-                                placeholder: "请选择出生日期"
+                                placeholder: "请选择出生日期",
+                                language: appState.selectedLanguage
                             ) {
                                 datePickerType = .birth
                                 showingDatePicker = true
@@ -58,7 +60,8 @@ struct RegistrationView: View {
                             CustomTextField(
                                 title: "地址",
                                 text: $formData.address,
-                                placeholder: "请输入您的地址"
+                                placeholder: "请输入您的地址",
+                                language: appState.selectedLanguage
                             )
                             
                             // 邮箱
@@ -66,7 +69,8 @@ struct RegistrationView: View {
                                 title: "邮箱",
                                 text: $formData.email,
                                 placeholder: "请输入邮箱地址",
-                                keyboardType: .emailAddress
+                                keyboardType: .emailAddress,
+                                language: appState.selectedLanguage
                             )
                             
                             // 手机号
@@ -74,7 +78,8 @@ struct RegistrationView: View {
                                 title: "联系方式（手机）",
                                 text: $formData.phoneNumber,
                                 placeholder: "请输入手机号码",
-                                keyboardType: .phonePad
+                                keyboardType: .phonePad,
+                                language: appState.selectedLanguage
                             )
                             
                             // 密码
@@ -82,7 +87,8 @@ struct RegistrationView: View {
                                 title: "密码",
                                 text: $formData.password,
                                 placeholder: "请输入密码（至少6位）",
-                                isSecure: !isShowingPassword
+                                isSecure: !isShowingPassword,
+                                language: appState.selectedLanguage
                             ) {
                                 isShowingPassword.toggle()
                             }
@@ -92,7 +98,8 @@ struct RegistrationView: View {
                                 title: "确认密码",
                                 text: $formData.confirmPassword,
                                 placeholder: "请再次输入密码",
-                                isSecure: !isShowingConfirmPassword
+                                isSecure: !isShowingConfirmPassword,
+                                language: appState.selectedLanguage
                             ) {
                                 isShowingConfirmPassword.toggle()
                             }
@@ -103,7 +110,7 @@ struct RegistrationView: View {
                                     Image(systemName: formData.passwordsMatch ? "checkmark.circle.fill" : "xmark.circle.fill")
                                         .foregroundColor(formData.passwordsMatch ? .green : .red)
                                     Text(formData.passwordsMatch ? "密码匹配" : "密码不匹配")
-                                        .font(StyleConstants.sansFontBody(12))
+                                        .font(StyleConstants.sansFontBody(12, language: appState.selectedLanguage))
                                         .foregroundColor(formData.passwordsMatch ? .green : .red)
                                 }
                                 .padding(.horizontal, StyleConstants.standardSpacing)
@@ -118,21 +125,24 @@ struct RegistrationView: View {
                             CustomTextField(
                                 title: "教会所在国家",
                                 text: $formData.churchCountry,
-                                placeholder: "请输入教会所在国家"
+                                placeholder: "请输入教会所在国家",
+                                language: appState.selectedLanguage
                             )
                             
                             // 教会名称
                             CustomTextField(
                                 title: "教会名称",
                                 text: $formData.churchName,
-                                placeholder: "请输入教会名称"
+                                placeholder: "请输入教会名称",
+                                language: appState.selectedLanguage
                             )
                             
                             // 得救年月日
                             DateInputField(
                                 title: "得救年月日",
                                 date: formData.salvationDate,
-                                placeholder: "请选择得救日期"
+                                placeholder: "请选择得救日期",
+                                language: appState.selectedLanguage
                             ) {
                                 datePickerType = .salvation
                                 showingDatePicker = true
@@ -142,21 +152,23 @@ struct RegistrationView: View {
                             CustomTextField(
                                 title: "侍奉部署（可选）",
                                 text: $formData.ministryDepartment,
-                                placeholder: "如有侍奉部署请填写"
+                                placeholder: "如有侍奉部署请填写",
+                                language: appState.selectedLanguage
                             )
                             
                             // 圣徒信息确认人员
                             CustomTextField(
                                 title: "圣徒信息确认人员",
                                 text: $formData.confirmationPerson,
-                                placeholder: "如：首尔中央教会青年会部长000"
+                                placeholder: "如：首尔中央教会青年会部长000",
+                                language: appState.selectedLanguage
                             )
                         }
                         
                         // 错误消息
                         if let errorMessage = authManager.errorMessage {
                             Text(errorMessage)
-                                .font(StyleConstants.sansFontBody(14))
+                                .font(StyleConstants.sansFontBody(14, language: appState.selectedLanguage))
                                 .foregroundColor(.red)
                                 .padding()
                                 .background(Color.red.opacity(0.1))
@@ -174,15 +186,15 @@ struct RegistrationView: View {
                                         .scaleEffect(0.8)
                                 } else if authManager.authState.isPending {
                                     HStack {
-                                        Image(systemName: "checkmark")
-                                            .font(.system(size: 16, weight: .bold))
+                                                                                  Image(systemName: "checkmark")
+                                             .font(.system(size: 16, weight: .bold))
                                         Text("注册成功！")
-                                            .font(StyleConstants.sansFontBody(18))
+                                            .font(StyleConstants.sansFontBody(18, language: appState.selectedLanguage))
                                             .fontWeight(.semibold)
                                     }
                                 } else {
                                     Text("注册")
-                                        .font(StyleConstants.sansFontBody(18))
+                                        .font(StyleConstants.sansFontBody(18, language: appState.selectedLanguage))
                                         .fontWeight(.semibold)
                                 }
                             }
@@ -202,7 +214,7 @@ struct RegistrationView: View {
                             presentationMode.wrappedValue.dismiss()
                         }) {
                             Text("已有账户？返回登录")
-                                .font(StyleConstants.sansFontBody(16))
+                                .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
                                 .foregroundColor(StyleConstants.goldColor)
                         }
                         .padding(.bottom, StyleConstants.mediumSpacing)
@@ -235,15 +247,16 @@ struct CustomTextField: View {
     @Binding var text: String
     let placeholder: String
     var keyboardType: UIKeyboardType = .default
+    var language: CoreModels.VerseLanguage = .chinese
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
-                .font(StyleConstants.sansFontBody(14))
+                .font(StyleConstants.sansFontBody(14, language: language))
                 .foregroundColor(StyleConstants.goldColor)
             
             TextField(placeholder, text: $text)
-                .font(StyleConstants.sansFontBody(16))
+                .font(StyleConstants.sansFontBody(16, language: language))
                 .foregroundColor(.white)
                 .keyboardType(keyboardType)
                 .padding(.horizontal, 16)
@@ -265,21 +278,22 @@ struct CustomSecureField: View {
     let placeholder: String
     let isSecure: Bool
     let toggleAction: () -> Void
+    var language: CoreModels.VerseLanguage = .chinese
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
-                .font(StyleConstants.sansFontBody(14))
+                .font(StyleConstants.sansFontBody(14, language: language))
                 .foregroundColor(StyleConstants.goldColor)
             
             HStack {
                 if isSecure {
                     SecureField(placeholder, text: $text)
-                        .font(StyleConstants.sansFontBody(16))
+                        .font(StyleConstants.sansFontBody(16, language: language))
                         .foregroundColor(.white)
                 } else {
                     TextField(placeholder, text: $text)
-                        .font(StyleConstants.sansFontBody(16))
+                        .font(StyleConstants.sansFontBody(16, language: language))
                         .foregroundColor(.white)
                 }
                 
@@ -306,17 +320,18 @@ struct DateInputField: View {
     let date: Date
     let placeholder: String
     let action: () -> Void
+    var language: CoreModels.VerseLanguage = .chinese
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
-                .font(StyleConstants.sansFontBody(14))
+                .font(StyleConstants.sansFontBody(14, language: language))
                 .foregroundColor(StyleConstants.goldColor)
             
             Button(action: action) {
                 HStack {
                     Text(DateFormatter.displayFormatter.string(from: date))
-                        .font(StyleConstants.sansFontBody(16))
+                        .font(StyleConstants.sansFontBody(16, language: language))
                         .foregroundColor(.white)
                     
                     Spacer()

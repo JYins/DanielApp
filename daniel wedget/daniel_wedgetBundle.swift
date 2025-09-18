@@ -8,6 +8,7 @@
 import WidgetKit
 import SwiftUI
 import CoreText
+import UIKit
 
 @main
 struct daniel_wedgetBundle: WidgetBundle {
@@ -58,36 +59,87 @@ struct daniel_wedgetBundle: WidgetBundle {
     
     // 注册自定义字体函数
     private func registerFonts() {
-        // 尝试从Bundle中直接加载字体
-        if let fontURL = Bundle.main.url(forResource: "SimSun Font", withExtension: "ttf") {
-            CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, nil)
-            print("✅ Widget成功注册宋体字体")
-        } else {
-            // 如果直接加载失败，尝试从主应用共享的资源包加载
-            let mainBundlePath = Bundle.main.bundlePath.components(separatedBy: "/").dropLast().joined(separator: "/")
-            if let appBundle = Bundle(path: "\(mainBundlePath)/DanielApp.app"),
-               let fontURL = appBundle.url(forResource: "SimSun Font", withExtension: "ttf") {
-                CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, nil)
-                print("✅ Widget从主应用成功注册宋体字体")
+        print("🔍 Widget开始注册字体...")
+        print("📍 Widget Bundle路径: \(Bundle.main.bundlePath)")
+        
+        // 测试字体是否可用
+        func testFont(_ fontName: String) -> Bool {
+            let testFont = UIFont(name: fontName, size: 16)
+            let isAvailable = testFont != nil
+            print("🧪 测试字体 '\(fontName)': \(isAvailable ? "可用" : "不可用")")
+            if let font = testFont {
+                print("   实际字体名称: \(font.fontName)")
+            }
+            return isAvailable
+        }
+        
+        // 中文字体注册
+        print("📝 尝试注册中文字体...")
+        if let fontURL = Bundle.main.url(forResource: "爱点风雅黑长体(商用免费)", withExtension: "ttf") {
+            print("   找到字体文件: \(fontURL.path)")
+            var error: Unmanaged<CFError>?
+            let success = CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, &error)
+            if success {
+                print("✅ Widget成功注册中文字体")
             } else {
-                print("❌ Widget未找到宋体字体文件")
+                let errorMessage = error?.takeRetainedValue().localizedDescription ?? "未知错误"
+                print("❌ Widget注册中文字体失败: \(errorMessage)")
+            }
+            _ = testFont("AidianFengYaHeiChangTi")
+        } else {
+            print("   从Widget Bundle未找到字体，尝试从主应用加载...")
+            let mainBundlePath = Bundle.main.bundlePath.components(separatedBy: "/").dropLast().joined(separator: "/")
+            print("   主应用路径: \(mainBundlePath)")
+            if let appBundle = Bundle(path: "\(mainBundlePath)/DanielApp.app"),
+               let fontURL = appBundle.url(forResource: "爱点风雅黑长体(商用免费)", withExtension: "ttf") {
+                print("   找到主应用字体文件: \(fontURL.path)")
+                var error: Unmanaged<CFError>?
+                let success = CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, &error)
+                if success {
+                    print("✅ Widget从主应用成功注册中文字体")
+                } else {
+                    let errorMessage = error?.takeRetainedValue().localizedDescription ?? "未知错误"
+                    print("❌ Widget从主应用注册中文字体失败: \(errorMessage)")
+                }
+                _ = testFont("AidianFengYaHeiChangTi")
+            } else {
+                print("❌ Widget未找到中文字体文件")
             }
         }
         
-        // 韩文字体
-        if let fontURL = Bundle.main.url(forResource: "NanumMyeongjo-Regular", withExtension: "ttf") {
-            CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, nil)
-            print("✅ Widget成功注册韩文字体")
+        // 韩文字体注册
+        print("📝 尝试注册韩文字体...")
+        if let fontURL = Bundle.main.url(forResource: "GowunDodum-Regular", withExtension: "ttf") {
+            print("   找到字体文件: \(fontURL.path)")
+            var error: Unmanaged<CFError>?
+            let success = CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, &error)
+            if success {
+                print("✅ Widget成功注册韩文字体")
+            } else {
+                let errorMessage = error?.takeRetainedValue().localizedDescription ?? "未知错误"
+                print("❌ Widget注册韩文字体失败: \(errorMessage)")
+            }
+            _ = testFont("GowunDodum-Regular")
         } else {
-            // 如果直接加载失败，尝试从主应用共享的资源包加载
+            print("   从Widget Bundle未找到字体，尝试从主应用加载...")
             let mainBundlePath = Bundle.main.bundlePath.components(separatedBy: "/").dropLast().joined(separator: "/")
             if let appBundle = Bundle(path: "\(mainBundlePath)/DanielApp.app"),
-               let fontURL = appBundle.url(forResource: "NanumMyeongjo-Regular", withExtension: "ttf") {
-                CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, nil)
-                print("✅ Widget从主应用成功注册韩文字体")
+               let fontURL = appBundle.url(forResource: "GowunDodum-Regular", withExtension: "ttf") {
+                print("   找到主应用字体文件: \(fontURL.path)")
+                var error: Unmanaged<CFError>?
+                let success = CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, &error)
+                if success {
+                    print("✅ Widget从主应用成功注册韩文字体")
+                } else {
+                    let errorMessage = error?.takeRetainedValue().localizedDescription ?? "未知错误"
+                    print("❌ Widget从主应用注册韩文字体失败: \(errorMessage)")
+                }
+                _ = testFont("GowunDodum-Regular")
             } else {
                 print("❌ Widget未找到韩文字体文件")
             }
         }
+        
+        print("🏁 Widget字体注册完成")
     }
 }

@@ -98,7 +98,7 @@ struct AuthenticatedContentView: View {
                     .foregroundColor(StyleConstants.goldColor)
                 
                 Text(errorMessage)
-                    .font(StyleConstants.sansFontBody(14))
+                    .font(StyleConstants.sansFontBody(14, language: appState.selectedLanguage))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .padding()
@@ -142,16 +142,16 @@ struct LoginPromptView: View {
     var body: some View {
         Spacer()
         VStack(spacing: StyleConstants.mediumSpacing) {
-            Image(systemName: "newspaper")
-                .font(.system(size: 60))
-                .foregroundColor(StyleConstants.goldColor.opacity(0.8))
+                          Image(systemName: "newspaper")
+                 .font(.system(size: 60))
+                  .foregroundColor(StyleConstants.goldColor.opacity(0.8))
             
             Text(LocalizedText.NewsletterView.title.text(for: appState.selectedLanguage))
                 .font(StyleConstants.serifTitle(22, language: appState.selectedLanguage))
                 .foregroundColor(StyleConstants.goldColor)
             
             Text(LocalizedText.NewsletterView.loginPrompt.text(for: appState.selectedLanguage))
-                .font(StyleConstants.sansFontBody(16))
+                .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
                 .foregroundColor(.white.opacity(0.8))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
@@ -160,7 +160,7 @@ struct LoginPromptView: View {
                 showingLogin = true
             }) {
                 Text(LocalizedText.NewsletterView.loginButton.text(for: appState.selectedLanguage))
-                    .font(StyleConstants.sansFontBody(18))
+                    .font(StyleConstants.sansFontBody(18, language: appState.selectedLanguage))
                     .fontWeight(.semibold)
                     .foregroundColor(Color(hex: "#020f2e"))
                     .frame(maxWidth: 200)
@@ -184,18 +184,18 @@ struct UserButtonView: View {
             showingUserMenu = true
         }) {
             HStack(spacing: 6) {
-                Image(systemName: "person.circle.fill")
-                    .font(.system(size: 20))
-                    .foregroundColor(StyleConstants.goldColor)
+                                  Image(systemName: "person.circle.fill")
+                     .font(.system(size: 20))
+                      .foregroundColor(StyleConstants.goldColor)
                 
                 if case .signedIn(let profile) = authManager.authState {
                     Text(profile.name)
-                        .font(StyleConstants.sansFontBody(14))
+                        .font(StyleConstants.sansFontBody(14, language: appState.selectedLanguage))
                         .foregroundColor(StyleConstants.goldColor)
                         .lineLimit(1)
                 } else {
                     Text(LocalizedText.NewsletterView.defaultUserName.text(for: appState.selectedLanguage))
-                        .font(StyleConstants.sansFontBody(14))
+                        .font(StyleConstants.sansFontBody(14, language: appState.selectedLanguage))
                         .foregroundColor(StyleConstants.goldColor)
                 }
             }
@@ -642,26 +642,7 @@ class NewsletterViewModel: ObservableObject {
     }
 }
 
-// 自定义圆角扩展
-extension View {
-    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-        clipShape(RoundedCorner(radius: radius, corners: corners))
-    }
-}
-
-struct RoundedCorner: Shape {
-    var radius: CGFloat = .infinity
-    var corners: UIRectCorner = .allCorners
-
-    func path(in rect: CGRect) -> Path {
-        let path = UIBezierPath(
-            roundedRect: rect,
-            byRoundingCorners: corners,
-            cornerRadii: CGSize(width: radius, height: radius)
-        )
-        return Path(path.cgPath)
-    }
-}
+// 圆角扩展已在WordCardGalleryView中定义，无需重复
 
 // 日期格式化器
 extension DateFormatter {

@@ -77,7 +77,7 @@ struct DanielAppApp: App {
     // 注册自定义字体函数
     private func registerCustomFonts() {
         // 宋体
-        if let fontURL = Bundle.main.url(forResource: "SimSun Font", withExtension: "ttf") {
+        if let fontURL = Bundle.main.url(forResource: "爱点风雅黑长体(商用免费)", withExtension: "ttf") {
             CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, nil)
             print("成功注册宋体字体")
         } else {
@@ -85,7 +85,7 @@ struct DanielAppApp: App {
         }
         
         // 韩文字体
-        if let fontURL = Bundle.main.url(forResource: "NanumMyeongjo-Regular", withExtension: "ttf") {
+        if let fontURL = Bundle.main.url(forResource: "GowunDodum-Regular", withExtension: "ttf") {
             CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, nil)
             print("成功注册韩文字体")
         } else {

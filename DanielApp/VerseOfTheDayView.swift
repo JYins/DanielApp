@@ -29,125 +29,109 @@ struct VerseOfTheDayView: View {
     @EnvironmentObject var appState: AppState
     @StateObject private var viewModel = VerseViewModel()
     
+    // 固定的问候语
+    private var greetingText: String {
+        switch appState.selectedLanguage {
+        case .chinese:
+            return "平安，姊妹/弟兄"
+        case .english:
+            return "Peace, Sister/Brother"
+        case .korean:
+            return "평안, 자매/형제"
+        }
+    }
+    
     var body: some View {
-        NavigationView {
-            ZStack {
-                // 背景色
-                StyleConstants.backgroundColor.ignoresSafeArea()
-                
-                VStack(spacing: StyleConstants.standardSpacing) {
-                    // 应用标题
-                    Text(LocalizedText.Common.appTitle.text(for: appState.selectedLanguage))
-                        .font(StyleConstants.serifTitle(24, language: appState.selectedLanguage))
-                        .foregroundColor(StyleConstants.goldColor)
-                        .padding(.top)
-                    
-                    // 经文卡片
-                    if viewModel.isLoading {
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: StyleConstants.goldColor))
-                            .scaleEffect(1.5)
-                            .padding(.vertical, 100)
-                    } else if let verse = viewModel.currentVerse {
-                        VStack(spacing: 12) {
-                            Text(LocalizedText.VerseView.dailyVerse.text(for: appState.selectedLanguage))
-                                .font(StyleConstants.serifTitle(18, language: appState.selectedLanguage))
-                                .foregroundColor(StyleConstants.goldColor)
-                                .padding(.top, 12)
+        ZStack {
+            // 背景色
+            DesignSystem.Colors.background.ignoresSafeArea()
+            
+            ScrollView {
+                VStack(spacing: DesignSystem.Spacing.sectionSpacing) {
+                    // 顶部问候区域
+                    VStack(spacing: DesignSystem.Spacing.md) {
+                        HStack {
+                            Text(greetingText)
+                                .font(DesignSystem.Typography.smart(DesignSystem.Typography.callout, weight: .medium, language: appState.selectedLanguage))
+                                .foregroundColor(DesignSystem.Colors.primaryText)
                             
-                            Text(CoreModels.VerseLanguage.localizeReference(verse.reference, to: appState.selectedLanguage))
-                                .font(StyleConstants.serifBody(20, language: appState.selectedLanguage))
-                                .foregroundColor(StyleConstants.goldColor)
-                                .padding(.bottom, 5)
+                            Spacer()
                             
-                            // 多语言经文 - 根据选择的语言显示
-                            Text(viewModel.getVerseTextInSelectedLanguage(verse))
-                                .font(StyleConstants.serifBody(18, language: appState.selectedLanguage))
-                                .foregroundColor(StyleConstants.goldColor)
-                                .multilineTextAlignment(.center)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .padding(.horizontal, StyleConstants.cardPadding + 4)
-                                .padding(.bottom, 12)
-                                .lineSpacing(2)
+                            // 头像占位符
+                            Circle()
+                                .fill(DesignSystem.Colors.accent.opacity(0.2))
+                                .frame(width: 32, height: 32)
+                                .overlay(
+                                                                          Image(systemName: "person.fill")
+                                         .font(.system(size: 16))
+                                          .foregroundColor(DesignSystem.Colors.accent)
+                                )
                         }
-                        .frame(maxWidth: .infinity)
-                        .background(
-                            RoundedRectangle(cornerRadius: StyleConstants.buttonCornerRadius + 2)
-                                .stroke(
-                                    LinearGradient(
-                                        gradient: Gradient(colors: [
-                                            StyleConstants.goldColor,
-                                            StyleConstants.goldColor.opacity(0.6)
-                                        ]),
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    ),
-                                    lineWidth: StyleConstants.buttonBorderWidth
-                                )
-                                .background(
-                                    RoundedRectangle(cornerRadius: StyleConstants.buttonCornerRadius + 2)
-                                        .fill(StyleConstants.goldColor.opacity(0.03))
-                                )
-                        )
-                        .padding(.horizontal, StyleConstants.mediumSpacing)
-                        .shadow(color: StyleConstants.goldColor.opacity(0.1), radius: 8, x: 0, y: 2)
-                    } else {
-                        Text("无法加载经文")
-                            .foregroundColor(.white)
-                            .padding(.vertical, 100)
+                        .greetingBar()
                     }
+                    .padding(.top, DesignSystem.Spacing.md)
+                    .padding(.horizontal, DesignSystem.Spacing.contentMargin)
                     
-                    // 按钮区域 - 根据模式显示不同的按钮
-                    if viewModel.updateMode == "automatic" {
-                        VStack(spacing: StyleConstants.standardSpacing) {
-                            HStack(spacing: StyleConstants.mediumSpacing) {
-                                Button(LocalizedText.VerseView.switchVerse.text(for: appState.selectedLanguage)) {
-                                    viewModel.loadRandomVerse()
-                                }
-                                .buttonStyle(GoldBorderButtonStyle())
-                                
-                                // 根据是否已固定显示不同的按钮
-                                if viewModel.isVerseFixed {
-                                    Button(LocalizedText.VerseView.unfixVerse.text(for: appState.selectedLanguage)) {
-                                        viewModel.unfixVerse()
+                    // 主要内容区域
+                    VStack(spacing: DesignSystem.Spacing.lg) {
+                        // 经文卡片
+                        if viewModel.isLoading {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: DesignSystem.Colors.accent))
+                                .scaleEffect(1.2)
+                                .frame(height: 200)
+                        } else if let verse = viewModel.currentVerse {
+                            ModernVerseCard(
+                                verse: verse,
+                                language: appState.selectedLanguage,
+                                viewModel: viewModel
+                            )
+                        } else {
+                            Text("无法加载经文")
+                                .font(DesignSystem.Typography.body(DesignSystem.Typography.body, language: appState.selectedLanguage))
+                                .foregroundColor(DesignSystem.Colors.mutedText)
+                                .frame(height: 200)
+                        }
+                    
+                        // 按钮区域
+                        VStack(spacing: DesignSystem.Spacing.md) {
+                            if viewModel.updateMode == "automatic" {
+                                HStack(spacing: DesignSystem.Spacing.md) {
+                                    Button(LocalizedText.VerseView.switchVerse.text(for: appState.selectedLanguage)) {
+                                        viewModel.loadRandomVerse()
                                     }
-                                    .buttonStyle(GoldBorderButtonStyle())
-                                } else {
-                                    Button(LocalizedText.VerseView.setAsFixed.text(for: appState.selectedLanguage)) {
-                                        viewModel.setFixedVerse()
+                                    .buttonStyle(ModernButtonStyle(language: appState.selectedLanguage))
+                                    
+                                    // 根据是否已固定显示不同的按钮
+                                    if viewModel.isVerseFixed {
+                                        Button(LocalizedText.VerseView.unfixVerse.text(for: appState.selectedLanguage)) {
+                                            viewModel.unfixVerse()
+                                        }
+                                        .buttonStyle(ModernButtonStyle(language: appState.selectedLanguage))
+                                    } else {
+                                        Button(LocalizedText.VerseView.setAsFixed.text(for: appState.selectedLanguage)) {
+                                            viewModel.setFixedVerse()
+                                        }
+                                        .buttonStyle(ModernButtonStyle(language: appState.selectedLanguage))
                                     }
-                                    .buttonStyle(GoldBorderButtonStyle())
                                 }
+                            } else {
+                                // 手动模式下，显示修改按钮
+                                Button(LocalizedText.VerseView.modifyInSettings.text(for: appState.selectedLanguage)) {
+                                    // 切换到设置选项卡
+                                    appState.selectedTab = 3
+                                }
+                                .buttonStyle(ModernButtonStyle(language: appState.selectedLanguage))
                             }
                         }
-                        .padding(.vertical, StyleConstants.compactSpacing)
-                    } else {
-                        // 手动模式下，显示修改按钮
-                        Button(LocalizedText.VerseView.modifyInSettings.text(for: appState.selectedLanguage)) {
-                            // 切换到设置选项卡
-                            appState.selectedTab = 2
-                        }
-                        .buttonStyle(GoldBorderButtonStyle())
-                        .padding(.vertical, StyleConstants.compactSpacing)
+                        .padding(.horizontal, DesignSystem.Spacing.contentMargin)
                     }
-                    
-                    Spacer()
-                    
-                    // 状态提示
-                    HStack {
-                        Image(systemName: "info.circle")
-                            .foregroundColor(StyleConstants.goldColor.opacity(0.8))
-                            .font(.system(size: 12))
-                        
-                        Text(viewModel.getStatusMessage(for: appState.selectedLanguage))
-                            .font(StyleConstants.sansFontBody(12))
-                            .foregroundColor(StyleConstants.lightGoldColor.opacity(0.9))
-                    }
-                    .padding(.bottom, 5)
+                    .padding(.horizontal, DesignSystem.Spacing.contentMargin)
                 }
-                .padding()
+                .padding(.bottom, DesignSystem.Spacing.xl)
             }
-            .navigationBarHidden(true)
+        }
+        .watermark("@但以理和他的朋友们")
             .onAppear {
                 print("🔄 VerseOfTheDayView显示...")
                 
@@ -180,7 +164,6 @@ struct VerseOfTheDayView: View {
             }
         }
     }
-}
 
 // 使用VerseViewModel管理状态
 class VerseViewModel: ObservableObject {
@@ -659,4 +642,59 @@ func copyJsonFiles() {
     VerseDataService.shared.clearCache()
     VerseDataService.shared.loadVersesIfNeeded()
     VerseDataService.shared.loadVerseIndexListIfNeeded()
+}
+
+// MARK: - 现代化经文卡片组件
+struct ModernVerseCard: View {
+    let verse: MultiLanguageVerse
+    let language: CoreModels.VerseLanguage
+    @ObservedObject var viewModel: VerseViewModel
+    
+    var body: some View {
+        VStack(spacing: DesignSystem.Spacing.lg) {
+            // 每日经文标题
+            HStack {
+                Text(LocalizedText.VerseView.dailyVerse.text(for: language))
+                    .font(DesignSystem.Typography.title(DesignSystem.Typography.title2, weight: .semibold, language: language))
+                    .foregroundColor(DesignSystem.Colors.primaryText)
+                
+                Spacer()
+                
+                // 经文引用
+                Text(CoreModels.VerseLanguage.localizeReference(verse.reference, to: language))
+                    .font(DesignSystem.Typography.system(DesignSystem.Typography.callout, weight: .medium))
+                    .foregroundColor(DesignSystem.Colors.secondaryText)
+            }
+            .padding(.horizontal, DesignSystem.Spacing.cardPadding)
+            .padding(.top, DesignSystem.Spacing.cardPadding)
+            
+            // 经文内容
+            VStack(spacing: DesignSystem.Spacing.md) {
+                Text(viewModel.getVerseTextInSelectedLanguage(verse))
+                    .font(DesignSystem.Typography.body(DesignSystem.Typography.body, weight: .regular, language: language))
+                    .foregroundColor(DesignSystem.Colors.primaryText)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .lineSpacing(4)
+                    .padding(.horizontal, DesignSystem.Spacing.md)
+            }
+            .padding(.horizontal, DesignSystem.Spacing.cardPadding)
+            .padding(.bottom, DesignSystem.Spacing.cardPadding)
+            
+            // 状态信息
+            HStack(spacing: DesignSystem.Spacing.xs) {
+                                  Image(systemName: "info.circle")
+                     .font(.system(size: 12))
+                      .foregroundColor(DesignSystem.Colors.secondaryText)
+                
+                Text(viewModel.getStatusMessage(for: language))
+                    .font(DesignSystem.Typography.smart(DesignSystem.Typography.footnote, language: language))
+                    .foregroundColor(DesignSystem.Colors.secondaryText)
+            }
+            .padding(.horizontal, DesignSystem.Spacing.cardPadding)
+            .padding(.bottom, DesignSystem.Spacing.md)
+        }
+        .modernCard()
+        .padding(.horizontal, DesignSystem.Spacing.contentMargin)
+    }
 }
