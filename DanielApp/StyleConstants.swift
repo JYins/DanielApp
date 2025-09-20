@@ -223,7 +223,7 @@ struct WatermarkStyle: ViewModifier {
             content
             
             Text(text)
-                .font(DesignSystem.Typography.system(DesignSystem.Typography.footnote))
+                .font(DesignSystem.Typography.body(DesignSystem.Typography.footnote, language: .chinese)) // 水印始终使用中文字体
                 .foregroundColor(DesignSystem.Colors.watermark)
                 .padding(.bottom, DesignSystem.Spacing.md)
                 .padding(.trailing, DesignSystem.Spacing.md)

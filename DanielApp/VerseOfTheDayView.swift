@@ -662,7 +662,7 @@ struct ModernVerseCard: View {
                 
                 // 经文引用
                 Text(CoreModels.VerseLanguage.localizeReference(verse.reference, to: language))
-                    .font(DesignSystem.Typography.system(DesignSystem.Typography.callout, weight: .medium))
+                    .font(DesignSystem.Typography.smart(DesignSystem.Typography.callout, weight: .medium, language: language))
                     .foregroundColor(DesignSystem.Colors.secondaryText)
             }
             .padding(.horizontal, DesignSystem.Spacing.cardPadding)

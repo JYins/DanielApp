@@ -91,7 +91,8 @@ struct ModernTabBar: View {
                             withAnimation(.easeInOut(duration: 0.2)) {
                                 selectedTab = item.tag
                             }
-                        }
+                        },
+                        language: selectedLanguage
                     )
                 }
             }
@@ -115,6 +116,7 @@ struct TabBarButton: View {
     let title: String
     let isSelected: Bool
     let action: () -> Void
+    let language: CoreModels.VerseLanguage // 添加语言参数
     
     var body: some View {
         Button(action: action) {
@@ -127,7 +129,7 @@ struct TabBarButton: View {
                 
                 // 标题
                 Text(title)
-                    .font(DesignSystem.Typography.system(DesignSystem.Typography.caption, weight: isSelected ? .medium : .regular))
+                    .font(DesignSystem.Typography.smart(DesignSystem.Typography.caption, weight: isSelected ? .medium : .regular, language: language))
                     .foregroundColor(isSelected ? DesignSystem.Colors.primaryText : DesignSystem.Colors.mutedText)
                     .lineLimit(1)
                     .frame(height: 14)

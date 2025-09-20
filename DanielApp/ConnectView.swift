@@ -88,11 +88,11 @@ struct ConnectView: View {
                                     
                                     VStack(alignment: .leading, spacing: 8) {
                                         Text("Instagram")
-                                            .font(DesignSystem.Typography.title(DesignSystem.Typography.body, weight: .bold, language: appState.selectedLanguage))
+                                            .font(DesignSystem.Typography.title(DesignSystem.Typography.body, weight: .bold, language: .english)) // Instagram固定英文字体
                                             .foregroundColor(DesignSystem.Colors.primaryText)
                                         
                                         Text("@daniel_fs0691")
-                                            .font(DesignSystem.Typography.body(DesignSystem.Typography.callout, language: appState.selectedLanguage))
+                                            .font(DesignSystem.Typography.body(DesignSystem.Typography.callout, language: .english)) // Instagram账号固定英文字体
                                             .foregroundColor(DesignSystem.Colors.secondaryText)
                                     }
                                     
@@ -125,11 +125,11 @@ struct ConnectView: View {
                                     
                                     VStack(alignment: .leading, spacing: 8) {
                                         Text("YouTube")
-                                            .font(DesignSystem.Typography.title(DesignSystem.Typography.body, weight: .bold, language: appState.selectedLanguage))
+                                            .font(DesignSystem.Typography.title(DesignSystem.Typography.body, weight: .bold, language: .english)) // YouTube固定英文字体
                                             .foregroundColor(DesignSystem.Colors.primaryText)
                                         
                                         Text("但以理和他的朋友们")
-                                            .font(DesignSystem.Typography.body(DesignSystem.Typography.callout, language: appState.selectedLanguage))
+                                            .font(DesignSystem.Typography.body(DesignSystem.Typography.callout, language: .chinese)) // 频道名固定中文字体
                                             .foregroundColor(DesignSystem.Colors.secondaryText)
                                             .lineLimit(nil)
                                     }

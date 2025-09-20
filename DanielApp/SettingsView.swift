@@ -32,7 +32,7 @@ struct SettingsView: View {
                         // 更新模式设置
                         VStack(alignment: .leading, spacing: 24) {
                             Text(LocalizedText.Settings.updateMode.text(for: selectedLanguage))
-                                .font(DesignSystem.Typography.system(DesignSystem.Typography.headline, weight: .bold))
+                                .font(DesignSystem.Typography.smart(DesignSystem.Typography.headline, weight: .bold, language: selectedLanguage))
                                 .foregroundColor(DesignSystem.Colors.primaryText)
                             
                             VStack(spacing: 16) {
@@ -214,7 +214,7 @@ struct SettingsView: View {
                         // 语言设置
                         VStack(alignment: .leading, spacing: 24) {
                             Text(LocalizedText.Settings.displayLanguage.text(for: selectedLanguage))
-                                .font(DesignSystem.Typography.system(DesignSystem.Typography.headline, weight: .bold))
+                                .font(DesignSystem.Typography.smart(DesignSystem.Typography.headline, weight: .bold, language: selectedLanguage))
                                 .foregroundColor(DesignSystem.Colors.primaryText)
                             
                             VStack(spacing: 16) {
@@ -252,7 +252,7 @@ struct SettingsView: View {
                     // 版本信息卡片
                     VStack(spacing: 24) {
                         Text(LocalizedText.Common.versionInfo.text(for: selectedLanguage))
-                            .font(DesignSystem.Typography.system(DesignSystem.Typography.headline, weight: .bold))
+                            .font(DesignSystem.Typography.smart(DesignSystem.Typography.headline, weight: .bold, language: selectedLanguage))
                             .foregroundColor(DesignSystem.Colors.primaryText)
                         
                         VStack(spacing: 14) {
@@ -440,7 +440,7 @@ struct HeaderSection: View {
             HStack {
                 VStack(alignment: .leading, spacing: 8) {
                     Text(LocalizedText.Common.settings.text(for: language))
-                        .font(DesignSystem.Typography.system(DesignSystem.Typography.title1, weight: .bold))
+                        .font(DesignSystem.Typography.smart(DesignSystem.Typography.title1, weight: .bold, language: language))
                         .foregroundColor(DesignSystem.Colors.primaryText)
                 }
                 Spacer()
