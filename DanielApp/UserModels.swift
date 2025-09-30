@@ -1,12 +1,36 @@
 import Foundation
 import FirebaseFirestore
 
+// 用户性别枚举
+enum UserGender: String, Codable {
+    case brother = "brother" // 弟兄
+    case sister = "sister"   // 姊妹
+    
+    func localizedName(for language: CoreModels.VerseLanguage) -> String {
+        switch self {
+        case .brother:
+            switch language {
+            case .chinese: return "弟兄"
+            case .english: return "Brother"
+            case .korean: return "형제"
+            }
+        case .sister:
+            switch language {
+            case .chinese: return "姊妹"
+            case .english: return "Sister"
+            case .korean: return "자매"
+            }
+        }
+    }
+}
+
 // 用户个人资料模型
 struct UserProfile: Codable, Identifiable, Equatable {
     @DocumentID var id: String?
     
     // 基本信息
     var name: String
+    var gender: UserGender // 性别：弟兄/姊妹
     var birthDate: Date
     var address: String
     var email: String
@@ -26,8 +50,9 @@ struct UserProfile: Codable, Identifiable, Equatable {
     var isApproved: Bool // 是否通过审核
     var approvedAt: Date?
     
-    init(name: String, birthDate: Date, address: String, email: String, phoneNumber: String, userId: String, churchCountry: String, churchName: String, salvationDate: Date, ministryDepartment: String? = nil, confirmationPerson: String) {
+    init(name: String, gender: UserGender, birthDate: Date, address: String, email: String, phoneNumber: String, userId: String, churchCountry: String, churchName: String, salvationDate: Date, ministryDepartment: String? = nil, confirmationPerson: String) {
         self.name = name
+        self.gender = gender
         self.birthDate = birthDate
         self.address = address
         self.email = email
@@ -87,6 +112,7 @@ enum AuthState: Equatable {
 // 注册表单数据
 struct RegistrationFormData {
     var name: String = ""
+    var gender: UserGender = .brother // 默认为弟兄
     var birthDate: Date = Date()
     var address: String = ""
     var email: String = ""

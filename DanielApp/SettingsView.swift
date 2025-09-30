@@ -2,6 +2,41 @@ import SwiftUI
 import WidgetKit
 import UserNotifications
 
+// MARK: - Bubble按钮样式
+struct BubbleButtonStyle: ButtonStyle {
+    let language: CoreModels.VerseLanguage
+    @State private var isPressed = false
+    
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(DesignSystem.Typography.smart(DesignSystem.Typography.callout, weight: .semibold, language: language))
+            .foregroundColor(.white)
+            .padding(.horizontal, 24)
+            .padding(.vertical, 12)
+            .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(
+                        LinearGradient(
+                            gradient: Gradient(colors: [
+                                DesignSystem.Colors.accent,
+                                DesignSystem.Colors.accent.opacity(0.8)
+                            ]),
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .shadow(
+                        color: DesignSystem.Colors.accent.opacity(0.3),
+                        radius: configuration.isPressed ? 2 : 6,
+                        x: 0,
+                        y: configuration.isPressed ? 1 : 3
+                    )
+            )
+            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
+            .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
+    }
+}
+
 struct SettingsView: View {
     @EnvironmentObject var appState: AppState
     
@@ -38,9 +73,7 @@ struct SettingsView: View {
                             VStack(spacing: 16) {
                                 // 自动更新按钮
                                 Button(action: {
-                                    updateMode = "automatic"
-                                    VerseDataService.shared.setUpdateMode("automatic")
-                                    WidgetCenter.shared.reloadAllTimelines()
+                                    switchToAutomaticMode()
                                 }) {
                                     HStack(spacing: 24) {
                                         Image(systemName: updateMode == "automatic" ? "checkmark.circle.fill" : "circle")
@@ -67,9 +100,7 @@ struct SettingsView: View {
                                 
                                 // 手动更新按钮
                                 Button(action: {
-                                    updateMode = "manual"
-                                    VerseDataService.shared.setUpdateMode("manual")
-                                    WidgetCenter.shared.reloadAllTimelines()
+                                    switchToManualMode()
                                 }) {
                                     HStack(spacing: 24) {
                                         Image(systemName: updateMode == "manual" ? "checkmark.circle.fill" : "circle")
@@ -196,12 +227,16 @@ struct SettingsView: View {
                                         .foregroundColor(DesignSystem.Colors.primaryText)
                                         .font(DesignSystem.Typography.smart(DesignSystem.Typography.body, language: selectedLanguage))
                                     
-                                    // 保存选择的经文
-                                    Button(LocalizedText.Settings.setVerse.text(for: selectedLanguage)) {
-                                        setManualVerse()
+                                    // 保存选择的经文 - 使用Bubble样式
+                                    HStack {
+                                        Spacer()
+                                        Button(LocalizedText.Settings.setVerse.text(for: selectedLanguage)) {
+                                            setManualVerse()
+                                        }
+                                        .buttonStyle(BubbleButtonStyle(language: selectedLanguage))
+                                        Spacer()
                                     }
-                                    .buttonStyle(ModernButtonStyle(language: selectedLanguage))
-                                    .padding(.top, 8)
+                                    .padding(.top, 16)
                                 }
                             }
                         }
@@ -306,6 +341,57 @@ struct SettingsView: View {
         selectedLanguage = language
         VerseDataService.shared.setSelectedLanguage(language)
         appState.selectedLanguage = language
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+    
+    // 切换到自动模式
+    private func switchToAutomaticMode() {
+        print("🔄 切换到自动模式")
+        
+        // 更新本地状态
+        updateMode = "automatic"
+        
+        // 更新服务状态
+        VerseDataService.shared.setUpdateMode("automatic")
+        
+        // 取消固定状态（如果有的话）
+        VerseDataService.shared.setVerseFixed(false)
+        
+        // 如果当前有手动选择的经文，保留它直到下一个零点
+        // 这里不需要清除当前经文引用，让自动更新逻辑在零点处理
+        print("已切换到自动模式，当前经文将保留到下一个零点")
+        
+        // 通知VerseOfTheDayView刷新状态
+        appState.needsRefreshVerseStatus = true
+        
+        // 刷新Widget
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+    
+    // 切换到手动模式
+    private func switchToManualMode() {
+        print("🔄 切换到手动模式")
+        
+        // 更新本地状态
+        updateMode = "manual"
+        
+        // 更新服务状态
+        VerseDataService.shared.setUpdateMode("manual")
+        
+        // 确保当前有经文引用（如果没有的话使用当前显示的）
+        if VerseDataService.shared.getCurrentVerseReference() == nil {
+            if let currentVerse = VerseDataService.shared.getCurrentVerseToDisplay() {
+                VerseDataService.shared.setCurrentVerseReference(currentVerse.reference)
+                print("手动模式：设置当前经文为 \(currentVerse.reference)")
+            }
+        }
+        
+        print("已切换到手动模式")
+        
+        // 通知VerseOfTheDayView刷新状态
+        appState.needsRefreshVerseStatus = true
+        
+        // 刷新Widget
         WidgetCenter.shared.reloadAllTimelines()
     }
     

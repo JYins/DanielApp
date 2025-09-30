@@ -7,6 +7,7 @@ struct LoginView: View {
     @State private var password = ""
     @State private var isShowingPassword = false
     @State private var showingRegistration = false
+    @State private var showingForgotPassword = false
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
@@ -26,7 +27,7 @@ struct LoginView: View {
                         
                         Text("请登录以访问教会内容")
                             .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
-                            .foregroundColor(.white.opacity(0.8))
+                            .foregroundColor(DesignSystem.Colors.secondaryText)
                     }
                     .padding(.bottom, StyleConstants.mediumSpacing)
                     
@@ -36,11 +37,11 @@ struct LoginView: View {
                         VStack(alignment: .leading, spacing: 8) {
                             Text("邮箱")
                                 .font(StyleConstants.sansFontBody(14, language: appState.selectedLanguage))
-                                .foregroundColor(StyleConstants.goldColor)
+                                .foregroundColor(DesignSystem.Colors.primaryText)
                             
                             TextField("请输入邮箱地址", text: $email)
                                 .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
-                                .foregroundColor(.white)
+                                .foregroundColor(DesignSystem.Colors.primaryText)
                                 .keyboardType(.emailAddress)
                                 .autocapitalization(.none)
                                 .padding(.horizontal, 16)
@@ -49,7 +50,7 @@ struct LoginView: View {
                                 .cornerRadius(8)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 8)
-                                        .stroke(StyleConstants.goldColor.opacity(0.3), lineWidth: 1)
+                                        .stroke(DesignSystem.Colors.border, lineWidth: 1)
                                 )
                         }
                         
@@ -57,34 +58,34 @@ struct LoginView: View {
                         VStack(alignment: .leading, spacing: 8) {
                             Text("密码")
                                 .font(StyleConstants.sansFontBody(14, language: appState.selectedLanguage))
-                                .foregroundColor(StyleConstants.goldColor)
+                                .foregroundColor(DesignSystem.Colors.primaryText)
                             
                             HStack {
                                 if isShowingPassword {
                                     TextField("请输入密码", text: $password)
                                         .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
-                                        .foregroundColor(.white)
+                                        .foregroundColor(DesignSystem.Colors.primaryText)
                                 } else {
                                     SecureField("请输入密码", text: $password)
                                         .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
-                                        .foregroundColor(.white)
+                                        .foregroundColor(DesignSystem.Colors.primaryText)
                                 }
                                 
                                 Button(action: {
                                     isShowingPassword.toggle()
                                 }) {
                                     Image(systemName: isShowingPassword ? "eye.slash" : "eye")
-                                        .foregroundColor(StyleConstants.goldColor.opacity(0.7))
+                                        .foregroundColor(DesignSystem.Colors.accent)
                                 }
                             }
                             .padding(.horizontal, 16)
                             .padding(.vertical, 12)
                             .background(Color.white.opacity(0.1))
                             .cornerRadius(8)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(StyleConstants.goldColor.opacity(0.3), lineWidth: 1)
-                            )
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(DesignSystem.Colors.border, lineWidth: 1)
+                                )
                         }
                         
                         // 错误消息
@@ -107,14 +108,26 @@ struct LoginView: View {
                                         .font(StyleConstants.sansFontBody(14, language: appState.selectedLanguage))
                                         .foregroundColor(.orange)
                                 }
-                                Text("您的注册申请正在审核中，请耐心等待管理员审核通过")
+                                    Text("您的注册申请正在审核中，请耐心等待管理员审核通过")
                                     .font(StyleConstants.sansFontBody(12, language: appState.selectedLanguage))
-                                    .foregroundColor(.white.opacity(0.7))
+                                    .foregroundColor(DesignSystem.Colors.secondaryText)
                                     .multilineTextAlignment(.center)
                             }
                             .padding()
                             .background(Color.orange.opacity(0.1))
                             .cornerRadius(8)
+                        }
+                        
+                        // 忘记密码链接
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                showingForgotPassword = true
+                            }) {
+                                Text("忘记密码？")
+                                    .font(StyleConstants.sansFontBody(14, language: appState.selectedLanguage))
+                                    .foregroundColor(DesignSystem.Colors.accent)
+                            }
                         }
                         
                         // 登录按钮
@@ -124,7 +137,7 @@ struct LoginView: View {
                             HStack {
                                 if authManager.isLoading {
                                     ProgressView()
-                                        .progressViewStyle(CircularProgressViewStyle(tint: Color(hex: "#020f2e")))
+                                        .progressViewStyle(CircularProgressViewStyle(tint: DesignSystem.Colors.primaryText))
                                         .scaleEffect(0.8)
                                 } else if authManager.authState.isSignedIn {
                                     HStack {
@@ -144,9 +157,9 @@ struct LoginView: View {
                             .padding(.vertical, StyleConstants.standardSpacing)
                             .background(
                                 authManager.authState.isSignedIn ? Color.green :
-                                ((!email.isEmpty && !password.isEmpty) ? StyleConstants.goldColor : Color.gray.opacity(0.5))
+                                ((!email.isEmpty && !password.isEmpty) ? DesignSystem.Colors.accent : DesignSystem.Colors.mutedText)
                             )
-                            .foregroundColor(Color(hex: "#020f2e"))
+                            .foregroundColor(.white)
                             .cornerRadius(StyleConstants.buttonCornerRadius)
                         }
                         .disabled(email.isEmpty || password.isEmpty || authManager.isLoading || authManager.authState.isSignedIn)
@@ -159,7 +172,7 @@ struct LoginView: View {
                     VStack(spacing: StyleConstants.compactSpacing) {
                         Text("还没有账户？")
                             .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(DesignSystem.Colors.secondaryText)
                         
                         Button(action: {
                             showingRegistration = true
@@ -167,7 +180,7 @@ struct LoginView: View {
                             Text("立即注册")
                                 .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
                                 .fontWeight(.semibold)
-                                .foregroundColor(StyleConstants.goldColor)
+                                .foregroundColor(DesignSystem.Colors.accent)
                         }
                     }
                     .padding(.bottom, StyleConstants.mediumSpacing)
@@ -176,6 +189,10 @@ struct LoginView: View {
             .navigationBarHidden(true)
             .sheet(isPresented: $showingRegistration) {
                 RegistrationView()
+                    .environmentObject(appState)
+            }
+            .sheet(isPresented: $showingForgotPassword) {
+                ForgotPasswordView()
                     .environmentObject(appState)
             }
             .onChange(of: authManager.authState) { newState in

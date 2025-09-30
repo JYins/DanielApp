@@ -18,6 +18,7 @@ struct LocalizedText {
         case bibleVersionInfo
         case wordCardsTab // New key for the tab title
         case newsletterTab // Newsletter tab title
+        case praiseTab // Praise tab title
         
         // 获取对应语言的文本
         func text(for language: CoreModels.VerseLanguage) -> String {
@@ -75,6 +76,12 @@ struct LocalizedText {
                 case .chinese: return "教会通讯"
                 case .english: return "Newsletter"
                 case .korean: return "교회 소식지"
+                }
+            case .praiseTab:
+                switch language {
+                case .chinese: return "赞美响起"
+                case .english: return "Praise Resounds"
+                case .korean: return "찬양이 울려퍼져"
                 }
             }
         }
@@ -409,6 +416,44 @@ struct LocalizedText {
             }
         }
     }
+    
+    // MARK: - 赞美页面文本
+    enum Praise: String {
+        case subtitle
+        case comingSoon
+        case description
+        case features
+        
+        // 获取对应语言的文本
+        func text(for language: CoreModels.VerseLanguage) -> String {
+            switch self {
+            case .subtitle:
+                switch language {
+                case .chinese: return "让心灵响起赞美的声音"
+                case .english: return "Let your heart echo with praise"
+                case .korean: return "마음에서 찬양의 소리가 울려 퍼지게 하세요"
+                }
+            case .comingSoon:
+                switch language {
+                case .chinese: return "即将推出"
+                case .english: return "Coming Soon"
+                case .korean: return "곧 출시 예정"
+                }
+            case .description:
+                switch language {
+                case .chinese: return "我们正在精心准备丰富的敬拜音乐资源，包括精选敬拜歌曲、每日诗歌推荐等功能，敬请期待！"
+                case .english: return "We are carefully preparing rich worship music resources, including curated worship songs, daily hymn recommendations, and more features. Stay tuned!"
+                case .korean: return "엄선된 예배 음악, 매일의 찬송가 추천 등의 기능을 포함한 풍부한 예배 음악 리소스를 신중하게 준비하고 있습니다. 많은 기대 부탁드립니다!"
+                }
+            case .features:
+                switch language {
+                case .chinese: return "即将推出的功能"
+                case .english: return "Upcoming Features"
+                case .korean: return "출시 예정 기능"
+                }
+            }
+        }
+    }
 }
 
 // 扩展用于文本获取的属性包装器
@@ -436,6 +481,7 @@ struct LocalizedStringKeys {
     var wordCardGallery: WordCardGalleryKeys { WordCardGalleryKeys() } // New keys struct
     var connect: ConnectKeys { ConnectKeys() }
     var newsletter: NewsletterKeys { NewsletterKeys() } // Newsletter keys struct
+    var praise: PraiseKeys { PraiseKeys() } // Praise keys struct
     
     struct CommonKeys {
         var appTitle: (CoreModels.VerseLanguage) -> String { { LocalizedText.Common.appTitle.text(for: $0) } }
@@ -447,6 +493,7 @@ struct LocalizedStringKeys {
         var bibleVersionInfo: (CoreModels.VerseLanguage) -> String { { LocalizedText.Common.bibleVersionInfo.text(for: $0) } }
         var wordCardsTab: (CoreModels.VerseLanguage) -> String { { LocalizedText.Common.wordCardsTab.text(for: $0) } } // New key path
         var newsletterTab: (CoreModels.VerseLanguage) -> String { { LocalizedText.Common.newsletterTab.text(for: $0) } } // Newsletter tab key path
+        var praiseTab: (CoreModels.VerseLanguage) -> String { { LocalizedText.Common.praiseTab.text(for: $0) } } // Praise tab key path
     }
     
     struct SettingsKeys {
@@ -501,6 +548,13 @@ struct LocalizedStringKeys {
         var cancel: (CoreModels.VerseLanguage) -> String { { LocalizedText.NewsletterView.cancel.text(for: $0) } }
         var defaultUserName: (CoreModels.VerseLanguage) -> String { { LocalizedText.NewsletterView.defaultUserName.text(for: $0) } }
     }
+    
+    struct PraiseKeys {
+        var subtitle: (CoreModels.VerseLanguage) -> String { { LocalizedText.Praise.subtitle.text(for: $0) } }
+        var comingSoon: (CoreModels.VerseLanguage) -> String { { LocalizedText.Praise.comingSoon.text(for: $0) } }
+        var description: (CoreModels.VerseLanguage) -> String { { LocalizedText.Praise.description.text(for: $0) } }
+        var features: (CoreModels.VerseLanguage) -> String { { LocalizedText.Praise.features.text(for: $0) } }
+    }
 }
 
 // 用于直接使用当前语言获取本地化文本的便捷函数
@@ -527,5 +581,9 @@ extension View {
     
     func localizedText(_ newsletter: LocalizedText.NewsletterView, language: CoreModels.VerseLanguage) -> String {
         return newsletter.text(for: language)
+    }
+    
+    func localizedText(_ praise: LocalizedText.Praise, language: CoreModels.VerseLanguage) -> String {
+        return praise.text(for: language)
     }
 }

@@ -244,6 +244,8 @@ class AppState: ObservableObject {
     @Published var selectedVerseReference: String?
     @Published var selectedTab: Int = 0
     @Published var selectedLanguage: CoreModels.VerseLanguage = .chinese
+    @Published var needsShowSettings: Bool = false
+    @Published var needsRefreshVerseStatus: Bool = false
     
     init(selectedVerseReference: String? = nil) {
         self.selectedVerseReference = selectedVerseReference

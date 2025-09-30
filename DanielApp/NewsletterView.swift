@@ -10,15 +10,15 @@ struct NewsletterView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                // 背景色
-                Color(hex: "#020f2e").edgesIgnoringSafeArea(.all)
+                // 背景色 - 使用统一的设计系统
+                DesignSystem.Colors.background.ignoresSafeArea()
                 
                 VStack(spacing: 0) {
                     // 标题和用户按钮
                     HStack {
                         Text(LocalizedText.Newsletter.navTitle.text(for: appState.selectedLanguage))
-                            .font(StyleConstants.serifTitle(24, language: appState.selectedLanguage))
-                            .foregroundColor(StyleConstants.goldColor)
+                            .font(DesignSystem.Typography.title(DesignSystem.Typography.title2, weight: .bold, language: appState.selectedLanguage))
+                            .foregroundColor(DesignSystem.Colors.primaryText)
                         
                         Spacer()
                         
@@ -36,8 +36,8 @@ struct NewsletterView: View {
                         .fill(
                             LinearGradient(
                                 gradient: Gradient(colors: [
-                                    StyleConstants.goldColor.opacity(0.5),
-                                    StyleConstants.goldColor.opacity(0.2),
+                                    DesignSystem.Colors.accent.opacity(0.5),
+                                    DesignSystem.Colors.accent.opacity(0.2),
                                     Color.clear
                                 ]),
                                 startPoint: .leading,
@@ -87,36 +87,33 @@ struct AuthenticatedContentView: View {
         if viewModel.isLoading {
             Spacer()
             ProgressView()
-                .progressViewStyle(CircularProgressViewStyle(tint: StyleConstants.goldColor))
+                .progressViewStyle(CircularProgressViewStyle(tint: DesignSystem.Colors.accent))
                 .scaleEffect(1.5)
             Spacer()
         } else if let errorMessage = viewModel.errorMessage {
             Spacer()
             VStack {
                 Text("加载出错")
-                    .font(StyleConstants.serifTitle(18, language: appState.selectedLanguage))
-                    .foregroundColor(StyleConstants.goldColor)
+                    .font(DesignSystem.Typography.title(DesignSystem.Typography.headline, weight: .semibold, language: appState.selectedLanguage))
+                    .foregroundColor(DesignSystem.Colors.primaryText)
                 
                 Text(errorMessage)
-                    .font(StyleConstants.sansFontBody(14, language: appState.selectedLanguage))
-                    .foregroundColor(.white)
+                    .font(DesignSystem.Typography.body(DesignSystem.Typography.body, language: appState.selectedLanguage))
+                    .foregroundColor(DesignSystem.Colors.secondaryText)
                     .multilineTextAlignment(.center)
                     .padding()
                 
                 Button("重试") {
                     viewModel.loadNewsletters()
                 }
-                .padding()
-                .background(StyleConstants.goldColor)
-                .foregroundColor(Color(hex: "#020f2e"))
-                .cornerRadius(8)
+                .buttonStyle(ModernButtonStyle(language: appState.selectedLanguage))
             }
             Spacer()
         } else if viewModel.newsletters.isEmpty {
             Spacer()
             Text("暂无Newsletter")
-                .font(StyleConstants.serifBody(16, language: appState.selectedLanguage))
-                .foregroundColor(.white)
+                .font(DesignSystem.Typography.body(DesignSystem.Typography.body, language: appState.selectedLanguage))
+                .foregroundColor(DesignSystem.Colors.secondaryText)
             Spacer()
         } else {
             // Newsletter列表
@@ -142,17 +139,17 @@ struct LoginPromptView: View {
     var body: some View {
         Spacer()
         VStack(spacing: StyleConstants.mediumSpacing) {
-                          Image(systemName: "newspaper")
-                 .font(.system(size: 60))
-                  .foregroundColor(StyleConstants.goldColor.opacity(0.8))
+            Image(systemName: "newspaper")
+                .font(.system(size: 60))
+                .foregroundColor(DesignSystem.Colors.accent.opacity(0.8))
             
             Text(LocalizedText.NewsletterView.title.text(for: appState.selectedLanguage))
-                .font(StyleConstants.serifTitle(22, language: appState.selectedLanguage))
-                .foregroundColor(StyleConstants.goldColor)
+                .font(DesignSystem.Typography.title(DesignSystem.Typography.title2, weight: .semibold, language: appState.selectedLanguage))
+                .foregroundColor(DesignSystem.Colors.primaryText)
             
             Text(LocalizedText.NewsletterView.loginPrompt.text(for: appState.selectedLanguage))
-                .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
-                .foregroundColor(.white.opacity(0.8))
+                .font(DesignSystem.Typography.body(DesignSystem.Typography.body, language: appState.selectedLanguage))
+                .foregroundColor(DesignSystem.Colors.secondaryText)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
             
@@ -160,12 +157,11 @@ struct LoginPromptView: View {
                 showingLogin = true
             }) {
                 Text(LocalizedText.NewsletterView.loginButton.text(for: appState.selectedLanguage))
-                    .font(StyleConstants.sansFontBody(18, language: appState.selectedLanguage))
-                    .fontWeight(.semibold)
-                    .foregroundColor(Color(hex: "#020f2e"))
+                    .font(DesignSystem.Typography.body(DesignSystem.Typography.body, weight: .semibold, language: appState.selectedLanguage))
+                    .foregroundColor(.white)
                     .frame(maxWidth: 200)
                     .padding(.vertical, StyleConstants.standardSpacing)
-                    .background(StyleConstants.goldColor)
+                    .background(DesignSystem.Colors.accent)
                     .cornerRadius(StyleConstants.buttonCornerRadius)
             }
         }
@@ -184,29 +180,29 @@ struct UserButtonView: View {
             showingUserMenu = true
         }) {
             HStack(spacing: 6) {
-                                  Image(systemName: "person.circle.fill")
-                     .font(.system(size: 20))
-                      .foregroundColor(StyleConstants.goldColor)
+                Image(systemName: "person.circle.fill")
+                    .font(.system(size: 20))
+                    .foregroundColor(DesignSystem.Colors.accent)
                 
                 if case .signedIn(let profile) = authManager.authState {
                     Text(profile.name)
-                        .font(StyleConstants.sansFontBody(14, language: appState.selectedLanguage))
-                        .foregroundColor(StyleConstants.goldColor)
+                        .font(DesignSystem.Typography.smart(DesignSystem.Typography.callout, language: appState.selectedLanguage))
+                        .foregroundColor(DesignSystem.Colors.primaryText)
                         .lineLimit(1)
                 } else {
                     Text(LocalizedText.NewsletterView.defaultUserName.text(for: appState.selectedLanguage))
-                        .font(StyleConstants.sansFontBody(14, language: appState.selectedLanguage))
-                        .foregroundColor(StyleConstants.goldColor)
+                        .font(DesignSystem.Typography.smart(DesignSystem.Typography.callout, language: appState.selectedLanguage))
+                        .foregroundColor(DesignSystem.Colors.primaryText)
                 }
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 6)
             .background(
                 RoundedRectangle(cornerRadius: 16)
-                    .fill(Color.white.opacity(0.1))
+                    .fill(DesignSystem.Colors.cardBackground)
                     .overlay(
                         RoundedRectangle(cornerRadius: 16)
-                            .stroke(StyleConstants.goldColor.opacity(0.3), lineWidth: 1)
+                            .stroke(DesignSystem.Colors.border.opacity(0.5), lineWidth: 1)
                     )
             )
         }
@@ -249,23 +245,23 @@ struct NewsletterCardView: View {
             ZStack(alignment: .bottom) {
                 if isLoading {
                     Rectangle()
-                        .fill(Color.gray.opacity(0.3))
+                        .fill(DesignSystem.Colors.cardBackground)
                         .aspectRatio(1004.0/1440.0, contentMode: .fit) // Newsletter专用尺寸比例
                         .overlay(
                             ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: StyleConstants.goldColor))
+                                .progressViewStyle(CircularProgressViewStyle(tint: DesignSystem.Colors.accent))
                                 .scaleEffect(1.2)
                         )
                 } else if images.isEmpty {
                     Rectangle()
-                        .fill(Color.gray.opacity(0.3))
+                        .fill(DesignSystem.Colors.cardBackground)
                         .aspectRatio(1004.0/1440.0, contentMode: .fit) // Newsletter专用尺寸比例
                         .overlay(
                             Image(systemName: "photo")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 60, height: 60)
-                                .foregroundColor(.white.opacity(0.7))
+                                .foregroundColor(DesignSystem.Colors.secondaryText)
                         )
                 } else {
                     TabView(selection: $currentImageIndex) {
@@ -277,7 +273,7 @@ struct NewsletterCardView: View {
                                     .tag(index)
                             } else {
                                 Rectangle()
-                                    .fill(Color.gray.opacity(0.3))
+                                    .fill(DesignSystem.Colors.cardBackground)
                                     .tag(index)
                             }
                         }
@@ -307,8 +303,8 @@ struct NewsletterCardView: View {
                     Rectangle()
                         .fill(LinearGradient(
                             gradient: Gradient(colors: [
-                                StyleConstants.goldColor.opacity(0.6),
-                                StyleConstants.goldColor.opacity(0.2),
+                                DesignSystem.Colors.accent.opacity(0.6),
+                                DesignSystem.Colors.accent.opacity(0.2),
                                 Color.clear
                             ]),
                             startPoint: .leading,
@@ -321,16 +317,16 @@ struct NewsletterCardView: View {
                     // 小装饰图标
                     Image(systemName: "quote.opening")
                         .font(.system(size: 12, weight: .light))
-                        .foregroundColor(StyleConstants.goldColor.opacity(0.7))
+                        .foregroundColor(DesignSystem.Colors.accent.opacity(0.7))
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 16)
                 
                 // 文案内容
                 Text(newsletter.caption.text(for: language))
-                    .font(StyleConstants.serifBody(16, language: language))
-                    .foregroundColor(Color(hex: "#2D3748")) // 更深的灰色，增强对比度
-                    .lineSpacing(4)
+                    .font(DesignSystem.Typography.body(DesignSystem.Typography.body, language: language))
+                    .foregroundColor(DesignSystem.Colors.primaryText)
+                    .lineSpacing(6)
                     .padding(.horizontal, 20)
                     .padding(.vertical, 16)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -339,7 +335,7 @@ struct NewsletterCardView: View {
                 LinearGradient(
                     gradient: Gradient(colors: [
                         Color.clear,
-                        StyleConstants.goldColor.opacity(0.1)
+                        DesignSystem.Colors.accent.opacity(0.1)
                     ]),
                     startPoint: .top,
                     endPoint: .bottom
@@ -367,9 +363,9 @@ struct NewsletterCardView: View {
                 .stroke(
                     LinearGradient(
                         gradient: Gradient(colors: [
-                            StyleConstants.goldColor.opacity(0.5),
-                            StyleConstants.goldColor.opacity(0.25),
-                            StyleConstants.goldColor.opacity(0.1)
+                            DesignSystem.Colors.accent.opacity(0.5),
+                            DesignSystem.Colors.accent.opacity(0.25),
+                            DesignSystem.Colors.accent.opacity(0.1)
                         ]),
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
@@ -377,9 +373,9 @@ struct NewsletterCardView: View {
                     lineWidth: 1.8
                 )
         )
-        .shadow(color: Color.black.opacity(0.06), radius: 16, x: 0, y: 4) // 更柔和的阴影
-        .shadow(color: Color.black.opacity(0.03), radius: 32, x: 0, y: 12) // 添加第二层阴影增加深度
-        .shadow(color: StyleConstants.goldColor.opacity(0.08), radius: 24, x: 0, y: 8) // 添加金色阴影
+        .shadow(color: DesignSystem.Shadow.card.color, radius: DesignSystem.Shadow.card.radius, x: DesignSystem.Shadow.card.x, y: DesignSystem.Shadow.card.y)
+        .shadow(color: Color.black.opacity(0.03), radius: 32, x: 0, y: 12)
+        .shadow(color: DesignSystem.Colors.accent.opacity(0.08), radius: 24, x: 0, y: 8)
         .padding(.horizontal, 4)
         .clipped()
         .onAppear {

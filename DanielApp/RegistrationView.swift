@@ -30,7 +30,7 @@ struct RegistrationView: View {
                         
                         Text("请填写以下信息完成注册")
                             .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
-                            .foregroundColor(.white.opacity(0.8))
+                            .foregroundColor(DesignSystem.Colors.secondaryText)
                             .padding(.bottom, StyleConstants.compactSpacing)
                         
                         // 基本信息部分
@@ -42,6 +42,13 @@ struct RegistrationView: View {
                                 title: "姓名",
                                 text: $formData.name,
                                 placeholder: "请输入您的姓名",
+                                language: appState.selectedLanguage
+                            )
+                            
+                            // 性别选择
+                            GenderPicker(
+                                title: "性别",
+                                selectedGender: $formData.gender,
                                 language: appState.selectedLanguage
                             )
                             
@@ -182,7 +189,7 @@ struct RegistrationView: View {
                             HStack {
                                 if authManager.isLoading {
                                     ProgressView()
-                                        .progressViewStyle(CircularProgressViewStyle(tint: Color(hex: "#020f2e")))
+                                        .progressViewStyle(CircularProgressViewStyle(tint: DesignSystem.Colors.primaryText))
                                         .scaleEffect(0.8)
                                 } else if authManager.authState.isPending {
                                     HStack {
@@ -202,9 +209,9 @@ struct RegistrationView: View {
                             .padding(.vertical, StyleConstants.standardSpacing)
                             .background(
                                 authManager.authState.isPending ? Color.green :
-                                (formData.isValid ? StyleConstants.goldColor : Color.gray.opacity(0.5))
+                                (formData.isValid ? DesignSystem.Colors.accent : DesignSystem.Colors.mutedText)
                             )
-                            .foregroundColor(Color(hex: "#020f2e"))
+                            .foregroundColor(.white)
                             .cornerRadius(StyleConstants.buttonCornerRadius)
                         }
                         .disabled(!formData.isValid || authManager.isLoading || authManager.authState.isPending)
@@ -215,7 +222,7 @@ struct RegistrationView: View {
                         }) {
                             Text("已有账户？返回登录")
                                 .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
-                                .foregroundColor(StyleConstants.goldColor)
+                                .foregroundColor(DesignSystem.Colors.accent)
                         }
                         .padding(.bottom, StyleConstants.mediumSpacing)
                     }
@@ -253,11 +260,11 @@ struct CustomTextField: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
                 .font(StyleConstants.sansFontBody(14, language: language))
-                .foregroundColor(StyleConstants.goldColor)
+                .foregroundColor(DesignSystem.Colors.primaryText)
             
             TextField(placeholder, text: $text)
                 .font(StyleConstants.sansFontBody(16, language: language))
-                .foregroundColor(.white)
+                .foregroundColor(DesignSystem.Colors.primaryText)
                 .keyboardType(keyboardType)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 12)
@@ -265,7 +272,7 @@ struct CustomTextField: View {
                 .cornerRadius(8)
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
-                        .stroke(StyleConstants.goldColor.opacity(0.3), lineWidth: 1)
+                        .stroke(DesignSystem.Colors.border, lineWidth: 1)
                 )
         }
     }
@@ -284,22 +291,22 @@ struct CustomSecureField: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
                 .font(StyleConstants.sansFontBody(14, language: language))
-                .foregroundColor(StyleConstants.goldColor)
+                .foregroundColor(DesignSystem.Colors.primaryText)
             
             HStack {
                 if isSecure {
                     SecureField(placeholder, text: $text)
                         .font(StyleConstants.sansFontBody(16, language: language))
-                        .foregroundColor(.white)
+                        .foregroundColor(DesignSystem.Colors.primaryText)
                 } else {
                     TextField(placeholder, text: $text)
                         .font(StyleConstants.sansFontBody(16, language: language))
-                        .foregroundColor(.white)
+                        .foregroundColor(DesignSystem.Colors.primaryText)
                 }
                 
                 Button(action: toggleAction) {
                     Image(systemName: isSecure ? "eye.slash" : "eye")
-                        .foregroundColor(StyleConstants.goldColor.opacity(0.7))
+                        .foregroundColor(DesignSystem.Colors.accent)
                 }
             }
             .padding(.horizontal, 16)
@@ -326,18 +333,18 @@ struct DateInputField: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
                 .font(StyleConstants.sansFontBody(14, language: language))
-                .foregroundColor(StyleConstants.goldColor)
+                .foregroundColor(DesignSystem.Colors.primaryText)
             
             Button(action: action) {
                 HStack {
                     Text(DateFormatter.displayFormatter.string(from: date))
                         .font(StyleConstants.sansFontBody(16, language: language))
-                        .foregroundColor(.white)
+                        .foregroundColor(DesignSystem.Colors.primaryText)
                     
                     Spacer()
                     
                     Image(systemName: "calendar")
-                        .foregroundColor(StyleConstants.goldColor.opacity(0.7))
+                        .foregroundColor(DesignSystem.Colors.accent)
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 12)
@@ -345,7 +352,7 @@ struct DateInputField: View {
                 .cornerRadius(8)
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
-                        .stroke(StyleConstants.goldColor.opacity(0.3), lineWidth: 1)
+                        .stroke(DesignSystem.Colors.border, lineWidth: 1)
                 )
             }
         }
@@ -400,6 +407,69 @@ struct SectionHeader: View {
         }
         .padding(.top, StyleConstants.standardSpacing)
         .padding(.bottom, StyleConstants.compactSpacing)
+    }
+}
+
+// 性别选择器
+struct GenderPicker: View {
+    let title: String
+    @Binding var selectedGender: UserGender
+    var language: CoreModels.VerseLanguage = .chinese
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title)
+                .font(StyleConstants.sansFontBody(14, language: language))
+                .foregroundColor(DesignSystem.Colors.primaryText)
+            
+            HStack(spacing: 12) {
+                // 弟兄选项
+                Button(action: {
+                    selectedGender = .brother
+                }) {
+                    HStack(spacing: 8) {
+                        Image(systemName: selectedGender == .brother ? "checkmark.circle.fill" : "circle")
+                            .foregroundColor(selectedGender == .brother ? DesignSystem.Colors.accent : DesignSystem.Colors.secondaryText)
+                        
+                        Text(UserGender.brother.localizedName(for: language))
+                            .font(StyleConstants.sansFontBody(16, language: language))
+                            .foregroundColor(DesignSystem.Colors.primaryText)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .frame(maxWidth: .infinity)
+                    .background(selectedGender == .brother ? DesignSystem.Colors.accent.opacity(0.1) : Color.white.opacity(0.1))
+                    .cornerRadius(8)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(selectedGender == .brother ? DesignSystem.Colors.accent : DesignSystem.Colors.border, lineWidth: selectedGender == .brother ? 2 : 1)
+                    )
+                }
+                
+                // 姊妹选项
+                Button(action: {
+                    selectedGender = .sister
+                }) {
+                    HStack(spacing: 8) {
+                        Image(systemName: selectedGender == .sister ? "checkmark.circle.fill" : "circle")
+                            .foregroundColor(selectedGender == .sister ? DesignSystem.Colors.accent : DesignSystem.Colors.secondaryText)
+                        
+                        Text(UserGender.sister.localizedName(for: language))
+                            .font(StyleConstants.sansFontBody(16, language: language))
+                            .foregroundColor(DesignSystem.Colors.primaryText)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .frame(maxWidth: .infinity)
+                    .background(selectedGender == .sister ? DesignSystem.Colors.accent.opacity(0.1) : Color.white.opacity(0.1))
+                    .cornerRadius(8)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(selectedGender == .sister ? DesignSystem.Colors.accent : DesignSystem.Colors.border, lineWidth: selectedGender == .sister ? 2 : 1)
+                    )
+                }
+            }
+        }
     }
 }
 

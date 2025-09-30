@@ -28,16 +28,31 @@ enum VerseViewHelper {
 struct VerseOfTheDayView: View {
     @EnvironmentObject var appState: AppState
     @StateObject private var viewModel = VerseViewModel()
+    @StateObject private var authManager = AuthManager.shared
     
-    // 固定的问候语
+    // 动态的问候语（包含用户名和性别称呼）
     private var greetingText: String {
-        switch appState.selectedLanguage {
-        case .chinese:
-            return "平安，姊妹/弟兄"
-        case .english:
-            return "Peace, Sister/Brother"
-        case .korean:
-            return "평안, 자매/형제"
+        if case .signedIn(let profile) = authManager.authState {
+            let genderTitle = profile.gender.localizedName(for: appState.selectedLanguage)
+            
+            switch appState.selectedLanguage {
+            case .chinese:
+                return "平安，\(profile.name) \(genderTitle)"
+            case .english:
+                return "Peace, \(genderTitle) \(profile.name)"
+            case .korean:
+                return "평안, \(profile.name) \(genderTitle)"
+            }
+        } else {
+            // 默认文本（未登录）
+            switch appState.selectedLanguage {
+            case .chinese:
+                return "平安，姊妹/弟兄"
+            case .english:
+                return "Peace, Sister/Brother"
+            case .korean:
+                return "평안, 자매/형제"
+            }
         }
     }
     
@@ -57,15 +72,8 @@ struct VerseOfTheDayView: View {
                             
                             Spacer()
                             
-                            // 头像占位符
-                            Circle()
-                                .fill(DesignSystem.Colors.accent.opacity(0.2))
-                                .frame(width: 32, height: 32)
-                                .overlay(
-                                                                          Image(systemName: "person.fill")
-                                         .font(.system(size: 16))
-                                          .foregroundColor(DesignSystem.Colors.accent)
-                                )
+                            // 用户头像按钮
+                            VerseUserButtonView()
                         }
                         .greetingBar()
                     }
@@ -118,8 +126,8 @@ struct VerseOfTheDayView: View {
                             } else {
                                 // 手动模式下，显示修改按钮
                                 Button(LocalizedText.VerseView.modifyInSettings.text(for: appState.selectedLanguage)) {
-                                    // 切换到设置选项卡
-                                    appState.selectedTab = 3
+                                    // 显示设置页面叠加层
+                                    appState.needsShowSettings = true
                                 }
                                 .buttonStyle(ModernButtonStyle(language: appState.selectedLanguage))
                             }
@@ -161,6 +169,13 @@ struct VerseOfTheDayView: View {
             .onChange(of: appState.selectedLanguage) { _, newValue in
                 // 当语言改变时更新ViewModel的语言设置
                 viewModel.updateLanguage(newValue)
+            }
+            .onChange(of: appState.needsRefreshVerseStatus) { _, newValue in
+                // 当需要刷新状态时，更新ViewModel状态
+                if newValue {
+                    viewModel.refreshStatus()
+                    appState.needsRefreshVerseStatus = false
+                }
             }
         }
     }
@@ -530,6 +545,13 @@ class VerseViewModel: ObservableObject {
         
         // 使用当前选择的语言更新状态信息
         statusMessage = getStatusMessage(for: selectedLanguage)
+        
+        print("📊 状态更新: mode=\(updateMode), fixed=\(isVerseFixed), status=\(statusMessage)")
+    }
+    
+    // 强制刷新状态（供外部调用）
+    func refreshStatus() {
+        updateStatusMessage()
     }
     
     // 收集调试信息
@@ -696,5 +718,106 @@ struct ModernVerseCard: View {
         }
         .modernCard()
         .padding(.horizontal, DesignSystem.Spacing.contentMargin)
+    }
+}
+
+// MARK: - 每日经文页面的用户按钮组件
+struct VerseUserButtonView: View {
+    @StateObject private var authManager = AuthManager.shared
+    @EnvironmentObject var appState: AppState
+    @State private var showingUserMenu = false
+    @State private var showingLogin = false
+    
+    var body: some View {
+        Button(action: {
+            if authManager.hasContentAccess() {
+                // 已登录，显示用户菜单
+                showingUserMenu = true
+            } else {
+                // 未登录，显示登录页面
+                showingLogin = true
+            }
+        }) {
+            Circle()
+                .fill(DesignSystem.Colors.accent.opacity(0.2))
+                .frame(width: 32, height: 32)
+                .overlay(
+                    Image(systemName: authManager.hasContentAccess() ? "person.fill" : "person")
+                        .font(.system(size: 16))
+                        .foregroundColor(DesignSystem.Colors.accent)
+                )
+        }
+        .actionSheet(isPresented: $showingUserMenu) {
+            ActionSheet(
+                title: Text(getUserMenuTitle()),
+                message: getUserInfo(),
+                buttons: [
+                    .destructive(Text(getLogoutText())) {
+                        authManager.signOut()
+                    },
+                    .cancel(Text(getCancelText()))
+                ]
+            )
+        }
+        .sheet(isPresented: $showingLogin) {
+            LoginView()
+                .environmentObject(appState)
+        }
+    }
+    
+    private func getUserMenuTitle() -> String {
+        switch appState.selectedLanguage {
+        case .chinese:
+            return "用户菜单"
+        case .english:
+            return "User Menu"
+        case .korean:
+            return "사용자 메뉴"
+        }
+    }
+    
+    private func getUserInfo() -> Text {
+        if case .signedIn(let profile) = authManager.authState {
+            let userText: String
+            let emailText: String
+            
+            switch appState.selectedLanguage {
+            case .chinese:
+                userText = "用户"
+                emailText = "邮箱"
+            case .english:
+                userText = "User"
+                emailText = "Email"
+            case .korean:
+                userText = "사용자"
+                emailText = "이메일"
+            }
+            
+            return Text("\(userText)：\(profile.name)\n\(emailText)：\(profile.email)")
+        } else {
+            return Text("")
+        }
+    }
+    
+    private func getLogoutText() -> String {
+        switch appState.selectedLanguage {
+        case .chinese:
+            return "登出"
+        case .english:
+            return "Logout"
+        case .korean:
+            return "로그아웃"
+        }
+    }
+    
+    private func getCancelText() -> String {
+        switch appState.selectedLanguage {
+        case .chinese:
+            return "取消"
+        case .english:
+            return "Cancel"
+        case .korean:
+            return "취소"
+        }
     }
 }
