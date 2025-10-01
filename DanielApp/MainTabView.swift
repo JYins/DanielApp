@@ -39,40 +39,29 @@ struct MainTabView: View {
                         }
                     }
                     
-                    // 右上角设置按钮
-                    VStack {
-                        HStack {
-                            Spacer()
+                    // 右上角设置按钮 - 小方条样式，紧靠右边
+                    VStack(spacing: 0) {
+                        HStack(spacing: 0) {
+                            Spacer(minLength: 0)
                             
                             Button(action: {
                                 showSettings = true
                             }) {
-                                HStack(spacing: 0) {
-                                    Spacer()
-                                    
-                                    // 设置按钮 - 更小的半圆贴右边
-                                    HStack(spacing: 0) {
-                                        // 齿轮图标
-                                        Image(systemName: "gear")
-                                            .font(.system(size: 14, weight: .medium))
-                                            .foregroundColor(DesignSystem.Colors.accent)
-                                            .frame(width: 36, height: 36) // 缩小尺寸
-                                            .background(
-                                                Circle()
-                                                    .fill(DesignSystem.Colors.cardBackground)
-                                                    .shadow(color: Color.black.opacity(0.1), radius: 3, x: -1, y: 0)
-                                            )
-                                            .clipped() // 裁切掉右半部分
-                                        
-                                        Spacer(minLength: 0)
-                                    }
-                                    .frame(width: 18, height: 36) // 只显示左半部分，更小尺寸
-                                }
+                                Image(systemName: "gear")
+                                    .font(.system(size: 13, weight: .medium))
+                                    .foregroundColor(DesignSystem.Colors.accent)
+                                    .frame(width: 32, height: 32)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 6)
+                                            .fill(DesignSystem.Colors.cardBackground)
+                                            .shadow(color: Color.black.opacity(0.08), radius: 3, x: 0, y: 2)
+                                    )
                             }
-                            .padding(.top, 70) // 避开状态栏，向下移动更多
+                            .buttonStyle(.plain)
                         }
+                        .padding(.top, 60) // 避开状态栏
                         
-                        Spacer()
+                        Spacer(minLength: 0)
                     }
                 }
                 

@@ -47,6 +47,7 @@ struct UserProfile: Codable, Identifiable, Equatable {
     // 系统信息
     var createdAt: Date
     var updatedAt: Date
+    var lastLoginDate: Date? // 最后登录时间（用于检测密码重置）
     var isApproved: Bool // 是否通过审核
     var approvedAt: Date?
     
@@ -65,6 +66,7 @@ struct UserProfile: Codable, Identifiable, Equatable {
         self.confirmationPerson = confirmationPerson
         self.createdAt = Date()
         self.updatedAt = Date()
+        self.lastLoginDate = nil // 首次登录时会设置
         self.isApproved = false // 需要管理员审核
         self.approvedAt = nil
     }

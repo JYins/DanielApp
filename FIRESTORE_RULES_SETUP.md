@@ -3,9 +3,13 @@
 ## 问题描述
 忘记密码功能报错：`missing or insufficient permissions`
 
-这是因为 Firestore 的安全规则不允许客户端根据 email 字段查询用户数据。
+## ✅ 最新解决方案（已更新代码，无需复杂规则！）
 
-## 解决方案
+**好消息：** 我们已经简化了忘记密码功能，**不再需要查询 Firestore**！
+
+新的实现直接使用 Firebase Auth 的 `sendPasswordReset` 方法，它会自动检查邮箱是否存在，不需要访问 Firestore 数据库。
+
+### 现在只需要基本的 Firestore 规则
 
 ### 步骤1：打开 Firebase Console
 
@@ -14,9 +18,9 @@
 3. 点击左侧菜单的 **Firestore Database**
 4. 点击顶部的 **规则** (Rules) 标签页
 
-### 步骤2：更新安全规则
+### 步骤2：更新安全规则（简化版）
 
-将以下规则复制并粘贴到规则编辑器中：
+将以下**简单且安全**的规则复制并粘贴到规则编辑器中：
 
 ```javascript
 rules_version = '2';
@@ -26,49 +30,27 @@ service cloud.firestore {
     
     // 用户集合的规则
     match /users/{userId} {
-      // 允许用户读取自己的数据
-      allow read: if request.auth != null && request.auth.uid == userId;
-      
-      // 允许用户创建自己的文档（注册时）
-      allow create: if request.auth != null && request.auth.uid == userId;
-      
-      // 允许用户更新自己的数据
-      allow update: if request.auth != null && request.auth.uid == userId;
-      
-      // 不允许用户删除自己的数据（只有管理员可以）
-      allow delete: if false;
-    }
-    
-    // 特殊规则：允许根据 email 查询用户（用于忘记密码功能）
-    match /users/{userId} {
-      // 允许所有人根据 email 查询用户是否存在（仅用于忘记密码）
-      allow read: if request.query.limit <= 1 && 
-                     resource.data.email == request.auth.token.email;
-    }
-    
-    // 更安全的方案：创建一个专门的集合用于邮箱验证
-    match /userEmails/{email} {
-      // 允许任何人检查邮箱是否存在（但不返回敏感信息）
-      allow read: if true;
-      // 只允许通过服务器端创建
-      allow write: if false;
+      // 用户只能读写自己的数据
+      allow read, write: if request.auth != null && request.auth.uid == userId;
     }
     
     // Newsletter 集合的规则
     match /newsletters/{newsletterId} {
-      // 已认证且已审核的用户可以读取
+      // 已登录用户可以读取
       allow read: if request.auth != null;
-      // 只有管理员可以写入
+      // 不允许客户端写入
       allow write: if false;
     }
     
-    // 其他集合的默认规则
+    // 其他集合的默认规则（拒绝所有访问）
     match /{document=**} {
       allow read, write: if false;
     }
   }
 }
 ```
+
+**就这么简单！** 不需要允许未登录用户查询，不需要复杂的权限逻辑。
 
 ### 步骤3：发布规则
 

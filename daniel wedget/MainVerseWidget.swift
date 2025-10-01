@@ -66,51 +66,53 @@ struct MainVerseWidgetEntryView: View {
     var entry: WidgetVerseEntry
     @Environment(\.colorScheme) var colorScheme
     
-    // 浅金色文本 - 主标题/引用
-    var goldColor: Color {
-        Color(hex: "B39018") // 更深的金色
+    // 深色文本 - 经文内容（主要文字）
+    var darkTextColor: Color {
+        Color(hex: "2C3E50") // 优雅的深蓝灰色
     }
     
-    // 更浅的金色或米白色 - 经文内容
-    var lightGoldColor: Color {
-        Color(hex: "F5E8B7") // README中指定的米白色
+    // 章节引用颜色 - 稍浅的灰色
+    var referenceColor: Color {
+        Color(hex: "5D6D7E") // 中性灰色
     }
     
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
-                // 文字层
-                VStack(alignment: .leading, spacing: 0) { // 进一步减少整体间距
-                    // 经文内容 - 左对齐
-                    Text(entry.verseText)
-                        .font(getFontForLanguage(size: entry.preferredLanguage == "ko" ? 14 : 16)) // 韩语使用更小字体
-                        .foregroundColor(lightGoldColor)
-                        .lineLimit(entry.preferredLanguage == "ko" ? 6 : 7) // 韩语限制6行，其他7行
-                        .lineSpacing(entry.preferredLanguage == "ko" ? 0.2 : 1.6) // 韩语使用极小行距
-                        .multilineTextAlignment(.leading)
-                        .shadow(color: .black.opacity(0.85), radius: 2.5, x: 1.2, y: 1.2) // 增强阴影效果
-                        .fixedSize(horizontal: false, vertical: true) // 确保显示完整的内容
-                        .minimumScaleFactor(entry.preferredLanguage == "ko" ? 0.7 : 0.8) // 韩语更强的自动缩放
-                        .layoutPriority(1) // 给予文本更高的布局优先级
-                    
-                    Spacer(minLength: 0) // 进一步减少空间
-                    
-                    // 经文引用 - 右下角但更上移
-                    Text(localizeReference(entry.verse.reference, to: entry.preferredLanguage))
-                        .font(getFontForLanguage(size: entry.preferredLanguage == "ko" ? 14 : 16)) // 韩语使用更小字体
-                        .foregroundColor(Color(hex: "F0C030")) // 统一使用相同的亮金色
-                        .fontWeight(entry.preferredLanguage == "en" ? .medium : .semibold) // 减轻字重避免过粗
-                        .shadow(color: .black.opacity(0.7), radius: 2, x: 1, y: 1)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .padding(.trailing, 4) // 减少右侧内边距，使reference更靠右
-                        .padding(.top, 5)
-                }
-                .padding(.horizontal, 16)
-                .padding(.trailing, 6) // 减少整体右侧内边距，使reference更靠右
-                .padding(.vertical, 8)
-                .frame(width: geometry.size.width * 0.75, height: geometry.size.height * 0.85, alignment: .leading)
-                .position(x: geometry.size.width * 0.62, y: geometry.size.height * 0.50) // 向下移动到中心位置
+            // 文字层 - 靠左上的布局
+            VStack(alignment: .leading, spacing: 0) {
+                // 经文内容 - 左对齐
+                Text(entry.verseText)
+                    .font(getFontForLanguage(size: entry.preferredLanguage == "ko" ? 13 : 16))
+                    .foregroundColor(darkTextColor)
+                    .lineLimit(entry.preferredLanguage == "ko" ? 6 : 7)
+                    .lineSpacing(entry.preferredLanguage == "ko" ? 0.2 : 1.6)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .minimumScaleFactor(entry.preferredLanguage == "ko" ? 0.7 : 0.8)
+                    .layoutPriority(1)
+                
+                Spacer(minLength: 4) // 经文和引用之间的弹性空间 - 更近
+                
+                // 章节引用 - 左对齐，在底部
+                Text(localizeReference(entry.verse.reference, to: entry.preferredLanguage))
+                    .font(getFontForLanguage(size: entry.preferredLanguage == "ko" ? 13 : 16))
+                    .foregroundColor(referenceColor)
+                    .fontWeight(entry.preferredLanguage == "en" ? .medium : .semibold)
+                    .padding(.top, 3)
             }
+            .padding(.leading, 18)
+            .padding(.trailing, 22)
+            .padding(.top, 14)
+            .padding(.bottom, 12)
+            .frame(
+                width: geometry.size.width * (entry.preferredLanguage == "zh-CN" ? 0.72 : (entry.preferredLanguage == "en" ? 0.88 : 0.86)),
+                height: geometry.size.height * 0.75,
+                alignment: .topLeading
+            )
+            .position(
+                x: geometry.size.width * (entry.preferredLanguage == "zh-CN" ? 0.43 : (entry.preferredLanguage == "en" ? 0.51 : 0.50)),
+                y: geometry.size.height * (entry.preferredLanguage == "zh-CN" ? 0.41 : (entry.preferredLanguage == "en" ? 0.37 : 0.38))
+            )
         }
         .containerBackground(for: .widget) {
             // 背景图片 - 根据时间段选择不同的背景

@@ -1,59 +1,21 @@
 import SwiftUI
 import WidgetKit
 
-// 定义时间段枚举
+// 定义时间段枚举 - 简化版，只保留一个固定背景
 enum DayTimePeriod {
-    case morning    // 清晨 (5:00-10:00)
-    case daytime    // 白天 (10:00-18:00)
-    case nighttime  // 晚上 (18:00-5:00)
+    case daytime    // 固定使用白天背景
     
-    // 根据当前时间返回对应的时间段
+    // 始终返回白天时间段
     static func current() -> DayTimePeriod {
-        #if DEBUG
-        // 仅在调试模式启用 - 可以强制设置当前时间段进行测试
-        if let forcedPeriod = forcedTimePeriodForTesting {
-            print("🧪 使用测试时间段: \(forcedPeriod)")
-            return forcedPeriod
-        }
-        #endif
-        
-        let hour = Calendar.current.component(.hour, from: Date())
-        
-        switch hour {
-        case 5..<10:
-            return .morning
-        case 10..<18:
-            return .daytime
-        default:
-            return .nighttime
-        }
+        return .daytime
     }
     
-    // 获取对应的背景图片名称
+    // 获取对应的背景图片名称 - 固定使用widget_background
     var backgroundImageName: String {
-        switch self {
-        case .morning:
-            return "widget_background 1"
-        case .daytime:
-            return "widget_background"
-        case .nighttime:
-            return "widget_background 2"
-        }
+        return "widget_background"
     }
 }
 
-// 开发测试用 - 仅在DEBUG模式有效
-#if DEBUG
-private var forcedTimePeriodForTesting: DayTimePeriod? = nil
-
-// 设置测试时间段函数
-func setTestTimePeriod(_ period: DayTimePeriod?) {
-    forcedTimePeriodForTesting = period
-    print("🧪 已设置测试时间段: \(String(describing: period))")
-    // 强制刷新
-    WidgetCenter.shared.reloadAllTimelines()
-}
-#endif
 
 // Widget数据Entry
 struct WidgetVerseEntry: TimelineEntry {

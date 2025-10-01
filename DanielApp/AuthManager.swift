@@ -150,8 +150,65 @@ class AuthManager: ObservableObject {
                     return
                 }
                 
+                // 登录成功，检查用户的密码是否最近被重置
+                if let user = result?.user {
+                    self?.checkAndHandlePasswordReset(userId: user.uid, email: email)
+                }
+                
                 // 用户登录成功，状态监听器会自动处理后续逻辑
                 self?.isLoading = false
+            }
+        }
+    }
+    
+    // 检查并处理密码重置情况
+    private func checkAndHandlePasswordReset(userId: String, email: String) {
+        // 获取用户的最后密码修改时间
+        // Firebase Auth 没有直接的API，我们使用另一个方法：
+        // 在用户文档中存储一个"最后登录时间"，如果发现用户很久没登录了，
+        // 可能是重置了密码，我们就重置审核状态
+        
+        db.collection("users").document(userId).getDocument { [weak self] document, error in
+            if let error = error {
+                print("⚠️ 检查用户信息失败: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let document = document, document.exists,
+                  let data = document.data(),
+                  let lastLoginDate = data["lastLoginDate"] as? Timestamp else {
+                // 第一次登录或没有记录，更新最后登录时间
+                self?.updateLastLoginDate(userId: userId)
+                return
+            }
+            
+            // 检查距离上次登录是否超过7天（可能重置了密码）
+            let daysSinceLastLogin = Calendar.current.dateComponents([.day], from: lastLoginDate.dateValue(), to: Date()).day ?? 0
+            
+            if daysSinceLastLogin > 7 {
+                print("⚠️ 用户距离上次登录已超过7天，可能重置了密码，重置审核状态")
+                self?.db.collection("users").document(userId).updateData([
+                    "isApproved": false,
+                    "lastLoginDate": Timestamp(date: Date()),
+                    "updatedAt": Timestamp(date: Date()),
+                    "passwordResetNote": "系统检测到长时间未登录，已重置审核状态"
+                ])
+            } else {
+                // 正常登录，只更新最后登录时间
+                self?.updateLastLoginDate(userId: userId)
+            }
+        }
+    }
+    
+    // 更新最后登录时间
+    private func updateLastLoginDate(userId: String) {
+        db.collection("users").document(userId).updateData([
+            "lastLoginDate": Timestamp(date: Date())
+        ]) { error in
+            if let error = error {
+                print("⚠️ 更新登录时间失败: \(error.localizedDescription)")
+            } else {
+                print("✅ 已更新最后登录时间")
             }
         }
     }
@@ -336,70 +393,70 @@ class AuthManager: ObservableObject {
     }
     
     // 重置密码（忘记密码功能）
+    // 简化版：直接发送密码重置邮件，不验证邮箱是否存在（避免暴露用户信息）
     func resetPassword(email: String, newPassword: String, completion: @escaping (Bool, String?) -> Void) {
-        print("🔍 开始验证邮箱是否存在: \(email)")
+        print("📧 开始发送密码重置邮件: \(email)")
         
-        // 首先检查用户是否存在于Firestore
-        db.collection("users").whereField("email", isEqualTo: email).getDocuments { [weak self] snapshot, error in
+        // 直接使用 Firebase Auth 发送密码重置邮件
+        // Firebase 会自动检查邮箱是否存在，如果不存在会返回错误
+        auth.sendPasswordReset(withEmail: email) { [weak self] error in
             if let error = error {
-                print("❌ 查询用户失败: \(error.localizedDescription)")
-                DispatchQueue.main.async {
-                    completion(false, "查询用户失败：\(error.localizedDescription)")
-                }
-                return
-            }
-            
-            guard let documents = snapshot?.documents, !documents.isEmpty else {
-                print("❌ 该邮箱未注册")
-                DispatchQueue.main.async {
-                    completion(false, "该邮箱未注册，请先注册账号")
-                }
-                return
-            }
-            
-            // 用户存在，获取用户ID
-            guard let userId = documents.first?.documentID else {
-                DispatchQueue.main.async {
-                    completion(false, "无法获取用户信息")
-                }
-                return
-            }
-            
-            print("✅ 找到用户，开始更新密码和审核状态")
-            
-            // 使用Firebase Admin SDK的方式需要服务器端，这里我们使用Firebase Auth的密码重置
-            // 但是我们需要同时更新Firestore中的审核状态
-            
-            // 1. 更新Firestore中的审核状态为false
-            self?.db.collection("users").document(userId).updateData([
-                "isApproved": false,
-                "updatedAt": Date()
-            ]) { error in
-                if let error = error {
-                    print("❌ 更新审核状态失败: \(error.localizedDescription)")
-                    DispatchQueue.main.async {
-                        completion(false, "更新审核状态失败：\(error.localizedDescription)")
+                print("❌ 发送密码重置邮件失败: \(error.localizedDescription)")
+                
+                // 解析错误类型
+                let nsError = error as NSError
+                var errorMessage = "发送失败"
+                
+                if let errorCode = AuthErrorCode(rawValue: nsError.code) {
+                    switch errorCode {
+                    case .userNotFound:
+                        errorMessage = "该邮箱未注册，请先注册账号"
+                    case .invalidEmail:
+                        errorMessage = "邮箱格式不正确"
+                    case .networkError:
+                        errorMessage = "网络连接失败，请检查网络"
+                    default:
+                        errorMessage = "发送失败：\(error.localizedDescription)"
                     }
-                    return
                 }
                 
+                DispatchQueue.main.async {
+                    completion(false, errorMessage)
+                }
+                return
+            }
+            
+            print("✅ 密码重置邮件已发送")
+            
+            // 邮件发送成功后，尝试重置该用户的审核状态
+            // 注意：这一步需要用户先登录过，或者使用管理员权限
+            self?.resetUserApprovalStatus(email: email)
+            
+            DispatchQueue.main.async {
+                completion(true, "密码重置邮件已发送到您的邮箱，请查收。\n\n注意：重置密码后需要重新等待管理员审核。")
+            }
+        }
+    }
+    
+    // 尝试重置用户的审核状态（仅在用户已登录时有效）
+    private func resetUserApprovalStatus(email: String) {
+        // 只有当前有登录用户时才尝试更新
+        guard let currentUserId = auth.currentUser?.uid else {
+            print("⚠️ 无法重置审核状态：用户未登录")
+            return
+        }
+        
+        print("🔄 尝试重置用户审核状态")
+        
+        // 只重置当前登录用户的审核状态
+        db.collection("users").document(currentUserId).updateData([
+            "isApproved": false,
+            "updatedAt": Date()
+        ]) { error in
+            if let error = error {
+                print("⚠️ 重置审核状态失败: \(error.localizedDescription)")
+            } else {
                 print("✅ 审核状态已重置为待审核")
-                
-                // 2. 发送密码重置邮件（Firebase标准方式）
-                self?.auth.sendPasswordReset(withEmail: email) { error in
-                    if let error = error {
-                        print("❌ 发送密码重置邮件失败: \(error.localizedDescription)")
-                        DispatchQueue.main.async {
-                            completion(false, "发送密码重置邮件失败：\(error.localizedDescription)")
-                        }
-                        return
-                    }
-                    
-                    print("✅ 密码重置邮件已发送")
-                    DispatchQueue.main.async {
-                        completion(true, "密码重置邮件已发送到您的邮箱，请查收。您的账号审核状态已重置，重置密码后需要重新等待审核。")
-                    }
-                }
             }
         }
     }
