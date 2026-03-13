@@ -1,0 +1,7 @@
+SwiftCompile normal arm64 /Users/yinshi/Documents/DanielApp_new/DanielApp/WordCardGalleryView.swift (in target 'DanielApp' from project 'DanielApp')
+    cd /Users/yinshi/Documents/DanielApp_new
+    
+/Users/yinshi/Documents/DanielApp_new/DanielApp/WordCardGalleryView.swift:357:32: error: initializer for conditional binding must have Optional type, not 'String'
+                            if let urlStr = card.image_urls[index], let url = URL(string: urlStr) {
+                               ^            ~~~~~~~~~~~~~~~~~~~~~~
+
