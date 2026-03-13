@@ -3,11 +3,11 @@
 **A daily Bible verse widget for iOS — built with faith, curiosity, and a whole lot of AI-assisted learning.**
 
 <p align="center">
-  <img src="screenshots/home_widget.png" width="250" alt="Home Screen Widget" />
+  <img src="screenshots/home_widget.jpg" width="250" alt="Home Screen Widget" />
   &nbsp;&nbsp;
-  <img src="screenshots/lock_screen_widget.png" width="250" alt="Lock Screen Widget" />
+  <img src="screenshots/lock_screen_widget.jpg" width="250" alt="Lock Screen Widget" />
   &nbsp;&nbsp;
-  <img src="screenshots/verse_of_the_day.png" width="250" alt="Verse of the Day" />
+  <img src="screenshots/verse_of_the_day.PNG" width="250" alt="Verse of the Day" />
 </p>
 
 ---
@@ -18,11 +18,11 @@ It started with Duolingo.
 
 I'd been keeping a daily streak for a while, and one morning it hit me — that little widget on my home screen was genuinely shaping my habits. What if I could have something similar, but instead of a language lesson, it greeted me with a meaningful Bible verse every day?
 
-I attend a Korean church, and our community is a beautiful mix of Chinese, English, and Korean speakers. I wanted something that could serve all of us — not just in one language, but in all three, with a single tap to switch.
+**Daniel & Friends** is a young-adult community platform built by the Chinese-speaking community within our Korean church. We already have sisters creating beautiful Chinese e-postcards, sharing content on [Instagram](https://www.instagram.com/) and [YouTube](https://www.youtube.com/) — a growing grassroots effort to spread encouragement across cultures. What was missing was a single place to bring it all together: a *Daily Bread*-style app that delivers a fresh verse every morning and serves as a hub for everything our community creates.
 
-So I built **Daniel & Friends**. Named after the Book of Daniel, because Daniel and his friends stayed faithful in a foreign land — and that resonated with me as someone navigating life between cultures.
+The name comes from the Book of Daniel — Daniel and his friends stayed faithful in a foreign land, and that resonated deeply with us as a community navigating life between cultures and languages. Our church is a beautiful mix of Chinese, English, and Korean speakers, so from day one, the app was designed to serve all three languages with a single tap to switch.
 
-**Here's the thing: I had zero iOS development experience when I started.** No Swift, no Xcode, no WidgetKit. I learned everything through vibe coding — having conversations with AI chatbots, asking questions, iterating, breaking things, and fixing them. This project is proof that curiosity paired with the right tools can take you surprisingly far.
+**Here's the thing: I had zero iOS development experience when I started.** No Swift, no Xcode, no WidgetKit. I learned everything through vibe coding — having conversations with AI chatbots, asking questions, iterating, breaking things, and fixing them. Our sisters hand-drew the UI concepts, and I brought them to life with AI-assisted implementation. This project is proof that curiosity paired with the right tools can take you surprisingly far.
 
 ---
 
@@ -38,13 +38,13 @@ So I built **Daniel & Friends**. Named after the Book of Daniel, because Daniel 
 - **Connect Hub** — Quick links to our church's Instagram and YouTube
 
 <p align="center">
-  <img src="screenshots/settings_language.png" width="200" alt="Language Settings" />
+  <img src="screenshots/settings_language.PNG" width="200" alt="Language Settings" />
   &nbsp;
-  <img src="screenshots/word_cards.png" width="200" alt="Word Card Gallery" />
+  <img src="screenshots/word_cards.PNG" width="200" alt="Word Card Gallery" />
   &nbsp;
-  <img src="screenshots/newsletter.png" width="200" alt="Church Newsletter" />
+  <img src="screenshots/newsletter.PNG" width="200" alt="Church Newsletter" />
   &nbsp;
-  <img src="screenshots/connect.png" width="200" alt="Connect View" />
+  <img src="screenshots/connect.PNG" width="200" alt="Connect View" />
 </p>
 
 ---
@@ -221,24 +221,6 @@ daniel wedget/                       # Widget Extension
 
 ---
 
-## Screenshots Needed
-
-> **Note to self:** Replace the placeholder images above with actual screenshots.
-
-Here's what I need to capture:
-
-| Screenshot | Description | Filename |
-|-----------|-------------|----------|
-| Home Screen Widget | Widget on iPhone home screen showing a verse | `screenshots/home_widget.png` |
-| Lock Screen Widget | Lock screen with rectangular verse widget | `screenshots/lock_screen_widget.png` |
-| Verse of the Day | Main app verse view with full verse card | `screenshots/verse_of_the_day.png` |
-| Language Settings | Settings panel showing CN/EN/KR toggle | `screenshots/settings_language.png` |
-| Word Card Gallery | Gallery view of hand-drawn word cards | `screenshots/word_cards.png` |
-| Newsletter | Church newsletter view with carousel | `screenshots/newsletter.png` |
-| Connect View | Community links page | `screenshots/connect.png` |
-
----
-
 ## What I Learned
 
 This project taught me more than just iOS development:
@@ -278,4 +260,5 @@ This project taught me more than just iOS development:
 
 ---
 
-*Built with love, faith, and an unreasonable amount of midnight debugging.* ✝️
+> *"Unless the Lord builds the house, the builders labor in vain."*
+> — Psalm 127:1
