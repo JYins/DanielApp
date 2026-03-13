@@ -1,1 +1,42 @@
+# Xcode
 build/
+DerivedData/
+*.xcuserstate
+*.xcuserdatad/
+xcuserdata/
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.build/
+Packages/
+
+# CocoaPods
+Pods/
+
+# macOS
+.DS_Store
+*.swp
+*~.nib
+
+# Firebase config (contains project-specific keys)
+GoogleService-Info.plist
+
+# Backup files
+*.backup
+*.complex_backup
+
+# Development notes (Chinese)
+*总结.md
+*说明.md
+示例*.json
+
+# Sensitive config
+config.json
+
+# IDE
+.vscode/
+.idea/
