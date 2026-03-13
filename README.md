@@ -1,6 +1,6 @@
 # Daniel & Friends 🦁
 
-**A daily Bible verse widget for iOS — built with faith, curiosity, and a whole lot of AI-assisted learning.**
+**A daily Bible verse widget for iOS — built with faith, curiosity, and a whole lot of learning.**
 
 <p align="center">
   <img src="screenshots/home_widget.jpg" width="250" alt="Home Screen Widget" />
@@ -22,7 +22,7 @@ I'd been keeping a daily streak for a while, and one morning it hit me — that 
 
 The name comes from the Book of Daniel — Daniel and his friends stayed faithful in a foreign land, and that resonated deeply with us as a community navigating life between cultures and languages. Our church is a beautiful mix of Chinese, English, and Korean speakers, so from day one, the app was designed to serve all three languages with a single tap to switch.
 
-**Here's the thing: I had zero iOS development experience when I started.** No Swift, no Xcode, no WidgetKit. I learned everything through vibe coding — having conversations with AI chatbots, asking questions, iterating, breaking things, and fixing them. Our sisters hand-drew the UI concepts, and I brought them to life with AI-assisted implementation. This project is proof that curiosity paired with the right tools can take you surprisingly far.
+**Here's the thing: I only had a basic understanding of iOS development when I started — no hands-on experience.** No real Swift, no Xcode projects, no WidgetKit. I learned by doing — asking questions, iterating, breaking things, and fixing them. Our sisters hand-drew the UI concepts, and I figured out how to bring them to life. This project is proof that curiosity paired with the right tools can take you surprisingly far.
 
 ---
 
