@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { collection, query, getDocs, addDoc, deleteDoc, doc, orderBy, Timestamp } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from '../lib/firebase';
 import { Plus, Trash2, File as FileIcon } from 'lucide-react';
+
+// Helper: extract Storage path from a Firebase download URL
+function getStoragePathFromUrl(url: string): string | null {
+  try {
+    const match = url.match(/\/o\/(.+?)(\?|$)/);
+    if (match) return decodeURIComponent(match[1]);
+  } catch {}
+  return null;
+}
 
 export default function PraiseList() {
   const [items, setItems] = useState<any[]>([]);
@@ -44,6 +53,17 @@ export default function PraiseList() {
   const handleDelete = async (id: string) => {
     if (!window.confirm('Are you sure you want to delete this file?')) return;
     try {
+      // Find the item to get its file URLs
+      const item = items.find(i => i.id === id);
+      // Delete files from Storage
+      const urls = item?.fileUrls || (item?.fileUrl ? [item.fileUrl] : []);
+      for (const url of urls) {
+        const path = getStoragePathFromUrl(url);
+        if (path) {
+          try { await deleteObject(ref(storage, path)); } catch {}
+        }
+      }
+      // Delete Firestore document
       await deleteDoc(doc(db, 'praises', id));
       setItems(prev => prev.filter(c => c.id !== id));
     } catch (err) {

@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { collection, query, getDocs, addDoc, updateDoc, deleteDoc, doc, orderBy, Timestamp } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from '../lib/firebase';
 import { Plus, Edit2, Trash2, Image as ImageIcon, XCircle } from 'lucide-react';
+
+// Helper: extract Storage path from a Firebase download URL
+function getStoragePathFromUrl(url: string): string | null {
+  try {
+    const match = url.match(/\/o\/(.+?)(\?|$)/);
+    if (match) return decodeURIComponent(match[1]);
+  } catch {}
+  return null;
+}
 
 export default function WordCardsList() {
   const [cards, setCards] = useState<any[]>([]);
@@ -73,6 +82,15 @@ export default function WordCardsList() {
   const handleDelete = async (id: string) => {
     if (!window.confirm('Are you sure you want to delete this card?')) return;
     try {
+      // Delete images from Storage
+      const card = cards.find(c => c.id === id);
+      for (const url of (card?.image_urls || [])) {
+        const path = getStoragePathFromUrl(url);
+        if (path) {
+          try { await deleteObject(ref(storage, path)); } catch {}
+        }
+      }
+      // Delete Firestore document
       await deleteDoc(doc(db, 'wordCards', id));
       setCards(prev => prev.filter(c => c.id !== id));
     } catch (err) {

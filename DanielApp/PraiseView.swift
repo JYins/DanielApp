@@ -1,4 +1,5 @@
 import SwiftUI
+import WebKit
 
 struct PraiseView: View {
     @EnvironmentObject var appState: AppState
@@ -76,7 +77,7 @@ struct PraiseView: View {
     }
 }
 
-// 赞美列表内容视图 - Shelf style with search
+// 赞美列表内容视图 - Bookshelf style with search
 struct PraiseContentView: View {
     @EnvironmentObject var appState: AppState
     @ObservedObject var viewModel: PraiseViewModel
@@ -137,6 +138,13 @@ struct PraiseContentView: View {
                         .foregroundColor(DesignSystem.Colors.secondaryText)
                     TextField("搜索乐谱...", text: $searchText)
                         .font(DesignSystem.Typography.body(DesignSystem.Typography.body, language: appState.selectedLanguage))
+                    
+                    if !searchText.isEmpty {
+                        Button(action: { searchText = "" }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(DesignSystem.Colors.secondaryText)
+                        }
+                    }
                 }
                 .padding(12)
                 .background(DesignSystem.Colors.cardBackground)
@@ -148,7 +156,7 @@ struct PraiseContentView: View {
                 .padding(.horizontal, StyleConstants.standardSpacing)
                 .padding(.vertical, 8)
                 
-                // 乐谱书架列表
+                // 书架列表 - 只显示标题，不加载文件内容
                 ScrollView {
                     LazyVStack(spacing: 0) {
                         ForEach(filteredPraises) { praise in
@@ -167,15 +175,17 @@ struct PraiseContentView: View {
     }
 }
 
-// 书架行 - Shelf row
+// 书架行 - 不加载任何文件内容，节省流量
 struct PraiseShelfRow: View {
     let praise: Praise
     let language: CoreModels.VerseLanguage
     
     var fileTypeIcon: String {
-        if let firstUrl = praise.fileUrls.first {
-            if firstUrl.lowercased().contains(".pdf") {
+        if let firstUrl = praise.fileUrls.first?.lowercased() {
+            if firstUrl.contains(".pdf") || firstUrl.contains("pdf") {
                 return "doc.richtext"
+            } else if firstUrl.contains("image") || firstUrl.contains(".jpg") || firstUrl.contains(".png") {
+                return "photo"
             }
         }
         return "music.note.list"
@@ -208,10 +218,10 @@ struct PraiseShelfRow: View {
                 Text(praise.title)
                     .font(DesignSystem.Typography.body(DesignSystem.Typography.body, weight: .medium, language: language))
                     .foregroundColor(DesignSystem.Colors.primaryText)
-                    .lineLimit(1)
+                    .lineLimit(2)
                 
                 Text(DateFormatter.newsletterFormatter.string(from: praise.uploadedAt.dateValue()))
-                    .font(DesignSystem.Typography.smart(DesignSystem.Typography.caption1, language: language))
+                    .font(DesignSystem.Typography.smart(DesignSystem.Typography.footnote, language: language))
                     .foregroundColor(DesignSystem.Colors.secondaryText)
             }
             
@@ -237,7 +247,7 @@ struct PraiseShelfRow: View {
     }
 }
 
-// 详情页 - 查看乐谱文件
+// 详情页 - 查看乐谱文件（点进来才加载内容，节省流量）
 struct PraiseDetailView: View {
     let praise: Praise
     let language: CoreModels.VerseLanguage
@@ -256,50 +266,90 @@ struct PraiseDetailView: View {
                         .font(DesignSystem.Typography.body(DesignSystem.Typography.body, language: language))
                         .foregroundColor(DesignSystem.Colors.secondaryText)
                 }
+            } else if praise.fileUrls.count == 1 {
+                // 单文件：直接全屏显示
+                FileContentView(urlStr: praise.fileUrls[0])
             } else {
-                // 多文件时使用 TabView
+                // 多文件：TabView 滑动切换
                 TabView(selection: $currentIndex) {
                     ForEach(0..<praise.fileUrls.count, id: \.self) { index in
-                        let urlStr = praise.fileUrls[index]
-                        if let url = URL(string: urlStr) {
-                            ScrollView(.vertical, showsIndicators: true) {
-                                AsyncImage(url: url) { phase in
-                                    if let image = phase.image {
-                                        image
-                                            .resizable()
-                                            .scaledToFit()
-                                    } else if phase.error != nil {
-                                        VStack(spacing: 12) {
-                                            Image(systemName: "exclamationmark.triangle")
-                                                .font(.system(size: 40))
-                                                .foregroundColor(DesignSystem.Colors.secondaryText)
-                                            Text("无法加载图片")
-                                                .font(DesignSystem.Typography.body(DesignSystem.Typography.callout, language: language))
-                                                .foregroundColor(DesignSystem.Colors.secondaryText)
-                                            Link("在浏览器中打开", destination: url)
-                                                .font(DesignSystem.Typography.body(DesignSystem.Typography.callout, weight: .medium, language: language))
-                                                .foregroundColor(DesignSystem.Colors.accent)
-                                        }
-                                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                        .padding(.top, 100)
-                                    } else {
-                                        ProgressView()
-                                            .progressViewStyle(CircularProgressViewStyle(tint: DesignSystem.Colors.accent))
-                                            .scaleEffect(1.5)
-                                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                            .padding(.top, 100)
-                                    }
-                                }
-                            }
+                        FileContentView(urlStr: praise.fileUrls[index])
                             .tag(index)
-                        }
                     }
                 }
-                .tabViewStyle(.page(indexDisplayMode: praise.fileUrls.count > 1 ? .always : .never))
+                .tabViewStyle(.page(indexDisplayMode: .always))
             }
         }
         .navigationTitle(praise.title)
         .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+// 通用文件内容视图 - 处理图片和PDF
+struct FileContentView: View {
+    let urlStr: String
+    
+    var isPDF: Bool {
+        let lower = urlStr.lowercased()
+        return lower.contains(".pdf") || lower.contains("application%2fpdf") || lower.contains("application/pdf")
+    }
+    
+    var body: some View {
+        if let url = URL(string: urlStr) {
+            if isPDF {
+                // PDF 使用 WebView 渲染
+                WebView(url: url)
+                    .ignoresSafeArea(edges: .bottom)
+            } else {
+                // 图片使用 AsyncImage + 可缩放滚动
+                ScrollView(.vertical, showsIndicators: true) {
+                    AsyncImage(url: url) { phase in
+                        if let image = phase.image {
+                            image
+                                .resizable()
+                                .scaledToFit()
+                        } else if phase.error != nil {
+                            VStack(spacing: 12) {
+                                Image(systemName: "exclamationmark.triangle")
+                                    .font(.system(size: 40))
+                                    .foregroundColor(DesignSystem.Colors.secondaryText)
+                                Text("无法加载图片")
+                                    .foregroundColor(DesignSystem.Colors.secondaryText)
+                                Link("在浏览器中打开", destination: url)
+                                    .foregroundColor(DesignSystem.Colors.accent)
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.top, 100)
+                        } else {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: DesignSystem.Colors.accent))
+                                .scaleEffect(1.5)
+                                .frame(maxWidth: .infinity)
+                                .padding(.top, 100)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// WKWebView wrapper for PDF rendering
+struct WebView: UIViewRepresentable {
+    let url: URL
+    
+    func makeUIView(context: Context) -> WKWebView {
+        let config = WKWebViewConfiguration()
+        let webView = WKWebView(frame: .zero, configuration: config)
+        webView.scrollView.minimumZoomScale = 1.0
+        webView.scrollView.maximumZoomScale = 5.0
+        webView.backgroundColor = .systemBackground
+        return webView
+    }
+    
+    func updateUIView(_ webView: WKWebView, context: Context) {
+        let request = URLRequest(url: url)
+        webView.load(request)
     }
 }
 
