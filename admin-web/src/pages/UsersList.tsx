@@ -52,9 +52,9 @@ export default function UsersList() {
     }
 
     try {
-      alert(`DEBUG: Starting call to deleteUserAccount for ${userId}`);
-      const deleteUserAccountConfig = httpsCallable(functions, 'deleteUserAccount');
-      const result = await deleteUserAccountConfig({ uidToDelete: userId });
+      alert(`DEBUG: Starting call to deleteUserAdmin for ${userId}`);
+      const deleteUserAdminFunc = httpsCallable(functions, 'deleteUserAdmin');
+      const result = await deleteUserAdminFunc({ uidToDelete: userId });
       alert(`DEBUG: Result received: ${JSON.stringify(result.data)}`);
       
       setUsers(prev => prev.filter(u => u.id !== userId));
