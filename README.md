@@ -134,7 +134,7 @@ The church community features are powered by **Firebase + a custom web Admin Das
 - **Firebase Auth** — Email/password authentication with an approval workflow (new users are `pending` until a church admin approves them)
 - **Firestore** — Structured data for Word Cards, Newsletters, and Praise files with real-time sync
 - **Firebase Storage** — Hosts images and PDF files, auto-cleaned when content is deleted from Admin
-- **Admin Dashboard** — A React web app for content management (deployed on Firebase Hosting)
+- **Admin Dashboard** — A React web app for content management (deployed on Vercel, auto-deployed from GitHub)
 
 <p align="center">
   <img src="screenshots/admin_dashboard.png" width="700" alt="Admin Dashboard" />
@@ -204,7 +204,7 @@ The widget can operate in two modes:
 | iOS App | SwiftUI + WidgetKit |
 | Backend | Firebase Auth + Firestore + Storage |
 | Admin Dashboard | React + Vite + Tailwind CSS |
-| Hosting | Firebase Hosting (Admin) + Firebase (Backend) |
+| Hosting | Vercel (Admin, GitHub auto-deploy) + Firebase (Backend) |
 | Data Persistence | App Group UserDefaults + JSON bundles |
 | Architecture | Singleton services + ObservableObject ViewModels |
 | Fonts | Custom trilingual font loading |
