@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { collection, query, getDocs, addDoc, deleteDoc, doc, orderBy } from 'firebase/firestore';
+import { collection, query, getDocs, addDoc, deleteDoc, doc, orderBy, Timestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../lib/firebase';
 import { Plus, Trash2, File as FileIcon } from 'lucide-react';
@@ -69,7 +69,7 @@ export default function PraiseList() {
         fileUrls: [url],
         fileName: file.name,
         fileType: file.type,
-        uploadedAt: new Date()
+        uploadedAt: Timestamp.fromDate(new Date())
       };
 
       await addDoc(collection(db, 'praises'), itemData);

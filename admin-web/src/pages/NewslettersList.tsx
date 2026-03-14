@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { collection, query, getDocs, addDoc, updateDoc, deleteDoc, doc, orderBy } from 'firebase/firestore';
+import { collection, query, getDocs, addDoc, updateDoc, deleteDoc, doc, orderBy, Timestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../lib/firebase';
 import { Plus, Edit2, Trash2, Image as ImageIcon, XCircle } from 'lucide-react';
@@ -54,7 +54,9 @@ export default function NewslettersList() {
   };
 
   const openEditModal = (item: any) => {
-    setPublishDate(item.publishDate || new Date().toISOString().split('T')[0]);
+    // Handle Timestamp or string publishDate
+    const pd = item.publishDate?.toDate ? item.publishDate.toDate().toISOString().split('T')[0] : (item.publishDate || new Date().toISOString().split('T')[0]);
+    setPublishDate(pd);
     setCaptionCn(item.caption_cn || '');
     setCaptionEn(item.caption_en || '');
     setCaptionKr(item.caption_kr || '');
@@ -90,14 +92,16 @@ export default function NewslettersList() {
         }
       }
 
+      // Convert date string to Firestore Timestamp (iOS expects Timestamp type)
+      const dateObj = new Date(publishDate + 'T00:00:00');
       const newsletterData = {
-        publishDate,
+        publishDate: Timestamp.fromDate(dateObj),
         caption_cn: captionCn,
         caption_en: captionEn,
         caption_kr: captionKr,
         published,
         image_urls: imageUrls,
-        updatedAt: new Date()
+        updatedAt: Timestamp.fromDate(new Date())
       };
 
       if (editingId) {
@@ -160,7 +164,7 @@ export default function NewslettersList() {
                     </div>
                   )}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.publishDate}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.publishDate?.toDate ? item.publishDate.toDate().toLocaleDateString() : item.publishDate}</td>
                 <td className="px-6 py-4">
                   <div className="text-sm text-gray-900 line-clamp-2 max-w-xs">{item.caption_cn}</div>
                 </td>

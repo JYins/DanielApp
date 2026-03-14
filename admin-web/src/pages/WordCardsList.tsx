@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { collection, query, getDocs, addDoc, updateDoc, deleteDoc, doc, orderBy } from 'firebase/firestore';
+import { collection, query, getDocs, addDoc, updateDoc, deleteDoc, doc, orderBy, Timestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../lib/firebase';
 import { Plus, Edit2, Trash2, Image as ImageIcon, XCircle } from 'lucide-react';
@@ -106,7 +106,7 @@ export default function WordCardsList() {
         order: Number(order),
         published,
         image_urls: imageUrls,
-        updatedAt: new Date()
+        updatedAt: Timestamp.fromDate(new Date())
       };
 
       if (editingId) {
@@ -114,7 +114,7 @@ export default function WordCardsList() {
       } else {
         await addDoc(collection(db, 'wordCards'), {
           ...cardData,
-          createdAt: new Date()
+          createdAt: Timestamp.fromDate(new Date())
         });
       }
 

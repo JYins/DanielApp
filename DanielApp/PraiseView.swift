@@ -5,6 +5,7 @@ struct PraiseView: View {
     @StateObject private var authManager = AuthManager.shared
     @StateObject private var viewModel = PraiseViewModel()
     @State private var showingLogin = false
+    @State private var searchText = ""
     
     var body: some View {
         NavigationView {
@@ -49,7 +50,7 @@ struct PraiseView: View {
                     
                     // 内容区域
                     if authManager.hasContentAccess() {
-                        PraiseContentView(viewModel: viewModel)
+                        PraiseContentView(viewModel: viewModel, searchText: $searchText)
                     } else {
                         LoginPromptView(showingLogin: $showingLogin)
                     }
@@ -75,10 +76,18 @@ struct PraiseView: View {
     }
 }
 
-// 赞美列表内容视图
+// 赞美列表内容视图 - Shelf style with search
 struct PraiseContentView: View {
     @EnvironmentObject var appState: AppState
     @ObservedObject var viewModel: PraiseViewModel
+    @Binding var searchText: String
+    
+    var filteredPraises: [Praise] {
+        if searchText.isEmpty {
+            return viewModel.praises
+        }
+        return viewModel.praises.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
+    }
     
     var body: some View {
         if viewModel.isLoading {
@@ -121,95 +130,176 @@ struct PraiseContentView: View {
             }
             Spacer()
         } else {
-            ScrollView {
-                LazyVStack(spacing: StyleConstants.mediumSpacing) {
-                    ForEach(viewModel.praises) { praise in
-                        PraiseCardView(praise: praise, language: appState.selectedLanguage)
-                            .padding(.horizontal, 12)
-                    }
+            VStack(spacing: 0) {
+                // 搜索栏
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(DesignSystem.Colors.secondaryText)
+                    TextField("搜索乐谱...", text: $searchText)
+                        .font(DesignSystem.Typography.body(DesignSystem.Typography.body, language: appState.selectedLanguage))
                 }
-                .padding(.top, StyleConstants.standardSpacing)
-                .padding(.bottom, StyleConstants.mediumSpacing)
+                .padding(12)
+                .background(DesignSystem.Colors.cardBackground)
+                .cornerRadius(12)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(DesignSystem.Colors.border.opacity(0.5), lineWidth: 1)
+                )
+                .padding(.horizontal, StyleConstants.standardSpacing)
+                .padding(.vertical, 8)
+                
+                // 乐谱书架列表
+                ScrollView {
+                    LazyVStack(spacing: 0) {
+                        ForEach(filteredPraises) { praise in
+                            NavigationLink(destination: PraiseDetailView(praise: praise, language: appState.selectedLanguage)) {
+                                PraiseShelfRow(praise: praise, language: appState.selectedLanguage)
+                            }
+                            
+                            Divider()
+                                .padding(.leading, 72)
+                        }
+                    }
+                    .padding(.bottom, StyleConstants.mediumSpacing)
+                }
             }
         }
     }
 }
 
-struct PraiseCardView: View {
+// 书架行 - Shelf row
+struct PraiseShelfRow: View {
     let praise: Praise
     let language: CoreModels.VerseLanguage
-    @State private var currentImageIndex = 0
+    
+    var fileTypeIcon: String {
+        if let firstUrl = praise.fileUrls.first {
+            if firstUrl.lowercased().contains(".pdf") {
+                return "doc.richtext"
+            }
+        }
+        return "music.note.list"
+    }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            // 标题区域
+        HStack(spacing: 16) {
+            // 文件图标
+            ZStack {
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(
+                        LinearGradient(
+                            gradient: Gradient(colors: [
+                                DesignSystem.Colors.accent.opacity(0.2),
+                                DesignSystem.Colors.accent.opacity(0.1)
+                            ]),
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 48, height: 48)
+                
+                Image(systemName: fileTypeIcon)
+                    .font(.system(size: 22))
+                    .foregroundColor(DesignSystem.Colors.accent)
+            }
+            
+            // 标题和日期
             VStack(alignment: .leading, spacing: 4) {
                 Text(praise.title)
-                    .font(DesignSystem.Typography.title(DesignSystem.Typography.headline, weight: .bold, language: language))
+                    .font(DesignSystem.Typography.body(DesignSystem.Typography.body, weight: .medium, language: language))
                     .foregroundColor(DesignSystem.Colors.primaryText)
+                    .lineLimit(1)
                 
                 Text(DateFormatter.newsletterFormatter.string(from: praise.uploadedAt.dateValue()))
-                    .font(DesignSystem.Typography.smart(DesignSystem.Typography.footnote, language: language))
+                    .font(DesignSystem.Typography.smart(DesignSystem.Typography.caption1, language: language))
                     .foregroundColor(DesignSystem.Colors.secondaryText)
             }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 16)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(DesignSystem.Colors.cardBackground)
             
-            // 图片区域
-            ZStack(alignment: .bottom) {
-                if praise.fileUrls.isEmpty {
-                    Rectangle()
-                        .fill(DesignSystem.Colors.background)
-                        .aspectRatio(1.0, contentMode: .fit)
-                        .overlay(
-                            Image(systemName: "music.note.list")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 60, height: 60)
-                                .foregroundColor(DesignSystem.Colors.secondaryText)
-                        )
-                } else {
-                    TabView(selection: $currentImageIndex) {
-                        ForEach(0..<praise.fileUrls.count, id: \.self) { index in
-                            let urlStr = praise.fileUrls[index]
-                            if let url = URL(string: urlStr) {
+            Spacer()
+            
+            // 文件数量标签
+            if praise.fileUrls.count > 1 {
+                Text("\(praise.fileUrls.count)")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundColor(.white)
+                    .frame(width: 24, height: 24)
+                    .background(DesignSystem.Colors.accent)
+                    .clipShape(Circle())
+            }
+            
+            Image(systemName: "chevron.right")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundColor(DesignSystem.Colors.secondaryText.opacity(0.5))
+        }
+        .padding(.horizontal, StyleConstants.standardSpacing)
+        .padding(.vertical, 12)
+        .background(Color.clear)
+    }
+}
+
+// 详情页 - 查看乐谱文件
+struct PraiseDetailView: View {
+    let praise: Praise
+    let language: CoreModels.VerseLanguage
+    @State private var currentIndex = 0
+    
+    var body: some View {
+        ZStack {
+            DesignSystem.Colors.background.ignoresSafeArea()
+            
+            if praise.fileUrls.isEmpty {
+                VStack {
+                    Image(systemName: "music.note.list")
+                        .font(.system(size: 60))
+                        .foregroundColor(DesignSystem.Colors.secondaryText)
+                    Text("没有文件")
+                        .font(DesignSystem.Typography.body(DesignSystem.Typography.body, language: language))
+                        .foregroundColor(DesignSystem.Colors.secondaryText)
+                }
+            } else {
+                // 多文件时使用 TabView
+                TabView(selection: $currentIndex) {
+                    ForEach(0..<praise.fileUrls.count, id: \.self) { index in
+                        let urlStr = praise.fileUrls[index]
+                        if let url = URL(string: urlStr) {
+                            ScrollView(.vertical, showsIndicators: true) {
                                 AsyncImage(url: url) { phase in
                                     if let image = phase.image {
                                         image
                                             .resizable()
-                                            .scaledToFit() // 乐谱保持原比例
+                                            .scaledToFit()
                                     } else if phase.error != nil {
-                                        Rectangle()
-                                            .fill(DesignSystem.Colors.background)
-                                            .overlay(Image(systemName: "exclamationmark.triangle").foregroundColor(.gray))
+                                        VStack(spacing: 12) {
+                                            Image(systemName: "exclamationmark.triangle")
+                                                .font(.system(size: 40))
+                                                .foregroundColor(DesignSystem.Colors.secondaryText)
+                                            Text("无法加载图片")
+                                                .font(DesignSystem.Typography.body(DesignSystem.Typography.callout, language: language))
+                                                .foregroundColor(DesignSystem.Colors.secondaryText)
+                                            Link("在浏览器中打开", destination: url)
+                                                .font(DesignSystem.Typography.body(DesignSystem.Typography.callout, weight: .medium, language: language))
+                                                .foregroundColor(DesignSystem.Colors.accent)
+                                        }
+                                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                        .padding(.top, 100)
                                     } else {
-                                        Rectangle()
-                                            .fill(DesignSystem.Colors.background)
-                                            .overlay(ProgressView().progressViewStyle(CircularProgressViewStyle(tint: DesignSystem.Colors.accent)))
+                                        ProgressView()
+                                            .progressViewStyle(CircularProgressViewStyle(tint: DesignSystem.Colors.accent))
+                                            .scaleEffect(1.5)
+                                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                            .padding(.top, 100)
                                     }
                                 }
-                                .tag(index)
                             }
+                            .tag(index)
                         }
                     }
-                    .tabViewStyle(.page(indexDisplayMode: .always))
-                    .aspectRatio(1004.0/1440.0, contentMode: .fit) // 使用标准文档比例
-                    .clipped()
                 }
+                .tabViewStyle(.page(indexDisplayMode: praise.fileUrls.count > 1 ? .always : .never))
             }
-            .background(Color.white)
         }
-        .background(Color.white)
-        .cornerRadius(16)
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(DesignSystem.Colors.border.opacity(0.5), lineWidth: 1)
-        )
-        .shadow(color: DesignSystem.Shadow.card.color, radius: DesignSystem.Shadow.card.radius, x: DesignSystem.Shadow.card.x, y: DesignSystem.Shadow.card.y)
-        .padding(.horizontal, 4)
-        .clipped()
+        .navigationTitle(praise.title)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
