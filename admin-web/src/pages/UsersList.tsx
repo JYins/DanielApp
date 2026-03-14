@@ -52,10 +52,10 @@ export default function UsersList() {
     }
 
     try {
-      console.log(`Calling deleteUserAccount for UID: ${userId}`);
+      alert(`DEBUG: Starting call to deleteUserAccount for ${userId}`);
       const deleteUserAccountConfig = httpsCallable(functions, 'deleteUserAccount');
       const result = await deleteUserAccountConfig({ uidToDelete: userId });
-      console.log('Delete result:', result);
+      alert(`DEBUG: Result received: ${JSON.stringify(result.data)}`);
       
       setUsers(prev => prev.filter(u => u.id !== userId));
       alert(`User "${name}" completely deleted.`);
@@ -63,7 +63,7 @@ export default function UsersList() {
       console.error('Delete User Error:', err);
       // Detailed error message from Firebase
       const errorMsg = err.details?.message || err.message || "Failed to delete user.";
-      alert(`Error (${err.code}): ${errorMsg}`);
+      alert(`Error (${err.code}): ${errorMsg}\n\nDetails: ${JSON.stringify(err.details || {})}`);
     }
   };
 
