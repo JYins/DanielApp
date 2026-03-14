@@ -52,18 +52,14 @@ export default function UsersList() {
     }
 
     try {
-      alert(`DEBUG: Starting call to deleteUserAdmin for ${userId}`);
       const deleteUserAdminFunc = httpsCallable(functions, 'deleteUserAdmin');
-      const result = await deleteUserAdminFunc({ uidToDelete: userId });
-      alert(`DEBUG: Result received: ${JSON.stringify(result.data)}`);
-      
+      await deleteUserAdminFunc({ uidToDelete: userId });
       setUsers(prev => prev.filter(u => u.id !== userId));
-      alert(`User "${name}" completely deleted.`);
+      alert(`User "${name}" has been completely deleted.`);
     } catch (err: any) {
       console.error('Delete User Error:', err);
-      // Detailed error message from Firebase
-      const errorMsg = err.details?.message || err.message || "Failed to delete user.";
-      alert(`Error (${err.code}): ${errorMsg}\n\nDetails: ${JSON.stringify(err.details || {})}`);
+      const errorMsg = err.message || "Failed to delete user.";
+      alert(`Error: ${errorMsg}`);
     }
   };
 
