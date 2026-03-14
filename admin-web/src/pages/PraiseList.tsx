@@ -21,7 +21,7 @@ export default function PraiseList() {
   const fetchItems = async () => {
     setLoading(true);
     try {
-      const q = query(collection(db, 'praise'), orderBy('createdAt', 'desc'));
+      const q = query(collection(db, 'praises'), orderBy('uploadedAt', 'desc'));
       const snap = await getDocs(q);
       setItems(snap.docs.map(d => ({ id: d.id, ...d.data() })));
     } catch (err) {
@@ -44,7 +44,7 @@ export default function PraiseList() {
   const handleDelete = async (id: string) => {
     if (!window.confirm('Are you sure you want to delete this file?')) return;
     try {
-      await deleteDoc(doc(db, 'praise', id));
+      await deleteDoc(doc(db, 'praises', id));
       setItems(prev => prev.filter(c => c.id !== id));
     } catch (err) {
       alert("Failed to delete item");
@@ -60,19 +60,19 @@ export default function PraiseList() {
     
     setSaving(true);
     try {
-      const storageRef = ref(storage, `praise/${Date.now()}_${file.name}`);
+      const storageRef = ref(storage, `praises/${Date.now()}_${file.name}`);
       const snapshot = await uploadBytes(storageRef, file);
       const url = await getDownloadURL(snapshot.ref);
 
       const itemData = {
         title,
+        fileUrls: [url],
         fileName: file.name,
         fileType: file.type,
-        fileUrl: url,
-        createdAt: new Date()
+        uploadedAt: new Date()
       };
 
-      await addDoc(collection(db, 'praise'), itemData);
+      await addDoc(collection(db, 'praises'), itemData);
       
       setIsModalOpen(false);
       fetchItems();
@@ -124,7 +124,7 @@ export default function PraiseList() {
                   {item.fileType?.includes('pdf') ? 'PDF' : item.fileType?.includes('image') ? 'Image' : 'Other'}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <a href={item.fileUrl} target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-900 mr-4 inline-block">
+                  <a href={item.fileUrls?.[0] || item.fileUrl} target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-900 mr-4 inline-block">
                     View
                   </a>
                   <button onClick={() => handleDelete(item.id)} className="text-red-600 hover:text-red-900 inline-block">

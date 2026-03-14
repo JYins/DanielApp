@@ -1,0 +1,31 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Word Cards images - public read
+    match /wordCards/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    // Newsletters images - require auth to read
+    match /newsletters/{allPaths=**} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null;
+    }
+    
+    // Praises files - require auth to read
+    match /praises/{allPaths=**} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null;
+    }
+    
+    // Legacy v1-v6 folders - read only (old data)
+    match /v1/{allPaths=**} { allow read: if true; allow write: if false; }
+    match /v2/{allPaths=**} { allow read: if true; allow write: if false; }
+    match /v3/{allPaths=**} { allow read: if true; allow write: if false; }
+    match /v4/{allPaths=**} { allow read: if true; allow write: if false; }
+    match /v5/{allPaths=**} { allow read: if true; allow write: if false; }
+    match /v6/{allPaths=**} { allow read: if true; allow write: if false; }
+  }
+}
