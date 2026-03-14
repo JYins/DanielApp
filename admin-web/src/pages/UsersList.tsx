@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { collection, query, getDocs, updateDoc, doc } from 'firebase/firestore';
+import { collection, query, getDocs, updateDoc, doc, deleteDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { CheckCircle, XCircle, ChevronDown, ChevronUp, User, MapPin, Phone, Mail, Church, Calendar, Shield } from 'lucide-react';
 
@@ -35,6 +35,18 @@ export default function UsersList() {
       setUsers(prev => prev.map(u => u.id === userId ? { ...u, isApproved: !currentStatus } : u));
     } catch (err) {
       alert("Failed to update user.");
+    }
+  };
+
+  const handleDeleteUser = async (userId: string, name: string) => {
+    if (!window.confirm(`Are you sure you want to completely delete user "${name}"? This will revoke their access.`)) {
+      return;
+    }
+    try {
+      await deleteDoc(doc(db, 'users', userId));
+      setUsers(prev => prev.filter(u => u.id !== userId));
+    } catch (err) {
+      alert("Failed to delete user.");
     }
   };
 
@@ -111,12 +123,20 @@ export default function UsersList() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium" onClick={(e) => e.stopPropagation()}>
                     {user.role !== 'admin' && (
-                      <button
-                        onClick={() => toggleApproval(user.id, user.isApproved)}
-                        className={`${user.isApproved ? 'text-red-600 hover:text-red-900' : 'text-green-600 hover:text-green-900'} flex items-center justify-end w-full`}
-                      >
-                        {user.isApproved ? <><XCircle className="h-4 w-4 mr-1" /> Revoke</> : <><CheckCircle className="h-4 w-4 mr-1" /> Approve</>}
-                      </button>
+                      <div className="flex items-center justify-end space-x-3">
+                        <button
+                          onClick={() => toggleApproval(user.id, user.isApproved)}
+                          className={`${user.isApproved ? 'text-orange-600 hover:text-orange-900' : 'text-green-600 hover:text-green-900'} flex items-center`}
+                        >
+                          {user.isApproved ? <><XCircle className="h-4 w-4 mr-1" /> Revoke</> : <><CheckCircle className="h-4 w-4 mr-1" /> Approve</>}
+                        </button>
+                        <button
+                          onClick={() => handleDeleteUser(user.id, user.name || user.email)}
+                          className="text-red-600 hover:text-red-900 flex items-center"
+                        >
+                          <XCircle className="h-4 w-4 mr-1" /> Delete
+                        </button>
+                      </div>
                     )}
                   </td>
                 </tr>

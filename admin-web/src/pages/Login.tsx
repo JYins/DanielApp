@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,12 +7,14 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [msg, setMsg] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setMsg('');
     setLoading(true);
 
     try {
@@ -20,6 +22,24 @@ export default function Login() {
       navigate('/');
     } catch (err: any) {
       setError(err.message || 'Failed to login');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResetPassword = async () => {
+    if (!email) {
+      setError('Please enter your email address first to reset your password.');
+      return;
+    }
+    setError('');
+    setMsg('');
+    setLoading(true);
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setMsg('Password reset email sent! Please check your inbox.');
+    } catch (err: any) {
+      setError(err.message || 'Failed to send password reset email');
     } finally {
       setLoading(false);
     }
@@ -40,6 +60,11 @@ export default function Login() {
           {error && (
             <div className="p-3 bg-red-50 text-red-500 text-sm rounded-md">
               {error}
+            </div>
+          )}
+          {msg && (
+            <div className="p-3 bg-green-50 text-green-700 text-sm rounded-md">
+              {msg}
             </div>
           )}
           <div className="rounded-md shadow-sm -space-y-px">
@@ -65,13 +90,26 @@ export default function Login() {
             </div>
           </div>
 
+          <div className="flex items-center justify-between">
+            <div className="text-sm">
+              <button
+                type="button"
+                onClick={handleResetPassword}
+                disabled={loading}
+                className="font-medium text-amber-600 hover:text-amber-500"
+              >
+                Forgot your password?
+              </button>
+            </div>
+          </div>
+
           <div>
             <button
               type="submit"
               disabled={loading}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
             >
-              {loading ? 'Signing in...' : 'Sign in'}
+              {loading ? 'Processing...' : 'Sign in'}
             </button>
           </div>
         </form>
