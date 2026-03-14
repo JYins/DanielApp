@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { collection, query, getDocs, updateDoc, doc } from 'firebase/firestore';
 import { httpsCallable } from 'firebase/functions';
 import { db, functions } from '../lib/firebase';
+import { useAuthContext } from '../components/AuthProvider';
 import { CheckCircle, XCircle, ChevronDown, ChevronUp, User, MapPin, Phone, Mail, Church, Calendar, Shield } from 'lucide-react';
 
 export default function UsersList() {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedUserId, setExpandedUserId] = useState<string | null>(null);
+  const { user: currentUserAuth } = useAuthContext();
 
   useEffect(() => {
     fetchUsers();
@@ -44,23 +46,24 @@ export default function UsersList() {
       return;
     }
     
-    // Prevent admin from accidentally deleting themselves via UI easily
-    // (though the backend also protects against this)
-    const currentUser = JSON.parse(localStorage.getItem('adminUser') || '{}');
-    if (currentUser.id === userId) {
+    if (currentUserAuth?.uid === userId) {
       alert("You cannot delete your own admin account.");
       return;
     }
 
     try {
+      console.log(`Calling deleteUserAccount for UID: ${userId}`);
       const deleteUserAccountConfig = httpsCallable(functions, 'deleteUserAccount');
-      await deleteUserAccountConfig({ uidToDelete: userId });
+      const result = await deleteUserAccountConfig({ uidToDelete: userId });
+      console.log('Delete result:', result);
       
       setUsers(prev => prev.filter(u => u.id !== userId));
       alert(`User "${name}" completely deleted.`);
     } catch (err: any) {
-      console.error(err);
-      alert(err.message || "Failed to delete user.");
+      console.error('Delete User Error:', err);
+      // Detailed error message from Firebase
+      const errorMsg = err.details?.message || err.message || "Failed to delete user.";
+      alert(`Error (${err.code}): ${errorMsg}`);
     }
   };
 
