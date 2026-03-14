@@ -127,31 +127,54 @@ Supporting three languages sounds simple until you realize:
    - English: System rounded font
    - Korean: GowunDodum (a warm, readable Korean font)
 
-### Firebase Integration & Community Features
+### Firebase Integration & Admin Dashboard
 
-The church community features are powered by Firebase:
+The church community features are powered by **Firebase + a custom web Admin Dashboard**, making it easy for our media team to manage content without touching code.
 
 - **Firebase Auth** — Email/password authentication with an approval workflow (new users are `pending` until a church admin approves them)
-- **Firebase Storage** — Hosts word card images and newsletter content organized in folder structures
-- **Newsletter System** — Each newsletter has a `config.json` with trilingual captions, publish date, and image references
+- **Firestore** — Structured data for Word Cards, Newsletters, and Praise files with real-time sync
+- **Firebase Storage** — Hosts images and PDF files, auto-cleaned when content is deleted from Admin
+- **Admin Dashboard** — A React web app for content management (deployed on Vercel)
+
+<p align="center">
+  <img src="screenshots/admin_dashboard.png" width="700" alt="Admin Dashboard" />
+</p>
+
+<p align="center">
+  <img src="screenshots/admin_wordcards.png" width="340" alt="Word Cards Management" />
+  &nbsp;
+  <img src="screenshots/admin_newsletters.png" width="340" alt="Newsletters Management" />
+</p>
 
 ```
-Firebase Storage
-├── word_cards/
-│   ├── folder_1/
-│   │   ├── image1.jpg
-│   │   └── image2.jpg
-│   └── folder_2/
-│       └── ...
-└── newsletters/
-    ├── 2025-03/
-    │   ├── config.json    ← {captions: {cn, en, kr}, publishDate, isPublished}
-    │   ├── page1.jpg
-    │   └── page2.jpg
-    └── ...
+Firestore Collections                Firebase Storage
+├── wordCards/                       ├── wordCards/
+│   └── {cardId}                     │   └── images...
+│       ├── title                    ├── newsletters/
+│       ├── category                 │   └── images...
+│       ├── caption_cn/en/kr         ├── praises/
+│       ├── image_urls[]             │   └── pdfs & images...
+│       ├── published                └── v1-v6/  (legacy)
+│       └── order                        └── old card data
+├── newsletters/
+│   └── {newsletterId}
+│       ├── publishDate (Timestamp)
+│       ├── caption_cn/en/kr
+│       ├── image_urls[]
+│       └── published
+├── praises/
+│   └── {praiseId}
+│       ├── title
+│       ├── fileUrls[]  (images or PDFs)
+│       └── uploadedAt (Timestamp)
+└── users/
+    └── {userId}
+        ├── name, gender, email, phone
+        ├── churchName, churchCountry
+        ├── confirmationPerson
+        ├── isApproved
+        └── role
 ```
-
-**What's next:** I'm exploring replacing Firebase Storage with **Notion Integration** (free API) for content management, while keeping Firebase Auth. This would let our church's media team update newsletter content directly from Notion — no code deployment needed.
 
 ### Data Flow: App ↔ Widget
 
@@ -178,45 +201,50 @@ The widget can operate in two modes:
 
 | Layer | Technology |
 |-------|-----------|
-| UI Framework | SwiftUI |
-| Widget | WidgetKit (Home Screen + Lock Screen) |
-| Backend | Firebase Auth + Firebase Storage |
+| iOS App | SwiftUI + WidgetKit |
+| Backend | Firebase Auth + Firestore + Storage |
+| Admin Dashboard | React + Vite + Tailwind CSS |
+| Hosting | Vercel (Admin) + Firebase (Backend) |
 | Data Persistence | App Group UserDefaults + JSON bundles |
 | Architecture | Singleton services + ObservableObject ViewModels |
 | Fonts | Custom trilingual font loading |
-| Design | Hand-drawn UI concepts by our church sisters, implemented with AI assistance |
+| Design | Hand-drawn UI concepts by our church sisters |
 
 ---
 
 ## Project Structure
 
 ```
-DanielApp/
-├── DanielAppApp.swift              # App entry point, Firebase init, midnight manager setup
-├── MainTabView.swift               # 5-tab navigation (Verse, Cards, Newsletter, Praise, Connect)
-├── VerseOfTheDayView.swift         # Main verse display with switch/pin controls
-├── VerseData.swift                 # Core verse data service (load, cache, sync)
-├── MidnightUpdateManager.swift     # Multi-layer midnight refresh engine
-├── LocalizedText.swift             # All UI strings in CN/EN/KR
-├── StyleConstants.swift            # Design system (colors, spacing, typography)
-├── AuthManager.swift               # Firebase auth with approval workflow
-├── FirebaseStorageService.swift    # Image loading, caching, newsletter fetching
-├── SharedModels/
-│   ├── VerseModels.swift           # Trilingual verse model + book name mapping
-│   └── VerseUtilities.swift        # Cross-language reference utilities
-├── verses_index.json               # 642 curated verse references
-├── verses_merged.json              # 18K+ trilingual verse database
-└── fonts/                          # Chinese + Korean custom fonts
+DanielApp/                            # iOS App
+├── DanielAppApp.swift               # App entry, Firebase init
+├── MainTabView.swift                # 5-tab navigation
+├── VerseOfTheDayView.swift          # Daily verse display
+├── WordCardGalleryView.swift        # Word card gallery (Firestore)
+├── NewsletterView.swift             # Church newsletters (Firestore)
+├── PraiseView.swift                 # Praise bookshelf + PDF viewer
+├── AuthManager.swift                # Firebase auth + approval workflow
+├── MidnightUpdateManager.swift      # Multi-layer midnight refresh
+├── SharedModels/                    # Trilingual verse models
+├── verses_index.json                # 642 curated verse references
+└── verses_merged.json               # 18K+ trilingual verses
 
-daniel wedget/                       # Widget Extension
-├── daniel_wedgetBundle.swift       # Widget bundle entry point
-├── WidgetConfiguration.swift       # TimelineProvider + timeline logic
-├── WidgetDataManager.swift         # Independent verse calculation
-├── WidgetLifecycleManager.swift    # Staleness detection + self-healing
-├── MainVerseWidget.swift           # Home screen widget UI
-├── LockScreenVerseWidget.swift     # Lock screen widget UI
-├── SharedModels.swift              # Lightweight models for widget
-└── widget_verses.json              # Independent widget verse dataset
+admin-web/                            # Admin Dashboard (React)
+├── src/
+│   ├── pages/
+│   │   ├── Dashboard.tsx            # Overview + pending approvals
+│   │   ├── WordCardsList.tsx        # CRUD for word cards
+│   │   ├── NewslettersList.tsx      # CRUD for newsletters
+│   │   ├── PraiseList.tsx           # Upload praise files (PDF/images)
+│   │   └── UsersList.tsx            # User approval management
+│   └── lib/firebase.ts             # Firebase client config
+├── firestore.rules                  # Security rules
+├── storage.rules                    # Storage access rules
+└── firestore.indexes.json           # Composite query indexes
+
+daniel wedget/                        # Widget Extension
+├── WidgetConfiguration.swift        # TimelineProvider
+├── MainVerseWidget.swift            # Home screen widget
+└── LockScreenVerseWidget.swift      # Lock screen widget
 ```
 
 ---
@@ -244,7 +272,9 @@ This project taught me more than just iOS development:
 
 ## Roadmap
 
-- [ ] Notion Integration for newsletter content management
+- [x] Firebase Firestore migration (from Storage folder structure)
+- [x] Admin Dashboard for content management
+- [x] PDF viewer for praise sheet music
 - [ ] Push notifications for daily verse reminders
 - [ ] Verse sharing with beautiful card generation
 - [ ] Reading plan / devotional tracker

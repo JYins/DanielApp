@@ -11,12 +11,12 @@ struct WordCardGalleryView: View {
     let categoryKeys: [LocalizedText.WordCardGallery] = [.categoryAll, .categoryGrace, .categoryEncouragement, .categoryWisdom]
     @State private var selectedCategoryKey: LocalizedText.WordCardGallery = .categoryAll
 
-    // Filtered cards based on selected category key
     var filteredCards: [WordCard] {
+        let allCards = viewModel.categories.first { $0.id == "all" }?.cards ?? []
         if selectedCategoryKey == .categoryAll {
-            return viewModel.cards
+            return allCards
         } else {
-            return viewModel.cards.filter { $0.categoryKey == selectedCategoryKey }
+            return allCards.filter { $0.categoryKey == selectedCategoryKey }
         }
     }
 
@@ -161,16 +161,7 @@ struct FirebaseWordCardView: View {
         VStack(alignment: .leading, spacing: 0) {
             // 图片区域
             ZStack(alignment: .bottom) {
-                if isLoading {
-                    Rectangle()
-                        .fill(Color.gray.opacity(0.3))
-                        .aspectRatio(1080/1350, contentMode: .fit)
-                        .overlay(
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: StyleConstants.goldColor))
-                                .scaleEffect(1.2)
-                        )
-                } else if images.isEmpty {
+                if card.image_urls.isEmpty {
                     Rectangle()
                         .fill(Color.gray.opacity(0.3))
                         .aspectRatio(1080/1350, contentMode: .fit)
@@ -183,16 +174,25 @@ struct FirebaseWordCardView: View {
                         )
                 } else {
                     TabView(selection: $currentImageIndex) {
-                        ForEach(0..<images.count, id: \.self) { index in
-                            if let image = images[index] {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .tag(index)
-                            } else {
-                                Rectangle()
-                                    .fill(Color.gray.opacity(0.3))
-                                    .tag(index)
+                        ForEach(0..<card.image_urls.count, id: \.self) { index in
+                            let urlStr = card.image_urls[index]
+                            if let url = URL(string: urlStr) {
+                                AsyncImage(url: url) { phase in
+                                    if let image = phase.image {
+                                        image
+                                            .resizable()
+                                            .scaledToFill()
+                                    } else if phase.error != nil {
+                                        Rectangle()
+                                            .fill(Color.gray.opacity(0.3))
+                                            .overlay(Image(systemName: "exclamationmark.triangle").foregroundColor(.gray))
+                                    } else {
+                                        Rectangle()
+                                            .fill(Color.gray.opacity(0.3))
+                                            .overlay(ProgressView())
+                                    }
+                                }
+                                .tag(index)
                             }
                         }
                     }
@@ -201,9 +201,9 @@ struct FirebaseWordCardView: View {
                     .clipped()
                     
                     // 如果有多张图片，显示分页指示器
-                    if images.count > 1 {
+                    if card.image_urls.count > 1 {
                         HStack(spacing: 4) {
-                            ForEach(0..<images.count, id: \.self) { index in
+                            ForEach(0..<card.image_urls.count, id: \.self) { index in
                                 Circle()
                                     .fill(currentImageIndex == index ? Color.white : Color.white.opacity(0.5))
                                     .frame(width: 6, height: 6)
@@ -295,40 +295,6 @@ struct FirebaseWordCardView: View {
         .shadow(color: Color.black.opacity(0.03), radius: 32, x: 0, y: 12) // 添加第二层阴影增加深度
         .shadow(color: StyleConstants.goldColor.opacity(0.08), radius: 24, x: 0, y: 8) // 添加金色阴影
         .padding(.horizontal, 4)
-        .clipped()
-        .onAppear {
-            loadImages()
-        }
-    }
-    
-    private func loadImages() {
-        isLoading = true
-        images = Array(repeating: nil, count: card.images.count)
-        
-        let group = DispatchGroup()
-        
-        for (index, imageRef) in card.images.enumerated() {
-            group.enter()
-            
-            FirebaseStorageService.shared.downloadImage(from: imageRef) { image, error in
-                defer { group.leave() }
-                
-                if let image = image {
-                    DispatchQueue.main.async {
-                        // 更新特定索引的图片
-                        if index < self.images.count {
-                            self.images[index] = image
-                        }
-                    }
-                } else if let error = error {
-                    print("加载图片失败: \(error.localizedDescription)")
-                }
-            }
-        }
-        
-        group.notify(queue: .main) {
-            isLoading = false
-        }
     }
 }
 
@@ -374,16 +340,7 @@ struct ModernWordCardView: View {
         VStack(spacing: 0) {
             // 图片区域
             ZStack(alignment: .bottom) {
-                if isLoading {
-                    Rectangle()
-                        .fill(DesignSystem.Colors.mutedText.opacity(0.1))
-                        .aspectRatio(1080/1350, contentMode: .fit)
-                        .overlay(
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: DesignSystem.Colors.accent))
-                                .scaleEffect(1.2)
-                        )
-                } else if images.isEmpty {
+                if card.image_urls.isEmpty {
                     Rectangle()
                         .fill(DesignSystem.Colors.mutedText.opacity(0.1))
                         .aspectRatio(1080/1350, contentMode: .fit)
@@ -396,16 +353,25 @@ struct ModernWordCardView: View {
                         )
                 } else {
                     TabView(selection: $currentImageIndex) {
-                        ForEach(0..<images.count, id: \.self) { index in
-                            if let image = images[index] {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .tag(index)
-                            } else {
-                                Rectangle()
-                                    .fill(DesignSystem.Colors.mutedText.opacity(0.1))
-                                    .tag(index)
+                        ForEach(0..<card.image_urls.count, id: \.self) { index in
+                            let urlStr = card.image_urls[index]
+                            if let url = URL(string: urlStr) {
+                                AsyncImage(url: url) { phase in
+                                    if let image = phase.image {
+                                        image
+                                            .resizable()
+                                            .scaledToFill()
+                                    } else if phase.error != nil {
+                                        Rectangle()
+                                            .fill(DesignSystem.Colors.mutedText.opacity(0.1))
+                                            .overlay(Image(systemName: "exclamationmark.triangle").foregroundColor(.gray))
+                                    } else {
+                                        Rectangle()
+                                            .fill(DesignSystem.Colors.mutedText.opacity(0.1))
+                                            .overlay(ProgressView().progressViewStyle(CircularProgressViewStyle(tint: DesignSystem.Colors.accent)))
+                                    }
+                                }
+                                .tag(index)
                             }
                         }
                     }
@@ -414,9 +380,9 @@ struct ModernWordCardView: View {
                     .clipped()
                     
                     // 如果有多张图片，显示分页指示器
-                    if images.count > 1 {
+                    if card.image_urls.count > 1 {
                         HStack(spacing: 4) {
-                            ForEach(0..<images.count, id: \.self) { index in
+                            ForEach(0..<card.image_urls.count, id: \.self) { index in
                                 Circle()
                                     .fill(currentImageIndex == index ? Color.white : Color.white.opacity(0.5))
                                     .frame(width: 6, height: 6)
@@ -457,38 +423,6 @@ struct ModernWordCardView: View {
             .cornerRadius(DesignSystem.CornerRadius.card, corners: [.bottomLeft, .bottomRight])
         }
         .modernCard()
-        .onAppear {
-            loadImages()
-        }
-    }
-    
-    private func loadImages() {
-        isLoading = true
-        images = Array(repeating: nil, count: card.images.count)
-        
-        let group = DispatchGroup()
-        
-        for (index, imageRef) in card.images.enumerated() {
-            group.enter()
-            
-            FirebaseStorageService.shared.downloadImage(from: imageRef) { image, error in
-                defer { group.leave() }
-                
-                if let image = image {
-                    DispatchQueue.main.async {
-                        if index < self.images.count {
-                            self.images[index] = image
-                        }
-                    }
-                } else if let error = error {
-                    print("加载图片失败: \(error.localizedDescription)")
-                }
-            }
-        }
-        
-        group.notify(queue: .main) {
-            isLoading = false
-        }
     }
 }
 

@@ -31,7 +31,7 @@ struct MainTabView: View {
                         case 2:
                             NewsletterView()
                         case 3:
-                            PraiseViewPlaceholder()
+                            PraiseView()
                         case 4:
                             ConnectView()
                         default:
@@ -238,44 +238,7 @@ struct SettingsOverlayView: View {
     }
 }
 
-// MARK: - 赞美页面占位符
-struct PraiseViewPlaceholder: View {
-    @EnvironmentObject var appState: AppState
-    
-    var body: some View {
-        ZStack {
-            DesignSystem.Colors.background.ignoresSafeArea()
-            
-            VStack(spacing: 30) {
-                // 音符图标
-                Image(systemName: "music.note.list")
-                    .font(.system(size: 48))
-                    .foregroundColor(DesignSystem.Colors.accent)
-                
-                VStack(spacing: 12) {
-                    Text(LocalizedText.Common.praiseTab.text(for: appState.selectedLanguage))
-                        .font(DesignSystem.Typography.smart(DesignSystem.Typography.title1, weight: .bold, language: appState.selectedLanguage))
-                        .foregroundColor(DesignSystem.Colors.primaryText)
-                    
-                    Text(LocalizedText.Praise.comingSoon.text(for: appState.selectedLanguage))
-                        .font(DesignSystem.Typography.smart(DesignSystem.Typography.title2, weight: .semibold, language: appState.selectedLanguage))
-                        .foregroundColor(DesignSystem.Colors.primaryText)
-                        .multilineTextAlignment(.center)
-                    
-                    Text(LocalizedText.Praise.description.text(for: appState.selectedLanguage))
-                        .font(DesignSystem.Typography.smart(DesignSystem.Typography.body, language: appState.selectedLanguage))
-                        .foregroundColor(DesignSystem.Colors.secondaryText)
-                        .multilineTextAlignment(.center)
-                        .lineSpacing(4)
-                        .padding(.horizontal, 24)
-                }
-            }
-            .padding(.vertical, 48)
-        }
-        .watermark("@但以理和他的朋友们")
-    }
-}
-
+// Removed PraiseViewPlaceholder
 // MARK: - 自定义半圆形状（贴右边）
 struct HalfCircle: Shape {
     func path(in rect: CGRect) -> Path {

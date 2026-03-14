@@ -167,30 +167,31 @@ struct NewsletterCaption: Codable {
 
 // Newsletter数据模型
 struct Newsletter: Codable, Identifiable {
-    var id: String
-    var publishDate: Date
-    var imageURLs: [String] // Firebase Storage中的图片路径
-    var caption: NewsletterCaption
-    var isPublished: Bool
+    @DocumentID var id: String?
+    var publishDate: Timestamp
+    var image_urls: [String] // Firestore中的图片URL数组
+    var caption_cn: String
+    var caption_en: String
+    var caption_kr: String
+    var published: Bool
+    var createdAt: Timestamp?
+    var updatedAt: Timestamp?
     
-    // Newsletter配置文件模型（与话语卡片一致）
-    struct NewsletterConfig: Codable {
-        let captions: CaptionData
-        let publishDate: String  // 格式: "2025-01-15"
-        let isPublished: Bool?
-        
-        struct CaptionData: Codable {
-            let chinese: String
-            let english: String
-            let korean: String
-        }
+    // 兼容旧代码的属性
+    var caption: NewsletterCaption {
+        NewsletterCaption(chinese: caption_cn, english: caption_en, korean: caption_kr)
     }
     
-    init(id: String, publishDate: Date, imageURLs: [String], caption: NewsletterCaption, isPublished: Bool = true) {
+    // 初始化方法，主要用于本地测试或预览
+    init(id: String?, publishDate: Date, imageURLs: [String], caption: NewsletterCaption, isPublished: Bool = true) {
         self.id = id
-        self.publishDate = publishDate
-        self.imageURLs = imageURLs
-        self.caption = caption
-        self.isPublished = isPublished
+        self.publishDate = Timestamp(date: publishDate)
+        self.image_urls = imageURLs
+        self.caption_cn = caption.chinese
+        self.caption_en = caption.english
+        self.caption_kr = caption.korean
+        self.published = isPublished
+        self.createdAt = Timestamp(date: Date())
+        self.updatedAt = Timestamp(date: Date())
     }
 } 
