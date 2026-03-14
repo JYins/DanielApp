@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { collection, query, getDocs, updateDoc, doc, deleteDoc } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { collection, query, getDocs, updateDoc, doc } from 'firebase/firestore';
+import { httpsCallable } from 'firebase/functions';
+import { db, functions } from '../lib/firebase';
 import { CheckCircle, XCircle, ChevronDown, ChevronUp, User, MapPin, Phone, Mail, Church, Calendar, Shield } from 'lucide-react';
 
 export default function UsersList() {
@@ -39,14 +40,27 @@ export default function UsersList() {
   };
 
   const handleDeleteUser = async (userId: string, name: string) => {
-    if (!window.confirm(`Are you sure you want to completely delete user "${name}"? This will revoke their access.`)) {
+    if (!window.confirm(`Are you sure you want to completely delete user "${name}"? This will revoke their access and delete their Firebase Auth account.`)) {
       return;
     }
+    
+    // Prevent admin from accidentally deleting themselves via UI easily
+    // (though the backend also protects against this)
+    const currentUser = JSON.parse(localStorage.getItem('adminUser') || '{}');
+    if (currentUser.id === userId) {
+      alert("You cannot delete your own admin account.");
+      return;
+    }
+
     try {
-      await deleteDoc(doc(db, 'users', userId));
+      const deleteUserAccountConfig = httpsCallable(functions, 'deleteUserAccount');
+      await deleteUserAccountConfig({ uidToDelete: userId });
+      
       setUsers(prev => prev.filter(u => u.id !== userId));
-    } catch (err) {
-      alert("Failed to delete user.");
+      alert(`User "${name}" completely deleted.`);
+    } catch (err: any) {
+      console.error(err);
+      alert(err.message || "Failed to delete user.");
     }
   };
 
