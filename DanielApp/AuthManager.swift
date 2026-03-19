@@ -68,15 +68,19 @@ class AuthManager: ObservableObject {
                 }
                 
                 do {
-                    let profile = try document.data(as: UserProfile.self)
-                    let oldState = self?.authState
+                    guard let self = self else {
+                        return
+                    }
+                    
+                    let profile = try self.parseUserProfile(from: document)
+                    let oldState = self.authState
                     
                     // 更新当前用户资料
-                    self?.currentUser = profile
+                    self.currentUser = profile
                     
                     // 根据审核状态更新认证状态
                     if profile.isApproved {
-                        self?.authState = .signedIn(profile)
+                        self.authState = .signedIn(profile)
                         
                         // 检查状态是否从pending变为signedIn
                         if case .pending = oldState {
@@ -86,11 +90,12 @@ class AuthManager: ObservableObject {
                             print("✅ 用户资料已更新，状态: signedIn")
                         }
                     } else {
-                        self?.authState = .pending
+                        self.authState = .pending
                         print("⏳ 用户资料已更新，状态: pending（等待审核）")
                     }
                 } catch {
                     print("❌ 解析用户资料失败: \(error.localizedDescription)")
+                    self?.errorMessage = "用户资料不完整，请联系管理员补全账户信息"
                 }
             }
         }
@@ -101,7 +106,7 @@ class AuthManager: ObservableObject {
         isLoading = true
         errorMessage = nil
         
-        auth.createUser(withEmail: formData.email, password: formData.password) { [weak self] result, error in
+        auth.createUser(withEmail: formData.trimmedEmail, password: formData.password) { [weak self] result, error in
             DispatchQueue.main.async {
                 if let error = error {
                     self?.errorMessage = self?.getLocalizedErrorMessage(error)
@@ -117,18 +122,18 @@ class AuthManager: ObservableObject {
                 
                 // 创建用户资料
                 let userProfile = UserProfile(
-                    name: formData.name,
+                    name: formData.trimmedName,
                     gender: formData.gender,
                     birthDate: formData.birthDate,
-                    address: formData.address,
-                    email: formData.email,
-                    phoneNumber: formData.phoneNumber,
+                    address: formData.optionalAddress,
+                    email: formData.trimmedEmail,
+                    phoneNumber: formData.optionalPhoneNumber,
                     userId: user.uid,
-                    churchCountry: formData.churchCountry,
-                    churchName: formData.churchName,
+                    churchCountry: formData.trimmedChurchCountry,
+                    churchName: formData.trimmedChurchName,
                     salvationDate: formData.salvationDate,
-                    ministryDepartment: formData.ministryDepartment.isEmpty ? nil : formData.ministryDepartment,
-                    confirmationPerson: formData.confirmationPerson
+                    ministryDepartment: formData.optionalMinistryDepartment,
+                    confirmationPerson: formData.trimmedConfirmationPerson
                 )
                 
                 // 保存用户资料到Firestore
@@ -141,8 +146,9 @@ class AuthManager: ObservableObject {
     func signIn(email: String, password: String) {
         isLoading = true
         errorMessage = nil
+        let normalizedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         
-        auth.signIn(withEmail: email, password: password) { [weak self] result, error in
+        auth.signIn(withEmail: normalizedEmail, password: password) { [weak self] result, error in
             DispatchQueue.main.async {
                 if let error = error {
                     self?.errorMessage = self?.getLocalizedErrorMessage(error)
@@ -152,7 +158,7 @@ class AuthManager: ObservableObject {
                 
                 // 登录成功，检查用户的密码是否最近被重置
                 if let user = result?.user {
-                    self?.checkAndHandlePasswordReset(userId: user.uid, email: email)
+                    self?.checkAndHandlePasswordReset(userId: user.uid, email: normalizedEmail)
                 }
                 
                 // 用户登录成功，状态监听器会自动处理后续逻辑
@@ -182,21 +188,15 @@ class AuthManager: ObservableObject {
                 return
             }
             
-            // 检查距离上次登录是否超过7天（可能重置了密码）
+            // 审核状态现在只允许管理员在服务端维护。
+            // 客户端登录时仅更新最后登录时间，不再自行重置 isApproved。
             let daysSinceLastLogin = Calendar.current.dateComponents([.day], from: lastLoginDate.dateValue(), to: Date()).day ?? 0
-            
             if daysSinceLastLogin > 7 {
-                print("⚠️ 用户距离上次登录已超过7天，可能重置了密码，重置审核状态")
-                self?.db.collection("users").document(userId).updateData([
-                    "isApproved": false,
-                    "lastLoginDate": Timestamp(date: Date()),
-                    "updatedAt": Timestamp(date: Date()),
-                    "passwordResetNote": "系统检测到长时间未登录，已重置审核状态"
-                ])
-            } else {
-                // 正常登录，只更新最后登录时间
-                self?.updateLastLoginDate(userId: userId)
+                print("ℹ️ 用户距离上次登录已超过7天，仅记录登录时间，审核状态保持由管理员控制")
             }
+            
+            // 正常登录，只更新最后登录时间
+            self?.updateLastLoginDate(userId: userId)
         }
     }
     
@@ -333,22 +333,101 @@ class AuthManager: ObservableObject {
                 }
                 
                 do {
-                    let profile = try document.data(as: UserProfile.self)
-                    self?.currentUser = profile
+                    guard let self = self else {
+                        return
+                    }
+                    
+                    let profile = try self.parseUserProfile(from: document)
+                    
+                    self.currentUser = profile
                     
                     // 根据审核状态设置认证状态
                     if profile.isApproved {
-                        self?.authState = .signedIn(profile)
+                        self.authState = .signedIn(profile)
                         print("✅ 用户资料加载成功，已通过审核: \(profile.name)")
                     } else {
-                        self?.authState = .pending
+                        self.authState = .pending
                         print("⏳ 用户资料加载成功，等待审核: \(profile.name)")
                     }
                 } catch {
                     print("❌ 解析用户信息失败：\(error.localizedDescription)")
-                    self?.errorMessage = "解析用户信息失败：\(error.localizedDescription)"
+                    self?.errorMessage = "用户资料不完整，请联系管理员补全账户信息"
                 }
             }
+        }
+    }
+
+    private func parseUserProfile(from document: DocumentSnapshot) throws -> UserProfile {
+        guard let data = document.data() else {
+            throw NSError(domain: "AuthManager", code: 1, userInfo: [
+                NSLocalizedDescriptionKey: "用户资料文档为空"
+            ])
+        }
+        
+        let userId = self.stringValue(from: data["userId"]) ?? document.documentID
+        let resolvedEmail = self.stringValue(from: data["email"]) ?? auth.currentUser?.email?.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        
+        guard let email = resolvedEmail, !email.isEmpty else {
+            throw NSError(domain: "AuthManager", code: 2, userInfo: [
+                NSLocalizedDescriptionKey: "缺少邮箱字段"
+            ])
+        }
+        
+        let fallbackName = email.components(separatedBy: "@").first ?? "Member"
+        let name = self.stringValue(from: data["name"]) ?? self.stringValue(from: data["displayName"]) ?? fallbackName
+        
+        var profile = UserProfile(
+            name: name,
+            gender: UserGender(rawValue: self.stringValue(from: data["gender"]) ?? ""),
+            birthDate: self.dateValue(from: data["birthDate"]),
+            address: self.stringValue(from: data["address"]),
+            email: email,
+            phoneNumber: self.stringValue(from: data["phoneNumber"]),
+            userId: userId,
+            churchCountry: self.stringValue(from: data["churchCountry"]),
+            churchName: self.stringValue(from: data["churchName"]),
+            salvationDate: self.dateValue(from: data["salvationDate"]),
+            ministryDepartment: self.stringValue(from: data["ministryDepartment"]),
+            confirmationPerson: self.stringValue(from: data["confirmationPerson"]),
+            createdAt: self.dateValue(from: data["createdAt"]),
+            updatedAt: self.dateValue(from: data["updatedAt"]),
+            lastLoginDate: self.dateValue(from: data["lastLoginDate"]),
+            isApproved: data["isApproved"] as? Bool ?? false,
+            approvedAt: self.dateValue(from: data["approvedAt"])
+        )
+        profile.id = document.documentID
+        return profile
+    }
+    
+    private func stringValue(from value: Any?) -> String? {
+        guard let value else {
+            return nil
+        }
+        
+        if let string = value as? String {
+            let trimmed = string.trimmingCharacters(in: .whitespacesAndNewlines)
+            return trimmed.isEmpty ? nil : trimmed
+        }
+        
+        return nil
+    }
+    
+    private func dateValue(from value: Any?) -> Date? {
+        switch value {
+        case let timestamp as Timestamp:
+            return timestamp.dateValue()
+        case let date as Date:
+            return date
+        case let string as String:
+            let formatter = ISO8601DateFormatter()
+            return formatter.date(from: string)
+        case let dictionary as [String: Any]:
+            if let seconds = dictionary["seconds"] as? TimeInterval {
+                return Date(timeIntervalSince1970: seconds)
+            }
+            return nil
+        default:
+            return nil
         }
     }
     
@@ -428,36 +507,9 @@ class AuthManager: ObservableObject {
             
             print("✅ 密码重置邮件已发送")
             
-            // 邮件发送成功后，尝试重置该用户的审核状态
-            // 注意：这一步需要用户先登录过，或者使用管理员权限
-            self?.resetUserApprovalStatus(email: email)
-            
             DispatchQueue.main.async {
-                completion(true, "密码重置邮件已发送到您的邮箱，请查收。\n\n注意：重置密码后需要重新等待管理员审核。")
+                completion(true, "密码重置邮件已发送到您的邮箱，请查收。")
             }
         }
     }
-    
-    // 尝试重置用户的审核状态（仅在用户已登录时有效）
-    private func resetUserApprovalStatus(email: String) {
-        // 只有当前有登录用户时才尝试更新
-        guard let currentUserId = auth.currentUser?.uid else {
-            print("⚠️ 无法重置审核状态：用户未登录")
-            return
-        }
-        
-        print("🔄 尝试重置用户审核状态")
-        
-        // 只重置当前登录用户的审核状态
-        db.collection("users").document(currentUserId).updateData([
-            "isApproved": false,
-            "updatedAt": Date()
-        ]) { error in
-            if let error = error {
-                print("⚠️ 重置审核状态失败: \(error.localizedDescription)")
-            } else {
-                print("✅ 审核状态已重置为待审核")
-            }
-        }
-    }
-} 
+}

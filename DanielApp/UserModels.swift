@@ -30,28 +30,46 @@ struct UserProfile: Codable, Identifiable, Equatable {
     
     // 基本信息
     var name: String
-    var gender: UserGender // 性别：弟兄/姊妹
-    var birthDate: Date
-    var address: String
+    var gender: UserGender? // 性别：弟兄/姊妹（可选）
+    var birthDate: Date?
+    var address: String?
     var email: String
-    var phoneNumber: String
+    var phoneNumber: String?
     var userId: String // Firebase Auth的用户ID
     
     // 信仰信息
-    var churchCountry: String
-    var churchName: String
-    var salvationDate: Date
+    var churchCountry: String?
+    var churchName: String?
+    var salvationDate: Date?
     var ministryDepartment: String? // 侍奉部署（可选）
-    var confirmationPerson: String // 圣徒信息确认人员
+    var confirmationPerson: String? // 圣徒信息确认人员
     
     // 系统信息
-    var createdAt: Date
-    var updatedAt: Date
+    var createdAt: Date?
+    var updatedAt: Date?
     var lastLoginDate: Date? // 最后登录时间（用于检测密码重置）
     var isApproved: Bool // 是否通过审核
     var approvedAt: Date?
     
-    init(name: String, gender: UserGender, birthDate: Date, address: String, email: String, phoneNumber: String, userId: String, churchCountry: String, churchName: String, salvationDate: Date, ministryDepartment: String? = nil, confirmationPerson: String) {
+    init(
+        name: String,
+        gender: UserGender? = nil,
+        birthDate: Date? = nil,
+        address: String? = nil,
+        email: String,
+        phoneNumber: String? = nil,
+        userId: String,
+        churchCountry: String? = nil,
+        churchName: String? = nil,
+        salvationDate: Date? = nil,
+        ministryDepartment: String? = nil,
+        confirmationPerson: String? = nil,
+        createdAt: Date? = Date(),
+        updatedAt: Date? = Date(),
+        lastLoginDate: Date? = nil,
+        isApproved: Bool = false,
+        approvedAt: Date? = nil
+    ) {
         self.name = name
         self.gender = gender
         self.birthDate = birthDate
@@ -64,11 +82,11 @@ struct UserProfile: Codable, Identifiable, Equatable {
         self.salvationDate = salvationDate
         self.ministryDepartment = ministryDepartment
         self.confirmationPerson = confirmationPerson
-        self.createdAt = Date()
-        self.updatedAt = Date()
-        self.lastLoginDate = nil // 首次登录时会设置
-        self.isApproved = false // 需要管理员审核
-        self.approvedAt = nil
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+        self.lastLoginDate = lastLoginDate
+        self.isApproved = isApproved
+        self.approvedAt = approvedAt
     }
 }
 
@@ -114,8 +132,8 @@ enum AuthState: Equatable {
 // 注册表单数据
 struct RegistrationFormData {
     var name: String = ""
-    var gender: UserGender = .brother // 默认为弟兄
-    var birthDate: Date = Date()
+    var gender: UserGender? = nil
+    var birthDate: Date? = nil
     var address: String = ""
     var email: String = ""
     var phoneNumber: String = ""
@@ -124,26 +142,67 @@ struct RegistrationFormData {
     
     var churchCountry: String = ""
     var churchName: String = ""
-    var salvationDate: Date = Date()
+    var salvationDate: Date? = nil
     var ministryDepartment: String = ""
     var confirmationPerson: String = ""
     
     // 表单验证
     var isValid: Bool {
-        return !name.isEmpty &&
-               !address.isEmpty &&
-               !email.isEmpty &&
-               !phoneNumber.isEmpty &&
+        return !trimmedName.isEmpty &&
+               !trimmedEmail.isEmpty &&
                !password.isEmpty &&
                password == confirmPassword &&
                password.count >= 6 &&
-               !churchCountry.isEmpty &&
-               !churchName.isEmpty &&
-               !confirmationPerson.isEmpty
+               !trimmedChurchCountry.isEmpty &&
+               !trimmedChurchName.isEmpty &&
+               !trimmedConfirmationPerson.isEmpty
     }
     
     var passwordsMatch: Bool {
         return password == confirmPassword
+    }
+    
+    var trimmedName: String {
+        name.trimmed
+    }
+    
+    var trimmedEmail: String {
+        email.trimmed.lowercased()
+    }
+    
+    var trimmedChurchCountry: String {
+        churchCountry.trimmed
+    }
+    
+    var trimmedChurchName: String {
+        churchName.trimmed
+    }
+    
+    var trimmedConfirmationPerson: String {
+        confirmationPerson.trimmed
+    }
+    
+    var optionalAddress: String? {
+        address.nilIfBlank
+    }
+    
+    var optionalPhoneNumber: String? {
+        phoneNumber.nilIfBlank
+    }
+    
+    var optionalMinistryDepartment: String? {
+        ministryDepartment.nilIfBlank
+    }
+}
+
+private extension String {
+    var trimmed: String {
+        trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
+    var nilIfBlank: String? {
+        let value = trimmed
+        return value.isEmpty ? nil : value
     }
 }
 

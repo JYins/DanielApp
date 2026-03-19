@@ -47,25 +47,27 @@ struct RegistrationView: View {
                             
                             // 性别选择
                             GenderPicker(
-                                title: "性别",
+                                title: "性别（可选）",
                                 selectedGender: $formData.gender,
                                 language: appState.selectedLanguage
                             )
                             
                             // 出生年月日
                             DateInputField(
-                                title: "出生年月日",
+                                title: "出生年月日（可选）",
                                 date: formData.birthDate,
                                 placeholder: "请选择出生日期",
                                 language: appState.selectedLanguage
                             ) {
                                 datePickerType = .birth
                                 showingDatePicker = true
+                            } onClear: {
+                                formData.birthDate = nil
                             }
                             
                             // 地址
                             CustomTextField(
-                                title: "地址",
+                                title: "地址（可选）",
                                 text: $formData.address,
                                 placeholder: "请输入您的地址",
                                 language: appState.selectedLanguage
@@ -82,7 +84,7 @@ struct RegistrationView: View {
                             
                             // 手机号
                             CustomTextField(
-                                title: "联系方式（手机）",
+                                title: "联系方式（手机，可选）",
                                 text: $formData.phoneNumber,
                                 placeholder: "请输入手机号码",
                                 keyboardType: .phonePad,
@@ -95,10 +97,11 @@ struct RegistrationView: View {
                                 text: $formData.password,
                                 placeholder: "请输入密码（至少6位）",
                                 isSecure: !isShowingPassword,
+                                toggleAction: {
+                                    isShowingPassword.toggle()
+                                },
                                 language: appState.selectedLanguage
-                            ) {
-                                isShowingPassword.toggle()
-                            }
+                            )
                             
                             // 确认密码
                             CustomSecureField(
@@ -106,10 +109,11 @@ struct RegistrationView: View {
                                 text: $formData.confirmPassword,
                                 placeholder: "请再次输入密码",
                                 isSecure: !isShowingConfirmPassword,
+                                toggleAction: {
+                                    isShowingConfirmPassword.toggle()
+                                },
                                 language: appState.selectedLanguage
-                            ) {
-                                isShowingConfirmPassword.toggle()
-                            }
+                            )
                             
                             // 密码匹配提示
                             if !formData.password.isEmpty && !formData.confirmPassword.isEmpty {
@@ -146,13 +150,15 @@ struct RegistrationView: View {
                             
                             // 得救年月日
                             DateInputField(
-                                title: "得救年月日",
+                                title: "得救年月日（可选）",
                                 date: formData.salvationDate,
                                 placeholder: "请选择得救日期",
                                 language: appState.selectedLanguage
                             ) {
                                 datePickerType = .salvation
                                 showingDatePicker = true
+                            } onClear: {
+                                formData.salvationDate = nil
                             }
                             
                             // 侍奉部署（可选）
@@ -324,10 +330,11 @@ struct CustomSecureField: View {
 // 日期输入框
 struct DateInputField: View {
     let title: String
-    let date: Date
+    let date: Date?
     let placeholder: String
-    let action: () -> Void
     var language: CoreModels.VerseLanguage = .chinese
+    let action: () -> Void
+    var onClear: (() -> Void)? = nil
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -335,25 +342,37 @@ struct DateInputField: View {
                 .font(StyleConstants.sansFontBody(14, language: language))
                 .foregroundColor(DesignSystem.Colors.primaryText)
             
-            Button(action: action) {
-                HStack {
-                    Text(DateFormatter.displayFormatter.string(from: date))
-                        .font(StyleConstants.sansFontBody(16, language: language))
-                        .foregroundColor(DesignSystem.Colors.primaryText)
-                    
-                    Spacer()
-                    
-                    Image(systemName: "calendar")
-                        .foregroundColor(DesignSystem.Colors.accent)
+            HStack(spacing: 12) {
+                Button(action: action) {
+                    HStack {
+                        Text(date.map { DateFormatter.displayFormatter.string(from: $0) } ?? placeholder)
+                            .font(StyleConstants.sansFontBody(16, language: language))
+                            .foregroundColor(date == nil ? DesignSystem.Colors.secondaryText : DesignSystem.Colors.primaryText)
+                        
+                        Spacer()
+                        
+                        Image(systemName: "calendar")
+                            .foregroundColor(DesignSystem.Colors.accent)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .background(Color.white.opacity(0.1))
+                    .cornerRadius(8)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(DesignSystem.Colors.border, lineWidth: 1)
+                    )
                 }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 12)
-                .background(Color.white.opacity(0.1))
-                .cornerRadius(8)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(DesignSystem.Colors.border, lineWidth: 1)
-                )
+                .buttonStyle(.plain)
+                
+                if let clearAction = onClear, date != nil {
+                    Button(action: clearAction) {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(DesignSystem.Colors.secondaryText)
+                            .font(.system(size: 18))
+                    }
+                    .buttonStyle(.plain)
+                }
             }
         }
     }
@@ -361,16 +380,17 @@ struct DateInputField: View {
 
 // 日期选择器弹窗
 struct DatePickerSheet: View {
-    @Binding var selectedDate: Date
+    @Binding var selectedDate: Date?
     let title: String
     @Environment(\.presentationMode) var presentationMode
+    @State private var temporaryDate = Date()
     
     var body: some View {
         NavigationView {
             VStack {
                 DatePicker(
                     title,
-                    selection: $selectedDate,
+                    selection: $temporaryDate,
                     displayedComponents: .date
                 )
                 .datePickerStyle(WheelDatePickerStyle())
@@ -381,11 +401,15 @@ struct DatePickerSheet: View {
             }
             .padding()
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                temporaryDate = selectedDate ?? Date()
+            }
             .navigationBarItems(
                 leading: Button("取消") {
                     presentationMode.wrappedValue.dismiss()
                 },
                 trailing: Button("完成") {
+                    selectedDate = temporaryDate
                     presentationMode.wrappedValue.dismiss()
                 }
             )
@@ -413,7 +437,7 @@ struct SectionHeader: View {
 // 性别选择器
 struct GenderPicker: View {
     let title: String
-    @Binding var selectedGender: UserGender
+    @Binding var selectedGender: UserGender?
     var language: CoreModels.VerseLanguage = .chinese
     
     var body: some View {
@@ -469,6 +493,15 @@ struct GenderPicker: View {
                     )
                 }
             }
+            
+            Button(action: {
+                selectedGender = nil
+            }) {
+                Text("暂不填写")
+                    .font(StyleConstants.sansFontBody(13, language: language))
+                    .foregroundColor(selectedGender == nil ? DesignSystem.Colors.accent : DesignSystem.Colors.secondaryText)
+            }
+            .frame(maxWidth: .infinity, alignment: .trailing)
         }
     }
 }

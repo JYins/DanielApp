@@ -33,15 +33,22 @@ struct VerseOfTheDayView: View {
     // 动态的问候语（包含用户名和性别称呼）
     private var greetingText: String {
         if case .signedIn(let profile) = authManager.authState {
-            let genderTitle = profile.gender.localizedName(for: appState.selectedLanguage)
-            
             switch appState.selectedLanguage {
             case .chinese:
-                return "平安，\(profile.name) \(genderTitle)"
+                if let genderTitle = profile.gender?.localizedName(for: appState.selectedLanguage) {
+                    return "平安，\(profile.name) \(genderTitle)"
+                }
+                return "平安，\(profile.name)"
             case .english:
-                return "Peace, \(genderTitle) \(profile.name)"
+                if let genderTitle = profile.gender?.localizedName(for: appState.selectedLanguage) {
+                    return "Peace, \(genderTitle) \(profile.name)"
+                }
+                return "Peace, \(profile.name)"
             case .korean:
-                return "평안, \(profile.name) \(genderTitle)"
+                if let genderTitle = profile.gender?.localizedName(for: appState.selectedLanguage) {
+                    return "평안, \(profile.name) \(genderTitle)"
+                }
+                return "평안, \(profile.name)"
             }
         } else {
             // 默认文本（未登录）

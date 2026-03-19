@@ -3,19 +3,98 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
+    // Helper function to check if user is signed in
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
     // Helper function to check if user is admin
     function isAdmin() {
-      return request.auth != null && 
+      return isSignedIn() && 
              get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isApprovedUser() {
+      return isSignedIn() &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isApproved == true;
+    }
+
+    function canReadProtectedContent() {
+      return isAdmin() || isApprovedUser();
+    }
+
+    function isCreatingOwnProfile(userId) {
+      return isOwner(userId) &&
+             !exists(/databases/$(database)/documents/users/$(userId)) &&
+             request.resource.data.userId == request.auth.uid &&
+             request.resource.data.email == request.auth.token.email &&
+             request.resource.data.isApproved == false &&
+             !('approvedAt' in request.resource.data) &&
+             (!('role' in request.resource.data) || request.resource.data.role == 'member');
+    }
+
+    function hasOnlyAllowedProfileFields() {
+      return request.resource.data.keys().hasOnly([
+        'userId',
+        'email',
+        'name',
+        'gender',
+        'birthDate',
+        'address',
+        'phoneNumber',
+        'churchCountry',
+        'churchName',
+        'salvationDate',
+        'ministryDepartment',
+        'confirmationPerson',
+        'createdAt',
+        'updatedAt',
+        'lastLoginDate',
+        'isApproved',
+        'approvedAt',
+        'role',
+        'passwordResetNote'
+      ]);
+    }
+
+    function isValidOwnProfileUpdate(userId) {
+      return isOwner(userId) &&
+             request.resource.data.userId == resource.data.userId &&
+             request.resource.data.email == resource.data.email &&
+             request.resource.data.isApproved == resource.data.isApproved &&
+             request.resource.data.approvedAt == resource.data.approvedAt &&
+             request.resource.data.role == resource.data.role &&
+             request.resource.data.createdAt == resource.data.createdAt &&
+             request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+               'name',
+               'gender',
+               'birthDate',
+               'address',
+               'phoneNumber',
+               'churchCountry',
+               'churchName',
+               'salvationDate',
+               'ministryDepartment',
+               'confirmationPerson',
+               'updatedAt',
+               'lastLoginDate',
+               'passwordResetNote'
+             ]);
     }
     
     // Users collection
     match /users/{userId} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null && (request.auth.uid == userId || isAdmin());
+      allow read: if isAdmin() || isOwner(userId);
+      allow create: if isAdmin() || (isCreatingOwnProfile(userId) && hasOnlyAllowedProfileFields());
+      allow update: if isAdmin() || (hasOnlyAllowedProfileFields() && isValidOwnProfileUpdate(userId));
+      allow delete: if isAdmin();
     }
     
-    // Word Cards collection (public read for iOS widget)
+    // Word Cards collection
     match /wordCards/{cardId} {
       allow read: if true;
       allow write: if isAdmin();
@@ -23,13 +102,13 @@ service cloud.firestore {
     
     // Newsletters collection
     match /newsletters/{newsletterId} {
-      allow read: if request.auth != null;
+      allow read: if canReadProtectedContent();
       allow write: if isAdmin();
     }
     
     // Praises collection (requires auth to read)
     match /praises/{praiseId} {
-      allow read: if request.auth != null;
+      allow read: if canReadProtectedContent();
       allow write: if isAdmin();
     }
   }
