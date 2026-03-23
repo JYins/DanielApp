@@ -2,6 +2,11 @@
 
 这是一个简洁的圣经经文应用，旨在每日提供灵感。它具有优雅的界面设计、多语言支持（中文、英文、韩文），并包含配套的 iOS 主屏幕和锁屏小组件。
 
+[![Download on the App Store](https://img.shields.io/badge/Download_on_the-App_Store-0D96F6?style=for-the-badge&logo=app-store&logoColor=white)](https://apps.apple.com/ca/app/danielapp/id6744263240)
+
+`DanielApp` 已正式上架 App Store：
+[https://apps.apple.com/ca/app/danielapp/id6744263240](https://apps.apple.com/ca/app/danielapp/id6744263240)
+
 ## 项目结构
 
 ### 核心文件 & 数据管理

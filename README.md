@@ -2,6 +2,11 @@
 
 **A daily Bible verse widget for iOS — built with faith, curiosity, and a whole lot of learning.**
 
+[![Download on the App Store](https://img.shields.io/badge/Download_on_the-App_Store-0D96F6?style=for-the-badge&logo=app-store&logoColor=white)](https://apps.apple.com/ca/app/danielapp/id6744263240)
+
+`DanielApp` is now available on the App Store:
+[https://apps.apple.com/ca/app/danielapp/id6744263240](https://apps.apple.com/ca/app/danielapp/id6744263240)
+
 <p align="center">
   <img src="screenshots/home_widget.jpg" width="250" alt="Home Screen Widget" />
   &nbsp;&nbsp;
