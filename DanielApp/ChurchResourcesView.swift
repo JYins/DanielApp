@@ -392,6 +392,7 @@ private struct ChurchResourceDetailView: View {
     let resource: ChurchResource
     let language: CoreModels.VerseLanguage
     @Environment(\.dismiss) private var dismiss
+    @State private var showingHymnReader = false
 
     var body: some View {
         ZStack {
@@ -446,8 +447,8 @@ private struct ChurchResourceDetailView: View {
                         }
 
                         if resource.hasHymnMedia {
-                            NavigationLink {
-                                HymnReaderView(resource: resource, language: language)
+                            Button {
+                                showingHymnReader = true
                             } label: {
                                 ResourceActionLabel(
                                     title: hymnActionTitle,
@@ -488,6 +489,9 @@ private struct ChurchResourceDetailView: View {
             }
         }
         .navigationBarHidden(true)
+        .fullScreenCover(isPresented: $showingHymnReader) {
+            HymnReaderView(resource: resource, language: language)
+        }
     }
 
     private var hymnActionTitle: String {

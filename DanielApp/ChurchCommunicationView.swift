@@ -545,28 +545,24 @@ private struct ConnectAnnouncementCard: View {
 private struct ConnectWeeklyNewsletterCard: View {
     let newsletter: Newsletter
     let language: CoreModels.VerseLanguage
+    @State private var showingMediaViewer = false
+
+    private var imageURLs: [URL] {
+        newsletter.image_urls.compactMap(URL.init(string:))
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            if let firstImageURL = newsletter.image_urls.first, let url = URL(string: firstImageURL) {
-                AsyncImage(url: url) { phase in
-                    if let image = phase.image {
-                        image
-                            .resizable()
-                            .scaledToFill()
-                    } else if phase.error != nil {
-                        newsletterImageFallback
-                    } else {
-                        Rectangle()
-                            .fill(DesignSystem.Colors.cardBackground)
-                            .overlay(
-                                ProgressView()
-                                    .progressViewStyle(CircularProgressViewStyle(tint: DesignSystem.Colors.accent))
-                            )
-                    }
+            if let firstImageURL = imageURLs.first {
+                NewsletterMediaThumbnail(
+                    url: firstImageURL,
+                    height: 180,
+                    cornerRadius: 12,
+                    imageCount: imageURLs.count,
+                    language: language
+                ) {
+                    showingMediaViewer = true
                 }
-                .frame(height: 150)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
             }
 
             VStack(alignment: .leading, spacing: 10) {
@@ -603,16 +599,9 @@ private struct ConnectWeeklyNewsletterCard: View {
             RoundedRectangle(cornerRadius: 16)
                 .stroke(DesignSystem.Colors.border, lineWidth: 1)
         )
-    }
-
-    private var newsletterImageFallback: some View {
-        Rectangle()
-            .fill(DesignSystem.Colors.cardBackground)
-            .overlay(
-                Image(systemName: "photo")
-                    .font(.system(size: 28, weight: .regular))
-                    .foregroundColor(DesignSystem.Colors.mutedText)
-            )
+        .fullScreenCover(isPresented: $showingMediaViewer) {
+            NewsletterMediaViewer(imageURLs: imageURLs, language: language)
+        }
     }
 }
 

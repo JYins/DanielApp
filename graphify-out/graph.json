@@ -297,7 +297,7 @@
       "source_file": "",
       "source_location": "",
       "id": "observableobject",
-      "community": 61,
+      "community": 19,
       "norm_label": "observableobject"
     },
     {
@@ -954,7 +954,7 @@
       "source_file": "DanielApp/ChurchCommunicationView.swift",
       "source_location": "L97",
       "id": "danielapp_churchcommunicationview_connectsection",
-      "community": 14,
+      "community": 36,
       "norm_label": "connectsection"
     },
     {
@@ -963,7 +963,7 @@
       "source_file": "",
       "source_location": "",
       "id": "caseiterable",
-      "community": 14,
+      "community": 36,
       "norm_label": "caseiterable"
     },
     {
@@ -972,7 +972,7 @@
       "source_file": "DanielApp/ChurchCommunicationView.swift",
       "source_location": "L98",
       "id": "danielapp_churchcommunicationview_connectsection_announcements",
-      "community": 14,
+      "community": 36,
       "norm_label": "announcements"
     },
     {
@@ -981,7 +981,7 @@
       "source_file": "DanielApp/ChurchCommunicationView.swift",
       "source_location": "L99",
       "id": "danielapp_churchcommunicationview_connectsection_newsletter",
-      "community": 14,
+      "community": 36,
       "norm_label": "newsletter"
     },
     {
@@ -990,7 +990,7 @@
       "source_file": "DanielApp/ChurchCommunicationView.swift",
       "source_location": "L100",
       "id": "danielapp_churchcommunicationview_connectsection_kakaotalk",
-      "community": 14,
+      "community": 36,
       "norm_label": "kakaotalk"
     },
     {
@@ -1372,10 +1372,19 @@
       "norm_label": "connectweeklynewslettercard"
     },
     {
+      "label": "URL",
+      "file_type": "code",
+      "source_file": "DanielApp/ChurchCommunicationView.swift",
+      "source_location": "L550",
+      "id": "danielapp_churchcommunicationview_swift_url",
+      "community": 14,
+      "norm_label": "url"
+    },
+    {
       "label": "ConnectAccessCard",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L619",
+      "source_location": "L608",
       "id": "danielapp_churchcommunicationview_connectaccesscard",
       "community": 14,
       "norm_label": "connectaccesscard"
@@ -1384,7 +1393,7 @@
       "label": "Bool",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L620",
+      "source_location": "L609",
       "id": "danielapp_churchcommunicationview_swift_bool",
       "community": 14,
       "norm_label": "bool"
@@ -1393,7 +1402,7 @@
       "label": "UserProfile",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L622",
+      "source_location": "L611",
       "id": "danielapp_churchcommunicationview_swift_userprofile",
       "community": 14,
       "norm_label": "userprofile"
@@ -1402,7 +1411,7 @@
       "label": ".text()",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L721",
+      "source_location": "L710",
       "id": "danielapp_churchcommunicationview_connectaccesscard_text",
       "community": 14,
       "norm_label": ".text()"
@@ -1411,7 +1420,7 @@
       "label": "KakaoTalkConnectView",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L730",
+      "source_location": "L719",
       "id": "danielapp_churchcommunicationview_kakaotalkconnectview",
       "community": 14,
       "norm_label": "kakaotalkconnectview"
@@ -1420,7 +1429,7 @@
       "label": "BranchConnectViewModel",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L731",
+      "source_location": "L720",
       "id": "branchconnectviewmodel",
       "community": 14,
       "norm_label": "branchconnectviewmodel"
@@ -1429,7 +1438,7 @@
       "label": ".kakaoGroupCard()",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L801",
+      "source_location": "L790",
       "id": "danielapp_churchcommunicationview_kakaotalkconnectview_kakaogroupcard",
       "community": 14,
       "norm_label": ".kakaogroupcard()"
@@ -1438,7 +1447,7 @@
       "label": "BranchConnectInfo",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L801",
+      "source_location": "L790",
       "id": "danielapp_churchcommunicationview_swift_branchconnectinfo",
       "community": 14,
       "norm_label": "branchconnectinfo"
@@ -1447,25 +1456,25 @@
       "label": ".kakaoStatusCard()",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L848",
+      "source_location": "L837",
       "id": "danielapp_churchcommunicationview_kakaotalkconnectview_kakaostatuscard",
-      "community": 63,
+      "community": 14,
       "norm_label": ".kakaostatuscard()"
     },
     {
       "label": "Void",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L848",
+      "source_location": "L837",
       "id": "danielapp_churchcommunicationview_swift_void",
-      "community": 63,
+      "community": 14,
       "norm_label": "void"
     },
     {
       "label": ".reload()",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L873",
+      "source_location": "L862",
       "id": "danielapp_churchcommunicationview_kakaotalkconnectview_reload",
       "community": 63,
       "norm_label": ".reload()"
@@ -1474,7 +1483,7 @@
       "label": ".text()",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L878",
+      "source_location": "L867",
       "id": "danielapp_churchcommunicationview_kakaotalkconnectview_text",
       "community": 14,
       "norm_label": ".text()"
@@ -1483,7 +1492,7 @@
       "label": "BranchConnectInfo",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L883",
+      "source_location": "L872",
       "id": "danielapp_churchcommunicationview_branchconnectinfo",
       "community": 14,
       "norm_label": "branchconnectinfo"
@@ -1501,7 +1510,7 @@
       "label": ".groupName()",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L890",
+      "source_location": "L879",
       "id": "danielapp_churchcommunicationview_branchconnectinfo_groupname",
       "community": 14,
       "norm_label": ".groupname()"
@@ -1510,7 +1519,7 @@
       "label": "BranchConnectRemoteStore",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L899",
+      "source_location": "L888",
       "id": "danielapp_churchcommunicationview_branchconnectremotestore",
       "community": 63,
       "norm_label": "branchconnectremotestore"
@@ -1519,7 +1528,7 @@
       "label": "FirestoreBranchConnectRemoteStore",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L903",
+      "source_location": "L892",
       "id": "danielapp_churchcommunicationview_firestorebranchconnectremotestore",
       "community": 63,
       "norm_label": "firestorebranchconnectremotestore"
@@ -1528,7 +1537,7 @@
       "label": "Firestore",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L904",
+      "source_location": "L893",
       "id": "danielapp_churchcommunicationview_swift_firestore",
       "community": 63,
       "norm_label": "firestore"
@@ -1537,7 +1546,7 @@
       "label": ".init()",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L905",
+      "source_location": "L894",
       "id": "danielapp_churchcommunicationview_firestorebranchconnectremotestore_init",
       "community": 63,
       "norm_label": ".init()"
@@ -1546,7 +1555,7 @@
       "label": ".fetch()",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L907",
+      "source_location": "L896",
       "id": "danielapp_churchcommunicationview_firestorebranchconnectremotestore_fetch",
       "community": 63,
       "norm_label": ".fetch()"
@@ -1555,7 +1564,7 @@
       "label": "Result",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L907",
+      "source_location": "L896",
       "id": "danielapp_churchcommunicationview_swift_result",
       "community": 63,
       "norm_label": "result"
@@ -1564,7 +1573,7 @@
       "label": "Error",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L907",
+      "source_location": "L896",
       "id": "danielapp_churchcommunicationview_swift_error",
       "community": 63,
       "norm_label": "error"
@@ -1573,7 +1582,7 @@
       "label": "BranchConnectViewModel",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L917",
+      "source_location": "L906",
       "id": "danielapp_churchcommunicationview_branchconnectviewmodel",
       "community": 63,
       "norm_label": "branchconnectviewmodel"
@@ -1582,7 +1591,7 @@
       "label": ".init()",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L923",
+      "source_location": "L912",
       "id": "danielapp_churchcommunicationview_branchconnectviewmodel_init",
       "community": 63,
       "norm_label": ".init()"
@@ -1591,7 +1600,7 @@
       "label": ".load()",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L925",
+      "source_location": "L914",
       "id": "danielapp_churchcommunicationview_branchconnectviewmodel_load",
       "community": 63,
       "norm_label": ".load()"
@@ -1600,7 +1609,7 @@
       "label": ".clear()",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L940",
+      "source_location": "L929",
       "id": "danielapp_churchcommunicationview_branchconnectviewmodel_clear",
       "community": 63,
       "norm_label": ".clear()"
@@ -1609,7 +1618,7 @@
       "label": "ConnectEmptyCard",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L943",
+      "source_location": "L932",
       "id": "danielapp_churchcommunicationview_connectemptycard",
       "community": 14,
       "norm_label": "connectemptycard"
@@ -1618,7 +1627,7 @@
       "label": "ConnectErrorCard",
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
-      "source_location": "L980",
+      "source_location": "L969",
       "id": "danielapp_churchcommunicationview_connecterrorcard",
       "community": 14,
       "norm_label": "connecterrorcard"
@@ -2007,7 +2016,7 @@
       "source_file": "",
       "source_location": "",
       "id": "identifiable",
-      "community": 125,
+      "community": 58,
       "norm_label": "identifiable"
     },
     {
@@ -2491,7 +2500,7 @@
       "label": "ResourceActionLabel",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L502",
+      "source_location": "L506",
       "id": "danielapp_churchresourcesview_resourceactionlabel",
       "community": 12,
       "norm_label": "resourceactionlabel"
@@ -2500,7 +2509,7 @@
       "label": "HymnReaderView",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L533",
+      "source_location": "L537",
       "id": "danielapp_churchresourcesview_hymnreaderview",
       "community": 12,
       "norm_label": "hymnreaderview"
@@ -2509,7 +2518,7 @@
       "label": "HymnAudioPlayerCard",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L636",
+      "source_location": "L640",
       "id": "danielapp_churchresourcesview_hymnaudioplayercard",
       "community": 12,
       "norm_label": "hymnaudioplayercard"
@@ -2518,7 +2527,7 @@
       "label": "HymnAudioPlayback",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L637",
+      "source_location": "L641",
       "id": "hymnaudioplayback",
       "community": 12,
       "norm_label": "hymnaudioplayback"
@@ -2527,7 +2536,7 @@
       "label": ".init()",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L640",
+      "source_location": "L644",
       "id": "danielapp_churchresourcesview_hymnaudioplayercard_init",
       "community": 12,
       "norm_label": ".init()"
@@ -2536,7 +2545,7 @@
       "label": "URL",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L640",
+      "source_location": "L644",
       "id": "danielapp_churchresourcesview_swift_url",
       "community": 12,
       "norm_label": "url"
@@ -2545,7 +2554,7 @@
       "label": "HymnAudioPlayback",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L740",
+      "source_location": "L744",
       "id": "danielapp_churchresourcesview_hymnaudioplayback",
       "community": 133,
       "norm_label": "hymnaudioplayback"
@@ -2554,7 +2563,7 @@
       "label": "Double",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L742",
+      "source_location": "L746",
       "id": "double",
       "community": 133,
       "norm_label": "double"
@@ -2563,7 +2572,7 @@
       "label": "AVPlayer",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L746",
+      "source_location": "L750",
       "id": "avplayer",
       "community": 133,
       "norm_label": "avplayer"
@@ -2572,7 +2581,7 @@
       "label": "Any",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L747",
+      "source_location": "L751",
       "id": "danielapp_churchresourcesview_swift_any",
       "community": 133,
       "norm_label": "any"
@@ -2581,7 +2590,7 @@
       "label": ".init()",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L749",
+      "source_location": "L753",
       "id": "danielapp_churchresourcesview_hymnaudioplayback_init",
       "community": 133,
       "norm_label": ".init()"
@@ -2590,7 +2599,7 @@
       "label": ".deinit()",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L768",
+      "source_location": "L772",
       "id": "danielapp_churchresourcesview_hymnaudioplayback_deinit",
       "community": 133,
       "norm_label": ".deinit()"
@@ -2599,7 +2608,7 @@
       "label": ".togglePlayback()",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L772",
+      "source_location": "L776",
       "id": "danielapp_churchresourcesview_hymnaudioplayback_toggleplayback",
       "community": 133,
       "norm_label": ".toggleplayback()"
@@ -2608,7 +2617,7 @@
       "label": ".pause()",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L790",
+      "source_location": "L794",
       "id": "danielapp_churchresourcesview_hymnaudioplayback_pause",
       "community": 133,
       "norm_label": ".pause()"
@@ -2617,7 +2626,7 @@
       "label": ".seek()",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L795",
+      "source_location": "L799",
       "id": "danielapp_churchresourcesview_hymnaudioplayback_seek",
       "community": 133,
       "norm_label": ".seek()"
@@ -2626,7 +2635,7 @@
       "label": ".formatted()",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L801",
+      "source_location": "L805",
       "id": "danielapp_churchresourcesview_hymnaudioplayback_formatted",
       "community": 133,
       "norm_label": ".formatted()"
@@ -2635,7 +2644,7 @@
       "label": "RemotePDFReader",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L808",
+      "source_location": "L812",
       "id": "danielapp_churchresourcesview_remotepdfreader",
       "community": 12,
       "norm_label": "remotepdfreader"
@@ -2644,16 +2653,16 @@
       "label": "Data",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L811",
+      "source_location": "L815",
       "id": "data",
-      "community": 58,
+      "community": 75,
       "norm_label": "data"
     },
     {
       "label": ".loadPDF()",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L837",
+      "source_location": "L841",
       "id": "danielapp_churchresourcesview_remotepdfreader_loadpdf",
       "community": 12,
       "norm_label": ".loadpdf()"
@@ -2662,7 +2671,7 @@
       "label": "PDFKitDocumentView",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L870",
+      "source_location": "L874",
       "id": "danielapp_churchresourcesview_pdfkitdocumentview",
       "community": 74,
       "norm_label": "pdfkitdocumentview"
@@ -2680,7 +2689,7 @@
       "label": ".makeUIView()",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L873",
+      "source_location": "L877",
       "id": "danielapp_churchresourcesview_pdfkitdocumentview_makeuiview",
       "community": 74,
       "norm_label": ".makeuiview()"
@@ -2689,7 +2698,7 @@
       "label": "Context",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L873",
+      "source_location": "L877",
       "id": "danielapp_churchresourcesview_swift_context",
       "community": 74,
       "norm_label": "context"
@@ -2698,7 +2707,7 @@
       "label": "PDFView",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L873",
+      "source_location": "L877",
       "id": "pdfview",
       "community": 74,
       "norm_label": "pdfview"
@@ -2707,7 +2716,7 @@
       "label": ".updateUIView()",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L883",
+      "source_location": "L887",
       "id": "danielapp_churchresourcesview_pdfkitdocumentview_updateuiview",
       "community": 74,
       "norm_label": ".updateuiview()"
@@ -2716,7 +2725,7 @@
       "label": "ResourceLibraryEmptyCard",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
-      "source_location": "L889",
+      "source_location": "L893",
       "id": "danielapp_churchresourcesview_resourcelibraryemptycard",
       "community": 12,
       "norm_label": "resourcelibraryemptycard"
@@ -2727,7 +2736,7 @@
       "source_file": "DanielApp/ConnectView.swift",
       "source_location": "L1",
       "id": "danielapp_connectview",
-      "community": 31,
+      "community": 128,
       "norm_label": "connectview.swift"
     },
     {
@@ -2736,7 +2745,7 @@
       "source_file": "DanielApp/ConnectView.swift",
       "source_location": "L5",
       "id": "danielapp_connectview_connectview",
-      "community": 31,
+      "community": 128,
       "norm_label": "connectview"
     },
     {
@@ -2745,7 +2754,7 @@
       "source_file": "DanielApp/ConnectView.swift",
       "source_location": "L6",
       "id": "danielapp_connectview_swift_appstate",
-      "community": 31,
+      "community": 128,
       "norm_label": "appstate"
     },
     {
@@ -2754,7 +2763,7 @@
       "source_file": "DanielApp/ConnectView.swift",
       "source_location": "L13",
       "id": "danielapp_connectview_swift_string",
-      "community": 31,
+      "community": 128,
       "norm_label": "string"
     },
     {
@@ -5292,7 +5301,7 @@
       "source_file": "DanielApp/LoginView.swift",
       "source_location": "L300",
       "id": "uikeyboardtype",
-      "community": 29,
+      "community": 24,
       "norm_label": "uikeyboardtype"
     },
     {
@@ -5697,7 +5706,7 @@
       "source_file": "",
       "source_location": "",
       "id": "shape",
-      "community": 19,
+      "community": 119,
       "norm_label": "shape"
     },
     {
@@ -5706,7 +5715,7 @@
       "source_file": "DanielApp/MainTabView.swift",
       "source_location": "L145",
       "id": "danielapp_maintabview_halfcircle_path",
-      "community": 19,
+      "community": 119,
       "norm_label": ".path()"
     },
     {
@@ -5715,7 +5724,7 @@
       "source_file": "DanielApp/MainTabView.swift",
       "source_location": "L145",
       "id": "danielapp_maintabview_swift_cgrect",
-      "community": 19,
+      "community": 119,
       "norm_label": "cgrect"
     },
     {
@@ -5724,7 +5733,7 @@
       "source_file": "DanielApp/MainTabView.swift",
       "source_location": "L145",
       "id": "danielapp_maintabview_swift_path",
-      "community": 19,
+      "community": 119,
       "norm_label": "path"
     },
     {
@@ -5733,7 +5742,7 @@
       "source_file": "DanielApp/MainTabView.swift",
       "source_location": "L164",
       "id": "danielapp_maintabview_lefthalfcircleshape",
-      "community": 19,
+      "community": 119,
       "norm_label": "lefthalfcircleshape"
     },
     {
@@ -5742,7 +5751,7 @@
       "source_file": "DanielApp/MainTabView.swift",
       "source_location": "L165",
       "id": "danielapp_maintabview_lefthalfcircleshape_path",
-      "community": 19,
+      "community": 119,
       "norm_label": ".path()"
     },
     {
@@ -6061,6 +6070,312 @@
       "norm_label": ".checkmissedupdates()"
     },
     {
+      "label": "NewsletterMediaViewer.swift",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L1",
+      "id": "danielapp_newslettermediaviewer",
+      "community": 74,
+      "norm_label": "newslettermediaviewer.swift"
+    },
+    {
+      "label": "NewsletterMediaViewer",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L4",
+      "id": "danielapp_newslettermediaviewer_newslettermediaviewer",
+      "community": 74,
+      "norm_label": "newslettermediaviewer"
+    },
+    {
+      "label": "URL",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L5",
+      "id": "danielapp_newslettermediaviewer_swift_url",
+      "community": 74,
+      "norm_label": "url"
+    },
+    {
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L6",
+      "id": "danielapp_newslettermediaviewer_swift_int",
+      "community": 74,
+      "norm_label": "int"
+    },
+    {
+      "label": "CoreModels",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L7",
+      "id": "danielapp_newslettermediaviewer_swift_coremodels",
+      "community": 74,
+      "norm_label": "coremodels"
+    },
+    {
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L14",
+      "id": "danielapp_newslettermediaviewer_newslettermediaviewer_init",
+      "community": 74,
+      "norm_label": ".init()"
+    },
+    {
+      "label": "Gesture",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L93",
+      "id": "gesture",
+      "community": 74,
+      "norm_label": "gesture"
+    },
+    {
+      "label": "String",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L111",
+      "id": "danielapp_newslettermediaviewer_swift_string",
+      "community": 74,
+      "norm_label": "string"
+    },
+    {
+      "label": ".imageAccessibilityLabel()",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L147",
+      "id": "danielapp_newslettermediaviewer_newslettermediaviewer_imageaccessibilitylabel",
+      "community": 74,
+      "norm_label": ".imageaccessibilitylabel()"
+    },
+    {
+      "label": "NewsletterMediaThumbnail",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L156",
+      "id": "danielapp_newslettermediaviewer_newslettermediathumbnail",
+      "community": 74,
+      "norm_label": "newslettermediathumbnail"
+    },
+    {
+      "label": "CGFloat",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L158",
+      "id": "danielapp_newslettermediaviewer_swift_cgfloat",
+      "community": 74,
+      "norm_label": "cgfloat"
+    },
+    {
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L162",
+      "id": "danielapp_newslettermediaviewer_swift_void",
+      "community": 74,
+      "norm_label": "void"
+    },
+    {
+      "label": ".fallback()",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L207",
+      "id": "danielapp_newslettermediaviewer_newslettermediathumbnail_fallback",
+      "community": 74,
+      "norm_label": ".fallback()"
+    },
+    {
+      "label": "ZoomableRemoteNewsletterImage",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L234",
+      "id": "danielapp_newslettermediaviewer_zoomableremotenewsletterimage",
+      "community": 74,
+      "norm_label": "zoomableremotenewsletterimage"
+    },
+    {
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L237",
+      "id": "danielapp_newslettermediaviewer_swift_bool",
+      "community": 74,
+      "norm_label": "bool"
+    },
+    {
+      "label": "UIImage",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L238",
+      "id": "danielapp_newslettermediaviewer_swift_uiimage",
+      "community": 74,
+      "norm_label": "uiimage"
+    },
+    {
+      "label": ".loadImage()",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L261",
+      "id": "danielapp_newslettermediaviewer_zoomableremotenewsletterimage_loadimage",
+      "community": 74,
+      "norm_label": ".loadimage()"
+    },
+    {
+      "label": "ZoomableNewsletterImage",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L287",
+      "id": "danielapp_newslettermediaviewer_zoomablenewsletterimage",
+      "community": 74,
+      "norm_label": "zoomablenewsletterimage"
+    },
+    {
+      "label": ".makeCoordinator()",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L291",
+      "id": "danielapp_newslettermediaviewer_zoomablenewsletterimage_makecoordinator",
+      "community": 74,
+      "norm_label": ".makecoordinator()"
+    },
+    {
+      "label": "Coordinator",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L291",
+      "id": "coordinator",
+      "community": 74,
+      "norm_label": "coordinator"
+    },
+    {
+      "label": ".makeUIView()",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L293",
+      "id": "danielapp_newslettermediaviewer_zoomablenewsletterimage_makeuiview",
+      "community": 74,
+      "norm_label": ".makeuiview()"
+    },
+    {
+      "label": "Context",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L293",
+      "id": "danielapp_newslettermediaviewer_swift_context",
+      "community": 74,
+      "norm_label": "context"
+    },
+    {
+      "label": "UIScrollView",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L293",
+      "id": "uiscrollview",
+      "community": 74,
+      "norm_label": "uiscrollview"
+    },
+    {
+      "label": ".updateUIView()",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L318",
+      "id": "danielapp_newslettermediaviewer_zoomablenewsletterimage_updateuiview",
+      "community": 74,
+      "norm_label": ".updateuiview()"
+    },
+    {
+      "label": "Coordinator",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L328",
+      "id": "danielapp_newslettermediaviewer_coordinator",
+      "community": 74,
+      "norm_label": "coordinator"
+    },
+    {
+      "label": "UIScrollViewDelegate",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "uiscrollviewdelegate",
+      "community": 74,
+      "norm_label": "uiscrollviewdelegate"
+    },
+    {
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L333",
+      "id": "danielapp_newslettermediaviewer_coordinator_init",
+      "community": 74,
+      "norm_label": ".init()"
+    },
+    {
+      "label": ".viewForZooming()",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L337",
+      "id": "danielapp_newslettermediaviewer_coordinator_viewforzooming",
+      "community": 74,
+      "norm_label": ".viewforzooming()"
+    },
+    {
+      "label": "UIView",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L337",
+      "id": "uiview",
+      "community": 74,
+      "norm_label": "uiview"
+    },
+    {
+      "label": ".scrollViewDidZoom()",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L339",
+      "id": "danielapp_newslettermediaviewer_coordinator_scrollviewdidzoom",
+      "community": 74,
+      "norm_label": ".scrollviewdidzoom()"
+    },
+    {
+      "label": ".layoutImage()",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L346",
+      "id": "danielapp_newslettermediaviewer_coordinator_layoutimage",
+      "community": 74,
+      "norm_label": ".layoutimage()"
+    },
+    {
+      "label": ".centerImage()",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L353",
+      "id": "danielapp_newslettermediaviewer_coordinator_centerimage",
+      "community": 74,
+      "norm_label": ".centerimage()"
+    },
+    {
+      "label": ".didDoubleTap()",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L359",
+      "id": "danielapp_newslettermediaviewer_coordinator_diddoubletap",
+      "community": 74,
+      "norm_label": ".diddoubletap()"
+    },
+    {
+      "label": "UITapGestureRecognizer",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L359",
+      "id": "uitapgesturerecognizer",
+      "community": 74,
+      "norm_label": "uitapgesturerecognizer"
+    },
+    {
       "label": "NewsletterView.swift",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
@@ -6178,10 +6493,19 @@
       "norm_label": "coremodels"
     },
     {
+      "label": "URL",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterView.swift",
+      "source_location": "L244",
+      "id": "danielapp_newsletterview_swift_url",
+      "community": 7,
+      "norm_label": "url"
+    },
+    {
       "label": "NewsletterLoadState",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L393",
+      "source_location": "L398",
       "id": "danielapp_newsletterview_newsletterloadstate",
       "community": 7,
       "norm_label": "newsletterloadstate"
@@ -6190,7 +6514,7 @@
       "label": "idle",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L394",
+      "source_location": "L399",
       "id": "danielapp_newsletterview_newsletterloadstate_idle",
       "community": 7,
       "norm_label": "idle"
@@ -6199,7 +6523,7 @@
       "label": "loading",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L395",
+      "source_location": "L400",
       "id": "danielapp_newsletterview_newsletterloadstate_loading",
       "community": 7,
       "norm_label": "loading"
@@ -6208,7 +6532,7 @@
       "label": "permissionDenied",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L396",
+      "source_location": "L401",
       "id": "danielapp_newsletterview_newsletterloadstate_permissiondenied",
       "community": 7,
       "norm_label": "permissiondenied"
@@ -6217,7 +6541,7 @@
       "label": "empty",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L397",
+      "source_location": "L402",
       "id": "danielapp_newsletterview_newsletterloadstate_empty",
       "community": 7,
       "norm_label": "empty"
@@ -6226,7 +6550,7 @@
       "label": "error",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L398",
+      "source_location": "L403",
       "id": "danielapp_newsletterview_newsletterloadstate_error",
       "community": 7,
       "norm_label": "error"
@@ -6235,7 +6559,7 @@
       "label": "content",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L399",
+      "source_location": "L404",
       "id": "danielapp_newsletterview_newsletterloadstate_content",
       "community": 7,
       "norm_label": "content"
@@ -6244,7 +6568,7 @@
       "label": "NewsletterRemoteStore",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L402",
+      "source_location": "L407",
       "id": "danielapp_newsletterview_newsletterremotestore",
       "community": 7,
       "norm_label": "newsletterremotestore"
@@ -6253,7 +6577,7 @@
       "label": "FirestoreNewsletterRemoteStore",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L409",
+      "source_location": "L414",
       "id": "danielapp_newsletterview_firestorenewsletterremotestore",
       "community": 7,
       "norm_label": "firestorenewsletterremotestore"
@@ -6262,7 +6586,7 @@
       "label": "Firestore",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L410",
+      "source_location": "L415",
       "id": "danielapp_newsletterview_swift_firestore",
       "community": 7,
       "norm_label": "firestore"
@@ -6271,7 +6595,7 @@
       "label": ".init()",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L412",
+      "source_location": "L417",
       "id": "danielapp_newsletterview_firestorenewsletterremotestore_init",
       "community": 7,
       "norm_label": ".init()"
@@ -6280,7 +6604,7 @@
       "label": ".listenToPublishedNewsletters()",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L416",
+      "source_location": "L421",
       "id": "danielapp_newsletterview_firestorenewsletterremotestore_listentopublishednewsletters",
       "community": 7,
       "norm_label": ".listentopublishednewsletters()"
@@ -6289,7 +6613,7 @@
       "label": "String",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L416",
+      "source_location": "L421",
       "id": "danielapp_newsletterview_swift_string",
       "community": 7,
       "norm_label": "string"
@@ -6298,7 +6622,7 @@
       "label": "Result",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L416",
+      "source_location": "L421",
       "id": "danielapp_newsletterview_swift_result",
       "community": 7,
       "norm_label": "result"
@@ -6307,7 +6631,7 @@
       "label": "Error",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L416",
+      "source_location": "L421",
       "id": "danielapp_newsletterview_swift_error",
       "community": 7,
       "norm_label": "error"
@@ -6316,7 +6640,7 @@
       "label": "Void",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L416",
+      "source_location": "L421",
       "id": "danielapp_newsletterview_swift_void",
       "community": 7,
       "norm_label": "void"
@@ -6325,7 +6649,7 @@
       "label": "ListenerRegistration",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L416",
+      "source_location": "L421",
       "id": "danielapp_newsletterview_swift_listenerregistration",
       "community": 7,
       "norm_label": "listenerregistration"
@@ -6334,7 +6658,7 @@
       "label": "NewsletterViewModel",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L438",
+      "source_location": "L443",
       "id": "danielapp_newsletterview_newsletterviewmodel",
       "community": 7,
       "norm_label": "newsletterviewmodel"
@@ -6343,7 +6667,7 @@
       "label": ".init()",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L449",
+      "source_location": "L454",
       "id": "danielapp_newsletterview_newsletterviewmodel_init",
       "community": 7,
       "norm_label": ".init()"
@@ -6352,7 +6676,7 @@
       "label": ".loadNewsletters()",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L459",
+      "source_location": "L464",
       "id": "danielapp_newsletterview_newsletterviewmodel_loadnewsletters",
       "community": 7,
       "norm_label": ".loadnewsletters()"
@@ -6361,7 +6685,7 @@
       "label": ".deinit()",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L497",
+      "source_location": "L502",
       "id": "danielapp_newsletterview_newsletterviewmodel_deinit",
       "community": 7,
       "norm_label": ".deinit()"
@@ -6370,7 +6694,7 @@
       "label": "DateFormatter",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L505",
+      "source_location": "L510",
       "id": "danielapp_newsletterview_dateformatter",
       "community": 7,
       "norm_label": "dateformatter"
@@ -6379,7 +6703,7 @@
       "label": ".parseNewsletterDate()",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L514",
+      "source_location": "L519",
       "id": "danielapp_newsletterview_dateformatter_parsenewsletterdate",
       "community": 7,
       "norm_label": ".parsenewsletterdate()"
@@ -6388,7 +6712,7 @@
       "label": "Date",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L514",
+      "source_location": "L519",
       "id": "danielapp_newsletterview_swift_date",
       "community": 7,
       "norm_label": "date"
@@ -6397,7 +6721,7 @@
       "label": "LocalizedText",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L522",
+      "source_location": "L527",
       "id": "danielapp_newsletterview_localizedtext",
       "community": 7,
       "norm_label": "localizedtext"
@@ -6406,7 +6730,7 @@
       "label": "Newsletter",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L523",
+      "source_location": "L528",
       "id": "danielapp_newsletterview_newsletter",
       "community": 7,
       "norm_label": "newsletter"
@@ -6415,7 +6739,7 @@
       "label": "navTitle",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L524",
+      "source_location": "L529",
       "id": "danielapp_newsletterview_newsletter_navtitle",
       "community": 7,
       "norm_label": "navtitle"
@@ -6424,7 +6748,7 @@
       "label": ".text()",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L526",
+      "source_location": "L531",
       "id": "danielapp_newsletterview_newsletter_text",
       "community": 7,
       "norm_label": ".text()"
@@ -6433,7 +6757,7 @@
       "label": "NewsletterView_Previews",
       "file_type": "code",
       "source_file": "DanielApp/NewsletterView.swift",
-      "source_location": "L546",
+      "source_location": "L551",
       "id": "danielapp_newsletterview_newsletterview_previews",
       "community": 31,
       "norm_label": "newsletterview_previews"
@@ -6444,7 +6768,7 @@
       "source_file": "DanielApp/PraiseModels.swift",
       "source_location": "L1",
       "id": "danielapp_praisemodels",
-      "community": 61,
+      "community": 116,
       "norm_label": "praisemodels.swift"
     },
     {
@@ -6453,7 +6777,7 @@
       "source_file": "DanielApp/PraiseModels.swift",
       "source_location": "L5",
       "id": "danielapp_praisemodels_praise",
-      "community": 61,
+      "community": 116,
       "norm_label": "praise"
     },
     {
@@ -6462,7 +6786,7 @@
       "source_file": "DanielApp/PraiseModels.swift",
       "source_location": "L6",
       "id": "danielapp_praisemodels_swift_string",
-      "community": 61,
+      "community": 116,
       "norm_label": "string"
     },
     {
@@ -6471,7 +6795,7 @@
       "source_file": "DanielApp/PraiseModels.swift",
       "source_location": "L9",
       "id": "danielapp_praisemodels_swift_timestamp",
-      "community": 61,
+      "community": 116,
       "norm_label": "timestamp"
     },
     {
@@ -6480,7 +6804,7 @@
       "source_file": "DanielApp/PraiseModels.swift",
       "source_location": "L12",
       "id": "danielapp_praisemodels_praise_init",
-      "community": 61,
+      "community": 116,
       "norm_label": ".init()"
     },
     {
@@ -6489,7 +6813,7 @@
       "source_file": "DanielApp/PraiseModels.swift",
       "source_location": "L12",
       "id": "danielapp_praisemodels_swift_date",
-      "community": 61,
+      "community": 116,
       "norm_label": "date"
     },
     {
@@ -6498,7 +6822,7 @@
       "source_file": "DanielApp/PraiseModels.swift",
       "source_location": "L21",
       "id": "danielapp_praisemodels_praiseviewmodel",
-      "community": 61,
+      "community": 116,
       "norm_label": "praiseviewmodel"
     },
     {
@@ -6507,7 +6831,7 @@
       "source_file": "DanielApp/PraiseModels.swift",
       "source_location": "L27",
       "id": "danielapp_praisemodels_swift_listenerregistration",
-      "community": 61,
+      "community": 116,
       "norm_label": "listenerregistration"
     },
     {
@@ -6516,7 +6840,7 @@
       "source_file": "DanielApp/PraiseModels.swift",
       "source_location": "L29",
       "id": "danielapp_praisemodels_praiseviewmodel_loadpraises",
-      "community": 61,
+      "community": 116,
       "norm_label": ".loadpraises()"
     },
     {
@@ -6525,7 +6849,7 @@
       "source_file": "DanielApp/PraiseModels.swift",
       "source_location": "L71",
       "id": "danielapp_praisemodels_praiseviewmodel_deinit",
-      "community": 61,
+      "community": 116,
       "norm_label": ".deinit()"
     },
     {
@@ -6534,7 +6858,7 @@
       "source_file": "DanielApp/PraiseView.swift",
       "source_location": "L1",
       "id": "danielapp_praiseview",
-      "community": 118,
+      "community": 31,
       "norm_label": "praiseview.swift"
     },
     {
@@ -6543,7 +6867,7 @@
       "source_file": "DanielApp/PraiseView.swift",
       "source_location": "L4",
       "id": "danielapp_praiseview_praiseview",
-      "community": 118,
+      "community": 31,
       "norm_label": "praiseview"
     },
     {
@@ -6552,7 +6876,7 @@
       "source_file": "DanielApp/PraiseView.swift",
       "source_location": "L5",
       "id": "danielapp_praiseview_swift_appstate",
-      "community": 118,
+      "community": 31,
       "norm_label": "appstate"
     },
     {
@@ -6561,7 +6885,7 @@
       "source_file": "DanielApp/PraiseView.swift",
       "source_location": "L81",
       "id": "danielapp_praiseview_praisecontentview",
-      "community": 118,
+      "community": 31,
       "norm_label": "praisecontentview"
     },
     {
@@ -6570,7 +6894,7 @@
       "source_file": "DanielApp/PraiseView.swift",
       "source_location": "L83",
       "id": "praiseviewmodel",
-      "community": 118,
+      "community": 31,
       "norm_label": "praiseviewmodel"
     },
     {
@@ -6579,7 +6903,7 @@
       "source_file": "DanielApp/PraiseView.swift",
       "source_location": "L84",
       "id": "danielapp_praiseview_swift_string",
-      "community": 118,
+      "community": 31,
       "norm_label": "string"
     },
     {
@@ -6588,7 +6912,7 @@
       "source_file": "DanielApp/PraiseView.swift",
       "source_location": "L86",
       "id": "praise",
-      "community": 118,
+      "community": 31,
       "norm_label": "praise"
     },
     {
@@ -6597,7 +6921,7 @@
       "source_file": "DanielApp/PraiseView.swift",
       "source_location": "L179",
       "id": "danielapp_praiseview_praiseshelfrow",
-      "community": 118,
+      "community": 31,
       "norm_label": "praiseshelfrow"
     },
     {
@@ -6606,7 +6930,7 @@
       "source_file": "DanielApp/PraiseView.swift",
       "source_location": "L181",
       "id": "danielapp_praiseview_swift_coremodels",
-      "community": 118,
+      "community": 31,
       "norm_label": "coremodels"
     },
     {
@@ -6615,7 +6939,7 @@
       "source_file": "DanielApp/PraiseView.swift",
       "source_location": "L251",
       "id": "danielapp_praiseview_praisedetailview",
-      "community": 118,
+      "community": 31,
       "norm_label": "praisedetailview"
     },
     {
@@ -6624,7 +6948,7 @@
       "source_file": "DanielApp/PraiseView.swift",
       "source_location": "L289",
       "id": "danielapp_praiseview_filecontentview",
-      "community": 118,
+      "community": 31,
       "norm_label": "filecontentview"
     },
     {
@@ -6633,7 +6957,7 @@
       "source_file": "DanielApp/PraiseView.swift",
       "source_location": "L292",
       "id": "danielapp_praiseview_swift_bool",
-      "community": 118,
+      "community": 31,
       "norm_label": "bool"
     },
     {
@@ -9792,7 +10116,7 @@
       "source_file": "DanielApp/VerseWidget.swift",
       "source_location": "L1",
       "id": "danielapp_versewidget",
-      "community": 126,
+      "community": 115,
       "norm_label": "versewidget.swift"
     },
     {
@@ -9864,7 +10188,7 @@
       "source_file": "DanielApp/VerseWidget.swift",
       "source_location": "L72",
       "id": "danielapp_versewidget_versewidgetentryview",
-      "community": 75,
+      "community": 115,
       "norm_label": "versewidgetentryview"
     },
     {
@@ -9882,7 +10206,7 @@
       "source_file": "DanielApp/VerseWidget.swift",
       "source_location": "L74",
       "id": "widgetfamily",
-      "community": 75,
+      "community": 115,
       "norm_label": "widgetfamily"
     },
     {
@@ -9999,7 +10323,7 @@
       "source_file": "DanielApp/VerseWidget.swift",
       "source_location": "L186",
       "id": "danielapp_versewidget_danielwidgets",
-      "community": 126,
+      "community": 69,
       "norm_label": "danielwidgets"
     },
     {
@@ -10503,7 +10827,7 @@
       "source_file": "DanielApp/WordCardGalleryView.swift",
       "source_location": "L1",
       "id": "danielapp_wordcardgalleryview",
-      "community": 19,
+      "community": 93,
       "norm_label": "wordcardgalleryview.swift"
     },
     {
@@ -10512,7 +10836,7 @@
       "source_file": "DanielApp/WordCardGalleryView.swift",
       "source_location": "L8",
       "id": "danielapp_wordcardgalleryview_wordcardgalleryview",
-      "community": 19,
+      "community": 93,
       "norm_label": "wordcardgalleryview"
     },
     {
@@ -10521,7 +10845,7 @@
       "source_file": "DanielApp/WordCardGalleryView.swift",
       "source_location": "L9",
       "id": "danielapp_wordcardgalleryview_swift_appstate",
-      "community": 19,
+      "community": 93,
       "norm_label": "appstate"
     },
     {
@@ -10530,7 +10854,7 @@
       "source_file": "DanielApp/WordCardGalleryView.swift",
       "source_location": "L14",
       "id": "danielapp_wordcardgalleryview_swift_localizedtext",
-      "community": 19,
+      "community": 93,
       "norm_label": "localizedtext"
     },
     {
@@ -10539,7 +10863,7 @@
       "source_file": "DanielApp/WordCardGalleryView.swift",
       "source_location": "L17",
       "id": "danielapp_wordcardgalleryview_swift_wordcard",
-      "community": 19,
+      "community": 93,
       "norm_label": "wordcard"
     },
     {
@@ -10548,7 +10872,7 @@
       "source_file": "DanielApp/WordCardGalleryView.swift",
       "source_location": "L156",
       "id": "danielapp_wordcardgalleryview_firebasewordcardview",
-      "community": 19,
+      "community": 93,
       "norm_label": "firebasewordcardview"
     },
     {
@@ -10557,7 +10881,7 @@
       "source_file": "DanielApp/WordCardGalleryView.swift",
       "source_location": "L158",
       "id": "danielapp_wordcardgalleryview_swift_coremodels",
-      "community": 19,
+      "community": 93,
       "norm_label": "coremodels"
     },
     {
@@ -10566,7 +10890,7 @@
       "source_file": "DanielApp/WordCardGalleryView.swift",
       "source_location": "L160",
       "id": "danielapp_wordcardgalleryview_swift_uiimage",
-      "community": 19,
+      "community": 93,
       "norm_label": "uiimage"
     },
     {
@@ -10575,7 +10899,7 @@
       "source_file": "DanielApp/WordCardGalleryView.swift",
       "source_location": "L305",
       "id": "danielapp_wordcardgalleryview_wordcardgalleryview_previews",
-      "community": 19,
+      "community": 93,
       "norm_label": "wordcardgalleryview_previews"
     },
     {
@@ -10584,7 +10908,7 @@
       "source_file": "DanielApp/WordCardGalleryView.swift",
       "source_location": "L335",
       "id": "danielapp_wordcardgalleryview_modernwordcardview",
-      "community": 19,
+      "community": 93,
       "norm_label": "modernwordcardview"
     },
     {
@@ -10593,7 +10917,7 @@
       "source_file": "DanielApp/WordCardGalleryView.swift",
       "source_location": "L433",
       "id": "danielapp_wordcardgalleryview_view",
-      "community": 19,
+      "community": 93,
       "norm_label": "view"
     },
     {
@@ -10602,7 +10926,7 @@
       "source_file": "DanielApp/WordCardGalleryView.swift",
       "source_location": "L434",
       "id": "danielapp_wordcardgalleryview_view_cornerradius",
-      "community": 19,
+      "community": 118,
       "norm_label": ".cornerradius()"
     },
     {
@@ -10611,7 +10935,7 @@
       "source_file": "DanielApp/WordCardGalleryView.swift",
       "source_location": "L434",
       "id": "danielapp_wordcardgalleryview_swift_cgfloat",
-      "community": 19,
+      "community": 118,
       "norm_label": "cgfloat"
     },
     {
@@ -10620,7 +10944,7 @@
       "source_file": "DanielApp/WordCardGalleryView.swift",
       "source_location": "L434",
       "id": "uirectcorner",
-      "community": 19,
+      "community": 118,
       "norm_label": "uirectcorner"
     },
     {
@@ -10629,7 +10953,7 @@
       "source_file": "DanielApp/WordCardGalleryView.swift",
       "source_location": "L439",
       "id": "danielapp_wordcardgalleryview_roundedcorner",
-      "community": 19,
+      "community": 118,
       "norm_label": "roundedcorner"
     },
     {
@@ -10638,7 +10962,7 @@
       "source_file": "DanielApp/WordCardGalleryView.swift",
       "source_location": "L443",
       "id": "danielapp_wordcardgalleryview_roundedcorner_path",
-      "community": 19,
+      "community": 118,
       "norm_label": ".path()"
     },
     {
@@ -10647,7 +10971,7 @@
       "source_file": "DanielApp/WordCardGalleryView.swift",
       "source_location": "L443",
       "id": "danielapp_wordcardgalleryview_swift_cgrect",
-      "community": 19,
+      "community": 118,
       "norm_label": "cgrect"
     },
     {
@@ -10656,7 +10980,7 @@
       "source_file": "DanielApp/WordCardGalleryView.swift",
       "source_location": "L443",
       "id": "danielapp_wordcardgalleryview_swift_path",
-      "community": 19,
+      "community": 118,
       "norm_label": "path"
     },
     {
@@ -10827,7 +11151,7 @@
       "source_file": "DanielAppTests/BranchConnectViewModelTests.swift",
       "source_location": "L1",
       "id": "danielapptests_branchconnectviewmodeltests",
-      "community": 60,
+      "community": 13,
       "norm_label": "branchconnectviewmodeltests.swift"
     },
     {
@@ -10836,7 +11160,7 @@
       "source_file": "DanielAppTests/BranchConnectViewModelTests.swift",
       "source_location": "L4",
       "id": "danielapptests_branchconnectviewmodeltests_branchconnectviewmodeltests",
-      "community": 60,
+      "community": 13,
       "norm_label": "branchconnectviewmodeltests"
     },
     {
@@ -10845,7 +11169,7 @@
       "source_file": "",
       "source_location": "",
       "id": "xctestcase",
-      "community": 18,
+      "community": 13,
       "norm_label": "xctestcase"
     },
     {
@@ -10854,7 +11178,7 @@
       "source_file": "DanielAppTests/BranchConnectViewModelTests.swift",
       "source_location": "L6",
       "id": "danielapptests_branchconnectviewmodeltests_branchconnectviewmodeltests_testloadsbranchscopedkakaoconfiguration",
-      "community": 60,
+      "community": 13,
       "norm_label": ".testloadsbranchscopedkakaoconfiguration()"
     },
     {
@@ -10863,7 +11187,7 @@
       "source_file": "DanielAppTests/BranchConnectViewModelTests.swift",
       "source_location": "L24",
       "id": "danielapptests_branchconnectviewmodeltests_branchconnectviewmodeltests_testfailureproducesrecoverableerrorstate",
-      "community": 60,
+      "community": 13,
       "norm_label": ".testfailureproducesrecoverableerrorstate()"
     },
     {
@@ -10872,7 +11196,7 @@
       "source_file": "DanielAppTests/BranchConnectViewModelTests.swift",
       "source_location": "L36",
       "id": "danielapptests_branchconnectviewmodeltests_branchconnectviewmodeltests_waituntil",
-      "community": 60,
+      "community": 13,
       "norm_label": ".waituntil()"
     },
     {
@@ -10881,7 +11205,7 @@
       "source_file": "DanielAppTests/BranchConnectViewModelTests.swift",
       "source_location": "L36",
       "id": "danielapptests_branchconnectviewmodeltests_swift_timeinterval",
-      "community": 60,
+      "community": 13,
       "norm_label": "timeinterval"
     },
     {
@@ -10890,7 +11214,7 @@
       "source_file": "DanielAppTests/BranchConnectViewModelTests.swift",
       "source_location": "L36",
       "id": "danielapptests_branchconnectviewmodeltests_swift_bool",
-      "community": 60,
+      "community": 13,
       "norm_label": "bool"
     },
     {
@@ -10899,7 +11223,7 @@
       "source_file": "DanielAppTests/BranchConnectViewModelTests.swift",
       "source_location": "L48",
       "id": "danielapptests_branchconnectviewmodeltests_fakebranchconnectstore",
-      "community": 60,
+      "community": 13,
       "norm_label": "fakebranchconnectstore"
     },
     {
@@ -10908,7 +11232,7 @@
       "source_file": "DanielAppTests/BranchConnectViewModelTests.swift",
       "source_location": "L49",
       "id": "danielapptests_branchconnectviewmodeltests_swift_result",
-      "community": 60,
+      "community": 13,
       "norm_label": "result"
     },
     {
@@ -10917,7 +11241,7 @@
       "source_file": "DanielAppTests/BranchConnectViewModelTests.swift",
       "source_location": "L49",
       "id": "danielapptests_branchconnectviewmodeltests_swift_branchconnectinfo",
-      "community": 60,
+      "community": 13,
       "norm_label": "branchconnectinfo"
     },
     {
@@ -10926,7 +11250,7 @@
       "source_file": "DanielAppTests/BranchConnectViewModelTests.swift",
       "source_location": "L49",
       "id": "danielapptests_branchconnectviewmodeltests_swift_error",
-      "community": 60,
+      "community": 13,
       "norm_label": "error"
     },
     {
@@ -10935,7 +11259,7 @@
       "source_file": "DanielAppTests/BranchConnectViewModelTests.swift",
       "source_location": "L50",
       "id": "danielapptests_branchconnectviewmodeltests_swift_string",
-      "community": 60,
+      "community": 13,
       "norm_label": "string"
     },
     {
@@ -10944,7 +11268,7 @@
       "source_file": "DanielAppTests/BranchConnectViewModelTests.swift",
       "source_location": "L52",
       "id": "danielapptests_branchconnectviewmodeltests_fakebranchconnectstore_init",
-      "community": 60,
+      "community": 13,
       "norm_label": ".init()"
     },
     {
@@ -10953,7 +11277,7 @@
       "source_file": "DanielAppTests/BranchConnectViewModelTests.swift",
       "source_location": "L54",
       "id": "danielapptests_branchconnectviewmodeltests_fakebranchconnectstore_fetch",
-      "community": 60,
+      "community": 13,
       "norm_label": ".fetch()"
     },
     {
@@ -10962,7 +11286,7 @@
       "source_file": "DanielAppTests/BranchConnectViewModelTests.swift",
       "source_location": "L54",
       "id": "danielapptests_branchconnectviewmodeltests_swift_void",
-      "community": 60,
+      "community": 13,
       "norm_label": "void"
     },
     {
@@ -10971,7 +11295,7 @@
       "source_file": "DanielAppTests/BranchConnectViewModelTests.swift",
       "source_location": "L60",
       "id": "danielapptests_branchconnectviewmodeltests_testerror",
-      "community": 60,
+      "community": 13,
       "norm_label": "testerror"
     },
     {
@@ -10980,7 +11304,7 @@
       "source_file": "DanielAppTests/BranchConnectViewModelTests.swift",
       "source_location": "L61",
       "id": "danielapptests_branchconnectviewmodeltests_testerror_unavailable",
-      "community": 60,
+      "community": 13,
       "norm_label": "unavailable"
     },
     {
@@ -10989,7 +11313,7 @@
       "source_file": "DanielAppTests/BranchConnectViewModelTests.swift",
       "source_location": "L62",
       "id": "danielapptests_branchconnectviewmodeltests_testerror_timeout",
-      "community": 60,
+      "community": 13,
       "norm_label": "timeout"
     },
     {
@@ -11340,7 +11664,7 @@
       "source_file": "DanielAppTests/FavoriteServiceTests.swift",
       "source_location": "L1",
       "id": "danielapptests_favoriteservicetests",
-      "community": 36,
+      "community": 60,
       "norm_label": "favoriteservicetests.swift"
     },
     {
@@ -11349,7 +11673,7 @@
       "source_file": "DanielAppTests/FavoriteServiceTests.swift",
       "source_location": "L4",
       "id": "danielapptests_favoriteservicetests_favoriteservicetests",
-      "community": 36,
+      "community": 60,
       "norm_label": "favoriteservicetests"
     },
     {
@@ -11358,7 +11682,7 @@
       "source_file": "DanielAppTests/FavoriteServiceTests.swift",
       "source_location": "L6",
       "id": "danielapptests_favoriteservicetests_favoriteservicetests_testguestfavoritewriteslocalonly",
-      "community": 36,
+      "community": 60,
       "norm_label": ".testguestfavoritewriteslocalonly()"
     },
     {
@@ -11367,7 +11691,7 @@
       "source_file": "DanielAppTests/FavoriteServiceTests.swift",
       "source_location": "L22",
       "id": "danielapptests_favoriteservicetests_favoriteservicetests_testsignedinfavoritepushesremote",
-      "community": 36,
+      "community": 60,
       "norm_label": ".testsignedinfavoritepushesremote()"
     },
     {
@@ -11376,7 +11700,7 @@
       "source_file": "DanielAppTests/FavoriteServiceTests.swift",
       "source_location": "L38",
       "id": "danielapptests_favoriteservicetests_favoriteservicetests_testsignedinnotepushesremoteandguestnoteisrejected",
-      "community": 36,
+      "community": 60,
       "norm_label": ".testsignedinnotepushesremoteandguestnoteisrejected()"
     },
     {
@@ -11385,7 +11709,7 @@
       "source_file": "DanielAppTests/FavoriteServiceTests.swift",
       "source_location": "L62",
       "id": "danielapptests_favoriteservicetests_favoriteservicetests_makefavorite",
-      "community": 36,
+      "community": 60,
       "norm_label": ".makefavorite()"
     },
     {
@@ -11394,7 +11718,7 @@
       "source_file": "DanielAppTests/FavoriteServiceTests.swift",
       "source_location": "L62",
       "id": "danielapptests_favoriteservicetests_swift_string",
-      "community": 36,
+      "community": 60,
       "norm_label": "string"
     },
     {
@@ -11403,7 +11727,7 @@
       "source_file": "DanielAppTests/FavoriteServiceTests.swift",
       "source_location": "L62",
       "id": "danielapptests_favoriteservicetests_swift_favoriterecord",
-      "community": 36,
+      "community": 60,
       "norm_label": "favoriterecord"
     },
     {
@@ -11412,7 +11736,7 @@
       "source_file": "DanielAppTests/FavoriteServiceTests.swift",
       "source_location": "L76",
       "id": "danielapptests_favoriteservicetests_favoriteservicetests_makedefaults",
-      "community": 36,
+      "community": 60,
       "norm_label": ".makedefaults()"
     },
     {
@@ -11421,7 +11745,7 @@
       "source_file": "DanielAppTests/FavoriteServiceTests.swift",
       "source_location": "L76",
       "id": "danielapptests_favoriteservicetests_swift_userdefaults",
-      "community": 36,
+      "community": 60,
       "norm_label": "userdefaults"
     },
     {
@@ -11430,7 +11754,7 @@
       "source_file": "DanielAppTests/FavoriteServiceTests.swift",
       "source_location": "L84",
       "id": "danielapptests_favoriteservicetests_fakefavoriteremotestore",
-      "community": 36,
+      "community": 60,
       "norm_label": "fakefavoriteremotestore"
     },
     {
@@ -11439,7 +11763,7 @@
       "source_file": "DanielAppTests/FavoriteServiceTests.swift",
       "source_location": "L86",
       "id": "danielapptests_favoriteservicetests_swift_noterecord",
-      "community": 36,
+      "community": 60,
       "norm_label": "noterecord"
     },
     {
@@ -11448,7 +11772,7 @@
       "source_file": "DanielAppTests/FavoriteServiceTests.swift",
       "source_location": "L93",
       "id": "danielapptests_favoriteservicetests_fakefavoriteremotestore_fetchfavorites",
-      "community": 36,
+      "community": 60,
       "norm_label": ".fetchfavorites()"
     },
     {
@@ -11457,7 +11781,7 @@
       "source_file": "DanielAppTests/FavoriteServiceTests.swift",
       "source_location": "L93",
       "id": "danielapptests_favoriteservicetests_swift_result",
-      "community": 36,
+      "community": 60,
       "norm_label": "result"
     },
     {
@@ -11466,7 +11790,7 @@
       "source_file": "DanielAppTests/FavoriteServiceTests.swift",
       "source_location": "L93",
       "id": "danielapptests_favoriteservicetests_swift_error",
-      "community": 36,
+      "community": 60,
       "norm_label": "error"
     },
     {
@@ -11475,7 +11799,7 @@
       "source_file": "DanielAppTests/FavoriteServiceTests.swift",
       "source_location": "L93",
       "id": "danielapptests_favoriteservicetests_swift_void",
-      "community": 36,
+      "community": 60,
       "norm_label": "void"
     },
     {
@@ -11484,7 +11808,7 @@
       "source_file": "DanielAppTests/FavoriteServiceTests.swift",
       "source_location": "L97",
       "id": "danielapptests_favoriteservicetests_fakefavoriteremotestore_savefavorite",
-      "community": 36,
+      "community": 60,
       "norm_label": ".savefavorite()"
     },
     {
@@ -11493,7 +11817,7 @@
       "source_file": "DanielAppTests/FavoriteServiceTests.swift",
       "source_location": "L103",
       "id": "danielapptests_favoriteservicetests_fakefavoriteremotestore_deletefavorite",
-      "community": 36,
+      "community": 60,
       "norm_label": ".deletefavorite()"
     },
     {
@@ -11502,7 +11826,7 @@
       "source_file": "DanielAppTests/FavoriteServiceTests.swift",
       "source_location": "L108",
       "id": "danielapptests_favoriteservicetests_fakefavoriteremotestore_fetchnotes",
-      "community": 36,
+      "community": 60,
       "norm_label": ".fetchnotes()"
     },
     {
@@ -11511,7 +11835,7 @@
       "source_file": "DanielAppTests/FavoriteServiceTests.swift",
       "source_location": "L112",
       "id": "danielapptests_favoriteservicetests_fakefavoriteremotestore_savenote",
-      "community": 36,
+      "community": 60,
       "norm_label": ".savenote()"
     },
     {
@@ -11898,7 +12222,7 @@
       "source_file": "DanielAppTests/NewsletterViewModelTests.swift",
       "source_location": "L1",
       "id": "danielapptests_newsletterviewmodeltests",
-      "community": 18,
+      "community": 7,
       "norm_label": "newsletterviewmodeltests.swift"
     },
     {
@@ -11907,7 +12231,7 @@
       "source_file": "DanielAppTests/NewsletterViewModelTests.swift",
       "source_location": "L5",
       "id": "danielapptests_newsletterviewmodeltests_newsletterviewmodeltests",
-      "community": 18,
+      "community": 7,
       "norm_label": "newsletterviewmodeltests"
     },
     {
@@ -11916,7 +12240,7 @@
       "source_file": "DanielAppTests/NewsletterViewModelTests.swift",
       "source_location": "L7",
       "id": "danielapptests_newsletterviewmodeltests_newsletterviewmodeltests_testloadingemptyerrorandcontentstatesareexpressive",
-      "community": 18,
+      "community": 7,
       "norm_label": ".testloadingemptyerrorandcontentstatesareexpressive()"
     },
     {
@@ -11925,7 +12249,7 @@
       "source_file": "DanielAppTests/NewsletterViewModelTests.swift",
       "source_location": "L30",
       "id": "danielapptests_newsletterviewmodeltests_newsletterviewmodeltests_testpermissiondenieddoesnotcrashorattachlistener",
-      "community": 18,
+      "community": 7,
       "norm_label": ".testpermissiondenieddoesnotcrashorattachlistener()"
     },
     {
@@ -11934,7 +12258,7 @@
       "source_file": "DanielAppTests/NewsletterViewModelTests.swift",
       "source_location": "L41",
       "id": "danielapptests_newsletterviewmodeltests_newsletterviewmodeltests_newsletter",
-      "community": 18,
+      "community": 7,
       "norm_label": ".newsletter()"
     },
     {
@@ -11943,7 +12267,7 @@
       "source_file": "DanielAppTests/NewsletterViewModelTests.swift",
       "source_location": "L41",
       "id": "danielapptests_newsletterviewmodeltests_swift_newsletter",
-      "community": 18,
+      "community": 7,
       "norm_label": "newsletter"
     },
     {
@@ -11952,7 +12276,7 @@
       "source_file": "DanielAppTests/NewsletterViewModelTests.swift",
       "source_location": "L55",
       "id": "danielapptests_newsletterviewmodeltests_fakenewsletterremotestore",
-      "community": 18,
+      "community": 7,
       "norm_label": "fakenewsletterremotestore"
     },
     {
@@ -11961,7 +12285,7 @@
       "source_file": "DanielAppTests/NewsletterViewModelTests.swift",
       "source_location": "L56",
       "id": "danielapptests_newsletterviewmodeltests_swift_result",
-      "community": 18,
+      "community": 7,
       "norm_label": "result"
     },
     {
@@ -11970,7 +12294,7 @@
       "source_file": "DanielAppTests/NewsletterViewModelTests.swift",
       "source_location": "L56",
       "id": "danielapptests_newsletterviewmodeltests_swift_error",
-      "community": 18,
+      "community": 7,
       "norm_label": "error"
     },
     {
@@ -11979,7 +12303,7 @@
       "source_file": "DanielAppTests/NewsletterViewModelTests.swift",
       "source_location": "L59",
       "id": "danielapptests_newsletterviewmodeltests_fakenewsletterremotestore_init",
-      "community": 18,
+      "community": 7,
       "norm_label": ".init()"
     },
     {
@@ -11988,7 +12312,7 @@
       "source_file": "DanielAppTests/NewsletterViewModelTests.swift",
       "source_location": "L63",
       "id": "danielapptests_newsletterviewmodeltests_fakenewsletterremotestore_listentopublishednewsletters",
-      "community": 18,
+      "community": 7,
       "norm_label": ".listentopublishednewsletters()"
     },
     {
@@ -11997,7 +12321,7 @@
       "source_file": "DanielAppTests/NewsletterViewModelTests.swift",
       "source_location": "L63",
       "id": "danielapptests_newsletterviewmodeltests_swift_string",
-      "community": 18,
+      "community": 7,
       "norm_label": "string"
     },
     {
@@ -12006,7 +12330,7 @@
       "source_file": "DanielAppTests/NewsletterViewModelTests.swift",
       "source_location": "L63",
       "id": "danielapptests_newsletterviewmodeltests_swift_void",
-      "community": 18,
+      "community": 7,
       "norm_label": "void"
     },
     {
@@ -12015,7 +12339,7 @@
       "source_file": "DanielAppTests/NewsletterViewModelTests.swift",
       "source_location": "L63",
       "id": "danielapptests_newsletterviewmodeltests_swift_listenerregistration",
-      "community": 18,
+      "community": 7,
       "norm_label": "listenerregistration"
     },
     {
@@ -12024,7 +12348,7 @@
       "source_file": "DanielAppTests/NewsletterViewModelTests.swift",
       "source_location": "L73",
       "id": "danielapptests_newsletterviewmodeltests_testnewslettererror",
-      "community": 18,
+      "community": 7,
       "norm_label": "testnewslettererror"
     },
     {
@@ -12033,7 +12357,7 @@
       "source_file": "DanielAppTests/NewsletterViewModelTests.swift",
       "source_location": "L74",
       "id": "danielapptests_newsletterviewmodeltests_testnewslettererror_denied",
-      "community": 18,
+      "community": 7,
       "norm_label": "denied"
     },
     {
@@ -12186,7 +12510,7 @@
       "source_file": "DanielAppTests/UserProfileAccessDisplayTests.swift",
       "source_location": "L1",
       "id": "danielapptests_userprofileaccessdisplaytests",
-      "community": 18,
+      "community": 13,
       "norm_label": "userprofileaccessdisplaytests.swift"
     },
     {
@@ -12195,7 +12519,7 @@
       "source_file": "DanielAppTests/UserProfileAccessDisplayTests.swift",
       "source_location": "L4",
       "id": "danielapptests_userprofileaccessdisplaytests_userprofileaccessdisplaytests",
-      "community": 18,
+      "community": 13,
       "norm_label": "userprofileaccessdisplaytests"
     },
     {
@@ -12204,7 +12528,7 @@
       "source_file": "DanielAppTests/UserProfileAccessDisplayTests.swift",
       "source_location": "L5",
       "id": "danielapptests_userprofileaccessdisplaytests_userprofileaccessdisplaytests_testdisplaysbranchregionroleandstatus",
-      "community": 18,
+      "community": 13,
       "norm_label": ".testdisplaysbranchregionroleandstatus()"
     },
     {
@@ -12213,7 +12537,7 @@
       "source_file": "DanielAppTests/UserProfileAccessDisplayTests.swift",
       "source_location": "L28",
       "id": "danielapptests_userprofileaccessdisplaytests_userprofileaccessdisplaytests_testfallsbacktolegacychurchfieldsandpendingstatus",
-      "community": 18,
+      "community": 13,
       "norm_label": ".testfallsbacktolegacychurchfieldsandpendingstatus()"
     },
     {
@@ -12222,7 +12546,7 @@
       "source_file": "DanielAppTests/UserProfileAccessDisplayTests.swift",
       "source_location": "L47",
       "id": "danielapptests_userprofileaccessdisplaytests_userprofileaccessdisplaytests_testmissingbranchandregionarelocalized",
-      "community": 18,
+      "community": 13,
       "norm_label": ".testmissingbranchandregionarelocalized()"
     },
     {
@@ -20308,6 +20632,33 @@
       "norm_label": "hymn reader and pilot ui completion: 2026-07-22"
     },
     {
+      "label": "Resources And Newsletter Interaction QA: 2026-07-22",
+      "file_type": "document",
+      "source_file": "implementation.md",
+      "source_location": "L740",
+      "id": "implementation_resources_and_newsletter_interaction_qa_2026_07_22",
+      "community": 22,
+      "norm_label": "resources and newsletter interaction qa: 2026-07-22"
+    },
+    {
+      "label": "Set",
+      "file_type": "code",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L12",
+      "community": 74,
+      "norm_label": "set",
+      "id": "danielapp_newslettermediaviewer_swift_set"
+    },
+    {
+      "label": "Set",
+      "file_type": "code",
+      "source_file": "DanielApp/VerseEngagementService.swift",
+      "source_location": "L59",
+      "community": 13,
+      "norm_label": "set",
+      "id": "danielapp_verseengagementservice_swift_set"
+    },
+    {
       "label": "FeaturedResourceCard",
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
@@ -20420,7 +20771,7 @@
       "file_type": "code",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
       "source_location": "L87",
-      "community": 14,
+      "community": 36,
       "norm_label": "messages",
       "id": "danielapp_churchcommunicationview_connectsection_messages"
     },
@@ -20501,7 +20852,7 @@
       "file_type": "code",
       "source_file": "DanielApp/LoginView.swift",
       "source_location": "L317",
-      "community": 29,
+      "community": 31,
       "norm_label": "loginview_previews",
       "id": "danielapp_loginview_loginview_previews"
     },
@@ -20771,7 +21122,7 @@
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
       "source_location": "L13",
-      "community": 12,
+      "community": 58,
       "norm_label": "churchresource",
       "id": "churchresource"
     },
@@ -20825,7 +21176,7 @@
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
       "source_location": "L103",
-      "community": 12,
+      "community": 36,
       "norm_label": "churchresourcecategory",
       "id": "danielapp_churchresourcesview_churchresourcecategory"
     },
@@ -20834,7 +21185,7 @@
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
       "source_location": "L104",
-      "community": 12,
+      "community": 36,
       "norm_label": "all",
       "id": "danielapp_churchresourcesview_churchresourcecategory_all"
     },
@@ -20843,7 +21194,7 @@
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
       "source_location": "L105",
-      "community": 12,
+      "community": 36,
       "norm_label": "hymnbook",
       "id": "danielapp_churchresourcesview_churchresourcecategory_hymnbook"
     },
@@ -20852,7 +21203,7 @@
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
       "source_location": "L106",
-      "community": 12,
+      "community": 36,
       "norm_label": "documents",
       "id": "danielapp_churchresourcesview_churchresourcecategory_documents"
     },
@@ -20861,7 +21212,7 @@
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
       "source_location": "L107",
-      "community": 12,
+      "community": 36,
       "norm_label": "links",
       "id": "danielapp_churchresourcesview_churchresourcecategory_links"
     },
@@ -20870,7 +21221,7 @@
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
       "source_location": "L108",
-      "community": 12,
+      "community": 36,
       "norm_label": "biblestudy",
       "id": "danielapp_churchresourcesview_churchresourcecategory_biblestudy"
     },
@@ -20879,7 +21230,7 @@
       "file_type": "code",
       "source_file": "DanielApp/ChurchResourcesView.swift",
       "source_location": "L109",
-      "community": 12,
+      "community": 36,
       "norm_label": "seminar",
       "id": "danielapp_churchresourcesview_churchresourcecategory_seminar"
     },
@@ -23687,6 +24038,50 @@
     {
       "relation": "references",
       "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L169",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediathumbnail",
+      "target": "view"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L212",
+      "weight": 1.0,
+      "context": "return_type",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediathumbnail_fallback",
+      "target": "view"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediaviewer",
+      "target": "view"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L246",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomableremotenewsletterimage",
+      "target": "view"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
       "source_file": "DanielApp/NewsletterView.swift",
       "source_location": "L88",
       "weight": 1.0,
@@ -23889,9 +24284,9 @@
       "source_location": "L406",
       "weight": 1.0,
       "context": "field",
+      "confidence_score": 1.0,
       "source": "danielapp_registrationview_pilotlegaldocumentview",
-      "target": "view",
-      "confidence_score": 1.0
+      "target": "view"
     },
     {
       "relation": "references",
@@ -25686,6 +26081,17 @@
       "target": "danielapp_churchcommunicationview_swift_newsletter"
     },
     {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/ChurchCommunicationView.swift",
+      "source_location": "L550",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_churchcommunicationview_connectweeklynewslettercard",
+      "target": "danielapp_churchcommunicationview_swift_url"
+    },
+    {
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "DanielApp/ChurchCommunicationView.swift",
@@ -27003,6 +27409,17 @@
       "target": "danielapp_churchinviteservice_state_submitted"
     },
     {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediaviewer_init",
+      "target": "danielapp_churchinviteservice_state"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "DanielApp/ChurchResourceService.swift",
@@ -27475,9 +27892,9 @@
       "source_file": "DanielApp/ChurchResourceService.swift",
       "source_location": "L48",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "danielapp_churchresourceservice_churchresourcecategory",
-      "target": "danielapp_churchresourceservice_churchresourcecategory_questions",
-      "confidence_score": 1.0
+      "target": "danielapp_churchresourceservice_churchresourcecategory_questions"
     },
     {
       "relation": "case_of",
@@ -29535,6 +29952,16 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "danielapp_churchresourcesview_pdfkitdocumentview",
+      "target": "uiviewrepresentable"
+    },
+    {
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L292",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomablenewsletterimage",
       "target": "uiviewrepresentable"
     },
     {
@@ -34351,9 +34778,9 @@
       "source_file": "DanielApp/LocalizedText.swift",
       "source_location": "L114",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "danielapp_localizedtext_resources",
-      "target": "danielapp_localizedtext_resources_categoryquestions",
-      "confidence_score": 1.0
+      "target": "danielapp_localizedtext_resources_categoryquestions"
     },
     {
       "relation": "case_of",
@@ -35898,6 +36325,16 @@
       "target": "nsobject"
     },
     {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L333",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_coordinator",
+      "target": "nsobject"
+    },
+    {
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "DanielApp/LoginView.swift",
@@ -37004,6 +37441,746 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L333",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer",
+      "target": "danielapp_newslettermediaviewer_coordinator"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L161",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer",
+      "target": "danielapp_newslettermediaviewer_newslettermediathumbnail"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer",
+      "target": "danielapp_newslettermediaviewer_newslettermediaviewer"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L292",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer",
+      "target": "danielapp_newslettermediaviewer_zoomablenewsletterimage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L239",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer",
+      "target": "danielapp_newslettermediaviewer_zoomableremotenewsletterimage"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L147",
+      "weight": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediaviewer",
+      "target": "danielapp_newslettermediaviewer_newslettermediaviewer_imageaccessibilitylabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediaviewer",
+      "target": "danielapp_newslettermediaviewer_newslettermediaviewer_init"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediaviewer",
+      "target": "danielapp_newslettermediaviewer_swift_coremodels"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediaviewer",
+      "target": "danielapp_newslettermediaviewer_swift_int"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediaviewer",
+      "target": "danielapp_newslettermediaviewer_swift_set"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L152",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediaviewer",
+      "target": "danielapp_newslettermediaviewer_swift_string"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediaviewer",
+      "target": "danielapp_newslettermediaviewer_swift_url"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L103",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediaviewer",
+      "target": "gesture"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L162",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediathumbnail",
+      "target": "danielapp_newslettermediaviewer_swift_url"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediaviewer_init",
+      "target": "danielapp_newslettermediaviewer_swift_url"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L240",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomableremotenewsletterimage",
+      "target": "danielapp_newslettermediaviewer_swift_url"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L165",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediathumbnail",
+      "target": "danielapp_newslettermediaviewer_swift_int"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L147",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "source": "danielapp_newslettermediaviewer_newslettermediaviewer_imageaccessibilitylabel",
+      "target": "danielapp_newslettermediaviewer_swift_int",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediaviewer_init",
+      "target": "danielapp_newslettermediaviewer_swift_int"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L166",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediathumbnail",
+      "target": "danielapp_newslettermediaviewer_swift_coremodels"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediaviewer_init",
+      "target": "danielapp_newslettermediaviewer_swift_coremodels"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L241",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomableremotenewsletterimage",
+      "target": "danielapp_newslettermediaviewer_swift_coremodels"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L230",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediathumbnail",
+      "target": "danielapp_newslettermediaviewer_swift_string"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L212",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediathumbnail_fallback",
+      "target": "danielapp_newslettermediaviewer_swift_string"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L147",
+      "weight": 1.0,
+      "context": "return_type",
+      "source": "danielapp_newslettermediaviewer_newslettermediaviewer_imageaccessibilitylabel",
+      "target": "danielapp_newslettermediaviewer_swift_string",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L283",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomableremotenewsletterimage",
+      "target": "danielapp_newslettermediaviewer_swift_string"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L212",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediathumbnail",
+      "target": "danielapp_newslettermediaviewer_newslettermediathumbnail_fallback"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L164",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediathumbnail",
+      "target": "danielapp_newslettermediaviewer_swift_cgfloat"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L167",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_newslettermediathumbnail",
+      "target": "danielapp_newslettermediaviewer_swift_void"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L336",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_coordinator",
+      "target": "danielapp_newslettermediaviewer_swift_void"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L338",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_coordinator_init",
+      "target": "danielapp_newslettermediaviewer_swift_void"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L294",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomablenewsletterimage",
+      "target": "danielapp_newslettermediaviewer_swift_void"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L242",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomableremotenewsletterimage",
+      "target": "danielapp_newslettermediaviewer_swift_void"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L242",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomableremotenewsletterimage",
+      "target": "danielapp_newslettermediaviewer_swift_bool"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L243",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomableremotenewsletterimage",
+      "target": "danielapp_newslettermediaviewer_swift_uiimage"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L266",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomableremotenewsletterimage",
+      "target": "danielapp_newslettermediaviewer_zoomableremotenewsletterimage_loadimage"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L336",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_coordinator",
+      "target": "danielapp_newslettermediaviewer_swift_bool"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L338",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_coordinator_init",
+      "target": "danielapp_newslettermediaviewer_swift_bool"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L294",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomablenewsletterimage",
+      "target": "danielapp_newslettermediaviewer_swift_bool"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L293",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomablenewsletterimage",
+      "target": "danielapp_newslettermediaviewer_swift_uiimage"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L276",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomableremotenewsletterimage_loadimage",
+      "target": "danielapp_newslettermediaviewer_swift_uiimage"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L296",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomablenewsletterimage",
+      "target": "danielapp_newslettermediaviewer_zoomablenewsletterimage_makecoordinator"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L298",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomablenewsletterimage",
+      "target": "danielapp_newslettermediaviewer_zoomablenewsletterimage_makeuiview"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L323",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomablenewsletterimage",
+      "target": "danielapp_newslettermediaviewer_zoomablenewsletterimage_updateuiview"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L296",
+      "weight": 1.0,
+      "context": "return_type",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomablenewsletterimage_makecoordinator",
+      "target": "coordinator"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L296",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomablenewsletterimage_makecoordinator",
+      "target": "danielapp_newslettermediaviewer_coordinator"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L316",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomablenewsletterimage_makeuiview",
+      "target": "danielapp_newslettermediaviewer_coordinator_diddoubletap"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L298",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomablenewsletterimage_makeuiview",
+      "target": "danielapp_newslettermediaviewer_swift_context"
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L298",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomablenewsletterimage_makeuiview",
+      "target": "uiscrollview"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L316",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomablenewsletterimage_makeuiview",
+      "target": "uitapgesturerecognizer"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L323",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomablenewsletterimage_updateuiview",
+      "target": "danielapp_newslettermediaviewer_swift_context"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L335",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_coordinator",
+      "target": "uiscrollview"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L358",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_coordinator_centerimage",
+      "target": "uiscrollview"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L351",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_coordinator_layoutimage",
+      "target": "uiscrollview"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L344",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_coordinator_scrollviewdidzoom",
+      "target": "uiscrollview"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L342",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_coordinator_viewforzooming",
+      "target": "uiscrollview"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L323",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomablenewsletterimage_updateuiview",
+      "target": "uiscrollview"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L326",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_zoomablenewsletterimage_updateuiview",
+      "target": "danielapp_newslettermediaviewer_coordinator_layoutimage"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L358",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_coordinator",
+      "target": "danielapp_newslettermediaviewer_coordinator_centerimage"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L364",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_coordinator",
+      "target": "danielapp_newslettermediaviewer_coordinator_diddoubletap"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L338",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_coordinator",
+      "target": "danielapp_newslettermediaviewer_coordinator_init"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L351",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_coordinator",
+      "target": "danielapp_newslettermediaviewer_coordinator_layoutimage"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L344",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_coordinator",
+      "target": "danielapp_newslettermediaviewer_coordinator_scrollviewdidzoom"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L342",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_coordinator",
+      "target": "danielapp_newslettermediaviewer_coordinator_viewforzooming"
+    },
+    {
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L333",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_coordinator",
+      "target": "uiscrollviewdelegate"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L342",
+      "weight": 1.0,
+      "context": "return_type",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_coordinator_viewforzooming",
+      "target": "uiview"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L348",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_coordinator_scrollviewdidzoom",
+      "target": "danielapp_newslettermediaviewer_coordinator_centerimage"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L355",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_coordinator_layoutimage",
+      "target": "danielapp_newslettermediaviewer_coordinator_centerimage"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterMediaViewer.swift",
+      "source_location": "L364",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "danielapp_newslettermediaviewer_coordinator_diddoubletap",
+      "target": "uitapgesturerecognizer"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "DanielApp/NewsletterView.swift",
       "source_location": "L84",
       "weight": 1.0,
@@ -37272,6 +38449,17 @@
       "confidence_score": 1.0,
       "source": "danielapp_newsletterview_newslettercardview",
       "target": "danielapp_newsletterview_swift_newsletter"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/NewsletterView.swift",
+      "source_location": "L244",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_newsletterview_newslettercardview",
+      "target": "danielapp_newsletterview_swift_url"
     },
     {
       "relation": "references",
@@ -38645,9 +39833,9 @@
       "source_file": "DanielApp/RegistrationView.swift",
       "source_location": "L400",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "danielapp_registrationview",
-      "target": "danielapp_registrationview_kind",
-      "confidence_score": 1.0
+      "target": "danielapp_registrationview_kind"
     },
     {
       "relation": "contains",
@@ -38655,9 +39843,9 @@
       "source_file": "DanielApp/RegistrationView.swift",
       "source_location": "L399",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "danielapp_registrationview",
-      "target": "danielapp_registrationview_pilotlegaldocumentview",
-      "confidence_score": 1.0
+      "target": "danielapp_registrationview_pilotlegaldocumentview"
     },
     {
       "relation": "contains",
@@ -39135,9 +40323,9 @@
       "source_file": "DanielApp/RegistrationView.swift",
       "source_location": "L377",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "danielapp_registrationview_registrationview_copy",
-      "target": "danielapp_registrationview_pilotlegaldocumentview_text",
-      "confidence_score": 1.0
+      "target": "danielapp_registrationview_pilotlegaldocumentview_text"
     },
     {
       "relation": "references",
@@ -39146,9 +40334,9 @@
       "source_location": "L465",
       "weight": 1.0,
       "context": "field",
+      "confidence_score": 1.0,
       "source": "danielapp_registrationview_pilotlegaldocumentview",
-      "target": "danielapp_registrationview_string",
-      "confidence_score": 1.0
+      "target": "danielapp_registrationview_string"
     },
     {
       "relation": "references",
@@ -39157,9 +40345,9 @@
       "source_location": "L484",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "danielapp_registrationview_pilotlegaldocumentview_text",
-      "target": "danielapp_registrationview_string",
-      "confidence_score": 1.0
+      "target": "danielapp_registrationview_string"
     },
     {
       "relation": "references",
@@ -39168,9 +40356,9 @@
       "source_location": "L402",
       "weight": 1.0,
       "context": "field",
+      "confidence_score": 1.0,
       "source": "danielapp_registrationview_pilotlegaldocumentview",
-      "target": "danielapp_registrationview_kind",
-      "confidence_score": 1.0
+      "target": "danielapp_registrationview_kind"
     },
     {
       "relation": "method",
@@ -39178,9 +40366,9 @@
       "source_file": "DanielApp/RegistrationView.swift",
       "source_location": "L484",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "danielapp_registrationview_pilotlegaldocumentview",
-      "target": "danielapp_registrationview_pilotlegaldocumentview_text",
-      "confidence_score": 1.0
+      "target": "danielapp_registrationview_pilotlegaldocumentview_text"
     },
     {
       "relation": "references",
@@ -39189,9 +40377,9 @@
       "source_location": "L403",
       "weight": 1.0,
       "context": "field",
+      "confidence_score": 1.0,
       "source": "danielapp_registrationview_pilotlegaldocumentview",
-      "target": "danielapp_registrationview_swift_coremodels",
-      "confidence_score": 1.0
+      "target": "danielapp_registrationview_swift_coremodels"
     },
     {
       "relation": "case_of",
@@ -39199,9 +40387,9 @@
       "source_file": "DanielApp/RegistrationView.swift",
       "source_location": "L400",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "danielapp_registrationview_kind",
-      "target": "danielapp_registrationview_kind_privacy",
-      "confidence_score": 1.0
+      "target": "danielapp_registrationview_kind_privacy"
     },
     {
       "relation": "case_of",
@@ -39209,9 +40397,9 @@
       "source_file": "DanielApp/RegistrationView.swift",
       "source_location": "L400",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "danielapp_registrationview_kind",
-      "target": "danielapp_registrationview_kind_terms",
-      "confidence_score": 1.0
+      "target": "danielapp_registrationview_kind_terms"
     },
     {
       "relation": "references",
@@ -45283,6 +46471,17 @@
       "confidence_score": 1.0,
       "source": "danielapp_verseengagementservice_verseengagementservice_pushlocaltofirebaseifsignedin",
       "target": "danielapp_verseengagementservice_firestoreverseengagementremotestore_saveverseengagement"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "DanielApp/VerseEngagementService.swift",
+      "source_location": "L61",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "danielapp_verseengagementservice_verseengagementservice",
+      "target": "danielapp_verseengagementservice_swift_set"
     },
     {
       "relation": "references",
@@ -63410,9 +64609,9 @@
       "source_file": "implementation.md",
       "source_location": "L723",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "implementation_firebase_login_and_branch_church_system_update_2026_06_06",
-      "target": "implementation_hymn_reader_and_pilot_ui_completion_2026_07_22",
-      "confidence_score": 1.0
+      "target": "implementation_hymn_reader_and_pilot_ui_completion_2026_07_22"
     },
     {
       "relation": "contains",
@@ -63523,6 +64722,16 @@
       "confidence_score": 1.0,
       "source": "implementation_firebase_login_and_branch_church_system_update_2026_06_06",
       "target": "implementation_remaining_work_534"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "implementation.md",
+      "source_location": "L740",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "implementation_firebase_login_and_branch_church_system_update_2026_06_06",
+      "target": "implementation_resources_and_newsletter_interaction_qa_2026_07_22"
     },
     {
       "relation": "contains",
@@ -63872,5 +65081,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "5599fb306e1c29d5fa418f85ed10d20a1450cb08"
+  "built_at_commit": "ad616bd5c8dd2840f97d2a1ee55f4266b751612e"
 }

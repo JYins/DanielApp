@@ -302,7 +302,7 @@ Production status for project `daniel1-ca1e7` as of 2026-06-07:
 - `setUserAccessAdmin`, `deleteUserAdmin`, and `ping` are callable functions in `us-central1`.
 - Branch seed is initialized with 1 organization, 2 regions, 2 branches, 5 branch memberships, and 5 user profiles.
 
-Current Product Design and implementation notes for Connect, hymn media, Bible reader, shared favorites, notes, and date-grouped Favorites live in `firebase-product-design.md`. Hymn resources can now contain an independent PDF and audio file: the iOS app keeps a native audio player visible while the PDF is read below it. The Admin Portal accepts PDF plus MP3/M4A/AAC audio, but real copyrighted media must be supplied by the church before the production Hymn entry becomes playable.
+Current Product Design and implementation notes for Connect, hymn media, Bible reader, shared favorites, notes, and date-grouped Favorites live in `firebase-product-design.md`. Hymn resources can contain an independent PDF and audio file: the iOS app opens an immersive full-screen reader and keeps a native audio player visible while the PDF is read below it. Newsletter images open in a trilingual full-screen gallery with paging, pinch/double-tap zoom, zoomed panning, and swipe-down dismissal. The Admin Portal accepts PDF plus MP3/M4A/AAC audio, but real copyrighted media must be supplied by the church before the production Hymn entry becomes playable.
 
 The production deployment status above covers the branch/login/resources baseline already deployed with explicit approval. The newer `favorites`, `notes`, and `readingProgress` Firestore rules have been validated against the emulator and are not deployed to production unless that deployment is explicitly approved.
 

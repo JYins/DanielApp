@@ -238,12 +238,18 @@ struct NewsletterCardView: View {
     let newsletter: Newsletter
     let language: CoreModels.VerseLanguage
     @State private var currentImageIndex = 0
+    @State private var viewerStartIndex = 0
+    @State private var showingMediaViewer = false
+
+    private var imageURLs: [URL] {
+        newsletter.image_urls.compactMap(URL.init(string:))
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             // 图片区域
             ZStack(alignment: .bottom) {
-                if newsletter.image_urls.isEmpty {
+                if imageURLs.isEmpty {
                     Rectangle()
                         .fill(DesignSystem.Colors.cardBackground)
                         .aspectRatio(1004.0/1440.0, contentMode: .fit) // Newsletter专用尺寸比例
@@ -256,26 +262,18 @@ struct NewsletterCardView: View {
                         )
                 } else {
                     TabView(selection: $currentImageIndex) {
-                        ForEach(0..<newsletter.image_urls.count, id: \.self) { index in
-                            let urlStr = newsletter.image_urls[index]
-                            if let url = URL(string: urlStr) {
-                                AsyncImage(url: url) { phase in
-                                    if let image = phase.image {
-                                        image
-                                            .resizable()
-                                            .scaledToFill()
-                                    } else if phase.error != nil {
-                                        Rectangle()
-                                            .fill(DesignSystem.Colors.cardBackground)
-                                            .overlay(Image(systemName: "exclamationmark.triangle").foregroundColor(.gray))
-                                    } else {
-                                        Rectangle()
-                                            .fill(DesignSystem.Colors.cardBackground)
-                                            .overlay(ProgressView().progressViewStyle(CircularProgressViewStyle(tint: DesignSystem.Colors.accent)))
-                                    }
-                                }
-                                .tag(index)
+                        ForEach(Array(imageURLs.enumerated()), id: \.offset) { index, url in
+                            NewsletterMediaThumbnail(
+                                url: url,
+                                height: nil,
+                                cornerRadius: 0,
+                                imageCount: imageURLs.count,
+                                language: language
+                            ) {
+                                viewerStartIndex = index
+                                showingMediaViewer = true
                             }
+                            .tag(index)
                         }
                     }
                     .tabViewStyle(.page(indexDisplayMode: .never))
@@ -283,9 +281,9 @@ struct NewsletterCardView: View {
                     .clipped()
                     
                     // 如果有多张图片，显示分页指示器
-                    if newsletter.image_urls.count > 1 {
+                    if imageURLs.count > 1 {
                         HStack(spacing: 4) {
-                            ForEach(0..<newsletter.image_urls.count, id: \.self) { index in
+                            ForEach(0..<imageURLs.count, id: \.self) { index in
                                 Circle()
                                     .fill(currentImageIndex == index ? Color.white : Color.white.opacity(0.5))
                                     .frame(width: 6, height: 6)
@@ -386,6 +384,13 @@ struct NewsletterCardView: View {
         .shadow(color: DesignSystem.Colors.accent.opacity(0.08), radius: 24, x: 0, y: 8)
         .padding(.horizontal, 4)
         .clipped()
+        .fullScreenCover(isPresented: $showingMediaViewer) {
+            NewsletterMediaViewer(
+                imageURLs: imageURLs,
+                initialIndex: viewerStartIndex,
+                language: language
+            )
+        }
     }
 }
 
