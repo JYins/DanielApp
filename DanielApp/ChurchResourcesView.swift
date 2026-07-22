@@ -6,18 +6,21 @@ struct ChurchResourcesView: View {
     @EnvironmentObject var appState: AppState
     @StateObject private var resourceService = ChurchResourceService()
     @State private var searchText = ""
-    @State private var selectedCategory: ChurchResourceCategory = .all
-
-    private var categories: [ChurchResourceCategory] {
-        [.all] + ChurchResourceCategory.libraryCategories
-    }
 
     private var filteredResources: [ChurchResource] {
         resourceService.filteredResources(
             searchText: searchText,
-            selectedCategory: selectedCategory,
+            selectedCategory: .all,
             language: appState.selectedLanguage
         )
+    }
+
+    private var featuredHymn: ChurchResource? {
+        filteredResources.first { $0.category == .hymnbook }
+    }
+
+    private var directoryResources: [ChurchResource] {
+        filteredResources.filter { $0.id != featuredHymn?.id }
     }
 
     var body: some View {
@@ -26,8 +29,14 @@ struct ChurchResourcesView: View {
                 DesignSystem.Colors.background.ignoresSafeArea()
 
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 18) {
+                    VStack(alignment: .leading, spacing: 16) {
                         ResourcesLibraryHeader(language: appState.selectedLanguage)
+
+                        ResourceSearchField(
+                            searchText: $searchText,
+                            placeholder: LocalizedText.Resources.searchPlaceholder.text(for: appState.selectedLanguage),
+                            language: appState.selectedLanguage
+                        )
 
                         ResourceServiceStatusCard(
                             source: resourceService.source,
@@ -36,41 +45,48 @@ struct ChurchResourcesView: View {
                             language: appState.selectedLanguage
                         )
 
-                        ResourceQuickActions(language: appState.selectedLanguage)
-
-                        ResourceSearchField(
-                            searchText: $searchText,
-                            placeholder: LocalizedText.Resources.searchPlaceholder.text(for: appState.selectedLanguage),
-                            language: appState.selectedLanguage
-                        )
-
-                        ResourceCategoryFilter(
-                            categories: categories,
-                            selectedCategory: $selectedCategory,
-                            language: appState.selectedLanguage
-                        )
-
                         if filteredResources.isEmpty {
                             ResourceLibraryEmptyCard(
-                                isSearchResult: !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || selectedCategory != .all,
+                                isSearchResult: !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
                                 language: appState.selectedLanguage
                             )
                         } else {
-                            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
-                                ForEach(filteredResources) { resource in
-                                    NavigationLink {
-                                        ChurchResourceDetailView(resource: resource, language: appState.selectedLanguage)
-                                    } label: {
-                                        ChurchResourceGridCard(resource: resource, language: appState.selectedLanguage)
+                            if let featuredHymn {
+                                NavigationLink {
+                                    ChurchResourceDetailView(resource: featuredHymn, language: appState.selectedLanguage)
+                                } label: {
+                                    FeaturedHymnCard(resource: featuredHymn, language: appState.selectedLanguage)
+                                }
+                                .buttonStyle(.plain)
+                            }
+
+                            if !directoryResources.isEmpty {
+                                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                                    ForEach(directoryResources) { resource in
+                                        NavigationLink {
+                                            ChurchResourceDetailView(resource: resource, language: appState.selectedLanguage)
+                                        } label: {
+                                            ChurchResourceGridCard(resource: resource, language: appState.selectedLanguage)
+                                        }
+                                        .buttonStyle(.plain)
                                     }
-                                    .buttonStyle(.plain)
                                 }
                             }
+
+                            VStack(alignment: .leading, spacing: 10) {
+                                Text(personalToolsTitle)
+                                    .font(DesignSystem.Typography.smart(13, weight: .bold, language: appState.selectedLanguage))
+                                    .foregroundColor(DesignSystem.Colors.mutedText)
+                                    .textCase(.uppercase)
+
+                                ResourceQuickActions(language: appState.selectedLanguage)
+                            }
+                            .padding(.top, 4)
                         }
                     }
-                    .padding(.horizontal, 24)
-                    .padding(.top, 16)
-                    .padding(.bottom, 28)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 18)
+                    .padding(.bottom, 24)
                 }
             }
             .navigationBarHidden(true)
@@ -78,6 +94,61 @@ struct ChurchResourcesView: View {
         .task {
             resourceService.loadResources()
         }
+    }
+
+    private var personalToolsTitle: String {
+        switch appState.selectedLanguage {
+        case .chinese: return "我的工具"
+        case .english: return "My Tools"
+        case .korean: return "나의 도구"
+        }
+    }
+}
+
+private struct FeaturedHymnCard: View {
+    let resource: ChurchResource
+    let language: CoreModels.VerseLanguage
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(alignment: .top, spacing: 12) {
+                Image(systemName: resource.icon)
+                    .font(.system(size: 21, weight: .semibold))
+                    .foregroundColor(DesignSystem.Colors.primaryText)
+                    .frame(width: 30, height: 30)
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(resource.title.text(for: language))
+                        .font(DesignSystem.Typography.smart(18, weight: .bold, language: language))
+                        .foregroundColor(DesignSystem.Colors.primaryText)
+
+                    Text(resource.subtitle.text(for: language))
+                        .font(DesignSystem.Typography.body(12, language: language))
+                        .foregroundColor(DesignSystem.Colors.secondaryText)
+                        .lineLimit(2)
+                }
+
+                Spacer(minLength: 0)
+            }
+
+            HStack(spacing: 7) {
+                Text(resource.actionTitle.text(for: language))
+                    .font(DesignSystem.Typography.smart(13, weight: .bold, language: language))
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 11, weight: .bold))
+            }
+            .foregroundColor(.white)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 9)
+            .background(DesignSystem.Colors.accent)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(16)
+        .background(DesignSystem.Colors.surface)
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .overlay(RoundedRectangle(cornerRadius: 14).stroke(DesignSystem.Colors.border, lineWidth: 1))
+        .accessibilityElement(children: .combine)
     }
 }
 
@@ -182,21 +253,13 @@ private struct ResourceQuickActionCard: View {
 
 private struct ResourcesLibraryHeader: View {
     let language: CoreModels.VerseLanguage
+    @EnvironmentObject private var appState: AppState
 
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
-            RoundedRectangle(cornerRadius: 3)
-                .fill(DesignSystem.Colors.accent)
-                .frame(width: 24, height: 24)
-                .overlay(
-                    Image(systemName: "books.vertical.fill")
-                        .font(.system(size: 12, weight: .bold))
-                        .foregroundColor(.white)
-                )
-
             VStack(alignment: .leading, spacing: 3) {
                 Text(LocalizedText.Common.resourcesTab.text(for: language))
-                    .font(DesignSystem.Typography.smart(24, weight: .bold, language: language, preferLanguageFont: false))
+                    .font(DesignSystem.Typography.smart(23, weight: .bold, language: language, preferLanguageFont: false))
                     .foregroundColor(DesignSystem.Colors.accentDark)
 
                 Text(LocalizedText.Resources.headerSubtitle.text(for: language))
@@ -207,7 +270,26 @@ private struct ResourcesLibraryHeader: View {
 
             Spacer()
 
+            Button {
+                appState.cycleLanguage()
+            } label: {
+                Image(systemName: "globe")
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundColor(DesignSystem.Colors.mutedText)
+                    .frame(width: 32, height: 32)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(languageSwitchTitle)
+
             VerseUserButtonView()
+        }
+    }
+
+    private var languageSwitchTitle: String {
+        switch language {
+        case .chinese: return "切换语言"
+        case .english: return "Switch Language"
+        case .korean: return "언어 변경"
         }
     }
 }
@@ -307,60 +389,25 @@ private struct ResourceSearchField: View {
     }
 }
 
-private struct ResourceCategoryFilter: View {
-    let categories: [ChurchResourceCategory]
-    @Binding var selectedCategory: ChurchResourceCategory
-    let language: CoreModels.VerseLanguage
-
-    var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 10) {
-                ForEach(categories) { category in
-                    Button {
-                        withAnimation(.easeInOut(duration: 0.2)) {
-                            selectedCategory = category
-                        }
-                    } label: {
-                        Text(category.title(for: language))
-                            .font(DesignSystem.Typography.smart(13, weight: .semibold, language: language))
-                            .foregroundColor(selectedCategory == category ? .white : DesignSystem.Colors.secondaryText)
-                            .padding(.horizontal, 14)
-                            .padding(.vertical, 9)
-                            .background(
-                                Capsule()
-                                    .fill(selectedCategory == category ? DesignSystem.Colors.accent : DesignSystem.Colors.surface)
-                            )
-                            .overlay(
-                                Capsule()
-                                    .stroke(selectedCategory == category ? Color.clear : DesignSystem.Colors.border, lineWidth: 1)
-                            )
-                    }
-                    .buttonStyle(.plain)
-                }
-            }
-        }
-    }
-}
-
 private struct ChurchResourceGridCard: View {
     let resource: ChurchResource
     let language: CoreModels.VerseLanguage
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 9) {
             Image(systemName: resource.icon)
-                .font(.system(size: 22, weight: .semibold))
-                .foregroundColor(DesignSystem.Colors.accentDark)
-                .frame(width: 32, height: 32, alignment: .leading)
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundColor(DesignSystem.Colors.primaryText)
+                .frame(width: 26, height: 24, alignment: .leading)
 
             VStack(alignment: .leading, spacing: 5) {
                 Text(resource.title.text(for: language))
-                    .font(DesignSystem.Typography.smart(16, weight: .bold, language: language))
+                    .font(DesignSystem.Typography.smart(15, weight: .bold, language: language))
                     .foregroundColor(DesignSystem.Colors.primaryText)
                     .lineLimit(2)
 
                 Text(resource.subtitle.text(for: language))
-                    .font(DesignSystem.Typography.body(12, language: language))
+                    .font(DesignSystem.Typography.body(11, language: language))
                     .foregroundColor(DesignSystem.Colors.secondaryText)
                     .lineLimit(3)
                     .fixedSize(horizontal: false, vertical: true)
@@ -377,12 +424,12 @@ private struct ChurchResourceGridCard: View {
             }
             .foregroundColor(DesignSystem.Colors.accentDark)
         }
-        .frame(maxWidth: .infinity, minHeight: 150, alignment: .leading)
-        .padding(16)
+        .frame(maxWidth: .infinity, minHeight: 132, alignment: .leading)
+        .padding(14)
         .background(DesignSystem.Colors.surface)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
         .overlay(
-            RoundedRectangle(cornerRadius: 16)
+            RoundedRectangle(cornerRadius: 12)
                 .stroke(DesignSystem.Colors.border, lineWidth: 1)
         )
     }
@@ -446,7 +493,7 @@ private struct ChurchResourceDetailView: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 14))
                         }
 
-                        if resource.hasHymnMedia {
+                        if resource.category == .hymnbook {
                             Button {
                                 showingHymnReader = true
                             } label: {
@@ -613,10 +660,34 @@ private struct HymnReaderView: View {
     }
 
     private var readerSubtitle: String {
+        if resource.audioURL != nil, resource.pdfURL != nil {
+            switch language {
+            case .chinese: return "播放音频时可以继续阅读和翻页"
+            case .english: return "Keep listening while you read and turn pages"
+            case .korean: return "오디오를 들으며 계속 읽고 페이지를 넘길 수 있습니다"
+            }
+        }
+
+        if resource.audioURL != nil {
+            switch language {
+            case .chinese: return "音频可以独立播放，乐谱上传后会同时显示"
+            case .english: return "Audio is ready; sheet music will appear here when added"
+            case .korean: return "오디오는 재생할 수 있으며 악보가 추가되면 함께 표시됩니다"
+            }
+        }
+
+        if resource.pdfURL != nil {
+            switch language {
+            case .chinese: return "阅读和翻页；音频上传后可同时播放"
+            case .english: return "Read and turn pages; audio will play here when added"
+            case .korean: return "악보를 읽고 넘기며 오디오가 추가되면 함께 재생할 수 있습니다"
+            }
+        }
+
         switch language {
-        case .chinese: return "播放音频时可以继续阅读和翻页"
-        case .english: return "Keep listening while you read and turn pages"
-        case .korean: return "오디오를 들으며 계속 읽고 페이지를 넘길 수 있습니다"
+        case .chinese: return "PDF 乐谱与音频会在同一个阅读页面中使用"
+        case .english: return "PDF sheet music and audio share one reading screen"
+        case .korean: return "PDF 악보와 오디오를 한 읽기 화면에서 함께 사용합니다"
         }
     }
 
@@ -629,6 +700,14 @@ private struct HymnReaderView: View {
     }
 
     private var pdfUnavailableMessage: String {
+        if resource.audioURL == nil {
+            switch language {
+            case .chinese: return "管理员添加 PDF 乐谱或音频后，会显示在这个阅读页面中。"
+            case .english: return "PDF sheet music or audio will appear here after an administrator adds it."
+            case .korean: return "관리자가 PDF 악보나 오디오를 추가하면 이 읽기 화면에 표시됩니다."
+            }
+        }
+
         switch language {
         case .chinese: return "音频仍然可以播放；管理员上传 PDF 后会显示在这里。"
         case .english: return "Audio remains available. The PDF will appear here after an administrator uploads it."

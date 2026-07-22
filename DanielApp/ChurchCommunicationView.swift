@@ -18,17 +18,17 @@ struct ChurchCommunicationView: View {
             DesignSystem.Colors.background.ignoresSafeArea()
 
             VStack(spacing: 0) {
-                ConnectHeader(language: language)
-                    .padding(.horizontal, 24)
-                    .padding(.top, 16)
-                    .padding(.bottom, 16)
+                ConnectHeader(profile: authManager.currentUser, language: language)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 18)
+                    .padding(.bottom, 10)
 
                 ConnectSectionPicker(
                     selectedSection: $selectedSection,
                     language: language
                 )
-                .padding(.horizontal, 24)
-                .padding(.bottom, 16)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 12)
 
                 Group {
                     switch selectedSection {
@@ -74,8 +74,8 @@ struct ChurchCommunicationView: View {
                     profile: authManager.currentUser,
                     language: language
                 )
-                .padding(.horizontal, 24)
-                .padding(.top, 16)
+                .padding(.horizontal, 20)
+                .padding(.top, 12)
 
                 Spacer(minLength: 0)
             }
@@ -333,24 +333,68 @@ private enum ConnectCopy {
 }
 
 private struct ConnectHeader: View {
+    let profile: UserProfile?
     let language: CoreModels.VerseLanguage
+    @EnvironmentObject private var appState: AppState
 
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
             VStack(alignment: .leading, spacing: 4) {
-                Text(LocalizedText.Common.communicationTab.text(for: language))
-                    .font(DesignSystem.Typography.smart(26, weight: .bold, language: language, preferLanguageFont: false))
-                    .foregroundColor(DesignSystem.Colors.primaryText)
+                Text(title)
+                    .font(DesignSystem.Typography.smart(23, weight: .bold, language: language, preferLanguageFont: false))
+                    .foregroundColor(DesignSystem.Colors.accentDark)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.78)
 
-                Text(ConnectCopy.headerSubtitle.text(for: language))
-                    .font(DesignSystem.Typography.smart(13, weight: .medium, language: language))
+                Text(subtitle)
+                    .font(DesignSystem.Typography.smart(12, weight: .medium, language: language))
                     .foregroundColor(DesignSystem.Colors.mutedText)
-                    .lineLimit(2)
+                    .lineLimit(1)
             }
 
             Spacer()
 
+            Button {
+                appState.cycleLanguage()
+            } label: {
+                Image(systemName: "globe")
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundColor(DesignSystem.Colors.mutedText)
+                    .frame(width: 32, height: 32)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(languageSwitchTitle)
+
             VerseUserButtonView()
+        }
+    }
+
+    private var title: String {
+        guard let profile,
+              let branchName = (profile.branchName ?? profile.churchName)?.trimmingCharacters(in: .whitespacesAndNewlines),
+              !branchName.isEmpty else {
+            return LocalizedText.Common.communicationTab.text(for: language)
+        }
+        return branchName
+    }
+
+    private var subtitle: String {
+        guard let profile else {
+            return ConnectCopy.headerSubtitle.text(for: language)
+        }
+
+        switch language {
+        case .chinese: return "本堂成员空间 · \(profile.displayMembershipStatus(for: language))"
+        case .english: return "Church member space · \(profile.displayMembershipStatus(for: language))"
+        case .korean: return "교회 회원 공간 · \(profile.displayMembershipStatus(for: language))"
+        }
+    }
+
+    private var languageSwitchTitle: String {
+        switch language {
+        case .chinese: return "切换语言"
+        case .english: return "Switch Language"
+        case .korean: return "언어 변경"
         }
     }
 }
@@ -360,36 +404,35 @@ private struct ConnectSectionPicker: View {
     let language: CoreModels.VerseLanguage
 
     var body: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: 0) {
             ForEach(ConnectSection.allCases, id: \.self) { section in
                 Button {
                     withAnimation(.easeInOut(duration: 0.2)) {
                         selectedSection = section
                     }
                 } label: {
-                    HStack(spacing: 6) {
-                        Image(systemName: section.icon)
-                            .font(.system(size: 13, weight: .semibold))
-
+                    VStack(spacing: 8) {
                         Text(section.title(for: language))
-                            .font(DesignSystem.Typography.smart(12, weight: .semibold, language: language))
+                            .font(DesignSystem.Typography.smart(12, weight: selectedSection == section ? .bold : .medium, language: language))
                             .lineLimit(1)
-                            .minimumScaleFactor(0.74)
+                            .minimumScaleFactor(0.7)
+
+                        Rectangle()
+                            .fill(selectedSection == section ? DesignSystem.Colors.accent : Color.clear)
+                            .frame(height: 2)
                     }
-                    .foregroundColor(selectedSection == section ? .white : DesignSystem.Colors.secondaryText)
+                    .foregroundColor(selectedSection == section ? DesignSystem.Colors.accentDark : DesignSystem.Colors.secondaryText)
                     .frame(maxWidth: .infinity)
-                    .frame(height: 42)
-                    .background(
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(selectedSection == section ? DesignSystem.Colors.accent : DesignSystem.Colors.surface)
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(selectedSection == section ? DesignSystem.Colors.accent : DesignSystem.Colors.border, lineWidth: 1)
-                    )
+                    .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
             }
+        }
+        .overlay(alignment: .bottom) {
+            Rectangle()
+                .fill(DesignSystem.Colors.border)
+                .frame(height: 1)
+                .zIndex(-1)
         }
     }
 }
@@ -416,7 +459,7 @@ private struct ConnectNewsletterList: View {
                 ConnectLoadingView(mode: mode, language: language)
             } else if viewModel.errorMessage != nil {
                 ConnectErrorCard(retry: viewModel.loadNewsletters, language: language)
-                    .padding(.horizontal, 24)
+                    .padding(.horizontal, 20)
                     .padding(.top, 16)
             } else if filteredNewsletters.isEmpty {
                 ConnectEmptyCard(
@@ -425,7 +468,7 @@ private struct ConnectNewsletterList: View {
                     message: mode.emptyMessage(for: language),
                     language: language
                 )
-                .padding(.horizontal, 24)
+                .padding(.horizontal, 20)
                 .padding(.top, 16)
             } else {
                 ScrollView {
@@ -438,7 +481,7 @@ private struct ConnectNewsletterList: View {
                             }
                         }
                     }
-                    .padding(.horizontal, 24)
+                    .padding(.horizontal, 20)
                     .padding(.bottom, 24)
                 }
             }
@@ -481,7 +524,7 @@ private struct ConnectLoadingView: View {
 
             Spacer(minLength: 0)
         }
-        .padding(.horizontal, 24)
+        .padding(.horizontal, 20)
         .padding(.top, 16)
         .accessibilityLabel(mode.emptyTitle(for: language))
     }
@@ -493,52 +536,43 @@ private struct ConnectAnnouncementCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            HStack(alignment: .top, spacing: 10) {
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(DesignSystem.Colors.accent.opacity(0.14))
-                    .frame(width: 36, height: 36)
-                    .overlay(
-                        Image(systemName: "megaphone.fill")
-                            .font(.system(size: 15, weight: .semibold))
-                            .foregroundColor(DesignSystem.Colors.accentDark)
-                    )
+            HStack(alignment: .firstTextBaseline, spacing: 10) {
+                Text(ConnectCopy.announcementEyebrow.text(for: language))
+                    .font(DesignSystem.Typography.smart(13, weight: .bold, language: language))
+                    .foregroundColor(DesignSystem.Colors.primaryText)
 
-                VStack(alignment: .leading, spacing: 5) {
-                    Text(ConnectCopy.announcementEyebrow.text(for: language))
-                        .font(DesignSystem.Typography.smart(12, weight: .bold, language: language))
-                        .foregroundColor(DesignSystem.Colors.accentDark)
+                Spacer()
 
-                    Text(newsletter.caption.text(for: language))
-                        .font(DesignSystem.Typography.body(15, language: language))
-                        .foregroundColor(DesignSystem.Colors.primaryText)
-                        .lineSpacing(4)
-                        .lineLimit(4)
-                }
+                Text(DateFormatter.newsletterFormatter.string(from: newsletter.publishDate.dateValue()))
+                    .font(DesignSystem.Typography.smart(11, weight: .medium, language: language))
+                    .foregroundColor(DesignSystem.Colors.mutedText)
             }
 
-            HStack(spacing: 8) {
-                Text(DateFormatter.newsletterFormatter.string(from: newsletter.publishDate.dateValue()))
-                    .font(DesignSystem.Typography.smart(12, weight: .medium, language: language))
-                    .foregroundColor(DesignSystem.Colors.mutedText)
+            Text(newsletter.caption.text(for: language))
+                .font(DesignSystem.Typography.body(15, language: language))
+                .foregroundColor(DesignSystem.Colors.secondaryText)
+                .lineSpacing(4)
+                .lineLimit(5)
 
-                Circle()
-                    .fill(DesignSystem.Colors.border)
-                    .frame(width: 4, height: 4)
-
+            HStack(spacing: 6) {
+                Rectangle()
+                    .fill(DesignSystem.Colors.accent)
+                    .frame(width: 12, height: 1.5)
                 Text(ConnectCopy.announcementSource.text(for: language))
-                    .font(DesignSystem.Typography.smart(12, weight: .medium, language: language))
-                    .foregroundColor(DesignSystem.Colors.mutedText)
+                    .font(DesignSystem.Typography.smart(11, weight: .semibold, language: language))
+                    .foregroundColor(DesignSystem.Colors.accentDark)
                     .lineLimit(1)
                     .minimumScaleFactor(0.82)
             }
         }
-        .padding(18)
-        .background(DesignSystem.Colors.cardBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .padding(16)
+        .background(DesignSystem.Colors.surface)
+        .clipShape(RoundedRectangle(cornerRadius: 15))
         .overlay(
-            RoundedRectangle(cornerRadius: 14)
+            RoundedRectangle(cornerRadius: 15)
                 .stroke(DesignSystem.Colors.border, lineWidth: 1)
         )
+        .shadow(color: DesignSystem.Colors.primaryText.opacity(0.04), radius: 4, y: 1)
     }
 }
 
@@ -625,11 +659,11 @@ private struct ConnectAccessCard: View {
 
                 VStack(alignment: .leading, spacing: 6) {
                     Text(title)
-                        .font(DesignSystem.Typography.smart(20, weight: .bold, language: language))
+                        .font(DesignSystem.Typography.smart(17, weight: .bold, language: language))
                         .foregroundColor(DesignSystem.Colors.primaryText)
 
                     Text(message)
-                        .font(DesignSystem.Typography.body(15, language: language))
+                        .font(DesignSystem.Typography.body(13, language: language))
                         .foregroundColor(DesignSystem.Colors.secondaryText)
                         .lineSpacing(4)
                 }
@@ -640,7 +674,7 @@ private struct ConnectAccessCard: View {
                     showingLogin = true
                 } label: {
                     Text(buttonTitle)
-                        .font(DesignSystem.Typography.smart(15, weight: .semibold, language: language))
+                        .font(DesignSystem.Typography.smart(14, weight: .semibold, language: language))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 13)
@@ -652,7 +686,7 @@ private struct ConnectAccessCard: View {
                 .buttonStyle(.plain)
             }
         }
-        .padding(20)
+        .padding(18)
         .background(DesignSystem.Colors.cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .overlay(

@@ -747,3 +747,19 @@ Design evidence boundary:
 - Verified against a local Firebase Auth/Firestore Emulator approved-member flow with two local Newsletter images and a temporary local PDF resource. No production user, newsletter, resource, media, or church data was changed.
 - Validation passed: signed iPhone 17 Simulator build; `NewsletterViewModelTests`; `ChurchResourceServiceTests`; approved-member login; Newsletter card access; image 1/2 to 2/2 paging; double-tap zoom; zoomed pan without accidental paging; PDF download/render; and full-screen PDF dismissal.
 - Figma `get_design_context` for node `0:1` was attempted first as required, but the Figma Starter plan MCP call limit blocked both structured context and a fresh screenshot. The implementation therefore preserves the already-established cream/orange tokens and existing layout; this pass is interaction-verified but not newly pixel-verified against Figma.
+
+### Screenshot-Grounded Resources And Connect Refinement: 2026-07-22
+
+- Used the ten product-owner-supplied Figma screenshots as the current visual source after the Figma MCP quota blocked direct context retrieval.
+- Reordered Resources to match the designed hierarchy: title and functional language/account controls, search, a full-width Hymnbook feature card, compact two-column resource cards, then the existing Bible Reader and Favorites tools.
+- Removed the redundant main-screen category-chip row. Search now filters the full directory directly, reducing visual and interaction overhead.
+- Kept working product differences intentionally: Church Documents stays visible, while Bible Reader and Favorites remain available below the shared church directory.
+- Updated Connect to display the approved branch name when available, otherwise the localized Connect title. Replaced the large pill selector with the Figma-style three-tab underline navigation for Announcements, Newsletter, and KakaoTalk.
+- Simplified announcement cards toward the compact reference structure while keeping the existing branch-filtered Newsletter model and access states.
+- Did not implement posting, likes, comments, reactions, or native chat from the exploratory Figma frames. Canada pilot v1 still uses read-only Announcements/Newsletter and the protected KakaoTalk group link.
+- Added functional language switching to Resources and Connect headers and verified Chinese, English, and Korean live in Simulator.
+- Hymnbook now opens its reader even before media is configured. Empty/subtitle copy accurately distinguishes no media, audio-only, PDF-only, and combined PDF/audio states.
+- Visual QA is recorded in `design-qa.md`. Accepted current-run captures are `/private/tmp/daniel-resources-final.png` and `/private/tmp/daniel-connect-final.png`.
+- Validation passed: two iPhone 17 Simulator builds, live Resources/Connect navigation, three-language tab switching, Resource directory navigation, Hymnbook detail, and the full-screen missing-media state.
+- The final tiny Hymn empty-copy refinement was made after the second successful build. A third build request was blocked by the local Codex approval-usage limit before Xcode launched; the last confirmed build therefore precedes only that localized computed-copy change.
+- `graphify update .` was attempted after the code changes, but the current sandbox returned `[Errno 1] Operation not permitted` during rebuild. The existing graph remains available but does not include this final UI slice.
