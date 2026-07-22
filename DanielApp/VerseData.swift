@@ -256,14 +256,8 @@ public class VerseDataService {
         guard let indices = verseIndexList, !indices.isEmpty else {
             return nil
         }
-        
-        // 计算当年中的第几天（1-366）
-        let dayOfYear = Calendar.current.ordinality(of: .day, in: .year, for: date) ?? 1
-        
-        // 使用当年日期作为索引，确保每天不同的经文
-        let indexForToday = (dayOfYear - 1) % indices.count
-        
-        return indices[indexForToday]
+
+        return indices[VerseUtilities.stableDailyVerseIndex(for: date, count: indices.count)]
     }
     
     // 根据引用查找经文
@@ -288,6 +282,134 @@ public class VerseDataService {
         
         print("⚠️ 警告：未找到引用 '\(reference)' 的经文")
         return nil
+    }
+    
+    // 获取完整圣经数据中实际存在的书卷，按传统圣经顺序返回。
+    public func getBibleBookNames() -> [String] {
+        loadVersesIfNeeded()
+        
+        guard let verses = allVerses else {
+            return []
+        }
+        
+        let availableBooks = Set(verses.compactMap { parseReference($0.reference)?.book })
+        return canonicalBookOrder.filter { availableBooks.contains($0) }
+    }
+    
+    // 获取某书卷的章数。章节范围以英文圣经正典结构为标准，避免某个语言内容缺 n/a/缺行时影响选择器。
+    public func getAvailableChapters(forBook book: String) -> [Int] {
+        if let chapterCount = canonicalChapterCounts[book], chapterCount > 0 {
+            return Array(1...chapterCount)
+        }
+
+        loadVersesIfNeeded()
+
+        guard let verses = allVerses else {
+            return []
+        }
+
+        let chapters = Set(verses.compactMap { verse -> Int? in
+            guard let parsed = parseReference(verse.reference), parsed.book == book else {
+                return nil
+            }
+            return parsed.chapter
+        })
+        
+        return chapters.sorted()
+    }
+    
+    // 获取某书卷某章在完整圣经数据中实际存在的节数。
+    public func getAvailableVerses(forBook book: String, chapter: Int) -> [Int] {
+        loadVersesIfNeeded()
+        
+        guard let verses = allVerses else {
+            return []
+        }
+        
+        let verseNumbers = Set(verses.compactMap { verse -> Int? in
+            guard let parsed = parseReference(verse.reference),
+                  parsed.book == book,
+                  parsed.chapter == chapter else {
+                return nil
+            }
+            return parsed.verse
+        })
+        
+        return verseNumbers.sorted()
+    }
+
+    public func getVerses(forBook book: String, chapter: Int) -> [MultiLanguageVerse] {
+        loadVersesIfNeeded()
+
+        guard let verses = allVerses else {
+            return []
+        }
+
+        return verses
+            .compactMap { verse -> (MultiLanguageVerse, Int)? in
+                guard let parsed = parseReference(verse.reference),
+                      parsed.book == book,
+                      parsed.chapter == chapter else {
+                    return nil
+                }
+                return (verse, parsed.verse)
+            }
+            .sorted { $0.1 < $1.1 }
+            .map(\.0)
+    }
+    
+    private func parseReference(_ reference: String) -> (book: String, chapter: Int, verse: Int)? {
+        guard let separatorRange = reference.range(of: #" \d+:\d+$"#, options: .regularExpression) else {
+            return nil
+        }
+        
+        let book = String(reference[..<separatorRange.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
+        let chapterVerse = reference[separatorRange].trimmingCharacters(in: .whitespacesAndNewlines)
+        let parts = chapterVerse.split(separator: ":")
+        
+        guard parts.count == 2,
+              let chapter = Int(parts[0]),
+              let verse = Int(parts[1]) else {
+            return nil
+        }
+        
+        return (book, chapter, verse)
+    }
+    
+    private var canonicalBookOrder: [String] {
+        [
+            "Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy",
+            "Joshua", "Judges", "Ruth", "I Samuel", "II Samuel",
+            "I Kings", "II Kings", "I Chronicles", "II Chronicles",
+            "Ezra", "Nehemiah", "Esther", "Job", "Psalms", "Proverbs",
+            "Ecclesiastes", "Song of Solomon", "Isaiah", "Jeremiah",
+            "Lamentations", "Ezekiel", "Daniel", "Hosea", "Joel", "Amos",
+            "Obadiah", "Jonah", "Micah", "Nahum", "Habakkuk", "Zephaniah",
+            "Haggai", "Zechariah", "Malachi", "Matthew", "Mark", "Luke",
+            "John", "Acts", "Romans", "I Corinthians", "II Corinthians",
+            "Galatians", "Ephesians", "Philippians", "Colossians",
+            "I Thessalonians", "II Thessalonians", "I Timothy", "II Timothy",
+            "Titus", "Philemon", "Hebrews", "James", "I Peter", "II Peter",
+            "I John", "II John", "III John", "Jude", "Revelation"
+        ]
+    }
+
+    private var canonicalChapterCounts: [String: Int] {
+        [
+            "Genesis": 50, "Exodus": 40, "Leviticus": 27, "Numbers": 36, "Deuteronomy": 34,
+            "Joshua": 24, "Judges": 21, "Ruth": 4, "I Samuel": 31, "II Samuel": 24,
+            "I Kings": 22, "II Kings": 25, "I Chronicles": 29, "II Chronicles": 36,
+            "Ezra": 10, "Nehemiah": 13, "Esther": 10, "Job": 42, "Psalms": 150, "Proverbs": 31,
+            "Ecclesiastes": 12, "Song of Solomon": 8, "Isaiah": 66, "Jeremiah": 52,
+            "Lamentations": 5, "Ezekiel": 48, "Daniel": 12, "Hosea": 14, "Joel": 3, "Amos": 9,
+            "Obadiah": 1, "Jonah": 4, "Micah": 7, "Nahum": 3, "Habakkuk": 3, "Zephaniah": 3,
+            "Haggai": 2, "Zechariah": 14, "Malachi": 4, "Matthew": 28, "Mark": 16, "Luke": 24,
+            "John": 21, "Acts": 28, "Romans": 16, "I Corinthians": 16, "II Corinthians": 13,
+            "Galatians": 5, "Ephesians": 6, "Philippians": 4, "Colossians": 4,
+            "I Thessalonians": 5, "II Thessalonians": 3, "I Timothy": 6, "II Timothy": 4,
+            "Titus": 3, "Philemon": 1, "Hebrews": 13, "James": 5, "I Peter": 5, "II Peter": 3,
+            "I John": 5, "II John": 1, "III John": 1, "Jude": 1, "Revelation": 22
+        ]
     }
     
     // 获取今天的经文

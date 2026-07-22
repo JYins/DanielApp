@@ -390,55 +390,102 @@ struct NewsletterCardView: View {
 }
 
 // Newsletter视图模型
+enum NewsletterLoadState: Equatable {
+    case idle
+    case loading
+    case permissionDenied
+    case empty
+    case error(String)
+    case content
+}
+
+protocol NewsletterRemoteStore {
+    func listenToPublishedNewsletters(
+        onChange: @escaping (Result<[Newsletter], Error>) -> Void
+    ) -> ListenerRegistration?
+}
+
+final class FirestoreNewsletterRemoteStore: NewsletterRemoteStore {
+    private let db: Firestore
+
+    init(db: Firestore = Firestore.firestore()) {
+        self.db = db
+    }
+
+    func listenToPublishedNewsletters(
+        onChange: @escaping (Result<[Newsletter], Error>) -> Void
+    ) -> ListenerRegistration? {
+        db.collection("newsletters")
+            .whereField("published", isEqualTo: true)
+            .order(by: "publishDate", descending: true)
+            .addSnapshotListener { querySnapshot, error in
+                if let error {
+                    onChange(.failure(error))
+                    return
+                }
+
+                let newsletters = querySnapshot?.documents.compactMap { document in
+                    try? document.data(as: Newsletter.self)
+                } ?? []
+                onChange(.success(newsletters))
+            }
+    }
+}
+
 class NewsletterViewModel: ObservableObject {
     @Published var newsletters: [Newsletter] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
+    @Published private(set) var state: NewsletterLoadState = .idle
     
-    private var db = Firestore.firestore()
+    private let remoteStore: NewsletterRemoteStore
+    private let accessProvider: () -> Bool
     private var listenerRegistration: ListenerRegistration?
+
+    init(
+        remoteStore: NewsletterRemoteStore = FirestoreNewsletterRemoteStore(),
+        accessProvider: @escaping () -> Bool = { AuthManager.shared.hasContentAccess() }
+    ) {
+        self.remoteStore = remoteStore
+        self.accessProvider = accessProvider
+    }
     
     func loadNewsletters() {
+        guard accessProvider() else {
+            newsletters = []
+            isLoading = false
+            errorMessage = nil
+            state = .permissionDenied
+            listenerRegistration?.remove()
+            listenerRegistration = nil
+            return
+        }
+
         isLoading = true
         errorMessage = nil
+        state = .loading
         
         listenerRegistration?.remove()
         
-        listenerRegistration = db.collection("newsletters")
-            .whereField("published", isEqualTo: true)
-            .order(by: "publishDate", descending: true)
-            .addSnapshotListener { [weak self] (querySnapshot, error) in
-                guard let self = self else { return }
-                
-                DispatchQueue.main.async {
-                    self.isLoading = false
-                    
-                    if let error = error {
-                        print("Error loading newsletters: \(error.localizedDescription)")
-                        self.errorMessage = "加载教会通讯失败: \(error.localizedDescription)"
-                        return
-                    }
-                    
-                    guard let documents = querySnapshot?.documents else {
-                        print("No newsletters found")
-                        return
-                    }
-                    
-                    var fetchedNewsletters: [Newsletter] = []
-                    
-                    for document in documents {
-                        do {
-                            let newsletter = try document.data(as: Newsletter.self)
-                            fetchedNewsletters.append(newsletter)
-                        } catch {
-                            print("Error decoding newsletter: \(document.documentID) - \(error)")
-                        }
-                    }
-                    
+        listenerRegistration = remoteStore.listenToPublishedNewsletters { [weak self] result in
+            guard let self = self else { return }
+
+            DispatchQueue.main.async {
+                self.isLoading = false
+
+                switch result {
+                case .failure(let error):
+                    print("Error loading newsletters: \(error.localizedDescription)")
+                    self.errorMessage = "加载教会通讯失败: \(error.localizedDescription)"
+                    self.state = .error(error.localizedDescription)
+                case .success(let fetchedNewsletters):
                     self.newsletters = fetchedNewsletters
+                    self.errorMessage = nil
+                    self.state = fetchedNewsletters.isEmpty ? .empty : .content
                     print("Found \(self.newsletters.count) published newsletters")
                 }
             }
+        }
     }
     
     deinit {

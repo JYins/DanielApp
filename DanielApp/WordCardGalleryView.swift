@@ -2,6 +2,9 @@ import SwiftUI
 import FirebaseStorage
 // No need to import CoreModels, it's part of the target
 
+// Legacy page: Word Cards are no longer a primary Resources tab entry in phase one.
+// Keep this Firebase-backed gallery available for future reuse or migration.
+
 struct WordCardGalleryView: View {
     @EnvironmentObject var appState: AppState // Access AppState for language
     @StateObject private var viewModel = WordCardViewModel()
@@ -446,4 +449,3 @@ struct RoundedCorner: Shape {
         return Path(path.cgPath)
     }
 }
-

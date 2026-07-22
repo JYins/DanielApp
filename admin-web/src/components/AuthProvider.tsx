@@ -5,12 +5,14 @@ import { User } from 'firebase/auth';
 interface AuthContextType {
   user: User | null;
   isAdmin: boolean;
+  adminProfile: any | null;
   loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   isAdmin: false,
+  adminProfile: null,
   loading: true,
 });
 

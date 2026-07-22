@@ -13,6 +13,8 @@ struct LocalizedText {
         case dailyVerse
         case settings
         case connect
+        case communicationTab
+        case resourcesTab
         case versionInfo
         case copyright
         case bibleVersionInfo
@@ -46,6 +48,18 @@ struct LocalizedText {
                 case .chinese: return "连接"
                 case .english: return "Connect"
                 case .korean: return "연결하기"
+                }
+            case .communicationTab:
+                switch language {
+                case .chinese: return "连接"
+                case .english: return "Connect"
+                case .korean: return "커넥트"
+                }
+            case .resourcesTab:
+                switch language {
+                case .chinese: return "教会资源"
+                case .english: return "Resources"
+                case .korean: return "교회 자료"
                 }
             case .versionInfo:
                 switch language {
@@ -87,6 +101,141 @@ struct LocalizedText {
         }
     }
     
+    // MARK: - 教会资源页面文本
+    enum Resources: String {
+        case headerSubtitle
+        case searchPlaceholder
+        case categoryAll
+        case categoryHymnbook
+        case categoryDocuments
+        case categoryLinks
+        case categoryBibleStudy
+        case categorySeminar
+        case browse
+        case detailOnly
+        case loadingTitle
+        case loadingMessage
+        case fallbackTitle
+        case fallbackMessage
+        case emptyLibraryTitle
+        case emptyLibraryMessage
+        case noResultsTitle
+        case noResultsMessage
+
+        func text(for language: CoreModels.VerseLanguage) -> String {
+            switch self {
+            case .headerSubtitle:
+                switch language {
+                case .chinese: return "诗歌、文件、链接与圣经学习材料"
+                case .english: return "Hymns, documents, links, and Bible study materials"
+                case .korean: return "찬양, 문서, 링크와 성경 공부 자료"
+                }
+            case .searchPlaceholder:
+                switch language {
+                case .chinese: return "搜索资源"
+                case .english: return "Search resources"
+                case .korean: return "자료 검색"
+                }
+            case .categoryAll:
+                switch language {
+                case .chinese: return "全部"
+                case .english: return "All"
+                case .korean: return "전체"
+                }
+            case .categoryHymnbook:
+                switch language {
+                case .chinese: return "诗歌本"
+                case .english: return "Hymnbook"
+                case .korean: return "찬송가"
+                }
+            case .categoryDocuments:
+                switch language {
+                case .chinese: return "教会文件"
+                case .english: return "Documents"
+                case .korean: return "교회 문서"
+                }
+            case .categoryLinks:
+                switch language {
+                case .chinese: return "常用链接"
+                case .english: return "Links"
+                case .korean: return "유용한 링크"
+                }
+            case .categoryBibleStudy:
+                switch language {
+                case .chinese: return "圣经学习"
+                case .english: return "Bible Study"
+                case .korean: return "성경 공부"
+                }
+            case .categorySeminar:
+                switch language {
+                case .chinese: return "圣经讲座"
+                case .english: return "Bible Seminar"
+                case .korean: return "성경 세미나"
+                }
+            case .browse:
+                switch language {
+                case .chinese: return "浏览"
+                case .english: return "Browse"
+                case .korean: return "보기"
+                }
+            case .detailOnly:
+                switch language {
+                case .chinese: return "已显示资源详情"
+                case .english: return "Resource details shown"
+                case .korean: return "자료 상세 정보 표시됨"
+                }
+            case .loadingTitle:
+                switch language {
+                case .chinese: return "正在载入资源"
+                case .english: return "Loading Resources"
+                case .korean: return "자료를 불러오는 중"
+                }
+            case .loadingMessage:
+                switch language {
+                case .chinese: return "正在检查线上资源；本地目录会作为备用。"
+                case .english: return "Checking online resources; the local directory stays ready as fallback."
+                case .korean: return "온라인 자료를 확인 중이며 로컬 자료실이 예비로 준비되어 있습니다."
+                }
+            case .fallbackTitle:
+                switch language {
+                case .chinese: return "正在使用本地资源目录"
+                case .english: return "Using Local Resource Directory"
+                case .korean: return "로컬 자료실 사용 중"
+                }
+            case .fallbackMessage:
+                switch language {
+                case .chinese: return "线上资源暂时不可用，页面已自动回到本地 seed 目录。"
+                case .english: return "Online resources are unavailable for now, so this page is using the local seed directory."
+                case .korean: return "온라인 자료를 사용할 수 없어 로컬 seed 자료실로 자동 전환했습니다."
+                }
+            case .emptyLibraryTitle:
+                switch language {
+                case .chinese: return "资源目录为空"
+                case .english: return "Resource Directory Is Empty"
+                case .korean: return "자료실이 비어 있습니다"
+                }
+            case .emptyLibraryMessage:
+                switch language {
+                case .chinese: return "资源服务没有返回可显示项目。请稍后再试或等待管理员配置。"
+                case .english: return "The resource service did not return any visible items. Try again later or wait for admin setup."
+                case .korean: return "자료 서비스가 표시할 항목을 반환하지 않았습니다. 나중에 다시 시도하거나 관리자 설정을 기다려 주세요."
+                }
+            case .noResultsTitle:
+                switch language {
+                case .chinese: return "没有找到资源"
+                case .english: return "No Resources Found"
+                case .korean: return "자료를 찾을 수 없습니다"
+                }
+            case .noResultsMessage:
+                switch language {
+                case .chinese: return "试试换一个关键词或分类。"
+                case .english: return "Try a different keyword or category."
+                case .korean: return "다른 검색어나 분류를 사용해 보세요."
+                }
+            }
+        }
+    }
+
     // MARK: - 设置页面文本
     enum Settings: String {
         case pushSettings
@@ -488,6 +637,8 @@ struct LocalizedStringKeys {
         var dailyVerse: (CoreModels.VerseLanguage) -> String { { LocalizedText.Common.dailyVerse.text(for: $0) } }
         var settings: (CoreModels.VerseLanguage) -> String { { LocalizedText.Common.settings.text(for: $0) } }
         var connect: (CoreModels.VerseLanguage) -> String { { LocalizedText.Common.connect.text(for: $0) } }
+        var communicationTab: (CoreModels.VerseLanguage) -> String { { LocalizedText.Common.communicationTab.text(for: $0) } }
+        var resourcesTab: (CoreModels.VerseLanguage) -> String { { LocalizedText.Common.resourcesTab.text(for: $0) } }
         var versionInfo: (CoreModels.VerseLanguage) -> String { { LocalizedText.Common.versionInfo.text(for: $0) } }
         var copyright: (CoreModels.VerseLanguage) -> String { { LocalizedText.Common.copyright.text(for: $0) } }
         var bibleVersionInfo: (CoreModels.VerseLanguage) -> String { { LocalizedText.Common.bibleVersionInfo.text(for: $0) } }

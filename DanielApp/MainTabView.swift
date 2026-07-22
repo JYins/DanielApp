@@ -4,15 +4,13 @@ import SwiftUI
 struct MainTabView: View {
     @StateObject private var tabSelection = TabSelection()
     @EnvironmentObject var appState: AppState
-    @State private var showSettings = false
     
-    // Tab配置 - 移除设置选项，添加赞美页面
+    // App shell: Daily Verse, Connect, Resources, Settings.
     let tabItems: [(icon: String, title: (CoreModels.VerseLanguage) -> String, tag: Int)] = [
-        ("book.fill", { language in LocalizedText.Common.dailyVerse.text(for: language) }, 0),
-        ("quote.bubble.fill", { language in LocalizedText.Common.wordCardsTab.text(for: language) }, 1),
-        ("newspaper.fill", { language in LocalizedText.Common.newsletterTab.text(for: language) }, 2),
-        ("music.note", { language in LocalizedText.Common.praiseTab.text(for: language) }, 3),
-        ("link", { language in LocalizedText.Common.connect.text(for: language) }, 4)
+        ("house", { language in LocalizedText.Common.dailyVerse.text(for: language) }, 0),
+        ("person.2", { language in LocalizedText.Common.communicationTab.text(for: language) }, 1),
+        ("books.vertical", { language in LocalizedText.Common.resourcesTab.text(for: language) }, 2),
+        ("gearshape", { language in LocalizedText.Common.settings.text(for: language) }, 3)
     ]
     
     var body: some View {
@@ -20,48 +18,18 @@ struct MainTabView: View {
             DesignSystem.Colors.background.ignoresSafeArea()
             
             VStack(spacing: 0) {
-                // 主内容区域 - 添加右上角设置按钮
-                ZStack {
-                    Group {
-                        switch tabSelection.selectedTab {
-                        case 0:
-                            VerseOfTheDayView()
-                        case 1:
-                            WordCardGalleryView()
-                        case 2:
-                            NewsletterView()
-                        case 3:
-                            PraiseView()
-                        case 4:
-                            ConnectView()
-                        default:
-                            VerseOfTheDayView()
-                        }
-                    }
-                    
-                    // 右上角设置按钮 - 小方条样式，紧靠右边
-                    VStack(spacing: 0) {
-                        HStack(spacing: 0) {
-                            Spacer(minLength: 0)
-                            
-                            Button(action: {
-                                showSettings = true
-                            }) {
-                                Image(systemName: "gear")
-                                    .font(.system(size: 13, weight: .medium))
-                                    .foregroundColor(DesignSystem.Colors.accent)
-                                    .frame(width: 32, height: 32)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 6)
-                                            .fill(DesignSystem.Colors.cardBackground)
-                                            .shadow(color: Color.black.opacity(0.08), radius: 3, x: 0, y: 2)
-                                    )
-                            }
-                            .buttonStyle(.plain)
-                        }
-                        .padding(.top, 60) // 避开状态栏
-                        
-                        Spacer(minLength: 0)
+                Group {
+                    switch tabSelection.selectedTab {
+                    case 0:
+                        VerseOfTheDayView()
+                    case 1:
+                        ChurchCommunicationView()
+                    case 2:
+                        ChurchResourcesView()
+                    case 3:
+                        SettingsView()
+                    default:
+                        VerseOfTheDayView()
                     }
                 }
                 
@@ -71,15 +39,6 @@ struct MainTabView: View {
                     tabItems: tabItems,
                     selectedLanguage: appState.selectedLanguage
                 )
-            }
-            
-            // 设置页面叠加层
-            if showSettings {
-                SettingsOverlayView(
-                    showSettings: $showSettings,
-                    language: appState.selectedLanguage
-                )
-                .zIndex(999)
             }
         }
         .onAppear {
@@ -91,9 +50,7 @@ struct MainTabView: View {
             appState.selectedTab = newValue
         }
         .onChange(of: appState.selectedTab) { newValue in
-            // 如果appState的selectedTab改变，更新tabSelection
-            // 确保新值是有效的tab索引（0-4，不包括原来的设置tab）
-            if newValue >= 0 && newValue <= 4 {
+            if newValue >= 0 && newValue <= 3 {
                 tabSelection.selectedTab = newValue
             }
         }
@@ -106,7 +63,7 @@ struct MainTabView: View {
         .onChange(of: appState.needsShowSettings) { newValue in
             // 如果需要显示设置页面，显示设置叠加层
             if newValue {
-                showSettings = true
+                tabSelection.selectedTab = 3
                 appState.needsShowSettings = false
             }
         }
@@ -121,7 +78,6 @@ struct ModernTabBar: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // 顶部细线分隔
             Rectangle()
                 .fill(DesignSystem.Colors.divider)
                 .frame(height: 0.5)
@@ -139,16 +95,10 @@ struct ModernTabBar: View {
                     )
                 }
             }
-            .padding(.top, DesignSystem.Spacing.sm)
-            .padding(.bottom, DesignSystem.Spacing.md)
-            .background(
-                DesignSystem.Colors.background
-                    .overlay(
-                        // 轻微的背景模糊效果
-                        Rectangle()
-                            .fill(Color.white.opacity(0.3))
-                    )
-            )
+            .padding(.horizontal, 10)
+            .padding(.top, 10)
+            .padding(.bottom, 12)
+            .background(DesignSystem.Colors.surface)
         }
     }
 }
@@ -163,78 +113,29 @@ struct TabBarButton: View {
     
     var body: some View {
         Button(action: action) {
-            VStack(spacing: DesignSystem.Spacing.xs) {
-                                  // 图标
-                  Image(systemName: icon)
-                     .font(.system(size: 20, weight: isSelected ? .semibold : .regular))
-                      .foregroundColor(isSelected ? DesignSystem.Colors.accent : DesignSystem.Colors.mutedText)
+            VStack(spacing: 4) {
+                Image(systemName: icon)
+                    .font(.system(size: 21, weight: isSelected ? .semibold : .regular))
+                    .foregroundColor(isSelected ? DesignSystem.Colors.accentDark : DesignSystem.Colors.mutedText)
                     .frame(height: 24)
                 
-                // 标题
                 Text(title)
-                    .font(DesignSystem.Typography.smart(DesignSystem.Typography.caption, weight: isSelected ? .medium : .regular, language: language))
-                    .foregroundColor(isSelected ? DesignSystem.Colors.primaryText : DesignSystem.Colors.mutedText)
+                    .font(DesignSystem.Typography.smart(12, weight: .regular, language: language))
+                    .foregroundColor(isSelected ? DesignSystem.Colors.accentDark : DesignSystem.Colors.mutedText)
                     .lineLimit(1)
                     .frame(height: 14)
-                
-                // 橙色指示条
-                Rectangle()
-                    .fill(isSelected ? DesignSystem.Colors.accent : Color.clear)
-                    .frame(width: isSelected ? 24 : 0, height: 3)
-                    .cornerRadius(1.5)
             }
-            .padding(.horizontal, 2)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 8)
+            .frame(maxWidth: .infinity)
+            .background(
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(isSelected ? DesignSystem.Colors.cardBackground : Color.clear)
+            )
         }
         .frame(maxWidth: .infinity)
         .contentShape(Rectangle())
-    }
-}
-
-// MARK: - 设置页面叠加层
-struct SettingsOverlayView: View {
-    @Binding var showSettings: Bool
-    @EnvironmentObject var appState: AppState
-    let language: CoreModels.VerseLanguage
-    
-    var body: some View {
-        ZStack {
-            // 背景遮罩
-            Color.black.opacity(0.3)
-                .ignoresSafeArea()
-                .onTapGesture {
-                    showSettings = false
-                }
-            
-            // 设置页面内容
-            VStack(spacing: 0) {
-                HStack {
-                    Spacer()
-                    
-                    // 右上角关闭按钮
-                    Button(action: {
-                        showSettings = false
-                    }) {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundColor(DesignSystem.Colors.accent)
-                            .padding(10)
-                            .background(
-                                Circle()
-                                    .fill(DesignSystem.Colors.cardBackground)
-                                    .shadow(color: Color.black.opacity(0.15), radius: 4, x: 0, y: 2)
-                            )
-                    }
-                    .padding(.trailing, 24)
-                    .padding(.top, 70)
-                }
-                
-                // 设置页面内容
-                SettingsView()
-                    .clipShape(RoundedRectangle(cornerRadius: 24))
-                    .padding(.horizontal, 16)
-                    .padding(.top, 12)
-            }
-        }
+        .buttonStyle(.plain)
     }
 }
 

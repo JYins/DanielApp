@@ -112,6 +112,17 @@ public struct VerseUtilities {
         let day = calendar.ordinality(of: .day, in: .year, for: date) ?? 1
         return day
     }
+
+    public static func stableDailyVerseIndex(for date: Date, count: Int) -> Int {
+        guard count > 0 else { return 0 }
+
+        let calendar = Calendar.current
+        let dayOfYear = getDayOfYear(from: date)
+        let year = calendar.component(.year, from: date)
+        let yearlyOffset = abs(year * 37 + year / 4) % count
+
+        return (dayOfYear - 1 + yearlyOffset) % count
+    }
     
     // 根据日期选择经文
     public static func selectVerseForDate(from verses: [MultiLanguageVerse], date: Date) -> MultiLanguageVerse? {
@@ -121,11 +132,7 @@ public struct VerseUtilities {
         
         // 先尝试从索引列表获取
         if let indices = loadVerseIndexList(), !indices.isEmpty {
-            // 计算当年中的第几天（1-366）
-            let dayOfYear = getDayOfYear(from: date)
-            
-            // 使用当年日期作为索引，确保每天不同的经文
-            let indexForToday = (dayOfYear - 1) % indices.count
+            let indexForToday = stableDailyVerseIndex(for: date, count: indices.count)
             let referenceForToday = indices[indexForToday]
             
             // 查找对应的经文
@@ -137,8 +144,7 @@ public struct VerseUtilities {
         }
         
         // 如果索引列表不可用或找不到对应经文，直接从所有经文中选择
-        let dayOfYear = getDayOfYear(from: date)
-        let index = (dayOfYear - 1) % verses.count
+        let index = stableDailyVerseIndex(for: date, count: verses.count)
         return verses[index]
     }
     

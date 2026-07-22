@@ -5,36 +5,38 @@ struct DesignSystem {
     
     // MARK: - 颜色系统
     struct Colors {
-        // 主要背景色 - 极浅米粉色
-        static let background = Color(hex: "#f9f2ef")
+        // Figma v2 base: warm devotional accents, with a calm dark appearance.
+        static let background = Color(light: "#ffffff", dark: "#11100f")
         
-        // 卡片和内容区域 - 淡绿半透明
-        static let cardBackground = Color(hex: "#e1eac1").opacity(0.6)
-        static let cardBackgroundSolid = Color(hex: "#e1eac1")
+        // 卡片和内容区域
+        static let cardBackground = Color(light: "#fffbeb", dark: "#2a2119")
+        static let cardBackgroundSolid = Color(light: "#fffbeb", dark: "#2a2119")
+        static let surface = Color(light: "#ffffff", dark: "#1a1715")
         
         // 文字颜色 - 深灰色系
-        static let primaryText = Color(hex: "#4a4a4a")
-        static let secondaryText = Color(hex: "#6a6a6a")
-        static let mutedText = Color(hex: "#8a8a8a")
+        static let primaryText = Color(light: "#101828", dark: "#fff7ed")
+        static let secondaryText = Color(light: "#1e2939", dark: "#e7d8c9")
+        static let mutedText = Color(light: "#6a7282", dark: "#b9a99a")
         
         // 强调色 - 橙色
-        static let accent = Color(hex: "#f98c53")
-        static let accentLight = Color(hex: "#f98c53").opacity(0.7)
+        static let accent = Color(hex: "#ff8d28")
+        static let accentDark = Color(light: "#c76e00", dark: "#ffb05c")
+        static let accentLight = Color(hex: "#ff8d28").opacity(0.7)
         
         // 水印色 - 淡金色
-        static let watermark = Color(hex: "#e0b199")
+        static let watermark = Color(light: "#c76e00", dark: "#ffb05c").opacity(0.2)
         
         // 边框和分隔线
-        static let border = Color(hex: "#d0d0d0")
-        static let divider = Color(hex: "#e5e5e5")
+        static let border = Color(light: "#ebe6e7", dark: "#3b332d")
+        static let divider = Color(light: "#ebe6e7", dark: "#3b332d")
         
         // 问候区域背景
-        static let greetingBackground = Color.white.opacity(0.8)
+        static let greetingBackground = Color(light: "#ffffff", dark: "#1a1715").opacity(0.8)
         
         // 按钮颜色
-        static let buttonBorder = Color(hex: "#4a4a4a")
+        static let buttonBorder = Color(light: "#6a7282", dark: "#b9a99a")
         static let buttonBackground = Color.clear
-        static let buttonBackgroundPressed = Color(hex: "#4a4a4a").opacity(0.1)
+        static let buttonBackgroundPressed = Color(light: "#4a4a4a", dark: "#ffffff").opacity(0.1)
     }
     
     // MARK: - 间距系统
@@ -57,10 +59,10 @@ struct DesignSystem {
     struct CornerRadius {
         static let small: CGFloat = 8
         static let medium: CGFloat = 12
-        static let large: CGFloat = 16
-        static let extraLarge: CGFloat = 20
-        static let card: CGFloat = 16
-        static let button: CGFloat = 12
+        static let large: CGFloat = 18
+        static let extraLarge: CGFloat = 24
+        static let card: CGFloat = 24
+        static let button: CGFloat = 8
     }
     
     // MARK: - 字体系统
@@ -119,9 +121,9 @@ struct DesignSystem {
     
     // MARK: - 阴影系统
     struct Shadow {
-        static let card = (color: Color.black.opacity(0.08), radius: CGFloat(8), x: CGFloat(0), y: CGFloat(2))
-        static let elevated = (color: Color.black.opacity(0.12), radius: CGFloat(16), x: CGFloat(0), y: CGFloat(4))
-        static let soft = (color: Color.black.opacity(0.04), radius: CGFloat(4), x: CGFloat(0), y: CGFloat(1))
+        static let card = (color: Color(light: "#000000", dark: "#000000").opacity(0.18), radius: CGFloat(10), x: CGFloat(0), y: CGFloat(4))
+        static let elevated = (color: Color(light: "#000000", dark: "#000000").opacity(0.24), radius: CGFloat(15), x: CGFloat(0), y: CGFloat(10))
+        static let soft = (color: Color(light: "#000000", dark: "#000000").opacity(0.10), radius: CGFloat(4), x: CGFloat(0), y: CGFloat(1))
     }
 }
 
@@ -164,11 +166,11 @@ struct StyleConstants {
 struct ModernCardStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .background(DesignSystem.Colors.cardBackground)
+            .background(DesignSystem.Colors.surface)
             .cornerRadius(DesignSystem.CornerRadius.card)
             .overlay(
                 RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.card)
-                    .stroke(DesignSystem.Colors.border.opacity(0.5), lineWidth: 1)
+                    .stroke(DesignSystem.Colors.border, lineWidth: 1)
             )
             .shadow(
                 color: DesignSystem.Shadow.card.color,
@@ -181,23 +183,65 @@ struct ModernCardStyle: ViewModifier {
 
 struct ModernButtonStyle: ButtonStyle {
     var language: CoreModels.VerseLanguage = .chinese
+    var variant: AppButtonVariant = .primary
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .padding(.horizontal, DesignSystem.Spacing.buttonPadding + 6)
-            .padding(.vertical, DesignSystem.Spacing.buttonPadding + 2)
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
             .font(DesignSystem.Typography.smart(DesignSystem.Typography.body, weight: .medium, language: language))
-            .foregroundColor(DesignSystem.Colors.primaryText)
+            .foregroundColor(variant.foreground)
             .background(
                 RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.button)
-                    .stroke(DesignSystem.Colors.cardBackgroundSolid, lineWidth: 2)
+                    .stroke(variant.border, lineWidth: variant.borderWidth)
                     .background(
                         RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.button)
-                            .fill(configuration.isPressed ? DesignSystem.Colors.cardBackground : DesignSystem.Colors.buttonBackground)
+                            .fill(configuration.isPressed ? variant.pressedBackground : variant.background)
                     )
             )
             .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
             .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
+    }
+}
+
+enum AppButtonVariant {
+    case primary
+    case outline
+    
+    var foreground: Color {
+        switch self {
+        case .primary: return .white
+        case .outline: return DesignSystem.Colors.secondaryText
+        }
+    }
+    
+    var background: Color {
+        switch self {
+        case .primary: return DesignSystem.Colors.accent
+        case .outline: return .clear
+        }
+    }
+    
+    var pressedBackground: Color {
+        switch self {
+        case .primary: return DesignSystem.Colors.accentDark
+        case .outline: return DesignSystem.Colors.cardBackground
+        }
+    }
+    
+    var border: Color {
+        switch self {
+        case .primary: return DesignSystem.Colors.accent
+        case .outline: return DesignSystem.Colors.buttonBorder
+        }
+    }
+    
+    var borderWidth: CGFloat {
+        switch self {
+        case .primary: return 0
+        case .outline: return 1
+        }
     }
 }
 
@@ -206,12 +250,7 @@ struct GreetingBarStyle: ViewModifier {
         content
             .padding(.horizontal, DesignSystem.Spacing.md)
             .padding(.vertical, DesignSystem.Spacing.sm)
-            .background(DesignSystem.Colors.greetingBackground)
-            .cornerRadius(DesignSystem.CornerRadius.medium)
-            .overlay(
-                RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.medium)
-                    .stroke(DesignSystem.Colors.border.opacity(0.3), lineWidth: 0.5)
-            )
+            .background(DesignSystem.Colors.surface)
     }
 }
 
@@ -290,4 +329,41 @@ extension View {
     func settingContainer() -> some View {
         self.modifier(SettingContainerStyle())
     }
-} 
+}
+
+extension Color {
+    init(light: String, dark: String) {
+        self = Color(UIColor { traitCollection in
+            UIColor(hexString: traitCollection.userInterfaceStyle == .dark ? dark : light)
+        })
+    }
+}
+
+private extension UIColor {
+    convenience init(hexString: String) {
+        let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int: UInt64 = 0
+        Scanner(string: hex).scanHexInt64(&int)
+        
+        let red: UInt64
+        let green: UInt64
+        let blue: UInt64
+        switch hex.count {
+        case 6:
+            red = (int >> 16) & 0xFF
+            green = (int >> 8) & 0xFF
+            blue = int & 0xFF
+        default:
+            red = 255
+            green = 255
+            blue = 255
+        }
+        
+        self.init(
+            red: CGFloat(red) / 255,
+            green: CGFloat(green) / 255,
+            blue: CGFloat(blue) / 255,
+            alpha: 1
+        )
+    }
+}

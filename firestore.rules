@@ -8,10 +8,17 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    // Helper function to check if user is admin
+    function currentUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function userRole(data) {
+      return ('accessRole' in data) ? data.accessRole : (('role' in data) ? data.role : 'member');
+    }
+
+    // Legacy admin accounts use role == admin. New scoped roles use accessRole.
     function isAdmin() {
-      return isSignedIn() && 
-             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+      return isSignedIn() && userRole(currentUserData()) in ['admin', 'global_admin'];
     }
 
     function isOwner(userId) {
@@ -20,7 +27,9 @@ service cloud.firestore {
 
     function isApprovedUser() {
       return isSignedIn() &&
-             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isApproved == true;
+             currentUserData().isApproved == true &&
+             (!('membershipStatus' in currentUserData()) ||
+              currentUserData().membershipStatus in ['active', 'approved']);
     }
 
     function canReadProtectedContent() {
@@ -34,7 +43,10 @@ service cloud.firestore {
              request.resource.data.email == request.auth.token.email &&
              request.resource.data.isApproved == false &&
              !('approvedAt' in request.resource.data) &&
-             (!('role' in request.resource.data) || request.resource.data.role == 'member');
+             (!('role' in request.resource.data) || request.resource.data.role == 'member') &&
+             (!('accessRole' in request.resource.data) || request.resource.data.accessRole == 'member') &&
+             (!('membershipStatus' in request.resource.data) ||
+              request.resource.data.membershipStatus in ['pending', 'requested']);
     }
 
     function hasOnlyAllowedProfileFields() {
@@ -48,6 +60,11 @@ service cloud.firestore {
         'phoneNumber',
         'churchCountry',
         'churchName',
+        'orgId',
+        'regionId',
+        'regionName',
+        'branchId',
+        'branchName',
         'salvationDate',
         'ministryDepartment',
         'confirmationPerson',
@@ -57,6 +74,9 @@ service cloud.firestore {
         'isApproved',
         'approvedAt',
         'role',
+        'accessRole',
+        'membershipStatus',
+        'approvedBy',
         'passwordResetNote'
       ]);
     }
@@ -66,8 +86,6 @@ service cloud.firestore {
              request.resource.data.userId == resource.data.userId &&
              request.resource.data.email == resource.data.email &&
              request.resource.data.isApproved == resource.data.isApproved &&
-             request.resource.data.approvedAt == resource.data.approvedAt &&
-             request.resource.data.role == resource.data.role &&
              request.resource.data.createdAt == resource.data.createdAt &&
              request.resource.data.diff(resource.data).affectedKeys().hasOnly([
                'name',
@@ -85,13 +103,74 @@ service cloud.firestore {
                'passwordResetNote'
              ]);
     }
+
+    function canReadUserProfile(userId) {
+      return isOwner(userId) ||
+             isAdmin() ||
+             (isApprovedUser() &&
+              userRole(currentUserData()) == 'region_admin' &&
+              resource.data.regionId == currentUserData().regionId) ||
+             (isApprovedUser() &&
+              userRole(currentUserData()) == 'branch_admin' &&
+              resource.data.branchId == currentUserData().branchId);
+    }
+
+    function isScopedProfileAdminUpdate() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+               'isApproved',
+               'approvedAt',
+               'approvedBy',
+               'updatedAt',
+               'role',
+               'accessRole',
+               'membershipStatus',
+               'orgId',
+               'regionId',
+               'regionName',
+               'branchId',
+               'branchName',
+               'churchCountry',
+               'churchName'
+             ]) &&
+             (!('role' in request.resource.data) ||
+              request.resource.data.role in ['admin', 'global_admin', 'region_admin', 'branch_admin', 'member']) &&
+             (!('accessRole' in request.resource.data) ||
+              request.resource.data.accessRole in ['admin', 'global_admin', 'region_admin', 'branch_admin', 'member']) &&
+             (!('membershipStatus' in request.resource.data) ||
+              request.resource.data.membershipStatus in ['active', 'pending', 'requested', 'revoked']);
+    }
     
     // Users collection
     match /users/{userId} {
-      allow read: if isAdmin() || isOwner(userId);
+      allow read: if canReadUserProfile(userId);
       allow create: if isAdmin() || (isCreatingOwnProfile(userId) && hasOnlyAllowedProfileFields());
-      allow update: if isAdmin() || (hasOnlyAllowedProfileFields() && isValidOwnProfileUpdate(userId));
+      allow update: if (isAdmin() && hasOnlyAllowedProfileFields() && isScopedProfileAdminUpdate()) ||
+                    (hasOnlyAllowedProfileFields() && isValidOwnProfileUpdate(userId));
       allow delete: if isAdmin();
+
+      match /verseEngagement/{reference} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidVerseEngagement();
+        allow delete: if isOwner(userId);
+      }
+
+      match /favorites/{favoriteId} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidFavorite();
+        allow delete: if isOwner(userId);
+      }
+
+      match /notes/{noteId} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidNote();
+        allow delete: if isOwner(userId);
+      }
+
+      match /readingProgress/{targetId} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidReadingProgress();
+        allow delete: if isOwner(userId);
+      }
     }
     
     // Word Cards collection
@@ -105,11 +184,272 @@ service cloud.firestore {
       allow read: if canReadProtectedContent();
       allow write: if isAdmin();
     }
+
+    match /organizations/{orgId} {
+      allow read: if canReadProtectedContent() ||
+                     (('isActive' in resource.data) && resource.data.isActive == true);
+      allow create, update: if isAdmin() && isValidOrganization();
+      allow delete: if isAdmin();
+    }
+
+    match /regions/{regionId} {
+      allow read: if canReadProtectedContent() ||
+                     (('isActive' in resource.data) && resource.data.isActive == true);
+      allow create, update: if isAdmin() && isValidRegion();
+      allow delete: if isAdmin();
+    }
+
+    match /branches/{branchId} {
+      allow read: if canReadProtectedContent() ||
+                     (('isActive' in resource.data) && resource.data.isActive == true);
+      allow create, update: if isAdmin() && isValidBranch();
+      allow delete: if isAdmin();
+    }
+
+    match /branchMemberships/{membershipId} {
+      allow read: if isAdmin() ||
+                  (isSignedIn() && resource.data.userId == request.auth.uid) ||
+                  (isApprovedUser() &&
+                   userRole(currentUserData()) == 'region_admin' &&
+                   resource.data.regionId == currentUserData().regionId) ||
+                  (isApprovedUser() &&
+                   userRole(currentUserData()) == 'branch_admin' &&
+                   resource.data.branchId == currentUserData().branchId);
+      allow create, update: if isAdmin() && isValidBranchMembership();
+      allow delete: if isAdmin();
+    }
+
+    // First-phase church resources. Published resources are public; all writes stay admin-only.
+    match /resources/{resourceId} {
+      allow read: if resource.data.isPublished == true;
+      allow write: if isAdmin() && isValidResource();
+    }
     
     // Praises collection (requires auth to read)
     match /praises/{praiseId} {
       allow read: if canReadProtectedContent();
       allow write: if isAdmin();
+    }
+
+    function isValidVerseEngagement() {
+      return request.resource.data.keys().hasOnly([
+               'reference',
+               'isRead',
+               'isFavorite',
+               'isLiked',
+               'createdAt',
+               'updatedAt'
+             ]) &&
+             request.resource.data.reference is string &&
+             request.resource.data.isRead is bool &&
+             request.resource.data.isFavorite is bool &&
+             request.resource.data.isLiked is bool &&
+             request.resource.data.createdAt is timestamp &&
+             request.resource.data.updatedAt is timestamp;
+    }
+
+    function hasLocalizedText(fieldName) {
+      return request.resource.data[fieldName].keys().hasOnly(['zh', 'en', 'ko']) &&
+             request.resource.data[fieldName].zh is string &&
+             request.resource.data[fieldName].en is string &&
+             request.resource.data[fieldName].ko is string;
+    }
+
+    function isValidResource() {
+      return request.resource.data.keys().hasOnly([
+               'id',
+               'type',
+               'category',
+               'title',
+               'subtitle',
+               'description',
+               'actionTitle',
+               'url',
+               'content',
+               'storagePath',
+               'fileName',
+               'fileSize',
+               'fileType',
+               'downloadURL',
+               'icon',
+               'isPublished',
+               'sortOrder',
+               'createdAt',
+               'updatedAt',
+               'accessLevel'
+             ]) &&
+             request.resource.data.id is string &&
+             request.resource.data.type is string &&
+             request.resource.data.category is string &&
+             hasLocalizedText('title') &&
+             hasLocalizedText('subtitle') &&
+             hasLocalizedText('description') &&
+             hasLocalizedText('actionTitle') &&
+             request.resource.data.icon is string &&
+             request.resource.data.isPublished is bool &&
+             request.resource.data.sortOrder is int &&
+             request.resource.data.createdAt is timestamp &&
+             request.resource.data.updatedAt is timestamp;
+    }
+
+    function isValidFavorite() {
+      return request.resource.data.keys().hasOnly([
+               'targetType',
+               'targetId',
+               'reference',
+               'resourceId',
+               'pageNumber',
+               'title',
+               'snippet',
+               'dateKey',
+               'createdAt',
+               'updatedAt'
+             ]) &&
+             request.resource.data.targetType in ['verse', 'resource', 'pdfPage', 'connectPost', 'newsletter'] &&
+             request.resource.data.targetId is string &&
+             hasLocalizedText('title') &&
+             hasLocalizedText('snippet') &&
+             request.resource.data.dateKey is string &&
+             request.resource.data.createdAt is timestamp &&
+             request.resource.data.updatedAt is timestamp;
+    }
+
+    function isValidNote() {
+      return request.resource.data.keys().hasOnly([
+               'targetType',
+               'targetId',
+               'reference',
+               'body',
+               'language',
+               'isPrivate',
+               'createdAt',
+               'updatedAt'
+             ]) &&
+             request.resource.data.targetType in ['verse', 'resource', 'pdfPage', 'connectPost', 'newsletter'] &&
+             request.resource.data.targetId is string &&
+             request.resource.data.body is string &&
+             request.resource.data.language is string &&
+             request.resource.data.isPrivate == true &&
+             request.resource.data.createdAt is timestamp &&
+             request.resource.data.updatedAt is timestamp;
+    }
+
+    function isValidReadingProgress() {
+      return request.resource.data.keys().hasOnly([
+               'targetType',
+               'book',
+               'chapter',
+               'verse',
+               'resourceId',
+               'pageNumber',
+               'updatedAt'
+             ]) &&
+             request.resource.data.targetType in ['bible', 'pdf', 'resource'] &&
+             request.resource.data.updatedAt is timestamp;
+    }
+
+    function isValidLocalizedName(fieldName) {
+      return request.resource.data[fieldName].keys().hasOnly(['zh', 'en', 'ko']) &&
+             request.resource.data[fieldName].zh is string &&
+             request.resource.data[fieldName].en is string &&
+             request.resource.data[fieldName].ko is string;
+    }
+
+    function isValidBranchMembership() {
+      return request.resource.data.keys().hasOnly([
+               'id',
+               'userId',
+               'orgId',
+               'regionId',
+               'branchId',
+               'role',
+               'accessRole',
+               'status',
+               'createdAt',
+               'updatedAt',
+               'approvedAt',
+               'approvedBy'
+             ]) &&
+             request.resource.data.userId is string &&
+             request.resource.data.orgId is string &&
+             request.resource.data.regionId is string &&
+             request.resource.data.branchId is string &&
+             request.resource.data.role in ['admin', 'global_admin', 'region_admin', 'branch_admin', 'member'] &&
+             request.resource.data.accessRole in ['admin', 'global_admin', 'region_admin', 'branch_admin', 'member'] &&
+             request.resource.data.status in ['active', 'pending', 'requested', 'revoked'] &&
+             request.resource.data.createdAt is timestamp &&
+             request.resource.data.updatedAt is timestamp;
+    }
+
+    function isValidOrganization() {
+      return request.resource.data.keys().hasOnly([
+               'id',
+               'name',
+               'isActive',
+               'sortOrder',
+               'createdAt',
+               'updatedAt'
+             ]) &&
+             request.resource.data.id is string &&
+             isValidLocalizedName('name') &&
+             request.resource.data.isActive is bool &&
+             request.resource.data.sortOrder is int &&
+             request.resource.data.createdAt is timestamp &&
+             request.resource.data.updatedAt is timestamp;
+    }
+
+    function isValidRegion() {
+      return request.resource.data.keys().hasOnly([
+               'id',
+               'orgId',
+               'code',
+               'name',
+               'country',
+               'isActive',
+               'sortOrder',
+               'createdAt',
+               'updatedAt'
+             ]) &&
+             request.resource.data.id is string &&
+             request.resource.data.orgId is string &&
+             request.resource.data.code is string &&
+             isValidLocalizedName('name') &&
+             request.resource.data.country is string &&
+             request.resource.data.isActive is bool &&
+             request.resource.data.sortOrder is int &&
+             request.resource.data.createdAt is timestamp &&
+             request.resource.data.updatedAt is timestamp;
+    }
+
+    function isValidBranch() {
+      return request.resource.data.keys().hasOnly([
+               'id',
+               'orgId',
+               'regionId',
+               'regionName',
+               'code',
+               'name',
+               'country',
+               'city',
+               'timezone',
+               'isActive',
+               'sortOrder',
+               'createdAt',
+               'updatedAt'
+             ]) &&
+             request.resource.data.id is string &&
+             request.resource.data.orgId is string &&
+             request.resource.data.regionId is string &&
+             isValidLocalizedName('regionName') &&
+             request.resource.data.code is string &&
+             isValidLocalizedName('name') &&
+             request.resource.data.country is string &&
+             request.resource.data.city is string &&
+             request.resource.data.timezone is string &&
+             request.resource.data.isActive is bool &&
+             request.resource.data.sortOrder is int &&
+             request.resource.data.createdAt is timestamp &&
+             request.resource.data.updatedAt is timestamp;
     }
   }
 }

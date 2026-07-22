@@ -24,6 +24,13 @@ Pods/
 
 # Firebase config (contains project-specific keys)
 GoogleService-Info.plist
+.firebase/
+firebase-debug.log
+firestore-debug.log
+*-debug.log
+graphify-out/cache/
+graphify-out/.graphify_root
+graphify-out/.graphify_python
 
 # Backup files
 *.backup

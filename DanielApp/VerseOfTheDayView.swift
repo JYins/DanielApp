@@ -29,6 +29,7 @@ struct VerseOfTheDayView: View {
     @EnvironmentObject var appState: AppState
     @StateObject private var viewModel = VerseViewModel()
     @StateObject private var authManager = AuthManager.shared
+    @StateObject private var engagementService = VerseEngagementService.shared
     
     // 动态的问候语（包含用户名和性别称呼）
     private var greetingText: String {
@@ -69,26 +70,16 @@ struct VerseOfTheDayView: View {
             DesignSystem.Colors.background.ignoresSafeArea()
             
             ScrollView {
-                VStack(spacing: DesignSystem.Spacing.sectionSpacing) {
-                    // 顶部问候区域
-                    VStack(spacing: DesignSystem.Spacing.md) {
-                        HStack {
-                            Text(greetingText)
-                                .font(DesignSystem.Typography.smart(DesignSystem.Typography.callout, weight: .medium, language: appState.selectedLanguage))
-                                .foregroundColor(DesignSystem.Colors.primaryText)
-                            
-                            Spacer()
-                            
-                            // 用户头像按钮
-                            VerseUserButtonView()
-                        }
-                        .greetingBar()
-                    }
-                    .padding(.top, DesignSystem.Spacing.md)
-                    .padding(.horizontal, DesignSystem.Spacing.contentMargin)
+                VStack(spacing: 32) {
+                    DanielHomeHeader(
+                        language: appState.selectedLanguage,
+                        greetingText: greetingText
+                    )
+                    .padding(.top, 16)
+                    .padding(.horizontal, 24)
                     
                     // 主要内容区域
-                    VStack(spacing: DesignSystem.Spacing.lg) {
+                    VStack(spacing: 32) {
                         // 经文卡片
                         if viewModel.isLoading {
                             ProgressView()
@@ -109,44 +100,49 @@ struct VerseOfTheDayView: View {
                         }
                     
                         // 按钮区域
-                        VStack(spacing: DesignSystem.Spacing.md) {
+                        VStack(spacing: 12) {
                             if viewModel.updateMode == "automatic" {
                                 HStack(spacing: DesignSystem.Spacing.md) {
-                                    Button(LocalizedText.VerseView.switchVerse.text(for: appState.selectedLanguage)) {
-                                        viewModel.loadRandomVerse()
+                                    Button {
+                                        appState.selectedTab = 3
+                                    } label: {
+                                        Label(
+                                            LocalizedText.Common.settings.text(for: appState.selectedLanguage),
+                                            systemImage: "gearshape"
+                                        )
                                     }
-                                    .buttonStyle(ModernButtonStyle(language: appState.selectedLanguage))
+                                    .buttonStyle(ModernButtonStyle(language: appState.selectedLanguage, variant: .outline))
                                     
-                                    // 根据是否已固定显示不同的按钮
-                                    if viewModel.isVerseFixed {
-                                        Button(LocalizedText.VerseView.unfixVerse.text(for: appState.selectedLanguage)) {
-                                            viewModel.unfixVerse()
-                                        }
-                                        .buttonStyle(ModernButtonStyle(language: appState.selectedLanguage))
-                                    } else {
-                                        Button(LocalizedText.VerseView.setAsFixed.text(for: appState.selectedLanguage)) {
-                                            viewModel.setFixedVerse()
-                                        }
-                                        .buttonStyle(ModernButtonStyle(language: appState.selectedLanguage))
+                                    Button {
+                                        viewModel.loadRandomVerse()
+                                    } label: {
+                                        Label(
+                                            LocalizedText.VerseView.switchVerse.text(for: appState.selectedLanguage),
+                                            systemImage: "arrow.triangle.2.circlepath"
+                                        )
                                     }
+                                    .buttonStyle(ModernButtonStyle(language: appState.selectedLanguage, variant: .primary))
                                 }
                             } else {
                                 // 手动模式下，显示修改按钮
-                                Button(LocalizedText.VerseView.modifyInSettings.text(for: appState.selectedLanguage)) {
-                                    // 显示设置页面叠加层
-                                    appState.needsShowSettings = true
+                                Button {
+                                    // 设置已经从悬浮窗升级成独立页面，直接切换到底部设置标签。
+                                    appState.selectedTab = 3
+                                } label: {
+                                    Label(
+                                        LocalizedText.VerseView.modifyInSettings.text(for: appState.selectedLanguage),
+                                        systemImage: "gearshape"
+                                    )
                                 }
-                                .buttonStyle(ModernButtonStyle(language: appState.selectedLanguage))
+                                .buttonStyle(ModernButtonStyle(language: appState.selectedLanguage, variant: .primary))
                             }
                         }
-                        .padding(.horizontal, DesignSystem.Spacing.contentMargin)
+                        .padding(.horizontal, 24)
                     }
-                    .padding(.horizontal, DesignSystem.Spacing.contentMargin)
                 }
                 .padding(.bottom, DesignSystem.Spacing.xl)
             }
         }
-        .watermark("@但以理和他的朋友们")
             .onAppear {
                 print("🔄 VerseOfTheDayView显示...")
                 
@@ -165,6 +161,13 @@ struct VerseOfTheDayView: View {
                 
                 // 设置语言
                 viewModel.selectedLanguage = appState.selectedLanguage
+
+                // 本地优先加载，再在已登录时尝试同步 Firebase
+                engagementService.loadLocalEngagement()
+                engagementService.syncFromFirebaseIfSignedIn()
+            }
+            .onChange(of: authManager.authState) { _, _ in
+                engagementService.syncFromFirebaseIfSignedIn()
             }
             .onChange(of: appState.selectedVerseReference) { _, newValue in
                 if let reference = newValue {
@@ -673,58 +676,355 @@ func copyJsonFiles() {
     VerseDataService.shared.loadVerseIndexListIfNeeded()
 }
 
+// MARK: - 首页顶部品牌栏
+struct DanielHomeHeader: View {
+    let language: CoreModels.VerseLanguage
+    let greetingText: String
+    @EnvironmentObject var appState: AppState
+    
+    var body: some View {
+        HStack(alignment: .center, spacing: 16) {
+            HStack(spacing: 8) {
+                RoundedRectangle(cornerRadius: 2)
+                    .fill(DesignSystem.Colors.accent)
+                    .frame(width: 24, height: 24)
+                    .overlay(
+                        Text("D")
+                            .font(.system(size: 13, weight: .bold))
+                            .foregroundColor(.white)
+                    )
+                
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Daniel App")
+                        .font(DesignSystem.Typography.smart(24, weight: .bold, language: language, preferLanguageFont: false))
+                        .foregroundColor(DesignSystem.Colors.accentDark)
+                    
+                    Text(greetingText)
+                        .font(DesignSystem.Typography.smart(12, weight: .medium, language: language))
+                        .foregroundColor(DesignSystem.Colors.mutedText)
+                        .lineLimit(1)
+                }
+            }
+            
+            Spacer(minLength: 12)
+            
+            Button {
+                appState.cycleLanguage()
+            } label: {
+                Image(systemName: "globe")
+                    .font(.system(size: 20, weight: .semibold))
+                    .foregroundColor(DesignSystem.Colors.mutedText)
+                    .frame(width: 34, height: 34)
+                    .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(languageSwitchTitle)
+            
+            VerseUserButtonView()
+        }
+    }
+    
+    private var languageSwitchTitle: String {
+        switch language {
+        case .chinese:
+            return "切换语言"
+        case .english:
+            return "Switch Language"
+        case .korean:
+            return "언어 변경"
+        }
+    }
+}
+
 // MARK: - 现代化经文卡片组件
 struct ModernVerseCard: View {
     let verse: MultiLanguageVerse
     let language: CoreModels.VerseLanguage
     @ObservedObject var viewModel: VerseViewModel
+    @EnvironmentObject var appState: AppState
+    @StateObject private var engagementService = VerseEngagementService.shared
+    @StateObject private var favoriteService = FavoriteService.shared
+    @StateObject private var authManager = AuthManager.shared
+    @State private var showingNoteEditor = false
+    @State private var showingLoginRequired = false
+    @State private var noteText = ""
+    
+    private var localizedReference: String {
+        CoreModels.VerseLanguage.localizeReference(verse.reference, to: language)
+    }
+    
+    private var verseBody: String {
+        viewModel.getVerseTextInSelectedLanguage(verse)
+    }
+    
+    private var isRead: Bool {
+        engagementService.readReferences.contains(verse.reference)
+    }
+    
+    private var isFavorite: Bool {
+        favoriteService.isFavorite(targetType: .verse, targetId: verse.reference)
+    }
+
+    private var hasNote: Bool {
+        favoriteService.note(for: .verse, targetId: verse.reference) != nil
+    }
+    
+    private var shareText: String {
+        "\"\(verseBody)\"\n\(localizedReference)\nDaniel App"
+    }
+    
+    private var fontScale: CGFloat {
+        appState.fontScale
+    }
     
     var body: some View {
-        VStack(spacing: DesignSystem.Spacing.lg) {
-            // 每日经文标题
-            HStack {
-                Text(LocalizedText.VerseView.dailyVerse.text(for: language))
-                    .font(DesignSystem.Typography.title(DesignSystem.Typography.title2, weight: .semibold, language: language))
-                    .foregroundColor(DesignSystem.Colors.primaryText)
+        VStack(alignment: .leading, spacing: 24) {
+            HStack(spacing: 8) {
+                Image(systemName: "book")
+                    .font(.system(size: 24, weight: .medium))
+                    .foregroundColor(DesignSystem.Colors.accentDark)
                 
-                Spacer()
-                
-                // 经文引用
-                Text(CoreModels.VerseLanguage.localizeReference(verse.reference, to: language))
-                    .font(DesignSystem.Typography.smart(DesignSystem.Typography.callout, weight: .medium, language: language))
-                    .foregroundColor(DesignSystem.Colors.secondaryText)
+                Text(LocalizedText.VerseView.dailyVerse.text(for: language).uppercased())
+                    .font(DesignSystem.Typography.smart(14 * fontScale, weight: .medium, language: language))
+                    .foregroundColor(DesignSystem.Colors.accentDark)
             }
-            .padding(.horizontal, DesignSystem.Spacing.cardPadding)
-            .padding(.top, DesignSystem.Spacing.cardPadding)
             
-            // 经文内容
-            VStack(spacing: DesignSystem.Spacing.md) {
-                Text(viewModel.getVerseTextInSelectedLanguage(verse))
-                    .font(DesignSystem.Typography.body(DesignSystem.Typography.body, weight: .regular, language: language))
-                    .foregroundColor(DesignSystem.Colors.primaryText)
-                    .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .lineSpacing(4)
-                    .padding(.horizontal, DesignSystem.Spacing.md)
-            }
-            .padding(.horizontal, DesignSystem.Spacing.cardPadding)
-            .padding(.bottom, DesignSystem.Spacing.cardPadding)
+            Text("\"\(verseBody)\"")
+                .font(DesignSystem.Typography.body(18 * fontScale, weight: .regular, language: language))
+                .italic()
+                .foregroundColor(DesignSystem.Colors.primaryText)
+                .multilineTextAlignment(.leading)
+                .fixedSize(horizontal: false, vertical: true)
+                .lineSpacing(5)
             
-            // 状态信息
-            HStack(spacing: DesignSystem.Spacing.xs) {
-                                  Image(systemName: "info.circle")
-                     .font(.system(size: 12))
-                      .foregroundColor(DesignSystem.Colors.secondaryText)
-                
-                Text(viewModel.getStatusMessage(for: language))
-                    .font(DesignSystem.Typography.smart(DesignSystem.Typography.footnote, language: language))
-                    .foregroundColor(DesignSystem.Colors.secondaryText)
+            Text("— \(localizedReference)")
+                .font(DesignSystem.Typography.smart(16 * fontScale, weight: .semibold, language: language))
+                .foregroundColor(DesignSystem.Colors.accentDark)
+            
+            if isRead || isFavorite || hasNote {
+                HStack(spacing: 8) {
+                    if isRead {
+                        VerseEngagementPill(icon: "checkmark.circle.fill", title: readChipTitle, language: language)
+                    }
+                    if isFavorite {
+                        VerseEngagementPill(icon: "heart.fill", title: favoriteChipTitle, language: language)
+                    }
+                    if hasNote {
+                        VerseEngagementPill(icon: "note.text", title: noteChipTitle, language: language)
+                    }
+                }
             }
-            .padding(.horizontal, DesignSystem.Spacing.cardPadding)
-            .padding(.bottom, DesignSystem.Spacing.md)
+            
+            HStack(spacing: 12) {
+                Button {
+                    toggleFavorite()
+                } label: {
+                    Label(favoriteButtonTitle, systemImage: isFavorite ? "heart.fill" : "heart")
+                        .font(DesignSystem.Typography.smart(13 * fontScale, weight: .medium, language: language))
+                        .foregroundColor(.white)
+                        .lineLimit(1)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 12)
+                        .background(
+                            RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.button)
+                                .fill(isFavorite ? DesignSystem.Colors.accentDark : DesignSystem.Colors.accent)
+                        )
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(favoriteButtonTitle)
+                
+                Button {
+                    openNoteEditor()
+                } label: {
+                    Image(systemName: hasNote ? "note.text" : "square.and.pencil")
+                        .font(.system(size: 17, weight: .medium))
+                        .foregroundColor(hasNote ? DesignSystem.Colors.accentDark : DesignSystem.Colors.mutedText)
+                        .frame(width: 40, height: 40)
+                        .background(
+                            RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.button)
+                                .stroke(DesignSystem.Colors.buttonBorder, lineWidth: 1)
+                        )
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(noteButtonTitle)
+                
+                ShareLink(item: shareText) {
+                    Image(systemName: "square.and.arrow.up")
+                        .font(.system(size: 17, weight: .medium))
+                        .foregroundColor(DesignSystem.Colors.mutedText)
+                        .frame(width: 40, height: 40)
+                        .background(
+                            RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.button)
+                                .stroke(DesignSystem.Colors.buttonBorder, lineWidth: 1)
+                        )
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(shareButtonTitle)
+            }
         }
-        .modernCard()
-        .padding(.horizontal, DesignSystem.Spacing.contentMargin)
+        .padding(24)
+        .background(DesignSystem.Colors.cardBackground)
+        .clipShape(RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.card))
+        .overlay(
+            RoundedRectangle(cornerRadius: DesignSystem.CornerRadius.card)
+                .stroke(DesignSystem.Colors.border, lineWidth: 1)
+        )
+        .shadow(
+            color: DesignSystem.Shadow.elevated.color,
+            radius: DesignSystem.Shadow.elevated.radius,
+            x: DesignSystem.Shadow.elevated.x,
+            y: DesignSystem.Shadow.elevated.y
+        )
+        .padding(.horizontal, 24)
+        .onAppear {
+            engagementService.loadLocalEngagement()
+            engagementService.syncFromFirebaseIfSignedIn()
+            favoriteService.loadLocal()
+            favoriteService.syncFromFirebaseIfSignedIn()
+        }
+        .sheet(isPresented: $showingNoteEditor) {
+            BibleVerseNoteEditor(
+                verse: verse,
+                language: language,
+                noteText: $noteText,
+                onSave: saveNote
+            )
+        }
+        .alert(loginRequiredTitle, isPresented: $showingLoginRequired) {
+            Button(loginRequiredOK, role: .cancel) {}
+        } message: {
+            Text(loginRequiredMessage)
+        }
+    }
+    
+    private var readButtonTitle: String {
+        switch language {
+        case .chinese: return isRead ? "已读" : "标记已读"
+        case .english: return isRead ? "Read" : "Mark as Read"
+        case .korean: return isRead ? "읽음" : "읽음 표시"
+        }
+    }
+    
+    private var readChipTitle: String {
+        switch language {
+        case .chinese: return "已读"
+        case .english: return "Read"
+        case .korean: return "읽음"
+        }
+    }
+    
+    private var favoriteChipTitle: String {
+        switch language {
+        case .chinese: return "已收藏"
+        case .english: return "Saved"
+        case .korean: return "저장됨"
+        }
+    }
+    
+    private var favoriteButtonTitle: String {
+        switch language {
+        case .chinese: return isFavorite ? "取消收藏" : "收藏经文"
+        case .english: return isFavorite ? "Remove Favorite" : "Save Verse"
+        case .korean: return isFavorite ? "저장 취소" : "말씀 저장"
+        }
+    }
+
+    private var noteChipTitle: String {
+        switch language {
+        case .chinese: return "有笔记"
+        case .english: return "Noted"
+        case .korean: return "노트 있음"
+        }
+    }
+
+    private var noteButtonTitle: String {
+        switch language {
+        case .chinese: return hasNote ? "查看笔记" : "写笔记"
+        case .english: return hasNote ? "View Note" : "Write Note"
+        case .korean: return hasNote ? "노트 보기" : "노트 쓰기"
+        }
+    }
+    
+    private var shareButtonTitle: String {
+        switch language {
+        case .chinese: return "分享经文"
+        case .english: return "Share Verse"
+        case .korean: return "말씀 공유"
+        }
+    }
+    
+    private func toggleRead() {
+        engagementService.toggleRead(reference: verse.reference)
+    }
+    
+    private func toggleFavorite() {
+        favoriteService.toggleFavorite(favoriteService.makeVerseFavorite(verse: verse))
+    }
+
+    private func openNoteEditor() {
+        guard authManager.currentAuthenticatedUserID != nil else {
+            showingLoginRequired = true
+            return
+        }
+        noteText = favoriteService.note(for: .verse, targetId: verse.reference)?.body ?? ""
+        showingNoteEditor = true
+    }
+
+    private func saveNote() {
+        _ = favoriteService.saveNote(
+            targetType: .verse,
+            targetId: verse.reference,
+            reference: verse.reference,
+            body: noteText,
+            language: language
+        )
+        noteText = ""
+    }
+
+    private var loginRequiredTitle: String {
+        switch language {
+        case .chinese: return "需要登录"
+        case .english: return "Sign In Required"
+        case .korean: return "로그인이 필요합니다"
+        }
+    }
+
+    private var loginRequiredMessage: String {
+        switch language {
+        case .chinese: return "收藏可以先保存在本地；写笔记需要登录，以便保存到你的账户。"
+        case .english: return "Favorites can be saved locally first. Notes require sign-in so they can be saved to your account."
+        case .korean: return "즐겨찾기는 먼저 로컬에 저장할 수 있습니다. 노트는 계정에 저장하기 위해 로그인이 필요합니다."
+        }
+    }
+
+    private var loginRequiredOK: String {
+        switch language {
+        case .chinese: return "好的"
+        case .english: return "OK"
+        case .korean: return "확인"
+        }
+    }
+}
+
+private struct VerseEngagementPill: View {
+    let icon: String
+    let title: String
+    let language: CoreModels.VerseLanguage
+    
+    var body: some View {
+        HStack(spacing: 5) {
+            Image(systemName: icon)
+                .font(.system(size: 10, weight: .semibold))
+            
+            Text(title)
+                .font(DesignSystem.Typography.smart(11, weight: .semibold, language: language))
+        }
+        .foregroundColor(DesignSystem.Colors.accentDark)
+        .padding(.horizontal, 9)
+        .padding(.vertical, 6)
+        .background(Capsule().fill(DesignSystem.Colors.surface.opacity(0.8)))
+        .overlay(Capsule().stroke(DesignSystem.Colors.border, lineWidth: 1))
     }
 }
 
@@ -746,14 +1046,21 @@ struct VerseUserButtonView: View {
             }
         }) {
             Circle()
-                .fill(DesignSystem.Colors.accent.opacity(0.2))
-                .frame(width: 32, height: 32)
+                .fill(DesignSystem.Colors.cardBackground)
+                .frame(width: 40, height: 40)
                 .overlay(
                     Image(systemName: authManager.hasContentAccess() ? "person.fill" : "person")
-                        .font(.system(size: 16))
-                        .foregroundColor(DesignSystem.Colors.accent)
+                        .font(.system(size: 17, weight: .semibold))
+                        .foregroundColor(DesignSystem.Colors.accentDark)
                 )
+                .overlay(alignment: .bottomTrailing) {
+                    Circle()
+                        .fill(authManager.hasContentAccess() ? Color(hex: "#22c55e") : DesignSystem.Colors.border)
+                        .frame(width: 14, height: 14)
+                        .overlay(Circle().stroke(DesignSystem.Colors.surface, lineWidth: 2))
+                }
         }
+        .accessibilityLabel(authManager.hasContentAccess() ? getUserMenuTitle() : getSignInLabel())
         .actionSheet(isPresented: $showingUserMenu) {
             ActionSheet(
                 title: Text(getUserMenuTitle()),
@@ -780,6 +1087,17 @@ struct VerseUserButtonView: View {
             return "User Menu"
         case .korean:
             return "사용자 메뉴"
+        }
+    }
+    
+    private func getSignInLabel() -> String {
+        switch appState.selectedLanguage {
+        case .chinese:
+            return "登录"
+        case .english:
+            return "Sign In"
+        case .korean:
+            return "로그인"
         }
     }
     

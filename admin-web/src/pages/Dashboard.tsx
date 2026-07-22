@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { collection, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { httpsCallable } from 'firebase/functions';
+import { db, functions } from '../lib/firebase';
+import { useAuthContext } from '../components/AuthProvider';
 import { Users, FileText, Music, Link as LinkIcon, CheckCircle, XCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Dashboard() {
+  const { adminProfile } = useAuthContext();
+  const adminAccessRole = adminProfile?.accessRole || adminProfile?.role;
+  const isRegionAdmin = adminAccessRole === 'region_admin';
+  const isBranchAdmin = adminAccessRole === 'branch_admin';
   const [stats, setStats] = useState({
     pendingUsers: 0,
     totalWordCards: 0,
@@ -17,7 +23,13 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchStats = async () => {
       // Fetch pending users
-      const usersQuery = query(collection(db, 'users'), where('isApproved', '==', false));
+      const userConstraints: any[] = [where('isApproved', '==', false)];
+      if (isRegionAdmin && adminProfile?.regionId) {
+        userConstraints.push(where('regionId', '==', adminProfile.regionId));
+      } else if (isBranchAdmin && adminProfile?.branchId) {
+        userConstraints.push(where('branchId', '==', adminProfile.branchId));
+      }
+      const usersQuery = query(collection(db, 'users'), ...userConstraints);
       const usersSnap = await getDocs(usersQuery);
       setPendingUserList(usersSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
       
@@ -40,15 +52,19 @@ export default function Dashboard() {
       }
     };
     fetchStats();
-  }, []);
+  }, [adminProfile?.id]);
 
-  const handleApprove = async (userId: string) => {
+  const handleApprove = async (user: any) => {
     try {
-      await updateDoc(doc(db, 'users', userId), {
+      const setUserAccessAdminFunc = httpsCallable(functions, 'setUserAccessAdmin');
+      await setUserAccessAdminFunc({
+        uid: user.id,
         isApproved: true,
-        updatedAt: new Date()
+        branchId: user.branchId || undefined,
+        accessRole: user.accessRole || user.role || 'member',
+        membershipStatus: 'active',
       });
-      setPendingUserList(prev => prev.filter(u => u.id !== userId));
+      setPendingUserList(prev => prev.filter(u => u.id !== user.id));
       setStats(prev => ({ ...prev, pendingUsers: prev.pendingUsers - 1 }));
     } catch (err) {
       alert("Failed to approve user.");
@@ -133,7 +149,7 @@ export default function Dashboard() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <button
-                        onClick={() => handleApprove(user.id)}
+                        onClick={() => handleApprove(user)}
                         className="text-green-600 hover:text-green-900 flex items-center justify-end w-full"
                       >
                         <CheckCircle className="h-4 w-4 mr-1" /> Approve

@@ -50,9 +50,7 @@ enum VerseWidgetUserHelper {
         
         // 先尝试从索引列表获取
         if let indices = loadVerseIndexList(), !indices.isEmpty {
-            let calendar = Calendar.current
-            let day = calendar.component(.day, from: date)
-            let indexForToday = day % indices.count
+            let indexForToday = VerseUtilities.stableDailyVerseIndex(for: date, count: indices.count)
             let referenceForToday = indices[indexForToday]
             
             // 查找对应的经文
@@ -62,12 +60,7 @@ enum VerseWidgetUserHelper {
         }
         
         // 如果索引列表不可用或找不到对应经文，直接从所有经文中选择
-        let calendar = Calendar.current
-        let day = calendar.component(.day, from: date)
-        let month = calendar.component(.month, from: date)
-        let seed = day + month
-        
-        let index = seed % verses.count
+        let index = VerseUtilities.stableDailyVerseIndex(for: date, count: verses.count)
         return verses[index]
     }
 }

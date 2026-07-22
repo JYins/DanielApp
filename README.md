@@ -1,4 +1,4 @@
-# Daniel & Friends 🦁
+# Daniel & Friends
 
 **A daily Bible verse widget for iOS — built with faith, curiosity, and a whole lot of learning.**
 
@@ -31,6 +31,21 @@ The name comes from the Book of Daniel — Daniel and his friends stayed faithfu
 
 ---
 
+## Current Product Direction
+
+The app is being reshaped from a devotional/widget app for "Daniel and his Friends" into a branch-church app. The first product shell is:
+
+`Daily Verse → Connect → Resources → Settings`
+
+- **Daily Verse** keeps the devotional heart: daily scripture, read/favorite/share, widgets, and language settings.
+- **Connect** is the church communication hub. It reuses the existing Firebase newsletter service for announcements and weekly newsletters, while messages remain a prepared future surface.
+- **Resources** is now a simple church resource library/directory. First-phase content is local seed data for hymnbook, church documents, useful links, Bible study, and Bible seminar.
+- **Settings** is a full page for language, verse update mode, notifications, account, support, and app information.
+
+Agents should read `AGENTS.md` before making changes. Graphify is installed for Codex and project-scoped in this repository; use `graphify query`, `graphify path`, or `graphify explain` before broad code exploration when `graphify-out/graph.json` exists.
+
+---
+
 ## Features
 
 - **Daily Verse Widget** — A home screen widget (`systemMedium`) that shows a fresh, meaningful Bible verse every day
@@ -38,19 +53,17 @@ The name comes from the Book of Daniel — Daniel and his friends stayed faithfu
 - **Trilingual Support** — Full Chinese / English / Korean support with instant language switching
 - **Midnight Auto-Refresh** — A custom update system that ensures the verse changes right at midnight (this was the hardest part — more on that below)
 - **Curated Verse Collection** — 642 hand-picked meaningful verses, not random noise
-- **Church Newsletter** — A community section for sharing church newsletters (Firebase-powered, approval-based)
-- **Word Card Gallery** — Browse beautifully hand-drawn word cards created by our church sisters
-- **Connect Hub** — Quick links to our church's Instagram and YouTube
+- **Connect Hub** — Church announcements and weekly newsletters powered by the existing Firebase `newsletters` collection
+- **Resources Library** — Local seed resource directory for hymnbook, documents, links, Bible study, and Bible seminar
+- **Legacy Content Areas** — Word Cards and Praise remain in the codebase for future reuse/migration, but are not first-level tabs in this phase
 
 <p align="center">
   <img src="screenshots/settings_language.PNG" width="200" alt="Language Settings" />
   &nbsp;
-  <img src="screenshots/word_cards.PNG" width="200" alt="Word Card Gallery" />
-  &nbsp;
   <img src="screenshots/newsletter.PNG" width="200" alt="Church Newsletter" />
-  &nbsp;
-  <img src="screenshots/connect.PNG" width="200" alt="Connect View" />
 </p>
+
+Some older screenshots still show legacy Word Cards and social-link Connect surfaces. Those files remain useful as historical references, but the current app shell is the four-tab structure described above.
 
 ---
 
@@ -137,7 +150,7 @@ Supporting three languages sounds simple until you realize:
 The church community features are powered by **Firebase + a custom web Admin Dashboard**, making it easy for our media team to manage content without touching code.
 
 - **Firebase Auth** — Email/password authentication with an approval workflow (new users are `pending` until a church admin approves them)
-- **Firestore** — Structured data for Word Cards, Newsletters, and Praise files with real-time sync
+- **Firestore** — Structured data for Newsletters, Word Cards, Praise files, and approved users with real-time sync
 - **Firebase Storage** — Hosts images and PDF files, auto-cleaned when content is deleted from Admin
 - **Admin Dashboard** — A React web app for content management (deployed on Vercel, auto-deployed from GitHub)
 
@@ -181,6 +194,79 @@ Firestore Collections                Firebase Storage
         └── role
 ```
 
+Current first-phase app usage:
+- `newsletters` is used by Connect for announcements and weekly newsletters.
+- `users` is used by `AuthManager` for account and access state.
+- `wordCards` and `praises` remain available legacy/reusable collections, but the new Resources tab uses local seed data until a Firebase-backed resource library is designed.
+
+### Login, Approval, And Branch-Church Schema
+
+The login system is Firebase Auth plus a Firestore profile at `users/{uid}`. New users can create their own pending profile, but app content access still depends on admin approval through `isApproved`.
+
+Branch-church support is normalized in Firebase while keeping the legacy `churchCountry/churchName` fields for compatibility:
+
+```
+organizations/{orgId}
+regions/{regionId}
+branches/{branchId}
+branchMemberships/{branchId}_{uid}
+users/{uid}
+```
+
+Recommended user profile fields for branch access:
+
+- `orgId`
+- `regionId`, `regionName`
+- `branchId`, `branchName`
+- `role` for legacy compatibility (`admin` or scoped role)
+- `accessRole` for scoped authorization (`global_admin`, `region_admin`, `branch_admin`, `member`)
+- `membershipStatus` (`pending`, `active`, `requested`, `revoked`)
+- `isApproved`, `approvedAt`, `approvedBy`
+
+Firestore rules recognize legacy `role: "admin"` and new `accessRole: "global_admin"` as global admins. Region and branch admins can read scoped users/memberships. Delegated write actions are intentionally handled through the callable Cloud Function `setUserAccessAdmin` instead of direct client Firestore writes.
+
+The admin dashboard includes:
+
+- `Users` for approval, branch assignment, and scoped access role assignment.
+- `Branches` for Firebase-backed region and local branch CRUD, including trilingual names, active state, sort order, country/city/timezone, and branch-region mapping.
+
+Admin access modes:
+
+- `global_admin` can manage all users, regions, branches, content pages, and branch assignment.
+- `region_admin` can manage users in their own region and assign `member` or `branch_admin`.
+- `branch_admin` can approve/revoke member users in their own branch.
+
+`Users` prefers the callable Cloud Function `setUserAccessAdmin` so approval, role changes, branch assignment, `branchMemberships`, and Firebase Auth custom claims stay in sync. The callable rejects self-demotion, cross-scope moves, higher-admin management, and global/region-role escalation by scoped admins. If the function is not deployed yet, the admin dashboard can temporarily fall back to Firestore batch writes for global-admin-style user/membership documents, but custom claims and delegated scoped enforcement are only maintained by the function.
+
+The iOS registration page uses `RegistrationBranchViewModel` and an injectable `RegistrationBranchRemoteStore` to read active Firebase `branches` with `isActive == true`, ordered by `sortOrder`, then lets new members choose their branch. The selected branch writes both normalized fields (`orgId`, `regionId`, `branchId`) and legacy compatibility fields (`churchCountry`, `churchName`). If branches cannot be loaded, registration falls back to manual church country/name entry.
+
+Settings shows the signed-in member's branch, region, scoped access role, and review status from the Firebase user profile. These values are read-only in the app; administrators maintain them through Firebase/admin tooling.
+
+Production branch initialization is handled by:
+
+```bash
+node scripts/firebase-bootstrap-global-admin.js --project daniel1-ca1e7 --check
+node scripts/firebase-bootstrap-global-admin.js --project daniel1-ca1e7 --email admin@daniel.com
+node scripts/firebase-bootstrap-global-admin.js --project daniel1-ca1e7 --email admin@daniel.com --confirm-global-admin
+node scripts/firebase-seed-branch-system.js --project daniel1-ca1e7
+node scripts/firebase-seed-branch-system.js --project daniel1-ca1e7 --confirm-branch-system
+```
+
+Run the `--check` command first to see whether a legacy `role: "admin"` or new `accessRole: "global_admin"` user already exists. The bootstrap command defaults to dry-run and prints the exact Firestore and Auth custom claim changes for the first global admin. The `--confirm-global-admin` command writes production Firestore and Auth custom claims for that one user.
+
+The branch seed command also defaults to dry-run. The `--confirm-branch-system` command writes production Firestore, upserting organization/region/branch/membership documents and patching existing users with branch fields through Firestore update masks. Both production scripts refuse to run when emulator environment variables are set and use Firebase CLI login state instead of service account files.
+
+Production status for project `daniel1-ca1e7` as of 2026-06-07:
+
+- `admin@daniel.com` is bootstrapped as `global_admin` in Firestore and Firebase Auth custom claims.
+- Firestore rules/indexes and Cloud Functions are deployed.
+- `setUserAccessAdmin`, `deleteUserAdmin`, and `ping` are callable functions in `us-central1`.
+- Branch seed is initialized with 1 organization, 2 regions, 2 branches, 5 branch memberships, and 5 user profiles.
+
+Current next-phase Product Design and implementation notes for Connect, PDF hymnbooks, Bible reader, shared favorites, notes, and date-grouped Favorites live in `firebase-product-design.md`. The first slice is implemented locally: Daily Verse and the Resources Bible Reader share a unified favorite/note service, with Favorites reachable from Resources and Settings.
+
+The production deployment status above covers the branch/login/resources baseline already deployed with explicit approval. The newer `favorites`, `notes`, and `readingProgress` Firestore rules have been validated against the emulator and are not deployed to production unless that deployment is explicitly approved.
+
 ### Data Flow: App ↔ Widget
 
 The main app and widget extension communicate through **App Group shared UserDefaults**:
@@ -222,11 +308,13 @@ The widget can operate in two modes:
 ```
 DanielApp/                            # iOS App
 ├── DanielAppApp.swift               # App entry, Firebase init
-├── MainTabView.swift                # 5-tab navigation
+├── MainTabView.swift                # 4-tab navigation
 ├── VerseOfTheDayView.swift          # Daily verse display
-├── WordCardGalleryView.swift        # Word card gallery (Firestore)
-├── NewsletterView.swift             # Church newsletters (Firestore)
-├── PraiseView.swift                 # Praise bookshelf + PDF viewer
+├── ChurchCommunicationView.swift    # Connect hub (newsletters + future messages)
+├── ChurchResourcesView.swift        # Firebase-backed resource library + local fallback
+├── WordCardGalleryView.swift        # Legacy word card gallery (Firestore)
+├── NewsletterView.swift             # Reusable church newsletter views (Firestore)
+├── PraiseView.swift                 # Legacy praise bookshelf + PDF viewer
 ├── AuthManager.swift                # Firebase auth + approval workflow
 ├── MidnightUpdateManager.swift      # Multi-layer midnight refresh
 ├── SharedModels/                    # Trilingual verse models
@@ -240,7 +328,8 @@ admin-web/                            # Admin Dashboard (React)
 │   │   ├── WordCardsList.tsx        # CRUD for word cards
 │   │   ├── NewslettersList.tsx      # CRUD for newsletters
 │   │   ├── PraiseList.tsx           # Upload praise files (PDF/images)
-│   │   └── UsersList.tsx            # User approval management
+│   │   ├── UsersList.tsx            # User approval and scoped branch access
+│   │   └── BranchesList.tsx         # Region and branch management
 │   └── lib/firebase.ts             # Firebase client config
 ├── firestore.rules                  # Security rules
 ├── storage.rules                    # Storage access rules
@@ -272,6 +361,77 @@ This project taught me more than just iOS development:
 3. Add your own `GoogleService-Info.plist` from [Firebase Console](https://console.firebase.google.com/)
 4. Update the App Group identifier if needed (`group.com.daniel.DanielApp`)
 5. Build and run on a real device (widgets don't work well in Simulator)
+
+### Firebase Setup
+
+- `GoogleService-Info.plist` is intentionally ignored because it contains project-specific Firebase identifiers. Use `GoogleService-Info.example.plist` as the shape reference, then place the real plist at the repository root and ensure its iOS bundle id matches `com.daniel.DanielApp`.
+- The app calls `FirebaseApp.configure()` in `DanielApp/DanielAppApp.swift`.
+- The Xcode project links Firebase Auth, Firestore, Storage, and Analytics through Swift Package Manager.
+- Do not commit real Firebase secrets or seed scripts pointed at production.
+
+### Firebase Emulator And Tests
+
+Run Firebase work against the local emulator by default:
+
+```bash
+scripts/firebase-emulator-start.sh
+```
+
+In another terminal, seed repeatable test data:
+
+```bash
+FIRESTORE_EMULATOR_HOST=127.0.0.1:8080 \
+FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099 \
+scripts/firebase-seed-test-data.js
+```
+
+Then run Swift tests:
+
+```bash
+scripts/run-ios-tests.sh
+```
+
+To validate the callable admin boundary against the local emulators:
+
+```bash
+firebase emulators:exec --only firestore,auth,functions \
+  "FIRESTORE_EMULATOR_HOST=127.0.0.1:8080 FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099 FUNCTIONS_EMULATOR_HOST=127.0.0.1:5001 GCLOUD_PROJECT=daniel1-ca1e7 node scripts/firebase-seed-test-data.js && FIRESTORE_EMULATOR_HOST=127.0.0.1:8080 FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099 FUNCTIONS_EMULATOR_HOST=127.0.0.1:5001 GCLOUD_PROJECT=daniel1-ca1e7 node scripts/firebase-test-callable-admin.js" \
+  --project daniel1-ca1e7
+```
+
+To initialize the production `resources` collection after rules/indexes are deployed, first inspect the planned payload:
+
+```bash
+scripts/firebase-seed-production-resources.js --project daniel1-ca1e7
+```
+
+Only after intentionally approving a production write, run:
+
+```bash
+scripts/firebase-seed-production-resources.js --project daniel1-ca1e7 --confirm-production-resources
+```
+
+The production resources script uses the Firebase CLI login state, refuses emulator env vars, and only upserts the first-phase church resource directory documents.
+
+The test suite covers:
+- Daily Verse engagement local-first read/favorite/like state and Firebase merge behavior.
+- Unified favorites local-first behavior, signed-in remote push, and login-required notes.
+- Firebase emulator round trips for `users/{uid}/verseEngagement/{reference}`.
+- Firebase emulator rules for `users/{uid}/favorites`, `users/{uid}/notes`, and `users/{uid}/readingProgress`.
+- Connect newsletter loading states and emulator reads from `newsletters`.
+- Resources Firebase reads, local seed fallback, search, category filtering, and detail data.
+- Firestore rules for owner-only engagement writes, published resource reads, and protected newsletter reads.
+- Login and branch profile display mappings for scoped roles, branch/region fallback fields, and review status labels.
+- Branch registration reads from active Firebase `branches`.
+- Scoped admin callable behavior for global, region, and branch admins against the Functions emulator.
+
+Current Firestore collections used by this phase:
+- `users/{uid}/verseEngagement/{reference}` with `reference`, `isRead`, `isFavorite`, `isLiked`, `createdAt`, `updatedAt`.
+- `users/{uid}/favorites/{favoriteId}` with `targetType`, `targetId`, localized `title/snippet`, optional `reference`, `resourceId`, `url`, `dateKey`, `createdAt`, and `updatedAt`.
+- `users/{uid}/notes/{noteId}` with `targetType`, `targetId`, optional `reference`, `resourceId`, `pageNumber`, `body`, `language`, `isPrivate`, `createdAt`, and `updatedAt`. Notes require login.
+- `users/{uid}/readingProgress/{targetId}` for personal Bible/resource progress metadata. Reads and writes are owner-only.
+- `newsletters/{newsletterId}` aligned to the existing `Newsletter` model: `publishDate`, `image_urls`, `caption_cn`, `caption_en`, `caption_kr`, `published`, plus timestamps.
+- `resources/{resourceId}` with localized `title/subtitle/description/actionTitle`, `type`, `category`, `url`, `content`, `icon`, `isPublished`, `sortOrder`, and timestamps.
 
 ---
 

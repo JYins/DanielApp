@@ -9,6 +9,7 @@ import SwiftUI
 import CoreText
 import Firebase
 import FirebaseAuth
+import FirebaseFirestore
 import UserNotifications
 
 @main
@@ -30,6 +31,7 @@ struct DanielAppApp: App {
         
         // 配置Firebase
         FirebaseApp.configure()
+        configureFirebaseEmulatorsIfNeeded()
         
         // 注册自定义字体
         registerCustomFonts()
@@ -45,11 +47,37 @@ struct DanielAppApp: App {
         
         print("✅ DanielApp主应用初始化完成")
     }
+
+    private func configureFirebaseEmulatorsIfNeeded() {
+        let environment = ProcessInfo.processInfo.environment
+        let arguments = ProcessInfo.processInfo.arguments
+        let shouldUseEmulator = environment["USE_FIREBASE_EMULATOR"] == "1" || arguments.contains("-UseFirebaseEmulator")
+
+        guard shouldUseEmulator else {
+            return
+        }
+
+        let host = environment["FIREBASE_EMULATOR_HOST"] ?? "127.0.0.1"
+        let firestorePort = Int(environment["FIRESTORE_EMULATOR_PORT"] ?? "8080") ?? 8080
+        let authPort = Int(environment["FIREBASE_AUTH_EMULATOR_PORT"] ?? "9099") ?? 9099
+
+        Auth.auth().useEmulator(withHost: host, port: authPort)
+
+        let settings = Firestore.firestore().settings
+        settings.host = "\(host):\(firestorePort)"
+        settings.isSSLEnabled = false
+        settings.isPersistenceEnabled = false
+        Firestore.firestore().settings = settings
+
+        print("🧪 Firebase emulator enabled: Firestore \(host):\(firestorePort), Auth \(host):\(authPort)")
+    }
     
     var body: some Scene {
         WindowGroup {
             MainTabView()
                 .environmentObject(appState)
+                .preferredColorScheme(appState.preferredColorScheme)
+                .dynamicTypeSize(appState.dynamicTypeSize)
                 .onOpenURL { url in
                     // 处理深层链接
                     if url.isVerseDeepLink {
@@ -246,12 +274,48 @@ class AppState: ObservableObject {
     @Published var selectedLanguage: CoreModels.VerseLanguage = .chinese
     @Published var needsShowSettings: Bool = false
     @Published var needsRefreshVerseStatus: Bool = false
+    @Published var fontSizeIndex: Int = AppPreferences.getFontSizeIndex()
+    @Published var notificationsEnabled: Bool = AppPreferences.getNotificationsEnabled()
+    @Published var appearanceMode: AppAppearanceMode = AppPreferences.getAppearanceMode()
     
     init(selectedVerseReference: String? = nil) {
         self.selectedVerseReference = selectedVerseReference
         
         // 初始化语言设置
         self.selectedLanguage = VerseDataService.shared.getSelectedLanguage()
+    }
+    
+    var fontScale: CGFloat {
+        AppPreferences.fontScale(for: fontSizeIndex)
+    }
+    
+    var dynamicTypeSize: DynamicTypeSize {
+        switch fontSizeIndex {
+        case 0: return .small
+        case 2: return .large
+        case 3: return .xLarge
+        default: return .medium
+        }
+    }
+    
+    var preferredColorScheme: ColorScheme? {
+        appearanceMode.preferredColorScheme
+    }
+    
+    func updateFontSizeIndex(_ index: Int) {
+        let clampedIndex = min(max(index, 0), 3)
+        fontSizeIndex = clampedIndex
+        AppPreferences.setFontSizeIndex(clampedIndex)
+    }
+    
+    func updateNotificationsEnabled(_ enabled: Bool) {
+        notificationsEnabled = enabled
+        AppPreferences.setNotificationsEnabled(enabled)
+    }
+    
+    func updateAppearanceMode(_ mode: AppAppearanceMode) {
+        appearanceMode = mode
+        AppPreferences.setAppearanceMode(mode)
     }
     
     func handleWidgetURL(_ url: URL) {
@@ -269,6 +333,121 @@ class AppState: ObservableObject {
         VerseDataService.shared.setSelectedLanguage(language)
         
         print("应用语言已更新为: \(language.description)")
+    }
+    
+    func cycleLanguage() {
+        switch selectedLanguage {
+        case .chinese:
+            updateLanguage(.english)
+        case .english:
+            updateLanguage(.korean)
+        case .korean:
+            updateLanguage(.chinese)
+        }
+    }
+}
+
+enum AppAppearanceMode: String, CaseIterable {
+    case system
+    case light
+    case dark
+    
+    var preferredColorScheme: ColorScheme? {
+        switch self {
+        case .system:
+            return nil
+        case .light:
+            return .light
+        case .dark:
+            return .dark
+        }
+    }
+    
+    func localizedTitle(for language: CoreModels.VerseLanguage) -> String {
+        switch self {
+        case .system:
+            switch language {
+            case .chinese: return "跟随系统"
+            case .english: return "System"
+            case .korean: return "시스템"
+            }
+        case .light:
+            switch language {
+            case .chinese: return "浅色"
+            case .english: return "Light"
+            case .korean: return "라이트"
+            }
+        case .dark:
+            switch language {
+            case .chinese: return "深色"
+            case .english: return "Dark"
+            case .korean: return "다크"
+            }
+        }
+    }
+}
+
+enum AppPreferences {
+    private enum Keys {
+        static let fontSizeIndex = "daniel.fontSizeIndex"
+        static let notificationsEnabled = "daniel.notificationsEnabled"
+        static let darkModeEnabled = "daniel.darkModeEnabled"
+        static let appearanceMode = "daniel.appearanceMode"
+    }
+    
+    private static var defaults: UserDefaults {
+        VerseDataService.shared.getSharedDefaults()
+    }
+    
+    static func getFontSizeIndex() -> Int {
+        if defaults.object(forKey: Keys.fontSizeIndex) == nil {
+            return 1
+        }
+        return min(max(defaults.integer(forKey: Keys.fontSizeIndex), 0), 3)
+    }
+    
+    static func setFontSizeIndex(_ index: Int) {
+        defaults.set(min(max(index, 0), 3), forKey: Keys.fontSizeIndex)
+        defaults.synchronize()
+    }
+    
+    static func getNotificationsEnabled() -> Bool {
+        if defaults.object(forKey: Keys.notificationsEnabled) == nil {
+            return true
+        }
+        return defaults.bool(forKey: Keys.notificationsEnabled)
+    }
+    
+    static func setNotificationsEnabled(_ enabled: Bool) {
+        defaults.set(enabled, forKey: Keys.notificationsEnabled)
+        defaults.synchronize()
+    }
+    
+    static func getAppearanceMode() -> AppAppearanceMode {
+        if let rawValue = defaults.string(forKey: Keys.appearanceMode),
+           let mode = AppAppearanceMode(rawValue: rawValue) {
+            return mode
+        }
+        
+        if defaults.object(forKey: Keys.darkModeEnabled) != nil {
+            return defaults.bool(forKey: Keys.darkModeEnabled) ? .dark : .light
+        }
+        
+        return .system
+    }
+    
+    static func setAppearanceMode(_ mode: AppAppearanceMode) {
+        defaults.set(mode.rawValue, forKey: Keys.appearanceMode)
+        defaults.synchronize()
+    }
+    
+    static func fontScale(for index: Int) -> CGFloat {
+        switch min(max(index, 0), 3) {
+        case 0: return 0.92
+        case 2: return 1.12
+        case 3: return 1.25
+        default: return 1.0
+        }
     }
 }
 

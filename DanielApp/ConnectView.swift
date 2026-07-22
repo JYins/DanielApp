@@ -1,4 +1,7 @@
 import SwiftUI
+
+// Legacy page: removed from the primary tab shell in the Connect/Resources reset.
+// Keep this file for previews and possible future social-link reuse until it is safely retired.
 struct ConnectView: View {
     @EnvironmentObject var appState: AppState
     

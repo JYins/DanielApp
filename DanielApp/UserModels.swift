@@ -40,6 +40,11 @@ struct UserProfile: Codable, Identifiable, Equatable {
     // 信仰信息
     var churchCountry: String?
     var churchName: String?
+    var orgId: String?
+    var regionId: String?
+    var regionName: String?
+    var branchId: String?
+    var branchName: String?
     var salvationDate: Date?
     var ministryDepartment: String? // 侍奉部署（可选）
     var confirmationPerson: String? // 圣徒信息确认人员
@@ -50,6 +55,9 @@ struct UserProfile: Codable, Identifiable, Equatable {
     var lastLoginDate: Date? // 最后登录时间（用于检测密码重置）
     var isApproved: Bool // 是否通过审核
     var approvedAt: Date?
+    var role: String?
+    var accessRole: String?
+    var membershipStatus: String?
     
     init(
         name: String,
@@ -61,6 +69,11 @@ struct UserProfile: Codable, Identifiable, Equatable {
         userId: String,
         churchCountry: String? = nil,
         churchName: String? = nil,
+        orgId: String? = nil,
+        regionId: String? = nil,
+        regionName: String? = nil,
+        branchId: String? = nil,
+        branchName: String? = nil,
         salvationDate: Date? = nil,
         ministryDepartment: String? = nil,
         confirmationPerson: String? = nil,
@@ -68,7 +81,10 @@ struct UserProfile: Codable, Identifiable, Equatable {
         updatedAt: Date? = Date(),
         lastLoginDate: Date? = nil,
         isApproved: Bool = false,
-        approvedAt: Date? = nil
+        approvedAt: Date? = nil,
+        role: String? = "member",
+        accessRole: String? = "member",
+        membershipStatus: String? = "pending"
     ) {
         self.name = name
         self.gender = gender
@@ -79,6 +95,11 @@ struct UserProfile: Codable, Identifiable, Equatable {
         self.userId = userId
         self.churchCountry = churchCountry
         self.churchName = churchName
+        self.orgId = orgId
+        self.regionId = regionId
+        self.regionName = regionName
+        self.branchId = branchId
+        self.branchName = branchName
         self.salvationDate = salvationDate
         self.ministryDepartment = ministryDepartment
         self.confirmationPerson = confirmationPerson
@@ -87,6 +108,87 @@ struct UserProfile: Codable, Identifiable, Equatable {
         self.lastLoginDate = lastLoginDate
         self.isApproved = isApproved
         self.approvedAt = approvedAt
+        self.role = role
+        self.accessRole = accessRole
+        self.membershipStatus = membershipStatus
+    }
+}
+
+extension UserProfile {
+    func displayBranchName(for language: CoreModels.VerseLanguage) -> String {
+        branchName?.nilIfBlank ?? churchName?.nilIfBlank ?? localizedMissingValue(for: language)
+    }
+
+    func displayRegionName(for language: CoreModels.VerseLanguage) -> String {
+        regionName?.nilIfBlank ?? churchCountry?.nilIfBlank ?? localizedMissingValue(for: language)
+    }
+
+    func displayMembershipStatus(for language: CoreModels.VerseLanguage) -> String {
+        let status = (membershipStatus ?? (isApproved ? "active" : "pending")).trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+
+        switch status {
+        case "active", "approved":
+            switch language {
+            case .chinese: return "已通过"
+            case .english: return "Approved"
+            case .korean: return "승인됨"
+            }
+        case "requested", "pending":
+            switch language {
+            case .chinese: return "审核中"
+            case .english: return "Pending Review"
+            case .korean: return "승인 대기"
+            }
+        case "revoked":
+            switch language {
+            case .chinese: return "已停用"
+            case .english: return "Revoked"
+            case .korean: return "중지됨"
+            }
+        default:
+            return status.isEmpty ? localizedMissingValue(for: language) : status
+        }
+    }
+
+    func displayAccessRole(for language: CoreModels.VerseLanguage) -> String {
+        let roleValue = (accessRole ?? role ?? "member").trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+
+        switch roleValue {
+        case "admin", "global_admin":
+            switch language {
+            case .chinese: return "全局管理员"
+            case .english: return "Global Admin"
+            case .korean: return "전체 관리자"
+            }
+        case "region_admin":
+            switch language {
+            case .chinese: return "区域管理员"
+            case .english: return "Region Admin"
+            case .korean: return "지역 관리자"
+            }
+        case "branch_admin":
+            switch language {
+            case .chinese: return "分堂管理员"
+            case .english: return "Branch Admin"
+            case .korean: return "지교회 관리자"
+            }
+        case "member":
+            switch language {
+            case .chinese: return "成员"
+            case .english: return "Member"
+            case .korean: return "회원"
+            }
+        default:
+            return roleValue.isEmpty ? localizedMissingValue(for: language) : roleValue
+        }
+    }
+
+    private func localizedMissingValue(for language: CoreModels.VerseLanguage) -> String {
+        switch language {
+        case .chinese: return "未设置"
+        case .english: return "Not set"
+        case .korean: return "설정되지 않음"
+        }
     }
 }
 
@@ -142,6 +244,11 @@ struct RegistrationFormData {
     
     var churchCountry: String = ""
     var churchName: String = ""
+    var orgId: String = ""
+    var regionId: String = ""
+    var regionName: String = ""
+    var branchId: String = ""
+    var branchName: String = ""
     var salvationDate: Date? = nil
     var ministryDepartment: String = ""
     var confirmationPerson: String = ""
@@ -177,6 +284,26 @@ struct RegistrationFormData {
     var trimmedChurchName: String {
         churchName.trimmed
     }
+
+    var trimmedOrgId: String {
+        orgId.trimmed
+    }
+
+    var trimmedRegionId: String {
+        regionId.trimmed
+    }
+
+    var trimmedRegionName: String {
+        regionName.trimmed
+    }
+
+    var trimmedBranchId: String {
+        branchId.trimmed
+    }
+
+    var trimmedBranchName: String {
+        branchName.trimmed
+    }
     
     var trimmedConfirmationPerson: String {
         confirmationPerson.trimmed
@@ -192,6 +319,18 @@ struct RegistrationFormData {
     
     var optionalMinistryDepartment: String? {
         ministryDepartment.nilIfBlank
+    }
+
+    var optionalOrgId: String? {
+        orgId.nilIfBlank
+    }
+
+    var optionalRegionId: String? {
+        regionId.nilIfBlank
+    }
+
+    var optionalBranchId: String? {
+        branchId.nilIfBlank
     }
 }
 

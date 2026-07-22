@@ -3,23 +3,27 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuthContext } from './AuthProvider';
 import { auth } from '../lib/firebase';
 import { signOut } from 'firebase/auth';
-import { LayoutDashboard, Users, FileText, Music, LogOut } from 'lucide-react';
+import { Building2, LayoutDashboard, Users, FileText, Music, LogOut, Library } from 'lucide-react';
 
 export default function Layout() {
-  const { user } = useAuthContext();
+  const { user, adminProfile } = useAuthContext();
   const location = useLocation();
+  const accessRole = adminProfile?.accessRole || adminProfile?.role;
+  const isGlobalAdmin = ['admin', 'global_admin'].includes(accessRole);
 
   const handleLogout = () => {
     signOut(auth);
   };
 
   const navItems = [
-    { name: 'Dashboard', path: '/', icon: LayoutDashboard },
-    { name: 'Users', path: '/users', icon: Users },
-    { name: 'Word Cards', path: '/wordcards', icon: FileText },
-    { name: 'Newsletters', path: '/newsletters', icon: FileText },
-    { name: 'Praise', path: '/praise', icon: Music },
-  ];
+    { name: 'Dashboard', path: '/', icon: LayoutDashboard, globalOnly: false },
+    { name: 'Users', path: '/users', icon: Users, globalOnly: false },
+    { name: 'Branches', path: '/branches', icon: Building2, globalOnly: true },
+    { name: 'Word Cards', path: '/wordcards', icon: FileText, globalOnly: true },
+    { name: 'Newsletters', path: '/newsletters', icon: FileText, globalOnly: true },
+    { name: 'Resources', path: '/resources', icon: Library, globalOnly: true },
+    { name: 'Praise', path: '/praise', icon: Music, globalOnly: true },
+  ].filter((item) => isGlobalAdmin || !item.globalOnly);
 
   return (
     <div className="flex h-screen bg-gray-50">
@@ -59,6 +63,7 @@ export default function Layout() {
             <div className="flex items-center w-full">
               <div className="ml-3 flex-1">
                 <p className="text-sm font-medium text-gray-700 truncate">{user?.email}</p>
+                <p className="text-xs text-gray-400 truncate">{accessRole || 'admin'}</p>
                 <button
                   onClick={handleLogout}
                   className="mt-1 flex items-center text-xs font-medium text-gray-500 hover:text-gray-700"

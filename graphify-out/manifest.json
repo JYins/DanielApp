@@ -1,0 +1,827 @@
+{
+  ".codex/hooks.json": {
+    "mtime": 1780681356.8514414,
+    "ast_hash": "1074f162ae6816d8959f3f091d6c6224",
+    "semantic_hash": ""
+  },
+  "DanielApp/AppDelegate.swift": {
+    "mtime": 1759273178.1461196,
+    "ast_hash": "b73175725f9e52cc74dd9ccdb2798e47",
+    "semantic_hash": ""
+  },
+  "DanielApp/Assets.xcassets/AccentColor.colorset/Contents.json": {
+    "mtime": 1743312309.357317,
+    "ast_hash": "55019f7265dde0a78318b0807f98e847",
+    "semantic_hash": ""
+  },
+  "DanielApp/Assets.xcassets/AppIcon.appiconset/Contents.json": {
+    "mtime": 1743312264.8503458,
+    "ast_hash": "4fd71ab1f2a8c24566f6006152205ae2",
+    "semantic_hash": ""
+  },
+  "DanielApp/Assets.xcassets/Contents.json": {
+    "mtime": 1743281106.139752,
+    "ast_hash": "9deb2ada1cc834bbebf8bbad9c8978a1",
+    "semantic_hash": ""
+  },
+  "DanielApp/Assets.xcassets/jesus_icon.imageset/Contents.json": {
+    "mtime": 1743312267.6070402,
+    "ast_hash": "39bad6853516f70ff5be84e4c48eb7b2",
+    "semantic_hash": ""
+  },
+  "DanielApp/AuthManager.swift": {
+    "mtime": 1784691463.8385234,
+    "ast_hash": "698b322d1742b39b7d1488fd88bba5cf",
+    "semantic_hash": ""
+  },
+  "DanielApp/ChurchCommunicationView.swift": {
+    "mtime": 1780695770.310139,
+    "ast_hash": "9141eee5a73aa41d4bfb48f69dab2ccb",
+    "semantic_hash": ""
+  },
+  "DanielApp/ChurchResourcesView.swift": {
+    "mtime": 1780857925.0708404,
+    "ast_hash": "09499989b36ba846266a119d18ae6a26",
+    "semantic_hash": ""
+  },
+  "DanielApp/ConnectView.swift": {
+    "mtime": 1780680891.6913311,
+    "ast_hash": "0582a58b48e6721e0f96f0031f1ac00f",
+    "semantic_hash": ""
+  },
+  "DanielApp/ContentView.swift": {
+    "mtime": 1743371483.2035732,
+    "ast_hash": "4034b2d4b58d16384a6709467423587b",
+    "semantic_hash": ""
+  },
+  "DanielApp/DanielAppApp.swift": {
+    "mtime": 1780756055.7751117,
+    "ast_hash": "5720f895d838f8a3de1d65b548c5090f",
+    "semantic_hash": ""
+  },
+  "DanielApp/FirebaseStorageService.swift": {
+    "mtime": 1751874867.338817,
+    "ast_hash": "4a317d967a96b1d3ecada26ae03129d5",
+    "semantic_hash": ""
+  },
+  "DanielApp/ForgotPasswordView.swift": {
+    "mtime": 1759273853.9601123,
+    "ast_hash": "fc7d28bff46464d5a04f2c8927a4fcc4",
+    "semantic_hash": ""
+  },
+  "DanielApp/LocalizedText.swift": {
+    "mtime": 1780698084.0364888,
+    "ast_hash": "984cb448f850420d112bf407c33cb90d",
+    "semantic_hash": ""
+  },
+  "DanielApp/LoginView.swift": {
+    "mtime": 1784691537.3846223,
+    "ast_hash": "888f49816d2df8f2c95f7b031962940d",
+    "semantic_hash": ""
+  },
+  "DanielApp/MainTabView.swift": {
+    "mtime": 1780680891.6890533,
+    "ast_hash": "3921dc467dda7a4b477962ec8ae5bc60",
+    "semantic_hash": ""
+  },
+  "DanielApp/MidnightUpdateManager.swift": {
+    "mtime": 1750951102.5414402,
+    "ast_hash": "cbcb8a04ca1dfb7ea5fe43219d79ff09",
+    "semantic_hash": ""
+  },
+  "DanielApp/NewsletterView.swift": {
+    "mtime": 1780699353.811572,
+    "ast_hash": "323ba80838a8e7d3b3f661c072c38f9d",
+    "semantic_hash": ""
+  },
+  "DanielApp/PraiseModels.swift": {
+    "mtime": 1773467999.710407,
+    "ast_hash": "39368c6193e52809b0462cc1e5fbfb26",
+    "semantic_hash": ""
+  },
+  "DanielApp/PraiseView.swift": {
+    "mtime": 1773467999.7110186,
+    "ast_hash": "01fc11c2410b619e703c289a3b9f70f6",
+    "semantic_hash": ""
+  },
+  "DanielApp/Preview Content/Preview Assets.xcassets/Contents.json": {
+    "mtime": 1743281108.7194576,
+    "ast_hash": "9deb2ada1cc834bbebf8bbad9c8978a1",
+    "semantic_hash": ""
+  },
+  "DanielApp/RegistrationView.swift": {
+    "mtime": 1784691695.372706,
+    "ast_hash": "eb735ac26a866c70c98386b0ce63452c",
+    "semantic_hash": ""
+  },
+  "DanielApp/SettingsView.swift": {
+    "mtime": 1781031993.9052525,
+    "ast_hash": "83d61652efd36dbf3c0d91c2af9ca285",
+    "semantic_hash": ""
+  },
+  "DanielApp/SharedModels/VerseModels.swift": {
+    "mtime": 1743749289.920835,
+    "ast_hash": "6341584a254caf4434564b93b9f44189",
+    "semantic_hash": ""
+  },
+  "DanielApp/SharedModels/VerseUtilities.swift": {
+    "mtime": 1781031963.4016519,
+    "ast_hash": "836472d128153378dca8d18756f15170",
+    "semantic_hash": ""
+  },
+  "DanielApp/StyleConstants.swift": {
+    "mtime": 1780756102.5702403,
+    "ast_hash": "05a2d0848ce87ca01dcaf50e4c751723",
+    "semantic_hash": ""
+  },
+  "DanielApp/UserModels.swift": {
+    "mtime": 1780784850.7142198,
+    "ast_hash": "a8b2b7ca22ad612a3bc7f9b658c06772",
+    "semantic_hash": ""
+  },
+  "DanielApp/VerseData.swift": {
+    "mtime": 1781031951.7976236,
+    "ast_hash": "bb75e8a5fbe959204f6f7043487858de",
+    "semantic_hash": ""
+  },
+  "DanielApp/VerseOfTheDayView.swift": {
+    "mtime": 1780856604.5725644,
+    "ast_hash": "69a67692bae8fca209bcdd4b51395d42",
+    "semantic_hash": ""
+  },
+  "DanielApp/VerseWidget.swift": {
+    "mtime": 1781031972.3511672,
+    "ast_hash": "fef10f266c27a9efa415cbc3fba2b658",
+    "semantic_hash": ""
+  },
+  "DanielApp/VerseWidgets/LockScreenVerseWidget.swift": {
+    "mtime": 1743371641.7596755,
+    "ast_hash": "5639d2be6afaa3449e010971048676e3",
+    "semantic_hash": ""
+  },
+  "DanielApp/VerseWidgets/MainVerseWidget.swift": {
+    "mtime": 1743744828.9076455,
+    "ast_hash": "6dd8085ae1ea47f9c6c65eb10b09364d",
+    "semantic_hash": ""
+  },
+  "DanielApp/VerseWidgets/VerseWidgetBundle.swift": {
+    "mtime": 1743372213.418912,
+    "ast_hash": "083d5dad32d6e58c2cf3f15f7e494a45",
+    "semantic_hash": ""
+  },
+  "DanielApp/VerseWidgets/VerseWidgetSettingsManager.swift": {
+    "mtime": 1744355000.578171,
+    "ast_hash": "d6aebe4f83e1949b4673b549ed4bd206",
+    "semantic_hash": ""
+  },
+  "DanielApp/VerseWidgets/WidgetConfiguration.swift": {
+    "mtime": 1744354407.1191175,
+    "ast_hash": "e16a76efdc9b63e89de8f2ea28a60a07",
+    "semantic_hash": ""
+  },
+  "DanielApp/WordCardGalleryView.swift": {
+    "mtime": 1780680891.6925018,
+    "ast_hash": "0448e5e27e72263a5418511bbc415e89",
+    "semantic_hash": ""
+  },
+  "DanielApp/WordCardModels.swift": {
+    "mtime": 1773467999.7134404,
+    "ast_hash": "4ee683a6ee117bf63236b31394e91906",
+    "semantic_hash": ""
+  },
+  "DanielApp/verses_index.json": {
+    "mtime": 1781032081.648021,
+    "ast_hash": "dba7cdb9f7e0ddb3fe1a1129db33c857",
+    "semantic_hash": ""
+  },
+  "DanielApp/verses_merged.json": {
+    "mtime": 1750865541.1149058,
+    "ast_hash": "67bb409ecdd0887b4f917579b7cf35e9",
+    "semantic_hash": ""
+  },
+  "admin-web/eslint.config.js": {
+    "mtime": 1773467999.718439,
+    "ast_hash": "b8893da386a89dfd3672dad848f4ec7e",
+    "semantic_hash": ""
+  },
+  "admin-web/package.json": {
+    "mtime": 1773467999.725221,
+    "ast_hash": "1bc65fe4b26af39990069cbcf41c720e",
+    "semantic_hash": ""
+  },
+  "admin-web/postcss.config.js": {
+    "mtime": 1773467999.7254453,
+    "ast_hash": "ef3ba2a81ba19f8ea5ddf625521e96f0",
+    "semantic_hash": ""
+  },
+  "admin-web/src/App.tsx": {
+    "mtime": 1780858061.7250721,
+    "ast_hash": "2c98224a930f7734ce1d8a5df9ed017a",
+    "semantic_hash": ""
+  },
+  "admin-web/src/components/AuthProvider.tsx": {
+    "mtime": 1780785378.0759306,
+    "ast_hash": "514a36336c570c0080934a64030500c6",
+    "semantic_hash": ""
+  },
+  "admin-web/src/components/Layout.tsx": {
+    "mtime": 1780858061.882053,
+    "ast_hash": "c7ce5ca36f8ba0e41493c5082568c28e",
+    "semantic_hash": ""
+  },
+  "admin-web/src/components/ProtectedRoute.tsx": {
+    "mtime": 1773467999.7354655,
+    "ast_hash": "5371aa794203c014bdfeb9456a859458",
+    "semantic_hash": ""
+  },
+  "admin-web/src/hooks/useAuth.ts": {
+    "mtime": 1780785363.1278777,
+    "ast_hash": "afc1d471a3ec6c407ff249f02d8f3208",
+    "semantic_hash": ""
+  },
+  "admin-web/src/lib/firebase.ts": {
+    "mtime": 1773472642.5353906,
+    "ast_hash": "156e2ad2ac87c0f69617e29821f5f172",
+    "semantic_hash": ""
+  },
+  "admin-web/src/main.tsx": {
+    "mtime": 1773467999.7374387,
+    "ast_hash": "787e5a07efeb2bf6209d5937195f2f68",
+    "semantic_hash": ""
+  },
+  "admin-web/src/pages/Dashboard.tsx": {
+    "mtime": 1780785478.62658,
+    "ast_hash": "2d2dd898c70329bf5e2dfe87a96f4728",
+    "semantic_hash": ""
+  },
+  "admin-web/src/pages/Login.tsx": {
+    "mtime": 1773469232.0643938,
+    "ast_hash": "8d850552b31fdf292f5ba7780d3f133e",
+    "semantic_hash": ""
+  },
+  "admin-web/src/pages/NewslettersList.tsx": {
+    "mtime": 1773467999.7390144,
+    "ast_hash": "4525a55cb16379d4041c37ee2f974532",
+    "semantic_hash": ""
+  },
+  "admin-web/src/pages/PraiseList.tsx": {
+    "mtime": 1773467999.7393348,
+    "ast_hash": "a6fef99aa7ca650fcbb728bfa3600194",
+    "semantic_hash": ""
+  },
+  "admin-web/src/pages/UsersList.tsx": {
+    "mtime": 1780785458.870656,
+    "ast_hash": "5491172e50540697eb23a2dd4fdea2e2",
+    "semantic_hash": ""
+  },
+  "admin-web/src/pages/WordCardsList.tsx": {
+    "mtime": 1773467999.7403312,
+    "ast_hash": "d4b3d6ca4987175629224da773fc3619",
+    "semantic_hash": ""
+  },
+  "admin-web/tailwind.config.js": {
+    "mtime": 1773467999.7408574,
+    "ast_hash": "3346df3fd0a1ea3f84440703bf8fd2cb",
+    "semantic_hash": ""
+  },
+  "admin-web/tsconfig.app.json": {
+    "mtime": 1773467999.7411163,
+    "ast_hash": "1079e34c0d979ff4e9c96e544b296d8f",
+    "semantic_hash": ""
+  },
+  "admin-web/tsconfig.json": {
+    "mtime": 1773467999.7413614,
+    "ast_hash": "fcc42739247fbe6b3950decf9c24e2df",
+    "semantic_hash": ""
+  },
+  "admin-web/tsconfig.node.json": {
+    "mtime": 1773467999.7415485,
+    "ast_hash": "eec85c9d7c6b599801557f1afd86672c",
+    "semantic_hash": ""
+  },
+  "admin-web/vite.config.ts": {
+    "mtime": 1773467999.7419252,
+    "ast_hash": "65a20a94df5b687422679c667f8e24c4",
+    "semantic_hash": ""
+  },
+  "config_template.json": {
+    "mtime": 1773467999.742014,
+    "ast_hash": "393599ea70ee08d4660b4cd4f933570f",
+    "semantic_hash": ""
+  },
+  "daniel wedget/AppIntent.swift": {
+    "mtime": 1743373976.7204893,
+    "ast_hash": "05459c82cef9b3a73ed1c781dbfb5b68",
+    "semantic_hash": ""
+  },
+  "daniel wedget/Assets.xcassets/AccentColor.colorset/Contents.json": {
+    "mtime": 1743373976.7282352,
+    "ast_hash": "55019f7265dde0a78318b0807f98e847",
+    "semantic_hash": ""
+  },
+  "daniel wedget/Assets.xcassets/AppIcon.appiconset/Contents.json": {
+    "mtime": 1743373978.64613,
+    "ast_hash": "cbe75704b2680422c4156009a528e292",
+    "semantic_hash": ""
+  },
+  "daniel wedget/Assets.xcassets/Contents.json": {
+    "mtime": 1744505344.442116,
+    "ast_hash": "9deb2ada1cc834bbebf8bbad9c8978a1",
+    "semantic_hash": ""
+  },
+  "daniel wedget/Assets.xcassets/WidgetBackground.colorset/Contents.json": {
+    "mtime": 1743567391.6384292,
+    "ast_hash": "55019f7265dde0a78318b0807f98e847",
+    "semantic_hash": ""
+  },
+  "daniel wedget/Assets.xcassets/jesus_icon.imageset/Contents.json": {
+    "mtime": 1743561724.7819312,
+    "ast_hash": "39bad6853516f70ff5be84e4c48eb7b2",
+    "semantic_hash": ""
+  },
+  "daniel wedget/Assets.xcassets/widget_background.imageset/Contents.json": {
+    "mtime": 1759276072.5949,
+    "ast_hash": "099c442ed628eff495abaf750d084193",
+    "semantic_hash": ""
+  },
+  "daniel wedget/LockScreenVerseWidget.swift": {
+    "mtime": 1758406588.1079507,
+    "ast_hash": "c803e4df0c104deef5a05b7b805337b1",
+    "semantic_hash": ""
+  },
+  "daniel wedget/MainVerseWidget.swift": {
+    "mtime": 1773474634.016282,
+    "ast_hash": "a1a899aa07026c76ea3ec4e8ba6be80b",
+    "semantic_hash": ""
+  },
+  "daniel wedget/SharedModels.swift": {
+    "mtime": 1750861927.2382565,
+    "ast_hash": "2cc8fd4060ee4e05b067ccf46ac20239",
+    "semantic_hash": ""
+  },
+  "daniel wedget/VerseWidgetSettingsManager.swift": {
+    "mtime": 1750964523.2394922,
+    "ast_hash": "f2aceea2bad3edd1ebd223a09bccf4b4",
+    "semantic_hash": ""
+  },
+  "daniel wedget/WidgetConfiguration.swift": {
+    "mtime": 1773474634.0161572,
+    "ast_hash": "a552a203b44294ce9fd298c5d63d80a2",
+    "semantic_hash": ""
+  },
+  "daniel wedget/WidgetDataManager.swift": {
+    "mtime": 1751903180.670366,
+    "ast_hash": "fb2f676a5a40a7588da52badbf1d129b",
+    "semantic_hash": ""
+  },
+  "daniel wedget/WidgetLifecycleManager.swift": {
+    "mtime": 1750964437.4662526,
+    "ast_hash": "b735a229d3f9332234688d63af6bda53",
+    "semantic_hash": ""
+  },
+  "daniel wedget/daniel_wedget.swift": {
+    "mtime": 1743576888.646293,
+    "ast_hash": "a371d5245bd1459967e4d5a4bb11d065",
+    "semantic_hash": ""
+  },
+  "daniel wedget/daniel_wedgetBundle.swift": {
+    "mtime": 1758406588.1079297,
+    "ast_hash": "8733e92ecda519470355609d4fd1a197",
+    "semantic_hash": ""
+  },
+  "daniel wedget/daniel_wedgetControl.swift": {
+    "mtime": 1743373976.7115123,
+    "ast_hash": "f1da0926317790ef12a725843c845b6e",
+    "semantic_hash": ""
+  },
+  "daniel wedget/daniel_wedgetLiveActivity.swift": {
+    "mtime": 1743373976.6936753,
+    "ast_hash": "7ae55cee885b4b6f4f6019e5888c3ca7",
+    "semantic_hash": ""
+  },
+  "daniel wedget/widget_verses.json": {
+    "mtime": 1750868085.572372,
+    "ast_hash": "51dd7901ac9123a5c55ea6536da00e07",
+    "semantic_hash": ""
+  },
+  "firebase.json": {
+    "mtime": 1780857885.7710803,
+    "ast_hash": "4f6237e96f11b6785948db2267e22d6b",
+    "semantic_hash": ""
+  },
+  "firestore.indexes.json": {
+    "mtime": 1780784557.0679553,
+    "ast_hash": "4c9b8f202c4365e3fa3a94cbf23e61b4",
+    "semantic_hash": ""
+  },
+  "functions/lib/index.js": {
+    "mtime": 1780785539.6698782,
+    "ast_hash": "59c0ec493402389a3b0f74c31d8b1045",
+    "semantic_hash": ""
+  },
+  "functions/package.json": {
+    "mtime": 1780759618.689918,
+    "ast_hash": "c7ebf436c57a126da5246c29b83d5e0e",
+    "semantic_hash": ""
+  },
+  "functions/src/index.ts": {
+    "mtime": 1780785348.7222967,
+    "ast_hash": "0394b6b08fe9da3912da29b2660fe401",
+    "semantic_hash": ""
+  },
+  "functions/tsconfig.json": {
+    "mtime": 1773471160.154393,
+    "ast_hash": "1aac8a92ba5cf48adf990127672712d7",
+    "semantic_hash": ""
+  },
+  ".agents/skills/graphify/SKILL.md": {
+    "mtime": 1780681356.850056,
+    "ast_hash": "7869351527b616553075b86f6148b0dc",
+    "semantic_hash": ""
+  },
+  ".agents/skills/graphify/references/add-watch.md": {
+    "mtime": 1780681351.142629,
+    "ast_hash": "0df0589623217ca38a12bdcabfb42f4c",
+    "semantic_hash": ""
+  },
+  ".agents/skills/graphify/references/exports.md": {
+    "mtime": 1780681351.1434648,
+    "ast_hash": "7fb1a81aca17a462db70684a324fcfb0",
+    "semantic_hash": ""
+  },
+  ".agents/skills/graphify/references/extraction-spec.md": {
+    "mtime": 1780681351.1436555,
+    "ast_hash": "a86a7321597b23cc2b22e011b3dc6e1d",
+    "semantic_hash": ""
+  },
+  ".agents/skills/graphify/references/github-and-merge.md": {
+    "mtime": 1780681351.1439793,
+    "ast_hash": "cde13df085e4c492aeb7ba298a996d0d",
+    "semantic_hash": ""
+  },
+  ".agents/skills/graphify/references/hooks.md": {
+    "mtime": 1780681351.1450098,
+    "ast_hash": "3f545db6ce646650bb9de588f5512a27",
+    "semantic_hash": ""
+  },
+  ".agents/skills/graphify/references/query.md": {
+    "mtime": 1780681351.1454449,
+    "ast_hash": "c2a8e798674a81b02aa9975f43023819",
+    "semantic_hash": ""
+  },
+  ".agents/skills/graphify/references/transcribe.md": {
+    "mtime": 1780681351.146203,
+    "ast_hash": "70f6aa30d6211f3a2c7e9fc45479f50c",
+    "semantic_hash": ""
+  },
+  ".agents/skills/graphify/references/update.md": {
+    "mtime": 1780681351.1467023,
+    "ast_hash": "735932eaa4f0c8fef9566c538ae3e5f8",
+    "semantic_hash": ""
+  },
+  "AGENTS.md": {
+    "mtime": 1780857447.1607797,
+    "ast_hash": "d096f61f5d2030c538c432b66e27d633",
+    "semantic_hash": ""
+  },
+  "CLAUDE.md": {
+    "mtime": 1779253572.6173697,
+    "ast_hash": "ab6d4db5d53fecac05e3747af48aed23",
+    "semantic_hash": ""
+  },
+  "DanielApp/README.md": {
+    "mtime": 1780681425.576997,
+    "ast_hash": "474ed29678aafbc5ac1cbcb0e7f7ddb0",
+    "semantic_hash": ""
+  },
+  "FIRESTORE_RULES_SETUP.md": {
+    "mtime": 1773474634.0163603,
+    "ast_hash": "cf078acd01378265ca7af8ca688c6f3f",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1780857446.8098245,
+    "ast_hash": "86ba38801ef4bef5d20f71c88be61c8f",
+    "semantic_hash": ""
+  },
+  "admin-web/README.md": {
+    "mtime": 1773467999.7167513,
+    "ast_hash": "f6e3faf55d738cf2affe1b44195f27cf",
+    "semantic_hash": ""
+  },
+  "admin-web/index.html": {
+    "mtime": 1773467999.7208216,
+    "ast_hash": "e08d357fe6c296327bca03dcdbd9d364",
+    "semantic_hash": ""
+  },
+  "admin-web/public/privacy-policy.html": {
+    "mtime": 1773946349.9092293,
+    "ast_hash": "fbe53f1d5553ac80045cb6fe7391e8ac",
+    "semantic_hash": ""
+  },
+  "implementation.md": {
+    "mtime": 1784691763.283818,
+    "ast_hash": "08331ac811ae93d804c195127dcd3be6",
+    "semantic_hash": ""
+  },
+  "DanielApp/Assets.xcassets/AppIcon.appiconset/ChatGPT Image Mar 29 2025 (2)_\u526f\u672c 1.png": {
+    "mtime": 1743312071.45661,
+    "ast_hash": "cdda222fe0328d69cb8a6706fa770a13",
+    "semantic_hash": ""
+  },
+  "DanielApp/Assets.xcassets/AppIcon.appiconset/ChatGPT Image Mar 29 2025 (2)_\u526f\u672c 2.png": {
+    "mtime": 1743312076.3555012,
+    "ast_hash": "cdda222fe0328d69cb8a6706fa770a13",
+    "semantic_hash": ""
+  },
+  "DanielApp/Assets.xcassets/AppIcon.appiconset/ChatGPT Image Mar 29 2025 (2)_\u526f\u672c 3.png": {
+    "mtime": 1743312264.850108,
+    "ast_hash": "cdda222fe0328d69cb8a6706fa770a13",
+    "semantic_hash": ""
+  },
+  "DanielApp/Assets.xcassets/jesus icon.png": {
+    "mtime": 1743304905.7506585,
+    "ast_hash": "cdb99e25bb652ac10e7b42effd5d182a",
+    "semantic_hash": ""
+  },
+  "DanielApp/Assets.xcassets/jesus_icon.imageset/jesus icon 1.png": {
+    "mtime": 1743312267.6072578,
+    "ast_hash": "cdb99e25bb652ac10e7b42effd5d182a",
+    "semantic_hash": ""
+  },
+  "DanielApp/Assets.xcassets/jesus_icon.imageset/jesus icon 2.png": {
+    "mtime": 1743312267.6071758,
+    "ast_hash": "cdb99e25bb652ac10e7b42effd5d182a",
+    "semantic_hash": ""
+  },
+  "DanielApp/Assets.xcassets/jesus_icon.imageset/jesus icon.png": {
+    "mtime": 1743312267.6072202,
+    "ast_hash": "cdb99e25bb652ac10e7b42effd5d182a",
+    "semantic_hash": ""
+  },
+  "admin-web/public/favicon.svg": {
+    "mtime": 1773467999.7266698,
+    "ast_hash": "7e840862161341271697daa99a40d76b",
+    "semantic_hash": ""
+  },
+  "admin-web/public/icons.svg": {
+    "mtime": 1773467999.7287593,
+    "ast_hash": "3b4fcfcf393eca4d264dca4a4663bc37",
+    "semantic_hash": ""
+  },
+  "admin-web/src/assets/hero.png": {
+    "mtime": 1773467999.732455,
+    "ast_hash": "5cf2b0762834cdddc0dd3ec1397b5011",
+    "semantic_hash": ""
+  },
+  "admin-web/src/assets/react.svg": {
+    "mtime": 1773467999.732941,
+    "ast_hash": "f0402b67b6ce880f65666bb49e841696",
+    "semantic_hash": ""
+  },
+  "admin-web/src/assets/vite.svg": {
+    "mtime": 1773467999.7332127,
+    "ast_hash": "9960a24288958394ac50e57ff638b036",
+    "semantic_hash": ""
+  },
+  "daniel wedget/Assets.xcassets/jesus icon.png": {
+    "mtime": 1743561732.7810388,
+    "ast_hash": "cdb99e25bb652ac10e7b42effd5d182a",
+    "semantic_hash": ""
+  },
+  "daniel wedget/Assets.xcassets/jesus_icon.imageset/jesus icon 1.png": {
+    "mtime": 1743561745.2973557,
+    "ast_hash": "cdb99e25bb652ac10e7b42effd5d182a",
+    "semantic_hash": ""
+  },
+  "daniel wedget/Assets.xcassets/jesus_icon.imageset/jesus icon 2.png": {
+    "mtime": 1743561745.3018744,
+    "ast_hash": "cdb99e25bb652ac10e7b42effd5d182a",
+    "semantic_hash": ""
+  },
+  "daniel wedget/Assets.xcassets/jesus_icon.imageset/jesus icon.png": {
+    "mtime": 1743561745.308619,
+    "ast_hash": "cdb99e25bb652ac10e7b42effd5d182a",
+    "semantic_hash": ""
+  },
+  "daniel wedget/Assets.xcassets/widget_background.imageset/\u622a\u5c4f2025-09-30 19.34.58 1.png": {
+    "mtime": 1759276047.153091,
+    "ast_hash": "635aa42f576d067a7d3f5b26e19b0f8b",
+    "semantic_hash": ""
+  },
+  "daniel wedget/Assets.xcassets/widget_background.imageset/\u622a\u5c4f2025-09-30 19.34.58 2.png": {
+    "mtime": 1759276072.764029,
+    "ast_hash": "635aa42f576d067a7d3f5b26e19b0f8b",
+    "semantic_hash": ""
+  },
+  "daniel wedget/Assets.xcassets/widget_background.imageset/\u622a\u5c4f2025-09-30 19.34.58.png": {
+    "mtime": 1759276042.599005,
+    "ast_hash": "635aa42f576d067a7d3f5b26e19b0f8b",
+    "semantic_hash": ""
+  },
+  "daniel wedget/Assets.xcassets/widget_background/bg1.png": {
+    "mtime": 1743570199.3240027,
+    "ast_hash": "5b7d27a8202462683428a7d4f303feb6",
+    "semantic_hash": ""
+  },
+  "daniel wedget/Assets.xcassets/widget_background/day.png": {
+    "mtime": 1743744069.9891686,
+    "ast_hash": "44c7bc214accf996ced57bda6a2f9611",
+    "semantic_hash": ""
+  },
+  "daniel wedget/Assets.xcassets/widget_background/morning.png": {
+    "mtime": 1743741614.345997,
+    "ast_hash": "5828e9be978a30273af8d27af8d2f37f",
+    "semantic_hash": ""
+  },
+  "daniel wedget/Assets.xcassets/widget_background/night.png": {
+    "mtime": 1743744411.7383964,
+    "ast_hash": "3bb3eb8108c40062980e5609b9d31801",
+    "semantic_hash": ""
+  },
+  "daniel wedget/Assets.xcassets/widget_background/widget_background.png": {
+    "mtime": 1743567232.99355,
+    "ast_hash": "4c1dd8458ea53d7f660e0cd54f38a22b",
+    "semantic_hash": ""
+  },
+  "screenshots/admin_dashboard.png": {
+    "mtime": 1773467999.7445738,
+    "ast_hash": "ecdc3bf6b4f70790c8c7913daa658ecb",
+    "semantic_hash": ""
+  },
+  "screenshots/admin_newsletters.png": {
+    "mtime": 1773467999.747865,
+    "ast_hash": "a7acd3a77c70180d02f4c1bc58aeac3a",
+    "semantic_hash": ""
+  },
+  "screenshots/admin_praise.png": {
+    "mtime": 1773467999.7539864,
+    "ast_hash": "b6938485397caf7c157fed6a974ee674",
+    "semantic_hash": ""
+  },
+  "screenshots/admin_users.png": {
+    "mtime": 1773467999.7619839,
+    "ast_hash": "85e2f18ca9ca31eb0ea7df847b920c32",
+    "semantic_hash": ""
+  },
+  "screenshots/admin_wordcards.png": {
+    "mtime": 1773467999.766326,
+    "ast_hash": "bf9e199814b576b16571c6f16619326d",
+    "semantic_hash": ""
+  },
+  "screenshots/connect.PNG": {
+    "mtime": 1773379247.0,
+    "ast_hash": "2c5f7b842069d8a17ce0646a7438c92b",
+    "semantic_hash": ""
+  },
+  "screenshots/home_widget.jpg": {
+    "mtime": 1773379126.0,
+    "ast_hash": "3276fd3d8410d26367713530fa95d0af",
+    "semantic_hash": ""
+  },
+  "screenshots/lock_screen_widget.jpg": {
+    "mtime": 1773379152.0,
+    "ast_hash": "a7eb3edc4ae53760af4a4662545f0549",
+    "semantic_hash": ""
+  },
+  "screenshots/newsletter.PNG": {
+    "mtime": 1773379222.0,
+    "ast_hash": "f819c74aba543c2bddf4dced5fa4b06d",
+    "semantic_hash": ""
+  },
+  "screenshots/settings_language.PNG": {
+    "mtime": 1773379188.0,
+    "ast_hash": "0df0ee15d0a2d82c77f2a34a5ad5ba42",
+    "semantic_hash": ""
+  },
+  "screenshots/verse_of_the_day.PNG": {
+    "mtime": 1773379172.0,
+    "ast_hash": "0be5f78234c1afe3436306c996abe827",
+    "semantic_hash": ""
+  },
+  "screenshots/word_cards.PNG": {
+    "mtime": 1773379206.0,
+    "ast_hash": "5556f4b12b412613a5e52d6da41b84b0",
+    "semantic_hash": ""
+  },
+  "DanielApp/VerseEngagementService.swift": {
+    "mtime": 1780699907.817164,
+    "ast_hash": "5681711610cda4c92a97d8fc0f5d04fd",
+    "semantic_hash": ""
+  },
+  "DanielApp/ChurchResourceService.swift": {
+    "mtime": 1780857924.915354,
+    "ast_hash": "948783e47e50a043eb69788d4fd3c419",
+    "semantic_hash": ""
+  },
+  "DanielAppTests/ChurchResourceServiceTests.swift": {
+    "mtime": 1780699526.6152222,
+    "ast_hash": "2cd5e770a5ab0983aee82e037dd10e12",
+    "semantic_hash": ""
+  },
+  "DanielAppTests/FirebaseEmulatorIntegrationTests.swift": {
+    "mtime": 1780858104.1124349,
+    "ast_hash": "89e07fcfdf662c83d98cb4978cfc23f7",
+    "semantic_hash": ""
+  },
+  "DanielAppTests/NewsletterViewModelTests.swift": {
+    "mtime": 1780699526.7675586,
+    "ast_hash": "1e58d72d0e0af1c594b4cced24ba1b10",
+    "semantic_hash": ""
+  },
+  "DanielAppTests/VerseEngagementServiceTests.swift": {
+    "mtime": 1780699526.4644775,
+    "ast_hash": "24a9c52dd2434d3f5868b105e958ed01",
+    "semantic_hash": ""
+  },
+  "scripts/firebase-emulator-start.sh": {
+    "mtime": 1780857886.0100753,
+    "ast_hash": "30a51cd7784cfb423f03b89414698ebd",
+    "semantic_hash": ""
+  },
+  "scripts/firebase-seed-production-resources.js": {
+    "mtime": 1780786181.6407945,
+    "ast_hash": "745205ce7c4c131cd21d370421dd6444",
+    "semantic_hash": ""
+  },
+  "scripts/firebase-seed-test-data.js": {
+    "mtime": 1780858062.0351346,
+    "ast_hash": "e6e961c8de99eb4ebe499a90bca90743",
+    "semantic_hash": ""
+  },
+  "scripts/run-ios-tests.sh": {
+    "mtime": 1780857886.189577,
+    "ast_hash": "2d2f6a2f49fd0bcbee1d7a084c8bb79d",
+    "semantic_hash": ""
+  },
+  "scripts/firebase-seed-branch-system.js": {
+    "mtime": 1780786181.3846147,
+    "ast_hash": "c033c31dacc01004d87ec26c24e03bf2",
+    "semantic_hash": ""
+  },
+  "admin-web/src/pages/BranchesList.tsx": {
+    "mtime": 1780758686.284649,
+    "ast_hash": "23b1469437af03f34667d53ea92bb57b",
+    "semantic_hash": ""
+  },
+  "scripts/firebase-test-callable-admin.js": {
+    "mtime": 1780785524.7118757,
+    "ast_hash": "cc34f1b69eed9074dba2cf5b4d5506ac",
+    "semantic_hash": ""
+  },
+  "DanielApp/RegistrationBranchService.swift": {
+    "mtime": 1780784538.6142764,
+    "ast_hash": "670b2126eaa70827c7cb9f46cc661d25",
+    "semantic_hash": ""
+  },
+  "DanielAppTests/RegistrationBranchServiceTests.swift": {
+    "mtime": 1780784162.150226,
+    "ast_hash": "9ad0f660d837e12fefb74ccccebe5e88",
+    "semantic_hash": ""
+  },
+  "DanielAppTests/UserProfileAccessDisplayTests.swift": {
+    "mtime": 1780784886.5298185,
+    "ast_hash": "5f351f4908e7b9c8f991713f8cc3ab1d",
+    "semantic_hash": ""
+  },
+  "scripts/firebase-bootstrap-global-admin.js": {
+    "mtime": 1780855131.6511178,
+    "ast_hash": "b6417a9b294f9bb1a88229075f8917ad",
+    "semantic_hash": ""
+  },
+  "scripts/firebase-cli-auth.js": {
+    "mtime": 1780786175.248565,
+    "ast_hash": "fe057cf0f8b119ec2fa4145400ab0935",
+    "semantic_hash": ""
+  },
+  "firebase-product-design.md": {
+    "mtime": 1780857446.9908144,
+    "ast_hash": "1bb330a67899c66507e033d0d857fced",
+    "semantic_hash": ""
+  },
+  "DanielApp/BibleReaderView.swift": {
+    "mtime": 1780856604.4166024,
+    "ast_hash": "3ee8841771c3989bb0cae5184cc53bc3",
+    "semantic_hash": ""
+  },
+  "DanielApp/FavoriteService.swift": {
+    "mtime": 1780856435.9820545,
+    "ast_hash": "f984bcd9769907272e3b7779852e13dd",
+    "semantic_hash": ""
+  },
+  "DanielApp/FavoritesView.swift": {
+    "mtime": 1780856492.6603682,
+    "ast_hash": "a90244f026424407d761f0bd5b848899",
+    "semantic_hash": ""
+  },
+  "DanielAppTests/FavoriteServiceTests.swift": {
+    "mtime": 1780856697.3255296,
+    "ast_hash": "bc647f00904c0f4aa7898b8cfd06b9e3",
+    "semantic_hash": ""
+  },
+  "admin-web/src/pages/ResourcesList.tsx": {
+    "mtime": 1780858061.572936,
+    "ast_hash": "fbe5ca71da7d5eaad3b61812a7d5874d",
+    "semantic_hash": ""
+  }
+}

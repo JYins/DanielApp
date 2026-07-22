@@ -1,218 +1,551 @@
 import SwiftUI
+import AuthenticationServices
+import CryptoKit
+import Security
 
 struct LoginView: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject private var appState: AppState
+    @Environment(\.dismiss) private var dismiss
     @StateObject private var authManager = AuthManager.shared
+
     @State private var email = ""
     @State private var password = ""
     @State private var isShowingPassword = false
     @State private var showingRegistration = false
     @State private var showingForgotPassword = false
-    @Environment(\.presentationMode) var presentationMode
-    
+    @State private var showingSocialSignInNotice = false
+    @State private var appleCoordinator: AppleSignInCoordinator?
+    @AppStorage("auth.rememberEmail") private var rememberEmail = false
+    @AppStorage("auth.rememberedEmail") private var rememberedEmail = ""
+
     var body: some View {
-        NavigationView {
-            ZStack {
-                // 背景色
-                StyleConstants.backgroundColor.ignoresSafeArea()
-                
-                VStack(spacing: StyleConstants.largeSpacing) {
-                    Spacer()
-                    
-                    // 标题
-                    VStack(spacing: StyleConstants.compactSpacing) {
-                        Text("圣徒登录")
-                            .font(StyleConstants.serifTitle(30, language: appState.selectedLanguage))
-                            .foregroundColor(StyleConstants.goldColor)
-                        
-                        Text("请登录以访问教会内容")
-                            .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
-                            .foregroundColor(DesignSystem.Colors.secondaryText)
+        NavigationStack {
+            GeometryReader { proxy in
+                VStack(spacing: 0) {
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 32) {
+                            AuthBrandHeader(showsAccount: true)
+                            form
+                            registrationPrompt
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 24)
+                        .padding(.top, max(24, proxy.safeAreaInsets.top + 12))
+                        .padding(.bottom, 32)
                     }
-                    .padding(.bottom, StyleConstants.mediumSpacing)
-                    
-                    // 登录表单
-                    VStack(spacing: StyleConstants.standardSpacing) {
-                        // 邮箱输入
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("邮箱")
-                                .font(StyleConstants.sansFontBody(14, language: appState.selectedLanguage))
-                                .foregroundColor(DesignSystem.Colors.primaryText)
-                            
-                            TextField("请输入邮箱地址", text: $email)
-                                .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
-                                .foregroundColor(DesignSystem.Colors.primaryText)
-                                .keyboardType(.emailAddress)
-                                .autocapitalization(.none)
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 12)
-                                .background(Color.white.opacity(0.1))
-                                .cornerRadius(8)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .stroke(DesignSystem.Colors.border, lineWidth: 1)
-                                )
-                        }
-                        
-                        // 密码输入
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("密码")
-                                .font(StyleConstants.sansFontBody(14, language: appState.selectedLanguage))
-                                .foregroundColor(DesignSystem.Colors.primaryText)
-                            
-                            HStack {
-                                if isShowingPassword {
-                                    TextField("请输入密码", text: $password)
-                                        .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
-                                        .foregroundColor(DesignSystem.Colors.primaryText)
-                                } else {
-                                    SecureField("请输入密码", text: $password)
-                                        .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
-                                        .foregroundColor(DesignSystem.Colors.primaryText)
-                                }
-                                
-                                Button(action: {
-                                    isShowingPassword.toggle()
-                                }) {
-                                    Image(systemName: isShowingPassword ? "eye.slash" : "eye")
-                                        .foregroundColor(DesignSystem.Colors.accent)
-                                }
-                            }
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 12)
-                            .background(Color.white.opacity(0.1))
-                            .cornerRadius(8)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .stroke(DesignSystem.Colors.border, lineWidth: 1)
-                                )
-                        }
-                        
-                        // 错误消息
-                        if let errorMessage = authManager.errorMessage {
-                            Text(errorMessage)
-                                .font(StyleConstants.sansFontBody(14, language: appState.selectedLanguage))
-                                .foregroundColor(.red)
-                                .padding()
-                                .background(Color.red.opacity(0.1))
-                                .cornerRadius(8)
-                        }
-                        
-                        // 审核状态提示
-                        if authManager.authState.isPending {
-                            VStack(spacing: StyleConstants.compactSpacing) {
-                                HStack {
-                                    Image(systemName: "clock")
-                                        .foregroundColor(.orange)
-                                    Text("账户正在审核中")
-                                        .font(StyleConstants.sansFontBody(14, language: appState.selectedLanguage))
-                                        .foregroundColor(.orange)
-                                }
-                                    Text("您的注册申请正在审核中，请耐心等待管理员审核通过")
-                                    .font(StyleConstants.sansFontBody(12, language: appState.selectedLanguage))
-                                    .foregroundColor(DesignSystem.Colors.secondaryText)
-                                    .multilineTextAlignment(.center)
-                            }
-                            .padding()
-                            .background(Color.orange.opacity(0.1))
-                            .cornerRadius(8)
-                        }
-                        
-                        // 忘记密码链接
-                        HStack {
+
+                    AuthContextTabBar()
+                }
+                .background(DesignSystem.Colors.background.ignoresSafeArea())
+            }
+            .toolbar(.hidden, for: .navigationBar)
+        }
+        .fullScreenCover(isPresented: $showingRegistration) {
+            RegistrationView()
+                .environmentObject(appState)
+        }
+        .sheet(isPresented: $showingForgotPassword) {
+            ForgotPasswordView()
+                .environmentObject(appState)
+        }
+        .alert(socialNoticeTitle, isPresented: $showingSocialSignInNotice) {
+            Button(commonOK, role: .cancel) {}
+        } message: {
+            Text(socialNoticeMessage)
+        }
+        .onAppear {
+            authManager.clearError()
+            if rememberEmail {
+                email = rememberedEmail
+            }
+        }
+        .onChange(of: authManager.authState) { _, newState in
+            if newState.isSignedIn {
+                if rememberEmail {
+                    rememberedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+                } else {
+                    rememberedEmail = ""
+                }
+                dismiss()
+            }
+        }
+        .onChange(of: authManager.requiresProfileCompletion) { _, requiresCompletion in
+            if requiresCompletion {
+                showingRegistration = true
+            }
+        }
+    }
+
+    private var form: some View {
+        VStack(alignment: .leading, spacing: 24) {
+            Text(copy.signIn)
+                .font(.system(size: 18, weight: .bold))
+                .foregroundStyle(DesignSystem.Colors.primaryText)
+
+            VStack(spacing: 20) {
+                AuthTextField(
+                    title: copy.emailAddress,
+                    placeholder: "example@email.com",
+                    text: $email,
+                    keyboardType: .emailAddress,
+                    textContentType: .emailAddress
+                )
+
+                VStack(spacing: 16) {
+                    AuthSecureField(
+                        title: copy.password,
+                        placeholder: copy.passwordPlaceholder,
+                        text: $password,
+                        isRevealed: $isShowingPassword,
+                        trailingLabel: copy.forgotPassword,
+                        trailingAction: { showingForgotPassword = true }
+                    )
+
+                    Button {
+                        rememberEmail.toggle()
+                    } label: {
+                        HStack(spacing: 12) {
+                            Image(systemName: rememberEmail ? "checkmark.square.fill" : "square")
+                                .font(.system(size: 17, weight: .medium))
+                                .foregroundStyle(rememberEmail ? DesignSystem.Colors.accent : Color.secondary.opacity(0.45))
+                            Text(copy.rememberMe)
+                                .font(.system(size: 12))
+                                .foregroundStyle(DesignSystem.Colors.mutedText)
                             Spacer()
-                            Button(action: {
-                                showingForgotPassword = true
-                            }) {
-                                Text("忘记密码？")
-                                    .font(StyleConstants.sansFontBody(14, language: appState.selectedLanguage))
-                                    .foregroundColor(DesignSystem.Colors.accent)
-                            }
-                        }
-                        
-                        // 登录按钮
-                        Button(action: {
-                            authManager.signIn(email: email, password: password)
-                        }) {
-                            HStack {
-                                if authManager.isLoading {
-                                    ProgressView()
-                                        .progressViewStyle(CircularProgressViewStyle(tint: DesignSystem.Colors.primaryText))
-                                        .scaleEffect(0.8)
-                                } else if authManager.authState.isSignedIn {
-                                    HStack {
-                                                                                  Image(systemName: "checkmark")
-                                             .font(.system(size: 16, weight: .bold))
-                                        Text("登录成功！")
-                                            .font(StyleConstants.sansFontBody(18, language: appState.selectedLanguage))
-                                            .fontWeight(.semibold)
-                                    }
-                                } else {
-                                    Text("登录")
-                                        .font(StyleConstants.sansFontBody(18, language: appState.selectedLanguage))
-                                        .fontWeight(.semibold)
-                                }
-                            }
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, StyleConstants.standardSpacing)
-                            .background(
-                                authManager.authState.isSignedIn ? Color.green :
-                                ((!email.isEmpty && !password.isEmpty) ? DesignSystem.Colors.accent : DesignSystem.Colors.mutedText)
-                            )
-                            .foregroundColor(.white)
-                            .cornerRadius(StyleConstants.buttonCornerRadius)
-                        }
-                        .disabled(email.isEmpty || password.isEmpty || authManager.isLoading || authManager.authState.isSignedIn)
-                    }
-                    .padding(.horizontal, StyleConstants.containerPadding)
-                    
-                    Spacer()
-                    
-                    // 注册链接
-                    VStack(spacing: StyleConstants.compactSpacing) {
-                        Text("还没有账户？")
-                            .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
-                            .foregroundColor(DesignSystem.Colors.secondaryText)
-                        
-                        Button(action: {
-                            showingRegistration = true
-                        }) {
-                            Text("立即注册")
-                                .font(StyleConstants.sansFontBody(16, language: appState.selectedLanguage))
-                                .fontWeight(.semibold)
-                                .foregroundColor(DesignSystem.Colors.accent)
                         }
                     }
-                    .padding(.bottom, StyleConstants.mediumSpacing)
+                    .buttonStyle(.plain)
                 }
             }
-            .navigationBarHidden(true)
-            .sheet(isPresented: $showingRegistration) {
-                RegistrationView()
-                    .environmentObject(appState)
+
+            if let errorMessage = authManager.errorMessage {
+                AuthStatusMessage(message: errorMessage, kind: .error)
+            } else if authManager.authState.isPending {
+                AuthStatusMessage(message: copy.pendingMessage, kind: .pending)
             }
-            .sheet(isPresented: $showingForgotPassword) {
-                ForgotPasswordView()
-                    .environmentObject(appState)
+
+            AuthPrimaryButton(title: copy.signIn, isLoading: authManager.isLoading, isEnabled: canSignIn) {
+                authManager.signIn(email: email, password: password)
             }
-            .onChange(of: authManager.authState) { newState in
-                if newState.isSignedIn {
-                    // 登录成功，关闭登录页面
-                    presentationMode.wrappedValue.dismiss()
+
+            AuthDivider(label: copy.continueWith)
+
+            HStack(spacing: 12) {
+                AuthProviderButton(title: "Google", systemImage: "g.circle.fill") {
+                    showingSocialSignInNotice = true
+                }
+                AuthProviderButton(title: "Apple", systemImage: "apple.logo") {
+                    startAppleSignIn()
                 }
             }
-            .onAppear {
-                // 清除之前的错误消息
-                authManager.clearError()
+        }
+    }
+
+    private var registrationPrompt: some View {
+        HStack(spacing: 8) {
+            Spacer()
+            Text(copy.newCommunity)
+                .foregroundStyle(DesignSystem.Colors.mutedText)
+            Button(copy.createAccount) {
+                showingRegistration = true
             }
+            .foregroundStyle(Color(red: 0.16, green: 0.57, blue: 0.26))
+            .fontWeight(.semibold)
+            Spacer()
+        }
+        .font(.system(size: 12))
+    }
+
+    private var canSignIn: Bool {
+        !email.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
+        !password.isEmpty &&
+        !authManager.isLoading
+    }
+
+    private func startAppleSignIn() {
+        let coordinator = AppleSignInCoordinator(authManager: authManager)
+        appleCoordinator = coordinator
+        coordinator.start()
+    }
+
+    private var copy: AuthCopy { AuthCopy(language: appState.selectedLanguage) }
+
+    private var socialNoticeTitle: String {
+        switch appState.selectedLanguage {
+        case .chinese: return "第三方登录尚未连接"
+        case .english: return "Social sign-in is not connected yet"
+        case .korean: return "소셜 로그인이 아직 연결되지 않았습니다"
+        }
+    }
+
+    private var socialNoticeMessage: String {
+        switch appState.selectedLanguage {
+        case .chinese: return "Google 与 Apple 的视觉入口已按 Figma 实现；Firebase Provider 会在下一阶段接入。现在请使用邮箱和密码登录。"
+        case .english: return "The Google and Apple entry points now match Figma. Firebase providers will be connected in the next implementation phase. Please use email and password for now."
+        case .korean: return "Google 및 Apple 화면은 Figma에 맞게 구현되었습니다. Firebase 제공자는 다음 구현 단계에서 연결됩니다. 지금은 이메일과 비밀번호를 사용해 주세요."
+        }
+    }
+
+    private var commonOK: String {
+        switch appState.selectedLanguage {
+        case .chinese: return "知道了"
+        case .english: return "OK"
+        case .korean: return "확인"
         }
     }
 }
 
-// 预览
-struct LoginView_Previews: PreviewProvider {
-    static var previews: some View {
-        LoginView()
-            .environmentObject(AppState())
+struct AuthBrandHeader: View {
+    @EnvironmentObject private var appState: AppState
+    let showsAccount: Bool
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Text("D")
+                .font(.system(size: 24, weight: .bold))
+                .foregroundStyle(.white)
+                .frame(width: 32, height: 32)
+                .background(DesignSystem.Colors.accent)
+                .clipShape(RoundedRectangle(cornerRadius: 2))
+
+            Text("Daniel App")
+                .font(.system(size: 30, weight: .bold))
+                .foregroundStyle(DesignSystem.Colors.accentDark)
+
+            Spacer(minLength: 8)
+
+            if showsAccount {
+                Menu {
+                    Button("中文") { appState.selectedLanguage = .chinese }
+                    Button("English") { appState.selectedLanguage = .english }
+                    Button("한국어") { appState.selectedLanguage = .korean }
+                } label: {
+                    Image(systemName: "globe")
+                        .font(.system(size: 21, weight: .medium))
+                        .foregroundStyle(DesignSystem.Colors.mutedText)
+                        .frame(width: 24, height: 40)
+                }
+
+                Image("jesus_icon")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 40, height: 40)
+                    .clipShape(Circle())
+                    .overlay(alignment: .bottomTrailing) {
+                        Circle()
+                            .fill(Color.green)
+                            .frame(width: 12, height: 12)
+                            .overlay(Circle().stroke(.white, lineWidth: 2))
+                    }
+            }
+        }
+        .frame(maxWidth: .infinity)
     }
-} 
+}
+
+struct AuthTextField: View {
+    let title: String
+    let placeholder: String
+    @Binding var text: String
+    var systemImage: String? = nil
+    var keyboardType: UIKeyboardType = .default
+    var textContentType: UITextContentType? = nil
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title)
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(DesignSystem.Colors.primaryText)
+
+            HStack(spacing: 8) {
+                if let systemImage {
+                    Image(systemName: systemImage)
+                        .font(.system(size: 14))
+                        .foregroundStyle(DesignSystem.Colors.mutedText)
+                }
+                TextField(placeholder, text: $text)
+                    .font(.system(size: 14))
+                    .keyboardType(keyboardType)
+                    .textContentType(textContentType)
+                    .textInputAutocapitalization(keyboardType == .emailAddress ? .never : .words)
+                    .autocorrectionDisabled(keyboardType == .emailAddress)
+            }
+            .padding(.horizontal, 16)
+            .frame(height: 44)
+            .background(Color(uiColor: .secondarySystemBackground).opacity(0.5))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(uiColor: .separator).opacity(0.35)))
+        }
+    }
+}
+
+struct AuthSecureField: View {
+    let title: String
+    let placeholder: String
+    @Binding var text: String
+    @Binding var isRevealed: Bool
+    var trailingLabel: String? = nil
+    var trailingAction: (() -> Void)? = nil
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text(title)
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(DesignSystem.Colors.primaryText)
+                Spacer()
+                if let trailingLabel, let trailingAction {
+                    Button(trailingLabel, action: trailingAction)
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundStyle(Color(red: 0.16, green: 0.57, blue: 0.26))
+                }
+            }
+
+            HStack {
+                Group {
+                    if isRevealed {
+                        TextField(placeholder, text: $text)
+                    } else {
+                        SecureField(placeholder, text: $text)
+                    }
+                }
+                .font(.system(size: 14))
+                .textContentType(.password)
+
+                Button { isRevealed.toggle() } label: {
+                    Image(systemName: isRevealed ? "eye.slash" : "eye")
+                        .font(.system(size: 14))
+                        .foregroundStyle(DesignSystem.Colors.mutedText)
+                }
+            }
+            .padding(.horizontal, 16)
+            .frame(height: 44)
+            .background(Color(uiColor: .secondarySystemBackground).opacity(0.5))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(uiColor: .separator).opacity(0.35)))
+        }
+    }
+}
+
+struct AuthPrimaryButton: View {
+    let title: String
+    let isLoading: Bool
+    let isEnabled: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Group {
+                if isLoading {
+                    ProgressView().tint(.white)
+                } else {
+                    Text(title).font(.system(size: 16, weight: .semibold))
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 40)
+            .foregroundStyle(.white)
+            .background(isEnabled ? DesignSystem.Colors.accent : DesignSystem.Colors.mutedText.opacity(0.45))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+        }
+        .buttonStyle(.plain)
+        .disabled(!isEnabled)
+    }
+}
+
+struct AuthProviderButton: View {
+    let title: String
+    let systemImage: String
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 10) {
+                Image(systemName: systemImage)
+                    .font(.system(size: 17, weight: .semibold))
+                Text(title)
+                    .font(.system(size: 16))
+            }
+            .foregroundStyle(DesignSystem.Colors.secondaryText)
+            .frame(maxWidth: .infinity)
+            .frame(height: 40)
+            .background(DesignSystem.Colors.surface)
+            .clipShape(RoundedRectangle(cornerRadius: 9))
+            .overlay(RoundedRectangle(cornerRadius: 9).stroke(Color(uiColor: .separator).opacity(0.4)))
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+struct AuthDivider: View {
+    let label: String
+
+    var body: some View {
+        HStack(spacing: 16) {
+            Rectangle().fill(DesignSystem.Colors.mutedText.opacity(0.55)).frame(height: 1)
+            Text(label.uppercased())
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(DesignSystem.Colors.mutedText.opacity(0.6))
+                .fixedSize()
+            Rectangle().fill(DesignSystem.Colors.mutedText.opacity(0.55)).frame(height: 1)
+        }
+    }
+}
+
+struct AuthContextTabBar: View {
+    @EnvironmentObject private var appState: AppState
+
+    private var items: [(String, String)] {
+        [
+            ("house", LocalizedText.Common.dailyVerse.text(for: appState.selectedLanguage)),
+            ("paperclip", LocalizedText.Common.resourcesTab.text(for: appState.selectedLanguage)),
+            ("person.2", LocalizedText.Common.communicationTab.text(for: appState.selectedLanguage)),
+            ("gearshape", LocalizedText.Common.settings.text(for: appState.selectedLanguage))
+        ]
+    }
+
+    var body: some View {
+        HStack(spacing: 6) {
+            ForEach(Array(items.enumerated()), id: \.offset) { index, item in
+                VStack(spacing: 4) {
+                    Image(systemName: item.0).font(.system(size: 21))
+                    Text(item.1).font(.system(size: 12)).lineLimit(1)
+                }
+                .foregroundStyle(index == 0 ? DesignSystem.Colors.accentDark : DesignSystem.Colors.mutedText)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 8)
+                .background(index == 0 ? DesignSystem.Colors.cardBackground : .clear)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+            }
+        }
+        .padding(.horizontal, 24)
+        .padding(.top, 12)
+        .padding(.bottom, 8)
+        .background(DesignSystem.Colors.surface)
+        .overlay(alignment: .top) { Rectangle().fill(DesignSystem.Colors.divider).frame(height: 1) }
+        .allowsHitTesting(false)
+    }
+}
+
+struct AuthStatusMessage: View {
+    enum Kind { case error, pending, information }
+    let message: String
+    let kind: Kind
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 10) {
+            Image(systemName: icon)
+            Text(message).frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .font(.system(size: 13))
+        .foregroundStyle(foreground)
+        .padding(14)
+        .background(foreground.opacity(0.09))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .overlay(RoundedRectangle(cornerRadius: 12).stroke(foreground.opacity(0.25)))
+    }
+
+    private var icon: String {
+        switch kind { case .error: return "exclamationmark.circle"; case .pending: return "clock"; case .information: return "info.circle" }
+    }
+
+    private var foreground: Color {
+        switch kind { case .error: return .red; case .pending: return .orange; case .information: return .blue }
+    }
+}
+
+struct AuthCopy {
+    let language: CoreModels.VerseLanguage
+
+    var signIn: String { text("登录", "Sign In", "로그인") }
+    var emailAddress: String { text("邮箱地址", "Email Address", "이메일 주소") }
+    var password: String { text("密码", "Password", "비밀번호") }
+    var passwordPlaceholder: String { text("请输入密码", "Enter your password", "비밀번호를 입력하세요") }
+    var forgotPassword: String { text("忘记密码？", "Forgot password?", "비밀번호를 잊으셨나요?") }
+    var rememberMe: String { text("记住我 30 天", "Remember me for 30 days", "30일 동안 기억하기") }
+    var continueWith: String { text("或使用以下方式", "or continue with", "또는 다음으로 계속") }
+    var newCommunity: String { text("第一次加入这个社区？", "New to the community?", "커뮤니티가 처음이신가요?") }
+    var createAccount: String { text("创建账户", "Create an account", "계정 만들기") }
+    var pendingMessage: String { text("你的账户正在等待所属教会管理员审核。", "Your account is waiting for approval from your church administrator.", "소속 교회 관리자의 승인을 기다리고 있습니다.") }
+
+    func text(_ zh: String, _ en: String, _ ko: String) -> String {
+        switch language { case .chinese: return zh; case .english: return en; case .korean: return ko }
+    }
+}
+
+#Preview {
+    LoginView().environmentObject(AppState())
+}
+
+final class AppleSignInCoordinator: NSObject, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+    private let authManager: AuthManager
+    private var currentNonce: String?
+
+    init(authManager: AuthManager) {
+        self.authManager = authManager
+    }
+
+    func start() {
+        let nonce = Self.randomNonceString()
+        currentNonce = nonce
+
+        let request = ASAuthorizationAppleIDProvider().createRequest()
+        request.requestedScopes = [.fullName, .email]
+        request.nonce = Self.sha256(nonce)
+
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+        controller.delegate = self
+        controller.presentationContextProvider = self
+        controller.performRequests()
+    }
+
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+        return scenes.flatMap(\.windows).first(where: \.isKeyWindow) ?? ASPresentationAnchor()
+    }
+
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential,
+              let nonce = currentNonce,
+              let tokenData = credential.identityToken,
+              let idToken = String(data: tokenData, encoding: .utf8) else {
+            authManager.errorMessage = "Apple 登录失败：无法读取身份凭证"
+            authManager.isLoading = false
+            return
+        }
+
+        authManager.signInWithApple(idToken: idToken, rawNonce: nonce, fullName: credential.fullName)
+    }
+
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        if (error as? ASAuthorizationError)?.code != .canceled {
+            authManager.errorMessage = error.localizedDescription
+        }
+        authManager.isLoading = false
+    }
+
+    private static func sha256(_ input: String) -> String {
+        SHA256.hash(data: Data(input.utf8)).map { String(format: "%02x", $0) }.joined()
+    }
+
+    private static func randomNonceString(length: Int = 32) -> String {
+        precondition(length > 0)
+        let charset = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+        var result = ""
+        var remaining = length
+
+        while remaining > 0 {
+            var bytes = [UInt8](repeating: 0, count: 16)
+            let status = SecRandomCopyBytes(kSecRandomDefault, bytes.count, &bytes)
+            precondition(status == errSecSuccess)
+
+            for byte in bytes where remaining > 0 {
+                if byte < charset.count {
+                    result.append(charset[Int(byte)])
+                    remaining -= 1
+                }
+            }
+        }
+        return result
+    }
+}

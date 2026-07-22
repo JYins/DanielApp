@@ -11,6 +11,7 @@ class AuthManager: ObservableObject {
     @Published var currentUser: UserProfile?
     @Published var isLoading = false
     @Published var errorMessage: String?
+    @Published var requiresProfileCompletion = false
     
     private let auth = Auth.auth()
     private let db = Firestore.firestore()
@@ -33,12 +34,14 @@ class AuthManager: ObservableObject {
         authStateHandle = auth.addStateDidChangeListener { [weak self] _, user in
             DispatchQueue.main.async {
                 if let user = user {
+                    self?.requiresProfileCompletion = false
                     self?.loadUserProfile(for: user.uid)
                     // 设置实时监听用户资料变化
                     self?.setupUserProfileListener(for: user.uid)
                 } else {
                     self?.authState = .signedOut
                     self?.currentUser = nil
+                    self?.requiresProfileCompletion = false
                     // 移除监听器
                     self?.userProfileListener?.remove()
                     self?.userProfileListener = nil
@@ -103,6 +106,11 @@ class AuthManager: ObservableObject {
     
     // 注册用户
     func register(with formData: RegistrationFormData) {
+        if requiresProfileCompletion, auth.currentUser != nil {
+            completeProviderRegistration(with: formData)
+            return
+        }
+
         isLoading = true
         errorMessage = nil
         
@@ -131,9 +139,17 @@ class AuthManager: ObservableObject {
                     userId: user.uid,
                     churchCountry: formData.trimmedChurchCountry,
                     churchName: formData.trimmedChurchName,
+                    orgId: formData.optionalOrgId ?? "daniel-branch-church",
+                    regionId: formData.optionalRegionId,
+                    regionName: formData.trimmedRegionName.isEmpty ? formData.trimmedChurchCountry : formData.trimmedRegionName,
+                    branchId: formData.optionalBranchId,
+                    branchName: formData.trimmedBranchName.isEmpty ? formData.trimmedChurchName : formData.trimmedBranchName,
                     salvationDate: formData.salvationDate,
                     ministryDepartment: formData.optionalMinistryDepartment,
-                    confirmationPerson: formData.trimmedConfirmationPerson
+                    confirmationPerson: formData.trimmedConfirmationPerson,
+                    role: "member",
+                    accessRole: "member",
+                    membershipStatus: "pending"
                 )
                 
                 // 保存用户资料到Firestore
@@ -163,6 +179,46 @@ class AuthManager: ObservableObject {
                 
                 // 用户登录成功，状态监听器会自动处理后续逻辑
                 self?.isLoading = false
+            }
+        }
+    }
+
+    func signInWithApple(idToken: String, rawNonce: String, fullName: PersonNameComponents?) {
+        isLoading = true
+        errorMessage = nil
+
+        let credential = OAuthProvider.appleCredential(
+            withIDToken: idToken,
+            rawNonce: rawNonce,
+            fullName: fullName
+        )
+
+        auth.signIn(with: credential) { [weak self] result, error in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                if let error {
+                    self.errorMessage = self.getLocalizedErrorMessage(error)
+                    self.isLoading = false
+                    return
+                }
+
+                guard let user = result?.user else {
+                    self.errorMessage = "Apple 登录失败：无法读取 Firebase 用户"
+                    self.isLoading = false
+                    return
+                }
+
+                if let fullName, user.displayName?.isEmpty != false {
+                    let formatter = PersonNameComponentsFormatter()
+                    let displayName = formatter.string(from: fullName).trimmingCharacters(in: .whitespacesAndNewlines)
+                    if !displayName.isEmpty {
+                        let changeRequest = user.createProfileChangeRequest()
+                        changeRequest.displayName = displayName
+                        changeRequest.commitChanges(completion: nil)
+                    }
+                }
+
+                self.loadUserProfile(for: user.uid)
             }
         }
     }
@@ -219,6 +275,7 @@ class AuthManager: ObservableObject {
             try auth.signOut()
             authState = .signedOut
             currentUser = nil
+            requiresProfileCompletion = false
         } catch {
             errorMessage = "注销失败：\(error.localizedDescription)"
         }
@@ -250,6 +307,51 @@ class AuthManager: ObservableObject {
             isLoading = false
         }
     }
+
+    private func completeProviderRegistration(with formData: RegistrationFormData) {
+        guard let user = auth.currentUser else {
+            errorMessage = "登录状态已失效，请重新登录"
+            requiresProfileCompletion = false
+            return
+        }
+
+        isLoading = true
+        errorMessage = nil
+        let resolvedEmail = user.email?.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        guard let resolvedEmail, !resolvedEmail.isEmpty else {
+            errorMessage = "Apple 账户没有提供可用邮箱，请联系管理员"
+            isLoading = false
+            return
+        }
+
+        let profile = makeProfile(from: formData, userID: user.uid, email: resolvedEmail)
+        saveUserProfile(profile)
+    }
+
+    private func makeProfile(from formData: RegistrationFormData, userID: String, email: String? = nil) -> UserProfile {
+        UserProfile(
+            name: formData.trimmedName,
+            gender: formData.gender,
+            birthDate: formData.birthDate,
+            address: formData.optionalAddress,
+            email: email ?? formData.trimmedEmail,
+            phoneNumber: formData.optionalPhoneNumber,
+            userId: userID,
+            churchCountry: formData.trimmedChurchCountry,
+            churchName: formData.trimmedChurchName,
+            orgId: formData.optionalOrgId ?? "daniel-branch-church",
+            regionId: formData.optionalRegionId,
+            regionName: formData.trimmedRegionName.isEmpty ? formData.trimmedChurchCountry : formData.trimmedRegionName,
+            branchId: formData.optionalBranchId,
+            branchName: formData.trimmedBranchName.isEmpty ? formData.trimmedChurchName : formData.trimmedBranchName,
+            salvationDate: formData.salvationDate,
+            ministryDepartment: formData.optionalMinistryDepartment,
+            confirmationPerson: formData.trimmedConfirmationPerson,
+            role: "member",
+            accessRole: "member",
+            membershipStatus: "pending"
+        )
+    }
     
     // 验证用户资料是否已保存
     private func verifyUserProfileSaved(_ profile: UserProfile, retryCount: Int = 0) {
@@ -276,6 +378,7 @@ class AuthManager: ObservableObject {
                 if document?.exists == true {
                     print("✅ 用户资料验证成功，注册完成")
                     self?.currentUser = profile
+                    self?.requiresProfileCompletion = false
                     self?.authState = .pending // 等待审核
                     self?.isLoading = false
                 } else {
@@ -319,6 +422,14 @@ class AuthManager: ObservableObject {
                 
                 guard let document = document, document.exists else {
                     print("⚠️ 用户信息不存在")
+
+                    if self?.isCurrentUserUsingExternalProvider == true {
+                        self?.requiresProfileCompletion = true
+                        self?.authState = .signedOut
+                        self?.isLoading = false
+                        self?.errorMessage = nil
+                        return
+                    }
                     
                     // 如果文档不存在且是首次尝试，可能是数据还没有同步，稍后重试
                     if retryCount < 3 {
@@ -386,6 +497,11 @@ class AuthManager: ObservableObject {
             userId: userId,
             churchCountry: self.stringValue(from: data["churchCountry"]),
             churchName: self.stringValue(from: data["churchName"]),
+            orgId: self.stringValue(from: data["orgId"]),
+            regionId: self.stringValue(from: data["regionId"]),
+            regionName: self.stringValue(from: data["regionName"]) ?? self.stringValue(from: data["churchCountry"]),
+            branchId: self.stringValue(from: data["branchId"]),
+            branchName: self.stringValue(from: data["branchName"]) ?? self.stringValue(from: data["churchName"]),
             salvationDate: self.dateValue(from: data["salvationDate"]),
             ministryDepartment: self.stringValue(from: data["ministryDepartment"]),
             confirmationPerson: self.stringValue(from: data["confirmationPerson"]),
@@ -393,7 +509,10 @@ class AuthManager: ObservableObject {
             updatedAt: self.dateValue(from: data["updatedAt"]),
             lastLoginDate: self.dateValue(from: data["lastLoginDate"]),
             isApproved: data["isApproved"] as? Bool ?? false,
-            approvedAt: self.dateValue(from: data["approvedAt"])
+            approvedAt: self.dateValue(from: data["approvedAt"]),
+            role: self.stringValue(from: data["role"]) ?? "member",
+            accessRole: self.stringValue(from: data["accessRole"]) ?? self.stringValue(from: data["role"]) ?? "member",
+            membershipStatus: self.stringValue(from: data["membershipStatus"])
         )
         profile.id = document.documentID
         return profile
@@ -439,6 +558,22 @@ class AuthManager: ObservableObject {
         default:
             return false
         }
+    }
+
+    var currentAuthenticatedUserID: String? {
+        if let profileUserID = currentUser?.userId, !profileUserID.isEmpty {
+            return profileUserID
+        }
+
+        return auth.currentUser?.uid
+    }
+
+    var currentFirebaseEmail: String? {
+        auth.currentUser?.email
+    }
+
+    private var isCurrentUserUsingExternalProvider: Bool {
+        auth.currentUser?.providerData.contains(where: { $0.providerID != EmailAuthProviderID }) == true
     }
     
     // 获取本地化错误消息
