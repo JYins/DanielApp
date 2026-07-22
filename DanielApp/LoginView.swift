@@ -120,8 +120,21 @@ struct LoginView: View {
 
             if let errorMessage = authManager.errorMessage {
                 AuthStatusMessage(message: errorMessage, kind: .error)
-            } else if authManager.authState.isPending {
-                AuthStatusMessage(message: copy.pendingMessage, kind: .pending)
+            } else if authManager.emailVerificationRequired {
+                AuthStatusMessage(message: copy.verifyEmailMessage, kind: .information)
+                Button(copy.completeSetup) { showingRegistration = true }
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(DesignSystem.Colors.accentDark)
+            } else if authManager.authState.isPending, let profile = authManager.currentUser {
+                AuthStatusMessage(message: pendingMessage(for: profile), kind: .pending)
+                HStack(spacing: 12) {
+                    AuthPrimaryButton(title: copy.churchAccess, isLoading: false, isEnabled: true) {
+                        showingRegistration = true
+                    }
+                    Button(copy.usePublicContent) { dismiss() }
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(DesignSystem.Colors.accentDark)
+                }
             }
 
             AuthPrimaryButton(title: copy.signIn, isLoading: authManager.isLoading, isEnabled: canSignIn) {
@@ -166,6 +179,14 @@ struct LoginView: View {
         let coordinator = AppleSignInCoordinator(authManager: authManager)
         appleCoordinator = coordinator
         coordinator.start()
+    }
+
+    private func pendingMessage(for profile: UserProfile) -> String {
+        let status = (profile.membershipStatus ?? "pending").lowercased()
+        if status == "unassigned" || profile.branchId?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty != false {
+            return copy.noChurchMessage
+        }
+        return copy.pendingMessage
     }
 
     private var copy: AuthCopy { AuthCopy(language: appState.selectedLanguage) }
@@ -467,6 +488,11 @@ struct AuthCopy {
     var newCommunity: String { text("第一次加入这个社区？", "New to the community?", "커뮤니티가 처음이신가요?") }
     var createAccount: String { text("创建账户", "Create an account", "계정 만들기") }
     var pendingMessage: String { text("你的账户正在等待所属教会管理员审核。", "Your account is waiting for approval from your church administrator.", "소속 교회 관리자의 승인을 기다리고 있습니다.") }
+    var noChurchMessage: String { text("账户已建立。输入教会 Token，或先继续使用每日经文和公开资源。", "Your account is ready. Enter a church token, or continue with Daily Verse and public resources.", "계정이 준비되었습니다. 교회 토큰을 입력하거나 오늘의 말씀과 공개 자료를 먼저 이용하세요.") }
+    var verifyEmailMessage: String { text("请验证邮箱后再输入教会 Token。", "Verify your email before entering a church token.", "교회 토큰을 입력하기 전에 이메일을 인증하세요.") }
+    var completeSetup: String { text("继续账户设置", "Continue Account Setup", "계정 설정 계속하기") }
+    var churchAccess: String { text("教会 Token", "Church Token", "교회 토큰") }
+    var usePublicContent: String { text("使用公开内容", "Use Public Content", "공개 콘텐츠 이용") }
 
     func text(_ zh: String, _ en: String, _ ko: String) -> String {
         switch language { case .chinese: return zh; case .english: return en; case .korean: return ko }

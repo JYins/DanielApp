@@ -1,9 +1,10 @@
-# Implementation Notes: Connect/Resources Product Shell
+# Implementation Notes: Daniel App Canada Pilot
 
 ## Branch
 
-- Branch: `codex/figma-design-merge`
-- Purpose: align the app with the current Figma direction and stabilize the first branch-church product shell.
+- Branch: `codex/canada-pilot-v1`
+- Purpose: preserve the completed Figma direction, then implement the secure four-church Canada pilot across iOS, Firebase, and the admin portal.
+- History: earlier sections document the work completed on `codex/figma-design-merge`; the authoritative Canada-pilot scope and validation are in the dated 2026-07-22 section below.
 
 ## Product Goal
 
@@ -593,3 +594,61 @@ Additional validation and design review on 2026-07-21:
 - Passed the full unsigned iOS Simulator build again after all authentication/onboarding changes: `** BUILD SUCCEEDED **`.
 - Firebase Auth and Firestore emulators started successfully and repeatable test data seeded successfully. The iOS test bundle built, but Xcode's simulator test runner stalled while materializing/launching the worker and produced no test cases. The run was cleanly interrupted after repeated no-output intervals; this attempt is recorded as runner timeout, not as a passing test suite. Previous 30-test emulator validation remains the last completed suite before this authentication slice.
 - Ran `graphify update .` after code changes; the escalated run rebuilt the AST graph with 2,009 nodes, 3,485 edges, and 118 communities.
+
+### Canada Four-Church International Pilot: 2026-07-22
+
+Branch and rollback:
+
+- Preserved the complete Figma merge worktree in commit `12efa4bd7f7e2bd226f3374ac5268de5c03aec1c` with message `chore: checkpoint Figma merge before Canada pilot`.
+- Added annotated tag `checkpoint/figma-merge-2026-07-22` and created `codex/canada-pilot-v1` from that checkpoint.
+- Safe recovery command: `git switch -c codex/recovery-2026-07-22 checkpoint/figma-merge-2026-07-22`.
+- The branch and tag are local only at this point. The GitHub push was intentionally not completed because repository visibility/trust was not confirmed during the safety review.
+
+Product scope:
+
+- Registration now writes only name, email, optional phone, and base access fields. Legacy sensitive profile fields remain decode-compatible but are not collected or written by the new onboarding UI.
+- Email/password users must verify email before redeeming a church token. Apple/provider users complete the same minimal profile and church-access flow.
+- New profiles begin as `membershipStatus: unassigned`. A valid token creates only a `pending` member membership; only an administrator action through `setUserAccessAdmin` can make it active.
+- Users may skip the token and keep public Daily Verse and Resources access. Unassigned, pending, revoked, loading, error, and recovery states are available in Chinese, English, and Korean.
+- Connect v1 is intentionally limited to branch announcements, weekly newsletters, and a protected KakaoTalk group link. Native chat, comments, reactions, groups, and group assignment remain out of scope.
+
+Backend and security:
+
+- Added callable Functions `createBranchInvite`, `listBranchInvites`, `revokeBranchInvite`, and `redeemBranchInvite`.
+- Invite codes are 16-character Crockford Base32 values displayed as `XXXX-XXXX-XXXX-XXXX`. Firestore stores only a SHA-256 hash; plaintext is returned once and is never persisted.
+- An invite defaults to 90 days and 250 uses. Creating a replacement revokes the previous active token. Redemption is transactional, idempotent per user/invite, and protects the concurrent final use.
+- `branchInvites` and `inviteRedemptions` are completely client-denied by Firestore Rules. Invite metadata is returned through the scoped callable without hashes or plaintext.
+- Newsletters, announcements, and `branchConnect/{branchId}` are branch-isolated. Active members can read only their own branch; branch admins can manage only their branch; global admins retain cross-branch management.
+- Canonical `branchConnect` fields are `branchId`, `groupNameZh`, `groupNameEn`, `groupNameKo`, `kakaoURL`, and `isActive`.
+
+Admin v1:
+
+- Simplified navigation to Dashboard, Members, Churches (global), Announcements & Newsletter, Invite & KakaoTalk, and Resources.
+- Members writes use only `setUserAccessAdmin`; the direct client Firestore fallback was removed so profile fields and Auth claims cannot drift.
+- The member UI focuses on unassigned/pending/active/revoked state and hides legacy sensitive profile fields.
+- Invite management supports create/rotate, copy-once, metadata list, and revoke. KakaoTalk settings use the same canonical fields as iOS.
+- Announcement/newsletter records require `branchId` and `contentType`; branch admins query and edit only their branch.
+
+Files introduced in this slice:
+
+- `DanielApp/ChurchInviteService.swift`
+- `DanielAppTests/ChurchInviteViewModelTests.swift`
+- `DanielAppTests/BranchConnectViewModelTests.swift`
+- `admin-web/src/pages/BranchAccess.tsx`
+- `scripts/firebase-test-branch-invites.js`
+
+Validation:
+
+- Passed Functions TypeScript production build: `npm run build`.
+- Passed Admin production build: `npm run build`; Vite reports only the existing bundle-size advisory.
+- Passed unsigned iOS Simulator build with FirebaseFunctions linked: `** BUILD SUCCEEDED **`.
+- Passed Auth + Firestore + Functions Emulator suites against demo project `demo-daniel-canada`: existing scoped-admin callable tests plus invite format, hash-only persistence, rotation, revoke, invalid/expired/exhausted/unverified handling, idempotency, concurrent final use, and cross-branch newsletter/Kakao access denial.
+- Passed the final complete iOS XCTest run against local Auth and Firestore emulators using project namespace `daniel1-ca1e7`, iPhone 17 / iOS 26.3.1, and parallel testing disabled: 35 tests, 0 failures, `** TEST SUCCEEDED **`. This includes the focused ChurchInvite formatting, submission, invalid-input, and recoverable-error tests.
+- A first iPhone 16 Pro / iOS 18.4 attempt stalled before launching tests and was not counted. A diagnostic iPhone 17 run using the wrong demo namespace launched 32 tests but failed 8 emulator tests because the app and seed data used different project IDs; the corrected namespace run passed completely.
+- Final `graphify update .` passed after code, tests, and documentation changes: 2,163 nodes, 3,803 edges, and 129 communities.
+- No production Firebase data, rules, indexes, Functions, or hosting were deployed.
+
+Release boundary:
+
+- Production setup remains a separate explicitly approved deployment step after review. It must use dry-run branch initialization first, then create the four Canadian branches, scoped branch admins, canonical KakaoTalk configuration, and one token per branch before TestFlight distribution.
+- Google Sign-In remains configuration-blocked because the current iOS Firebase plist does not expose the required Google client identifiers. Apple Sign-In requires the production Apple Developer capability before device/archive validation.

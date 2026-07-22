@@ -12,6 +12,8 @@ class AuthManager: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var requiresProfileCompletion = false
+    @Published var emailVerificationRequired = false
+    @Published var verificationEmailSent = false
     
     private let auth = Auth.auth()
     private let db = Firestore.firestore()
@@ -35,6 +37,7 @@ class AuthManager: ObservableObject {
             DispatchQueue.main.async {
                 if let user = user {
                     self?.requiresProfileCompletion = false
+                    self?.emailVerificationRequired = self?.requiresEmailVerification(user) ?? false
                     self?.loadUserProfile(for: user.uid)
                     // 设置实时监听用户资料变化
                     self?.setupUserProfileListener(for: user.uid)
@@ -42,6 +45,8 @@ class AuthManager: ObservableObject {
                     self?.authState = .signedOut
                     self?.currentUser = nil
                     self?.requiresProfileCompletion = false
+                    self?.emailVerificationRequired = false
+                    self?.verificationEmailSent = false
                     // 移除监听器
                     self?.userProfileListener?.remove()
                     self?.userProfileListener = nil
@@ -76,25 +81,17 @@ class AuthManager: ObservableObject {
                     }
                     
                     let profile = try self.parseUserProfile(from: document)
-                    let oldState = self.authState
+                    let oldProfile = self.currentUser
                     
                     // 更新当前用户资料
                     self.currentUser = profile
                     
-                    // 根据审核状态更新认证状态
-                    if profile.isApproved {
-                        self.authState = .signedIn(profile)
-                        
-                        // 检查状态是否从pending变为signedIn
-                        if case .pending = oldState {
-                            print("🎉 用户审核已通过！状态从pending变为signedIn")
-                            // 可以在这里添加通知用户的逻辑
-                        } else {
-                            print("✅ 用户资料已更新，状态: signedIn")
-                        }
-                    } else {
-                        self.authState = .pending
-                        print("⏳ 用户资料已更新，状态: pending（等待审核）")
+                    self.applyAuthenticationState(for: profile)
+
+                    let oldStatus = self.normalizedMembershipStatus(for: oldProfile)
+                    let newStatus = self.normalizedMembershipStatus(for: profile)
+                    if oldStatus != newStatus {
+                        self.refreshIDToken(completion: nil)
                     }
                 } catch {
                     print("❌ 解析用户资料失败: \(error.localizedDescription)")
@@ -129,31 +126,14 @@ class AuthManager: ObservableObject {
                 }
                 
                 // 创建用户资料
-                let userProfile = UserProfile(
-                    name: formData.trimmedName,
-                    gender: formData.gender,
-                    birthDate: formData.birthDate,
-                    address: formData.optionalAddress,
-                    email: formData.trimmedEmail,
-                    phoneNumber: formData.optionalPhoneNumber,
-                    userId: user.uid,
-                    churchCountry: formData.trimmedChurchCountry,
-                    churchName: formData.trimmedChurchName,
-                    orgId: formData.optionalOrgId ?? "daniel-branch-church",
-                    regionId: formData.optionalRegionId,
-                    regionName: formData.trimmedRegionName.isEmpty ? formData.trimmedChurchCountry : formData.trimmedRegionName,
-                    branchId: formData.optionalBranchId,
-                    branchName: formData.trimmedBranchName.isEmpty ? formData.trimmedChurchName : formData.trimmedBranchName,
-                    salvationDate: formData.salvationDate,
-                    ministryDepartment: formData.optionalMinistryDepartment,
-                    confirmationPerson: formData.trimmedConfirmationPerson,
-                    role: "member",
-                    accessRole: "member",
-                    membershipStatus: "pending"
-                )
+                let userProfile = self?.makeProfile(from: formData, userID: user.uid)
                 
                 // 保存用户资料到Firestore
-                self?.saveUserProfile(userProfile)
+                guard let self, let userProfile else { return }
+                self.saveUserProfile(userProfile) { saved in
+                    guard saved else { return }
+                    self.sendVerificationEmail()
+                }
             }
         }
     }
@@ -276,13 +256,15 @@ class AuthManager: ObservableObject {
             authState = .signedOut
             currentUser = nil
             requiresProfileCompletion = false
+            emailVerificationRequired = false
+            verificationEmailSent = false
         } catch {
             errorMessage = "注销失败：\(error.localizedDescription)"
         }
     }
     
     // 保存用户资料到Firestore
-    private func saveUserProfile(_ profile: UserProfile) {
+    private func saveUserProfile(_ profile: UserProfile, completion: ((Bool) -> Void)? = nil) {
         print("💾 开始保存用户资料: \(profile.name)")
         
         do {
@@ -292,19 +274,21 @@ class AuthManager: ObservableObject {
                         print("❌ 保存用户信息失败：\(error.localizedDescription)")
                         self?.errorMessage = "保存用户信息失败：\(error.localizedDescription)"
                         self?.isLoading = false
+                        completion?(false)
                         return
                     }
                     
                     print("✅ 用户资料保存成功，开始验证数据...")
                     
                     // 保存成功后，验证数据是否真的写入了
-                    self?.verifyUserProfileSaved(profile)
+                    self?.verifyUserProfileSaved(profile, completion: completion)
                 }
             }
         } catch {
             print("❌ 保存用户信息失败（异常）：\(error.localizedDescription)")
             errorMessage = "保存用户信息失败：\(error.localizedDescription)"
             isLoading = false
+            completion?(false)
         }
     }
 
@@ -325,36 +309,27 @@ class AuthManager: ObservableObject {
         }
 
         let profile = makeProfile(from: formData, userID: user.uid, email: resolvedEmail)
-        saveUserProfile(profile)
+        saveUserProfile(profile) { [weak self] saved in
+            guard saved else { return }
+            self?.emailVerificationRequired = false
+            self?.verificationEmailSent = false
+        }
     }
 
     private func makeProfile(from formData: RegistrationFormData, userID: String, email: String? = nil) -> UserProfile {
         UserProfile(
             name: formData.trimmedName,
-            gender: formData.gender,
-            birthDate: formData.birthDate,
-            address: formData.optionalAddress,
             email: email ?? formData.trimmedEmail,
             phoneNumber: formData.optionalPhoneNumber,
             userId: userID,
-            churchCountry: formData.trimmedChurchCountry,
-            churchName: formData.trimmedChurchName,
-            orgId: formData.optionalOrgId ?? "daniel-branch-church",
-            regionId: formData.optionalRegionId,
-            regionName: formData.trimmedRegionName.isEmpty ? formData.trimmedChurchCountry : formData.trimmedRegionName,
-            branchId: formData.optionalBranchId,
-            branchName: formData.trimmedBranchName.isEmpty ? formData.trimmedChurchName : formData.trimmedBranchName,
-            salvationDate: formData.salvationDate,
-            ministryDepartment: formData.optionalMinistryDepartment,
-            confirmationPerson: formData.trimmedConfirmationPerson,
             role: "member",
             accessRole: "member",
-            membershipStatus: "pending"
+            membershipStatus: "unassigned"
         )
     }
     
     // 验证用户资料是否已保存
-    private func verifyUserProfileSaved(_ profile: UserProfile, retryCount: Int = 0) {
+    private func verifyUserProfileSaved(_ profile: UserProfile, retryCount: Int = 0, completion: ((Bool) -> Void)? = nil) {
         print("🔍 验证用户资料是否已保存，重试次数: \(retryCount)")
         
         db.collection("users").document(profile.userId).getDocument { [weak self] document, error in
@@ -366,11 +341,12 @@ class AuthManager: ObservableObject {
                     if retryCount < 3 {
                         print("⏳ 1秒后重试验证...")
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                            self?.verifyUserProfileSaved(profile, retryCount: retryCount + 1)
+                            self?.verifyUserProfileSaved(profile, retryCount: retryCount + 1, completion: completion)
                         }
                     } else {
                         self?.errorMessage = "用户注册成功，但验证失败，请重新登录"
                         self?.isLoading = false
+                        completion?(false)
                     }
                     return
                 }
@@ -379,8 +355,9 @@ class AuthManager: ObservableObject {
                     print("✅ 用户资料验证成功，注册完成")
                     self?.currentUser = profile
                     self?.requiresProfileCompletion = false
-                    self?.authState = .pending // 等待审核
+                    self?.applyAuthenticationState(for: profile)
                     self?.isLoading = false
+                    completion?(true)
                 } else {
                     print("⚠️ 验证时发现用户资料不存在")
                     
@@ -388,11 +365,12 @@ class AuthManager: ObservableObject {
                     if retryCount < 3 {
                         print("⏳ 1秒后重试验证...")
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                            self?.verifyUserProfileSaved(profile, retryCount: retryCount + 1)
+                            self?.verifyUserProfileSaved(profile, retryCount: retryCount + 1, completion: completion)
                         }
                     } else {
                         self?.errorMessage = "用户注册成功，但验证失败，请重新登录"
                         self?.isLoading = false
+                        completion?(false)
                     }
                 }
             }
@@ -452,20 +430,113 @@ class AuthManager: ObservableObject {
                     
                     self.currentUser = profile
                     
-                    // 根据审核状态设置认证状态
-                    if profile.isApproved {
-                        self.authState = .signedIn(profile)
-                        print("✅ 用户资料加载成功，已通过审核: \(profile.name)")
-                    } else {
-                        self.authState = .pending
-                        print("⏳ 用户资料加载成功，等待审核: \(profile.name)")
-                    }
+                    self.applyAuthenticationState(for: profile)
                 } catch {
                     print("❌ 解析用户信息失败：\(error.localizedDescription)")
                     self?.errorMessage = "用户资料不完整，请联系管理员补全账户信息"
                 }
             }
         }
+    }
+
+    func sendVerificationEmail() {
+        guard let user = auth.currentUser, requiresEmailVerification(user) else {
+            emailVerificationRequired = false
+            verificationEmailSent = false
+            isLoading = false
+            return
+        }
+
+        isLoading = true
+        errorMessage = nil
+        user.sendEmailVerification { [weak self] error in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                self.isLoading = false
+                if let error {
+                    self.verificationEmailSent = false
+                    self.errorMessage = self.getLocalizedErrorMessage(error)
+                    return
+                }
+                self.emailVerificationRequired = true
+                self.verificationEmailSent = true
+            }
+        }
+    }
+
+    func checkEmailVerification(completion: ((Bool) -> Void)? = nil) {
+        guard let user = auth.currentUser else {
+            completion?(false)
+            return
+        }
+
+        isLoading = true
+        errorMessage = nil
+        user.reload { [weak self] error in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                self.isLoading = false
+                if let error {
+                    self.errorMessage = self.getLocalizedErrorMessage(error)
+                    completion?(false)
+                    return
+                }
+
+                let isVerified = self.auth.currentUser?.isEmailVerified == true
+                self.emailVerificationRequired = !isVerified && self.isCurrentUserUsingPasswordProvider
+                if isVerified {
+                    self.refreshIDToken(completion: nil)
+                }
+                completion?(isVerified)
+            }
+        }
+    }
+
+    func refreshIDToken(completion: ((Bool) -> Void)? = nil) {
+        guard let user = auth.currentUser else {
+            completion?(false)
+            return
+        }
+        user.getIDTokenForcingRefresh(true) { _, error in
+            DispatchQueue.main.async {
+                completion?(error == nil)
+            }
+        }
+    }
+
+    func refreshCurrentProfile() {
+        guard let userID = auth.currentUser?.uid else { return }
+        refreshIDToken { [weak self] _ in
+            self?.loadUserProfile(for: userID)
+        }
+    }
+
+    private func applyAuthenticationState(for profile: UserProfile) {
+        let status = normalizedMembershipStatus(for: profile)
+        if status == "revoked" {
+            authState = .rejected
+        } else if status == "active" || profile.isApproved {
+            authState = .signedIn(profile)
+        } else {
+            // Authenticated unassigned and pending members retain public access,
+            // while church-scoped content remains unavailable.
+            authState = .pending
+        }
+    }
+
+    private func normalizedMembershipStatus(for profile: UserProfile?) -> String? {
+        guard let profile else { return nil }
+        return (profile.membershipStatus ?? (profile.isApproved ? "active" : "pending"))
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .lowercased()
+    }
+
+    private func requiresEmailVerification(_ user: FirebaseAuth.User) -> Bool {
+        isPasswordProvider(user) && !user.isEmailVerified
+    }
+
+    private func isPasswordProvider(_ user: FirebaseAuth.User) -> Bool {
+        user.providerData.contains { $0.providerID == EmailAuthProviderID }
     }
 
     private func parseUserProfile(from document: DocumentSnapshot) throws -> UserProfile {
@@ -574,6 +645,11 @@ class AuthManager: ObservableObject {
 
     private var isCurrentUserUsingExternalProvider: Bool {
         auth.currentUser?.providerData.contains(where: { $0.providerID != EmailAuthProviderID }) == true
+    }
+
+    private var isCurrentUserUsingPasswordProvider: Bool {
+        guard let user = auth.currentUser else { return false }
+        return isPasswordProvider(user)
     }
     
     // 获取本地化错误消息

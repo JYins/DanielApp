@@ -15,6 +15,7 @@
 		449D3FB62D99FE1800CB1993 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 449D3FB52D99FE1800CB1993 /* SwiftUI.framework */; };
 		449D3FC72D99FE1A00CB1993 /* daniel wedgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 449D3FB12D99FE1800CB1993 /* daniel wedgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		44A949E82E14428B00BEC5D9 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 44A949E72E14428A00BEC5D9 /* FirebaseAuth */; };
+		44CA00022F10000100000002 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 44CA00012F10000100000001 /* FirebaseFunctions */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,6 +120,7 @@
 				446D831C2DAB271C0041449F /* FirebaseFirestore in Frameworks */,
 				446D831E2DAB271C0041449F /* FirebaseStorage in Frameworks */,
 				44A949E82E14428B00BEC5D9 /* FirebaseAuth in Frameworks */,
+				44CA00022F10000100000002 /* FirebaseFunctions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,6 +209,7 @@
 				446D831B2DAB271C0041449F /* FirebaseFirestore */,
 				446D831D2DAB271C0041449F /* FirebaseStorage */,
 				44A949E72E14428A00BEC5D9 /* FirebaseAuth */,
+				44CA00012F10000100000001 /* FirebaseFunctions */,
 			);
 			productName = DanielApp;
 			productReference = 441492C02D98935200C3DCF4 /* DanielApp.app */;
@@ -802,6 +805,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 446D83182DAB271C0041449F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		44CA00012F10000100000001 /* FirebaseFunctions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 446D83182DAB271C0041449F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFunctions;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -31,6 +31,7 @@ firestore-debug.log
 graphify-out/cache/
 graphify-out/.graphify_root
 graphify-out/.graphify_python
+graphify-out/.rebuild.lock
 
 # Backup files
 *.backup

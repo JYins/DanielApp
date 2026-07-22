@@ -1,167 +1,130 @@
-import React, { useEffect, useState } from 'react';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import React, { useEffect, useMemo, useState } from 'react';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { httpsCallable } from 'firebase/functions';
-import { db, functions } from '../lib/firebase';
-import { useAuthContext } from '../components/AuthProvider';
-import { Users, FileText, Music, Link as LinkIcon, CheckCircle, XCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle, KeyRound, Megaphone, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useAuthContext } from '../components/AuthProvider';
+import { db, functions } from '../lib/firebase';
+
+type Member = {
+  id: string;
+  name?: string;
+  displayName?: string;
+  email?: string;
+  branchId?: string;
+  branchName?: string;
+  membershipStatus?: string;
+  isApproved?: boolean;
+  accessRole?: string;
+  role?: string;
+};
+
+function memberStatus(member: Member) {
+  if (member.membershipStatus) return member.membershipStatus;
+  return member.isApproved ? 'active' : member.branchId ? 'pending' : 'unassigned';
+}
 
 export default function Dashboard() {
   const { adminProfile } = useAuthContext();
-  const adminAccessRole = adminProfile?.accessRole || adminProfile?.role;
-  const isRegionAdmin = adminAccessRole === 'region_admin';
-  const isBranchAdmin = adminAccessRole === 'branch_admin';
-  const [stats, setStats] = useState({
-    pendingUsers: 0,
-    totalWordCards: 0,
-    totalNewsletters: 0,
-    totalPraise: 0
-  });
-
-  const [pendingUserList, setPendingUserList] = useState<any[]>([]);
+  const accessRole = adminProfile?.accessRole || adminProfile?.role;
+  const isRegionAdmin = accessRole === 'region_admin';
+  const isBranchAdmin = accessRole === 'branch_admin';
+  const [members, setMembers] = useState<Member[]>([]);
+  const [busyId, setBusyId] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    const fetchStats = async () => {
-      // Fetch pending users
-      const userConstraints: any[] = [where('isApproved', '==', false)];
-      if (isRegionAdmin && adminProfile?.regionId) {
-        userConstraints.push(where('regionId', '==', adminProfile.regionId));
-      } else if (isBranchAdmin && adminProfile?.branchId) {
-        userConstraints.push(where('branchId', '==', adminProfile.branchId));
-      }
-      const usersQuery = query(collection(db, 'users'), ...userConstraints);
-      const usersSnap = await getDocs(usersQuery);
-      setPendingUserList(usersSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-      
-      // We don't have accurate counts without reading all docs or maintaining a counter
-      // This is a simplified fetch just to show some numbers
+    const loadMembers = async () => {
       try {
-        const cardsSnap = await getDocs(collection(db, 'wordCards'));
-        const newsSnap = await getDocs(collection(db, 'newsletters'));
-        const praiseSnap = await getDocs(collection(db, 'praise'));
-        
-        setStats({
-          pendingUsers: usersSnap.size,
-          totalWordCards: cardsSnap.size,
-          totalNewsletters: newsSnap.size,
-          totalPraise: praiseSnap.size
-        });
-      } catch (err) {
-        console.error("Error fetching collections. They might not exist yet.", err);
-        setStats(prev => ({ ...prev, pendingUsers: usersSnap.size }));
+        let membersQuery = query(collection(db, 'users'));
+        if (isRegionAdmin && adminProfile?.regionId) membersQuery = query(collection(db, 'users'), where('regionId', '==', adminProfile.regionId));
+        if (isBranchAdmin && adminProfile?.branchId) membersQuery = query(collection(db, 'users'), where('branchId', '==', adminProfile.branchId));
+        const snap = await getDocs(membersQuery);
+        setMembers(snap.docs.map(item => ({ id: item.id, ...item.data() } as Member)));
+      } catch (loadError) {
+        console.error(loadError);
+        setError('Dashboard member data could not be loaded.');
       }
     };
-    fetchStats();
+    loadMembers();
   }, [adminProfile?.id]);
 
-  const handleApprove = async (user: any) => {
+  const pending = useMemo(() => members.filter(member => memberStatus(member) === 'pending'), [members]);
+  const activeCount = useMemo(() => members.filter(member => memberStatus(member) === 'active').length, [members]);
+
+  const approve = async (member: Member) => {
+    setBusyId(member.id);
+    setError('');
     try {
-      const setUserAccessAdminFunc = httpsCallable(functions, 'setUserAccessAdmin');
-      await setUserAccessAdminFunc({
-        uid: user.id,
-        isApproved: true,
-        branchId: user.branchId || undefined,
-        accessRole: user.accessRole || user.role || 'member',
+      const callable = httpsCallable(functions, 'setUserAccessAdmin');
+      await callable({
+        uid: member.id,
+        branchId: member.branchId,
+        accessRole: member.accessRole || member.role || 'member',
         membershipStatus: 'active',
+        isApproved: true
       });
-      setPendingUserList(prev => prev.filter(u => u.id !== user.id));
-      setStats(prev => ({ ...prev, pendingUsers: prev.pendingUsers - 1 }));
-    } catch (err) {
-      alert("Failed to approve user.");
+      setMembers(current => current.map(item => item.id === member.id ? { ...item, membershipStatus: 'active', isApproved: true } : item));
+    } catch (approveError: any) {
+      console.error(approveError);
+      setError(approveError?.message || 'Approval failed. No direct Firestore fallback was used.');
+    } finally {
+      setBusyId('');
     }
   };
 
-  const dashboardCards = [
-    { title: 'Pending Users', count: stats.pendingUsers, icon: Users, color: 'bg-orange-500', link: '/users' },
-    { title: 'Word Cards', count: stats.totalWordCards, icon: FileText, color: 'bg-blue-500', link: '/wordcards' },
-    { title: 'Newsletters', count: stats.totalNewsletters, icon: FileText, color: 'bg-green-500', link: '/newsletters' },
-    { title: 'Praise Items', count: stats.totalPraise, icon: Music, color: 'bg-purple-500', link: '/praise' },
-  ];
-
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard Overview</h1>
+      <div>
+        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-600">Canada pilot</p>
+        <h1 className="mt-1 text-2xl font-bold text-gray-900">Church Dashboard</h1>
+        <p className="mt-2 text-sm text-gray-500">Approve members, publish church updates and manage the private KakaoTalk link.</p>
       </div>
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {dashboardCards.map((card) => {
-          const Icon = card.icon;
-          return (
-            <Link key={card.title} to={card.link} className="bg-white overflow-hidden shadow rounded-lg hover:shadow-md transition">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <div className={`p-3 rounded-md ${card.color}`}>
-                      <Icon className="h-6 w-6 text-white" />
-                    </div>
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">{card.title}</dt>
-                      <dd className="text-3xl font-semibold text-gray-900">{card.count}</dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-gray-50 px-5 py-3">
-                <div className="text-sm text-gray-500 flex items-center">
-                  <span className="text-sm">Manage</span>
-                  <LinkIcon className="ml-1 h-3 w-3" />
-                </div>
-              </div>
-            </Link>
-          );
-        })}
+      {error && <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{error}</div>}
+
+      <div className="grid gap-4 md:grid-cols-3">
+        <Link to="/users" className="rounded-2xl border border-amber-100 bg-[#fffdf8] p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+          <Users className="h-7 w-7 text-amber-600" />
+          <div className="mt-4 text-3xl font-bold text-gray-900">{pending.length}</div>
+          <div className="text-sm font-medium text-gray-600">Pending members</div>
+        </Link>
+        <Link to="/users" className="rounded-2xl border border-green-100 bg-green-50/50 p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+          <CheckCircle className="h-7 w-7 text-green-600" />
+          <div className="mt-4 text-3xl font-bold text-gray-900">{activeCount}</div>
+          <div className="text-sm font-medium text-gray-600">Active members</div>
+        </Link>
+        <Link to="/branch-access" className="rounded-2xl border border-orange-100 bg-orange-50/50 p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+          <KeyRound className="h-7 w-7 text-orange-600" />
+          <div className="mt-4 text-lg font-bold text-gray-900">Invite & KakaoTalk</div>
+          <div className="mt-1 flex items-center text-sm font-medium text-orange-700">Manage church access <ArrowRight className="ml-1 h-4 w-4" /></div>
+        </Link>
       </div>
 
-      <div className="bg-white shadow rounded-lg mb-8">
-        <div className="px-4 py-5 border-b border-gray-200 sm:px-6 flex justify-between items-center">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">
-            Pending User Approvals
-          </h3>
-          <Link to="/users" className="text-sm text-amber-600 hover:text-amber-900">View all users</Link>
+      <section className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+        <div className="flex items-center justify-between border-b border-gray-200 px-5 py-4">
+          <div>
+            <h2 className="font-semibold text-gray-900">Pending approvals</h2>
+            <p className="text-sm text-gray-500">Token redemption identifies the church but never auto-approves a member.</p>
+          </div>
+          <Link to="/users" className="text-sm font-semibold text-amber-700 hover:text-amber-900">View all</Link>
         </div>
-        <div className="overflow-x-auto">
-          {pendingUserList.length === 0 ? (
-            <div className="p-6 text-center text-gray-500">No pending users</div>
-          ) : (
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Church</th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {pendingUserList.map((user) => (
-                  <tr key={user.id}>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">{user.name}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">{user.email}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {user.churchName} ({user.churchCountry})
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <button
-                        onClick={() => handleApprove(user)}
-                        className="text-green-600 hover:text-green-900 flex items-center justify-end w-full"
-                      >
-                        <CheckCircle className="h-4 w-4 mr-1" /> Approve
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
-      </div>
+        {pending.slice(0, 6).map(member => (
+          <div key={member.id} className="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 px-5 py-4 last:border-0">
+            <div>
+              <div className="font-medium text-gray-900">{member.name || member.displayName || member.email || 'Member'}</div>
+              <div className="text-sm text-gray-500">{member.email} · {member.branchName || member.branchId || 'Unassigned'}</div>
+            </div>
+            <button disabled={busyId === member.id || !member.branchId} onClick={() => approve(member)} className="inline-flex items-center rounded-lg bg-green-600 px-3 py-2 text-sm font-semibold text-white hover:bg-green-700 disabled:opacity-40"><CheckCircle className="mr-2 h-4 w-4" /> Approve</button>
+          </div>
+        ))}
+        {pending.length === 0 && <div className="p-8 text-center text-sm text-gray-500">No members are waiting for approval.</div>}
+      </section>
+
+      <Link to="/newsletters" className="flex items-center justify-between rounded-2xl bg-amber-600 px-5 py-4 text-white shadow-sm hover:bg-amber-700">
+        <span className="flex items-center font-semibold"><Megaphone className="mr-3 h-5 w-5" /> Publish an announcement or newsletter</span>
+        <ArrowRight className="h-5 w-5" />
+      </Link>
     </div>
   );
 }

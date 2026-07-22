@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { collection, query, getDocs, addDoc, updateDoc, deleteDoc, doc, orderBy, Timestamp } from 'firebase/firestore';
+import { collection, query, getDocs, addDoc, updateDoc, deleteDoc, doc, orderBy, Timestamp, where } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from '../lib/firebase';
 import { Plus, Edit2, Trash2, Image as ImageIcon, XCircle } from 'lucide-react';
+import { useAuthContext } from '../components/AuthProvider';
+
+type Branch = { id: string; name?: { en?: string; zh?: string; ko?: string }; regionId?: string };
+
+function branchName(branch?: Branch) {
+  return branch?.name?.en || branch?.name?.zh || branch?.name?.ko || branch?.id || '—';
+}
 
 // Helper: extract Storage path from a Firebase download URL
 function getStoragePathFromUrl(url: string): string | null {
@@ -14,7 +21,12 @@ function getStoragePathFromUrl(url: string): string | null {
 }
 
 export default function NewslettersList() {
+  const { adminProfile } = useAuthContext();
+  const accessRole = adminProfile?.accessRole || adminProfile?.role;
+  const isGlobalAdmin = ['admin', 'global_admin'].includes(accessRole);
+  const isRegionAdmin = accessRole === 'region_admin';
   const [newsletters, setNewsletters] = useState<any[]>([]);
+  const [branches, setBranches] = useState<Branch[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -25,18 +37,53 @@ export default function NewslettersList() {
   const [captionEn, setCaptionEn] = useState('');
   const [captionKr, setCaptionKr] = useState('');
   const [published, setPublished] = useState(true);
+  const [branchId, setBranchId] = useState(adminProfile?.branchId || '');
+  const [contentType, setContentType] = useState<'announcement' | 'newsletter'>('announcement');
   const [imageFiles, setImageFiles] = useState<FileList | null>(null);
   const [existingImages, setExistingImages] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    fetchNewsletters();
-  }, []);
+    const load = async () => {
+      const loadedBranches = await fetchBranches();
+      await fetchNewsletters(loadedBranches);
+    };
+    load();
+  }, [adminProfile?.id]);
 
-  const fetchNewsletters = async () => {
+  const fetchBranches = async () => {
+    try {
+      let branchesQuery = query(collection(db, 'branches'), orderBy('sortOrder', 'asc'));
+      if (isRegionAdmin && adminProfile?.regionId) {
+        branchesQuery = query(collection(db, 'branches'), where('regionId', '==', adminProfile.regionId), orderBy('sortOrder', 'asc'));
+      }
+      const snap = await getDocs(branchesQuery);
+      let loaded = snap.docs.map(item => ({ id: item.id, ...item.data() } as Branch));
+      if (!isGlobalAdmin && !isRegionAdmin) loaded = loaded.filter(item => item.id === adminProfile?.branchId);
+      setBranches(loaded);
+      setBranchId(current => current || loaded[0]?.id || '');
+      return loaded;
+    } catch (err) {
+      console.error('Failed to load churches', err);
+      return [] as Branch[];
+    }
+  };
+
+  const fetchNewsletters = async (scopedBranches: Branch[] = branches) => {
     setLoading(true);
     try {
-      const q = query(collection(db, 'newsletters'), orderBy('publishDate', 'desc'));
+      let q = query(collection(db, 'newsletters'), orderBy('publishDate', 'desc'));
+      if (!isGlobalAdmin && !isRegionAdmin && adminProfile?.branchId) {
+        q = query(collection(db, 'newsletters'), where('branchId', '==', adminProfile.branchId), orderBy('publishDate', 'desc'));
+      } else if (isRegionAdmin && adminProfile?.regionId) {
+        const permittedBranches = scopedBranches.filter(item => item.regionId === adminProfile.regionId).map(item => item.id);
+        if (permittedBranches.length === 0) {
+          setNewsletters([]);
+          return;
+        }
+        if (permittedBranches.length > 30) throw new Error('Region has too many churches for this pilot view.');
+        q = query(collection(db, 'newsletters'), where('branchId', 'in', permittedBranches), orderBy('publishDate', 'desc'));
+      }
       const snap = await getDocs(q);
       setNewsletters(snap.docs.map(d => ({ id: d.id, ...d.data() })));
     } catch (err) {
@@ -52,6 +99,8 @@ export default function NewslettersList() {
     setCaptionEn('');
     setCaptionKr('');
     setPublished(true);
+    setBranchId(adminProfile?.branchId || branches[0]?.id || '');
+    setContentType('announcement');
     setImageFiles(null);
     setExistingImages([]);
     setEditingId(null);
@@ -70,6 +119,8 @@ export default function NewslettersList() {
     setCaptionEn(item.caption_en || '');
     setCaptionKr(item.caption_kr || '');
     setPublished(item.published ?? true);
+    setBranchId(item.branchId || adminProfile?.branchId || '');
+    setContentType(item.contentType === 'newsletter' ? 'newsletter' : 'announcement');
     setExistingImages(item.image_urls || []);
     setEditingId(item.id);
     setIsModalOpen(true);
@@ -112,7 +163,10 @@ export default function NewslettersList() {
 
       // Convert date string to Firestore Timestamp (iOS expects Timestamp type)
       const dateObj = new Date(publishDate + 'T00:00:00');
+      if (!branchId) throw new Error('Select a church before saving.');
       const newsletterData = {
+        branchId,
+        contentType,
         publishDate: Timestamp.fromDate(dateObj),
         caption_cn: captionCn,
         caption_en: captionEn,
@@ -135,7 +189,7 @@ export default function NewslettersList() {
       fetchNewsletters();
     } catch (err) {
       console.error(err);
-      alert("Failed to save newsletter");
+      alert(err instanceof Error ? err.message : "Failed to save church content");
     } finally {
       setSaving(false);
     }
@@ -150,12 +204,15 @@ export default function NewslettersList() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Newsletters</h1>
+        <div>
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-600">Connect</p>
+          <h1 className="mt-1 text-2xl font-bold text-gray-900">Announcements & Newsletter</h1>
+        </div>
         <button
           onClick={openAddModal}
           className="flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700"
         >
-          <Plus className="h-4 w-4 mr-2" /> Add New
+          <Plus className="h-4 w-4 mr-2" /> Add Content
         </button>
       </div>
 
@@ -164,6 +221,7 @@ export default function NewslettersList() {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Image</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Church / Type</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Excerpt (CN)</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
@@ -181,6 +239,10 @@ export default function NewslettersList() {
                       <ImageIcon className="h-5 w-5 text-gray-400" />
                     </div>
                   )}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="text-sm font-medium text-gray-900">{branchName(branches.find(branch => branch.id === item.branchId))}</div>
+                  <div className="text-xs capitalize text-gray-500">{item.contentType || 'newsletter'}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.publishDate?.toDate ? item.publishDate.toDate().toLocaleDateString() : item.publishDate}</td>
                 <td className="px-6 py-4">
@@ -203,7 +265,7 @@ export default function NewslettersList() {
             ))}
             {newsletters.length === 0 && (
               <tr>
-                <td colSpan={5} className="px-6 py-4 text-center text-sm text-gray-500">No newsletters found.</td>
+                <td colSpan={6} className="px-6 py-4 text-center text-sm text-gray-500">No church content found.</td>
               </tr>
             )}
           </tbody>
@@ -219,9 +281,23 @@ export default function NewslettersList() {
               <form onSubmit={handleSubmit}>
                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 max-h-[70vh] overflow-y-auto">
                   <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
-                    {editingId ? 'Edit Newsletter' : 'Add New Newsletter'}
+                    {editingId ? 'Edit Church Content' : 'Add Church Content'}
                   </h3>
                   <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Church</label>
+                      <select required value={branchId} disabled={!isGlobalAdmin && !isRegionAdmin} onChange={e => setBranchId(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-amber-500 focus:border-amber-500 sm:text-sm">
+                        <option value="">Select church</option>
+                        {branches.map(branch => <option key={branch.id} value={branch.id}>{branchName(branch)}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Content Type</label>
+                      <select value={contentType} onChange={e => setContentType(e.target.value as 'announcement' | 'newsletter')} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-amber-500 focus:border-amber-500 sm:text-sm">
+                        <option value="announcement">Announcement</option>
+                        <option value="newsletter">Newsletter</option>
+                      </select>
+                    </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700">Publish Date</label>
                       <input type="date" required value={publishDate} onChange={e => setPublishDate(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-green-500 focus:border-green-500 sm:text-sm" />

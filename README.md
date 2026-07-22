@@ -399,6 +399,14 @@ firebase emulators:exec --only firestore,auth,functions \
   --project daniel1-ca1e7
 ```
 
+To validate the Canada pilot invite-token and branch-isolation boundary without touching production:
+
+```bash
+firebase emulators:exec --only firestore,auth,functions \
+  "FIRESTORE_EMULATOR_HOST=127.0.0.1:8080 FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099 FUNCTIONS_EMULATOR_HOST=127.0.0.1:5001 GCLOUD_PROJECT=demo-daniel-canada node scripts/firebase-seed-test-data.js && FIRESTORE_EMULATOR_HOST=127.0.0.1:8080 FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099 FUNCTIONS_EMULATOR_HOST=127.0.0.1:5001 GCLOUD_PROJECT=demo-daniel-canada node scripts/firebase-test-callable-admin.js && FIRESTORE_EMULATOR_HOST=127.0.0.1:8080 FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099 FUNCTIONS_EMULATOR_HOST=127.0.0.1:5001 GCLOUD_PROJECT=demo-daniel-canada node scripts/firebase-test-branch-invites.js" \
+  --project demo-daniel-canada
+```
+
 To initialize the production `resources` collection after rules/indexes are deployed, first inspect the planned payload:
 
 ```bash
@@ -430,7 +438,10 @@ Current Firestore collections used by this phase:
 - `users/{uid}/favorites/{favoriteId}` with `targetType`, `targetId`, localized `title/snippet`, optional `reference`, `resourceId`, `url`, `dateKey`, `createdAt`, and `updatedAt`.
 - `users/{uid}/notes/{noteId}` with `targetType`, `targetId`, optional `reference`, `resourceId`, `pageNumber`, `body`, `language`, `isPrivate`, `createdAt`, and `updatedAt`. Notes require login.
 - `users/{uid}/readingProgress/{targetId}` for personal Bible/resource progress metadata. Reads and writes are owner-only.
-- `newsletters/{newsletterId}` aligned to the existing `Newsletter` model: `publishDate`, `image_urls`, `caption_cn`, `caption_en`, `caption_kr`, `published`, plus timestamps.
+- `newsletters/{newsletterId}` aligned to the existing `Newsletter` model: required `branchId`, `contentType` (`announcement` or `newsletter`), `publishDate`, `image_urls`, `caption_cn`, `caption_en`, `caption_kr`, `published`, plus timestamps.
+- `branchConnect/{branchId}` with `branchId`, `groupNameZh`, `groupNameEn`, `groupNameKo`, protected `kakaoURL`, `isActive`, and timestamps. Only active same-branch members and scoped admins can read it.
+- `branchInvites/{inviteId}` is server-only and stores `tokenHash`, branch scope, status, expiry, maximum uses, use count, creator, and timestamps. Plaintext tokens are never stored.
+- `inviteRedemptions/{inviteId}_{uid}` is a server-only redemption audit. Both invite collections deny all client reads and writes.
 - `resources/{resourceId}` with localized `title/subtitle/description/actionTitle`, `type`, `category`, `url`, `content`, `icon`, `isPublished`, `sortOrder`, and timestamps.
 
 ---

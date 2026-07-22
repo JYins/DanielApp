@@ -1403,20 +1403,8 @@ struct SettingsBranchAccessRows: View {
 
             VStack(spacing: 8) {
                 SettingsProfileInfoLine(
-                    title: branchTitle,
+                    title: churchTitle,
                     value: profile.displayBranchName(for: language),
-                    language: language
-                )
-
-                SettingsProfileInfoLine(
-                    title: regionTitle,
-                    value: profile.displayRegionName(for: language),
-                    language: language
-                )
-
-                SettingsProfileInfoLine(
-                    title: roleTitle,
-                    value: profile.displayAccessRole(for: language),
                     language: language
                 )
 
@@ -1432,41 +1420,25 @@ struct SettingsBranchAccessRows: View {
 
     private var title: String {
         switch language {
-        case .chinese: return "分堂与权限"
-        case .english: return "Branch & Access"
-        case .korean: return "지교회 및 권한"
+        case .chinese: return "教会会员"
+        case .english: return "Church Membership"
+        case .korean: return "교회 회원 정보"
         }
     }
 
     private var subtitle: String {
         switch language {
-        case .chinese: return "由管理员在 Firebase 中维护"
-        case .english: return "Managed by admins in Firebase"
-        case .korean: return "Firebase에서 관리자가 관리합니다"
+        case .chinese: return "通过审核后可查看本堂 Connect 内容"
+        case .english: return "Approved members can access their church Connect content"
+        case .korean: return "승인된 회원은 소속 교회 Connect 콘텐츠를 볼 수 있습니다"
         }
     }
 
-    private var branchTitle: String {
+    private var churchTitle: String {
         switch language {
-        case .chinese: return "所属分堂"
-        case .english: return "Branch"
-        case .korean: return "소속 지교회"
-        }
-    }
-
-    private var regionTitle: String {
-        switch language {
-        case .chinese: return "区域"
-        case .english: return "Region"
-        case .korean: return "지역"
-        }
-    }
-
-    private var roleTitle: String {
-        switch language {
-        case .chinese: return "权限"
-        case .english: return "Access"
-        case .korean: return "권한"
+        case .chinese: return "所属教会"
+        case .english: return "Church"
+        case .korean: return "소속 교회"
         }
     }
 

@@ -8,10 +8,9 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import UsersList from './pages/UsersList';
 import BranchesList from './pages/BranchesList';
-import WordCardsList from './pages/WordCardsList';
 import NewslettersList from './pages/NewslettersList';
-import PraiseList from './pages/PraiseList';
 import ResourcesList from './pages/ResourcesList';
+import BranchAccess from './pages/BranchAccess';
 
 function App() {
   return (
@@ -31,16 +30,24 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="users" element={<UsersList />} />
             <Route path="branches" element={<GlobalAdminOnly><BranchesList /></GlobalAdminOnly>} />
-            <Route path="wordcards" element={<GlobalAdminOnly><WordCardsList /></GlobalAdminOnly>} />
-            <Route path="newsletters" element={<GlobalAdminOnly><NewslettersList /></GlobalAdminOnly>} />
+            <Route path="newsletters" element={<NewslettersList />} />
             <Route path="resources" element={<GlobalAdminOnly><ResourcesList /></GlobalAdminOnly>} />
-            <Route path="praise" element={<GlobalAdminOnly><PraiseList /></GlobalAdminOnly>} />
+            <Route path="branch-access" element={<BranchScopedAdmin><BranchAccess /></BranchScopedAdmin>} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>
       </BrowserRouter>
     </AuthProvider>
   );
+}
+
+function BranchScopedAdmin({ children }: { children: React.ReactNode }) {
+  const { adminProfile } = useAuthContext();
+  const accessRole = adminProfile?.accessRole || adminProfile?.role;
+  if (!['admin', 'global_admin', 'region_admin', 'branch_admin'].includes(accessRole)) {
+    return <Navigate to="/" replace />;
+  }
+  return <>{children}</>;
 }
 
 function GlobalAdminOnly({ children }: { children: React.ReactNode }) {

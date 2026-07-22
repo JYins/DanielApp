@@ -6,12 +6,12 @@ import FirebaseFirestore
 final class NewsletterViewModelTests: XCTestCase {
     func testLoadingEmptyErrorAndContentStatesAreExpressive() async {
         let emptyStore = FakeNewsletterRemoteStore(result: .success([]))
-        let emptyViewModel = NewsletterViewModel(remoteStore: emptyStore, accessProvider: { true })
+        let emptyViewModel = NewsletterViewModel(remoteStore: emptyStore, accessProvider: { true }, branchIDProvider: { "canada-test" })
         emptyViewModel.loadNewsletters()
         await Task.yield()
         XCTAssertEqual(emptyViewModel.state, .empty)
 
-        let errorViewModel = NewsletterViewModel(remoteStore: FakeNewsletterRemoteStore(result: .failure(TestNewsletterError.denied)), accessProvider: { true })
+        let errorViewModel = NewsletterViewModel(remoteStore: FakeNewsletterRemoteStore(result: .failure(TestNewsletterError.denied)), accessProvider: { true }, branchIDProvider: { "canada-test" })
         errorViewModel.loadNewsletters()
         await Task.yield()
         if case .error = errorViewModel.state {
@@ -20,7 +20,7 @@ final class NewsletterViewModelTests: XCTestCase {
             XCTFail("Expected error state")
         }
 
-        let contentViewModel = NewsletterViewModel(remoteStore: FakeNewsletterRemoteStore(result: .success([Self.newsletter()])), accessProvider: { true })
+        let contentViewModel = NewsletterViewModel(remoteStore: FakeNewsletterRemoteStore(result: .success([Self.newsletter()])), accessProvider: { true }, branchIDProvider: { "canada-test" })
         contentViewModel.loadNewsletters()
         await Task.yield()
         XCTAssertEqual(contentViewModel.state, .content)
@@ -61,6 +61,7 @@ private final class FakeNewsletterRemoteStore: NewsletterRemoteStore {
     }
 
     func listenToPublishedNewsletters(
+        branchId: String,
         onChange: @escaping (Result<[Newsletter], Error>) -> Void
     ) -> ListenerRegistration? {
         didListen = true

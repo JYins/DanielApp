@@ -1,9 +1,11 @@
 import SwiftUI
+import FirebaseFirestore
 
 struct ChurchCommunicationView: View {
     @EnvironmentObject var appState: AppState
     @StateObject private var authManager = AuthManager.shared
     @StateObject private var viewModel = NewsletterViewModel()
+    @StateObject private var branchConnectViewModel = BranchConnectViewModel()
     @State private var selectedSection: ConnectSection = .announcements
     @State private var showingLogin = false
 
@@ -34,8 +36,13 @@ struct ChurchCommunicationView: View {
                         gatedNewsletterContent(mode: .announcement)
                     case .newsletter:
                         gatedNewsletterContent(mode: .newsletter)
-                    case .messages:
-                        MessagesComingSoonView(language: language)
+                    case .kakaoTalk:
+                        KakaoTalkConnectView(
+                            viewModel: branchConnectViewModel,
+                            profile: authManager.currentUser,
+                            language: language,
+                            showingLogin: $showingLogin
+                        )
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -77,6 +84,11 @@ struct ChurchCommunicationView: View {
     private func loadContentIfAllowed() {
         if authManager.hasContentAccess() {
             viewModel.loadNewsletters()
+            if let branchId = authManager.currentUser?.branchId {
+                branchConnectViewModel.load(branchId: branchId)
+            }
+        } else {
+            branchConnectViewModel.clear()
         }
     }
 }
@@ -84,13 +96,13 @@ struct ChurchCommunicationView: View {
 private enum ConnectSection: CaseIterable {
     case announcements
     case newsletter
-    case messages
+    case kakaoTalk
 
     var icon: String {
         switch self {
         case .announcements: return "megaphone"
         case .newsletter: return "newspaper"
-        case .messages: return "message"
+        case .kakaoTalk: return "bubble.left.and.bubble.right.fill"
         }
     }
 
@@ -100,7 +112,7 @@ private enum ConnectSection: CaseIterable {
             return ConnectCopy.announcementsTab.text(for: language)
         case .newsletter:
             return ConnectCopy.newsletterTab.text(for: language)
-        case .messages:
+        case .kakaoTalk:
             return ConnectCopy.messagesTab.text(for: language)
         }
     }
@@ -167,9 +179,9 @@ private enum ConnectCopy {
         switch self {
         case .headerSubtitle:
             switch language {
-            case .chinese: return "教会公告、周报与分堂沟通"
-            case .english: return "Church announcements, newsletters, and branch communication"
-            case .korean: return "교회 공지, 주보와 지교회 소통"
+            case .chinese: return "本堂公告、周报与 KakaoTalk"
+            case .english: return "Your church announcements, newsletters, and KakaoTalk"
+            case .korean: return "소속 교회 공지, 주보 및 카카오톡"
             }
         case .announcementsTab:
             switch language {
@@ -185,9 +197,9 @@ private enum ConnectCopy {
             }
         case .messagesTab:
             switch language {
-            case .chinese: return "消息"
-            case .english: return "Messages"
-            case .korean: return "메시지"
+            case .chinese: return "KakaoTalk"
+            case .english: return "KakaoTalk"
+            case .korean: return "카카오톡"
             }
         case .announcementEyebrow:
             switch language {
@@ -386,6 +398,17 @@ private struct ConnectNewsletterList: View {
     let mode: ConnectNewsletterMode
     let language: CoreModels.VerseLanguage
 
+    private var filteredNewsletters: [Newsletter] {
+        viewModel.newsletters.filter { newsletter in
+            switch mode {
+            case .announcement:
+                return newsletter.contentType == "announcement"
+            case .newsletter:
+                return newsletter.contentType == nil || newsletter.contentType == "newsletter"
+            }
+        }
+    }
+
     var body: some View {
         Group {
             if viewModel.isLoading {
@@ -394,7 +417,7 @@ private struct ConnectNewsletterList: View {
                 ConnectErrorCard(retry: viewModel.loadNewsletters, language: language)
                     .padding(.horizontal, 24)
                     .padding(.top, 16)
-            } else if viewModel.newsletters.isEmpty {
+            } else if filteredNewsletters.isEmpty {
                 ConnectEmptyCard(
                     icon: mode.icon,
                     title: mode.emptyTitle(for: language),
@@ -406,7 +429,7 @@ private struct ConnectNewsletterList: View {
             } else {
                 ScrollView {
                     LazyVStack(spacing: 12) {
-                        ForEach(viewModel.newsletters) { newsletter in
+                        ForEach(filteredNewsletters) { newsletter in
                             if mode == .announcement {
                                 ConnectAnnouncementCard(newsletter: newsletter, language: language)
                             } else {
@@ -655,111 +678,209 @@ private struct ConnectAccessCard: View {
     }
 }
 
-private struct MessagesComingSoonView: View {
+private struct KakaoTalkConnectView: View {
+    @ObservedObject var viewModel: BranchConnectViewModel
+    let profile: UserProfile?
     let language: CoreModels.VerseLanguage
+    @Binding var showingLogin: Bool
+    @Environment(\.openURL) private var openURL
+    @State private var openError = false
 
     var body: some View {
         VStack(spacing: 0) {
-            VStack(alignment: .leading, spacing: 18) {
-                HStack(alignment: .top, spacing: 12) {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(DesignSystem.Colors.accent.opacity(0.14))
-                        .frame(width: 44, height: 44)
-                        .overlay(
-                            Image(systemName: "message.fill")
-                                .font(.system(size: 18, weight: .semibold))
-                                .foregroundColor(DesignSystem.Colors.accentDark)
-                        )
-
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text(ConnectCopy.messagesTitle.text(for: language))
-                            .font(DesignSystem.Typography.smart(20, weight: .bold, language: language))
-                            .foregroundColor(DesignSystem.Colors.primaryText)
-
-                        Text(ConnectCopy.messagesMessage.text(for: language))
-                            .font(DesignSystem.Typography.body(15, language: language))
-                            .foregroundColor(DesignSystem.Colors.secondaryText)
-                            .lineSpacing(4)
-                    }
-                }
-
-                Text(ConnectCopy.messagesDetail.text(for: language))
-                    .font(DesignSystem.Typography.body(14, language: language))
-                    .foregroundColor(DesignSystem.Colors.mutedText)
-                    .lineSpacing(4)
-
-                HStack(spacing: 8) {
-                    Image(systemName: "lock.shield")
-                        .font(.system(size: 13, weight: .semibold))
-
-                    Text(ConnectCopy.messagesStatus.text(for: language))
-                        .font(DesignSystem.Typography.smart(12, weight: .semibold, language: language))
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.82)
-                }
-                .foregroundColor(DesignSystem.Colors.accentDark)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 8)
-                .background(
-                    Capsule()
-                        .fill(DesignSystem.Colors.cardBackground)
-                        .overlay(Capsule().stroke(DesignSystem.Colors.border, lineWidth: 1))
-                )
-
-                VStack(alignment: .leading, spacing: 10) {
-                    ConnectMessagePreviewBubble(
-                        text: ConnectCopy.messagesPreviewOne.text(for: language),
-                        isOutgoing: false,
-                        language: language
+            Group {
+                if profile == nil {
+                    kakaoStatusCard(
+                        icon: "person.badge.key.fill",
+                        title: text("登录后加入群聊", "Sign in to join", "로그인 후 참여하세요"),
+                        message: text("登录并完成所属教会审核后，即可打开本堂 KakaoTalk 群。", "Sign in and complete church approval to open your church KakaoTalk group.", "로그인하고 교회 승인을 완료하면 소속 교회 카카오톡 그룹을 열 수 있습니다."),
+                        buttonTitle: text("登录", "Sign In", "로그인"),
+                        action: { showingLogin = true }
                     )
-
-                    ConnectMessagePreviewBubble(
-                        text: ConnectCopy.messagesPreviewTwo.text(for: language),
-                        isOutgoing: true,
-                        language: language
+                } else if profile?.isApproved != true || (profile?.membershipStatus != nil && profile?.membershipStatus != "active") {
+                    kakaoStatusCard(
+                        icon: "clock.badge.checkmark",
+                        title: text("等待教会审核", "Church approval pending", "교회 승인 대기 중"),
+                        message: text("管理员批准后，KakaoTalk 群入口会自动开放。", "The KakaoTalk group will unlock after a church admin approves your membership.", "교회 관리자가 회원 승인을 완료하면 카카오톡 그룹이 열립니다."),
+                        buttonTitle: nil,
+                        action: nil
+                    )
+                } else if viewModel.isLoading {
+                    ProgressView(text("正在加载群聊…", "Loading church group…", "교회 그룹을 불러오는 중…"))
+                        .tint(DesignSystem.Colors.accent)
+                        .frame(maxWidth: .infinity, minHeight: 180)
+                } else if viewModel.errorMessage != nil {
+                    kakaoStatusCard(
+                        icon: "wifi.exclamationmark",
+                        title: text("暂时无法读取", "Could not load", "불러오지 못했습니다"),
+                        message: text("请检查网络后重试。", "Check your connection and try again.", "네트워크를 확인한 후 다시 시도하세요."),
+                        buttonTitle: text("重试", "Retry", "다시 시도"),
+                        action: reload
+                    )
+                } else if let info = viewModel.info, info.isActive {
+                    kakaoGroupCard(info)
+                } else {
+                    kakaoStatusCard(
+                        icon: "bubble.left.and.exclamationmark.bubble.right",
+                        title: text("群聊尚未设置", "Group not configured", "그룹이 아직 설정되지 않았습니다"),
+                        message: text("请联系本堂管理员添加 KakaoTalk 群链接。", "Ask your church admin to add the KakaoTalk group link.", "교회 관리자에게 카카오톡 그룹 링크 등록을 요청하세요."),
+                        buttonTitle: nil,
+                        action: nil
                     )
                 }
             }
-            .padding(20)
-            .background(DesignSystem.Colors.surface)
-            .clipShape(RoundedRectangle(cornerRadius: 16))
-            .overlay(
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(DesignSystem.Colors.border, lineWidth: 1)
-            )
             .padding(.horizontal, 24)
             .padding(.top, 16)
 
             Spacer(minLength: 0)
         }
+        .alert(text("无法打开 KakaoTalk", "Could not open KakaoTalk", "카카오톡을 열 수 없습니다"), isPresented: $openError) {
+            Button(text("知道了", "OK", "확인"), role: .cancel) {}
+        } message: {
+            Text(text("请确认 KakaoTalk 已安装，或联系管理员检查群链接。", "Make sure KakaoTalk is installed or ask an admin to verify the group link.", "카카오톡 설치 여부를 확인하거나 관리자에게 그룹 링크 확인을 요청하세요."))
+        }
+    }
+
+    private func kakaoGroupCard(_ info: BranchConnectInfo) -> some View {
+        VStack(alignment: .leading, spacing: 18) {
+            HStack(spacing: 14) {
+                RoundedRectangle(cornerRadius: 13)
+                    .fill(Color(red: 1.0, green: 0.91, blue: 0.0))
+                    .frame(width: 54, height: 54)
+                    .overlay(Image(systemName: "bubble.left.fill").font(.system(size: 24, weight: .bold)).foregroundStyle(.black))
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(info.groupName(for: language))
+                        .font(DesignSystem.Typography.smart(20, weight: .bold, language: language))
+                        .foregroundStyle(DesignSystem.Colors.primaryText)
+                    Text(text("本堂会员 KakaoTalk 群", "Church members KakaoTalk group", "교회 회원 카카오톡 그룹"))
+                        .font(DesignSystem.Typography.body(13, language: language))
+                        .foregroundStyle(DesignSystem.Colors.mutedText)
+                }
+            }
+
+            Text(text("公告和周报保留在 Daniel App；日常群聊会在 KakaoTalk 中打开。", "Announcements and newsletters stay in Daniel App; everyday conversation opens in KakaoTalk.", "공지와 주보는 Daniel App에 남고 일상 대화는 카카오톡에서 진행됩니다."))
+                .font(DesignSystem.Typography.body(14, language: language))
+                .foregroundStyle(DesignSystem.Colors.secondaryText)
+                .lineSpacing(4)
+
+            Button {
+                guard let url = URL(string: info.kakaoURL), ["https", "kakaolink", "kakaotalk"].contains(url.scheme?.lowercased() ?? "") else {
+                    openError = true
+                    return
+                }
+                openURL(url) { accepted in
+                    if !accepted { openError = true }
+                }
+            } label: {
+                Label(text("打开 KakaoTalk", "Open KakaoTalk", "카카오톡 열기"), systemImage: "arrow.up.forward.app.fill")
+                    .font(DesignSystem.Typography.smart(15, weight: .semibold, language: language))
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 13)
+                    .background(RoundedRectangle(cornerRadius: 10).fill(DesignSystem.Colors.accent))
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(20)
+        .background(DesignSystem.Colors.cardBackground)
+        .clipShape(RoundedRectangle(cornerRadius: 18))
+        .overlay(RoundedRectangle(cornerRadius: 18).stroke(DesignSystem.Colors.border))
+    }
+
+    private func kakaoStatusCard(icon: String, title: String, message: String, buttonTitle: String?, action: (() -> Void)?) -> some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Image(systemName: icon)
+                .font(.system(size: 25, weight: .semibold))
+                .foregroundStyle(DesignSystem.Colors.accentDark)
+                .frame(width: 48, height: 48)
+                .background(DesignSystem.Colors.accent.opacity(0.14))
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+            Text(title).font(DesignSystem.Typography.smart(20, weight: .bold, language: language))
+            Text(message)
+                .font(DesignSystem.Typography.body(15, language: language))
+                .foregroundStyle(DesignSystem.Colors.secondaryText)
+                .lineSpacing(4)
+            if let buttonTitle, let action {
+                Button(buttonTitle, action: action)
+                    .buttonStyle(ModernButtonStyle(language: language, variant: .primary))
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(20)
+        .background(DesignSystem.Colors.cardBackground)
+        .clipShape(RoundedRectangle(cornerRadius: 18))
+        .overlay(RoundedRectangle(cornerRadius: 18).stroke(DesignSystem.Colors.border))
+    }
+
+    private func reload() {
+        guard let branchId = profile?.branchId else { return }
+        viewModel.load(branchId: branchId)
+    }
+
+    private func text(_ zh: String, _ en: String, _ ko: String) -> String {
+        switch language { case .chinese: return zh; case .english: return en; case .korean: return ko }
     }
 }
 
-private struct ConnectMessagePreviewBubble: View {
-    let text: String
-    let isOutgoing: Bool
-    let language: CoreModels.VerseLanguage
+struct BranchConnectInfo: Codable {
+    var groupNameZh: String?
+    var groupNameEn: String?
+    var groupNameKo: String?
+    var kakaoURL: String
+    var isActive: Bool
 
-    var body: some View {
-        HStack {
-            if isOutgoing {
-                Spacer(minLength: 32)
-            }
+    func groupName(for language: CoreModels.VerseLanguage) -> String {
+        switch language {
+        case .chinese: return groupNameZh ?? groupNameEn ?? "KakaoTalk"
+        case .english: return groupNameEn ?? groupNameZh ?? "KakaoTalk"
+        case .korean: return groupNameKo ?? groupNameEn ?? "카카오톡"
+        }
+    }
+}
 
-            Text(text)
-                .font(DesignSystem.Typography.body(13, language: language))
-                .foregroundColor(isOutgoing ? .white : DesignSystem.Colors.secondaryText)
-                .lineSpacing(3)
-                .padding(.horizontal, 14)
-                .padding(.vertical, 10)
-                .background(isOutgoing ? DesignSystem.Colors.accent : DesignSystem.Colors.cardBackground)
-                .clipShape(RoundedRectangle(cornerRadius: 14))
+protocol BranchConnectRemoteStore {
+    func fetch(branchId: String, completion: @escaping (Result<BranchConnectInfo?, Error>) -> Void)
+}
 
-            if !isOutgoing {
-                Spacer(minLength: 32)
+final class FirestoreBranchConnectRemoteStore: BranchConnectRemoteStore {
+    private let db: Firestore
+    init(db: Firestore = Firestore.firestore()) { self.db = db }
+
+    func fetch(branchId: String, completion: @escaping (Result<BranchConnectInfo?, Error>) -> Void) {
+        db.collection("branchConnect").document(branchId).getDocument { snapshot, error in
+            if let error { completion(.failure(error)); return }
+            guard let snapshot, snapshot.exists else { completion(.success(nil)); return }
+            do { completion(.success(try snapshot.data(as: BranchConnectInfo.self))) }
+            catch { completion(.failure(error)) }
+        }
+    }
+}
+
+final class BranchConnectViewModel: ObservableObject {
+    @Published private(set) var info: BranchConnectInfo?
+    @Published private(set) var isLoading = false
+    @Published private(set) var errorMessage: String?
+    private let store: BranchConnectRemoteStore
+
+    init(store: BranchConnectRemoteStore = FirestoreBranchConnectRemoteStore()) { self.store = store }
+
+    func load(branchId: String) {
+        guard !branchId.isEmpty else { clear(); return }
+        isLoading = true
+        errorMessage = nil
+        store.fetch(branchId: branchId) { [weak self] result in
+            DispatchQueue.main.async {
+                self?.isLoading = false
+                switch result {
+                case .success(let info): self?.info = info
+                case .failure(let error): self?.errorMessage = error.localizedDescription
+                }
             }
         }
     }
+
+    func clear() { info = nil; isLoading = false; errorMessage = nil }
 }
 
 private struct ConnectEmptyCard: View {

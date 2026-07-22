@@ -401,6 +401,7 @@ enum NewsletterLoadState: Equatable {
 
 protocol NewsletterRemoteStore {
     func listenToPublishedNewsletters(
+        branchId: String,
         onChange: @escaping (Result<[Newsletter], Error>) -> Void
     ) -> ListenerRegistration?
 }
@@ -413,9 +414,11 @@ final class FirestoreNewsletterRemoteStore: NewsletterRemoteStore {
     }
 
     func listenToPublishedNewsletters(
+        branchId: String,
         onChange: @escaping (Result<[Newsletter], Error>) -> Void
     ) -> ListenerRegistration? {
         db.collection("newsletters")
+            .whereField("branchId", isEqualTo: branchId)
             .whereField("published", isEqualTo: true)
             .order(by: "publishDate", descending: true)
             .addSnapshotListener { querySnapshot, error in
@@ -440,18 +443,21 @@ class NewsletterViewModel: ObservableObject {
     
     private let remoteStore: NewsletterRemoteStore
     private let accessProvider: () -> Bool
+    private let branchIDProvider: () -> String?
     private var listenerRegistration: ListenerRegistration?
 
     init(
         remoteStore: NewsletterRemoteStore = FirestoreNewsletterRemoteStore(),
-        accessProvider: @escaping () -> Bool = { AuthManager.shared.hasContentAccess() }
+        accessProvider: @escaping () -> Bool = { AuthManager.shared.hasContentAccess() },
+        branchIDProvider: @escaping () -> String? = { AuthManager.shared.currentUser?.branchId }
     ) {
         self.remoteStore = remoteStore
         self.accessProvider = accessProvider
+        self.branchIDProvider = branchIDProvider
     }
     
     func loadNewsletters() {
-        guard accessProvider() else {
+        guard accessProvider(), let branchId = branchIDProvider(), !branchId.isEmpty else {
             newsletters = []
             isLoading = false
             errorMessage = nil
@@ -467,7 +473,7 @@ class NewsletterViewModel: ObservableObject {
         
         listenerRegistration?.remove()
         
-        listenerRegistration = remoteStore.listenToPublishedNewsletters { [weak self] result in
+        listenerRegistration = remoteStore.listenToPublishedNewsletters(branchId: branchId) { [weak self] result in
             guard let self = self else { return }
 
             DispatchQueue.main.async {

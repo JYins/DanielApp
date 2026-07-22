@@ -1,11 +1,12 @@
 import * as functions from 'firebase-functions/v1';
 import * as admin from 'firebase-admin';
-import { FieldValue } from '@google-cloud/firestore';
+import { FieldValue, Timestamp } from '@google-cloud/firestore';
+import { createHash, randomBytes } from 'crypto';
 
 admin.initializeApp();
 
 type AccessRole = 'admin' | 'global_admin' | 'region_admin' | 'branch_admin' | 'member';
-type MembershipStatus = 'active' | 'pending' | 'requested' | 'revoked';
+type MembershipStatus = 'unassigned' | 'active' | 'pending' | 'requested' | 'revoked';
 
 type AdminScope = {
   uid: string;
@@ -24,11 +25,17 @@ const accessRoles: AccessRole[] = [
 ];
 
 const membershipStatuses: MembershipStatus[] = [
+  'unassigned',
   'active',
   'pending',
   'requested',
   'revoked',
 ];
+
+const inviteAlphabet = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
+const inviteLength = 16;
+const defaultInviteDurationDays = 90;
+const defaultInviteMaxUses = 250;
 
 async function assertGlobalAdmin(
   context: functions.https.CallableContext
@@ -246,6 +253,79 @@ function localizedText(value: unknown, fallback: string): string {
   }
 
   return fallback;
+}
+
+function assertCanManageBranch(
+  caller: AdminScope,
+  branchId: string,
+  branchData: FirebaseFirestore.DocumentData
+): void {
+  if (isGlobalAdmin(caller.accessRole)) {
+    return;
+  }
+
+  if (caller.accessRole === 'region_admin') {
+    if (caller.regionId && caller.regionId === String(branchData.regionId || '')) {
+      return;
+    }
+    throw new functions.https.HttpsError(
+      'permission-denied',
+      'Region administrators can only manage invites inside their region.'
+    );
+  }
+
+  if (caller.accessRole === 'branch_admin' && caller.branchId === branchId) {
+    return;
+  }
+
+  throw new functions.https.HttpsError(
+    'permission-denied',
+    'Branch administrators can only manage invites for their own branch.'
+  );
+}
+
+function generateInviteCode(): string {
+  const bytes = randomBytes(inviteLength);
+  const raw = Array.from(bytes, (byte) => inviteAlphabet[byte & 31]).join('');
+  return raw.match(/.{1,4}/g)?.join('-') || raw;
+}
+
+function normalizeInviteCode(value: unknown): string {
+  if (typeof value !== 'string') {
+    return '';
+  }
+
+  const normalized = value.toUpperCase().replace(/[\s-]/g, '');
+  if (
+    normalized.length !== inviteLength ||
+    !Array.from(normalized).every((character) => inviteAlphabet.includes(character))
+  ) {
+    return '';
+  }
+  return normalized;
+}
+
+function hashInviteCode(normalizedCode: string): string {
+  return createHash('sha256').update(normalizedCode, 'utf8').digest('hex');
+}
+
+async function loadBranch(branchId: string): Promise<{
+  ref: FirebaseFirestore.DocumentReference;
+  data: FirebaseFirestore.DocumentData;
+}> {
+  const ref = admin.firestore().collection('branches').doc(branchId);
+  const snapshot = await ref.get();
+  if (!snapshot.exists) {
+    throw new functions.https.HttpsError('not-found', `Branch ${branchId} does not exist.`);
+  }
+  const data = snapshot.data() || {};
+  if (data.isActive === false) {
+    throw new functions.https.HttpsError(
+      'failed-precondition',
+      'Invites cannot be managed for an inactive branch.'
+    );
+  }
+  return { ref, data };
 }
 
 export const ping = functions.https.onCall(
@@ -514,6 +594,420 @@ export const setUserAccessAdmin = functions
         orgId,
         regionId,
         branchId,
+      };
+    }
+  );
+
+export const createBranchInvite = functions
+  .region('us-central1')
+  .https.onCall(
+    async (
+      data: { branchId?: unknown; label?: unknown },
+      context: functions.https.CallableContext
+    ) => {
+      const caller = await loadAdminScope(context);
+      const branchId = typeof data.branchId === 'string' ? data.branchId.trim() : '';
+      const label = typeof data.label === 'string' ? data.label.trim().slice(0, 80) : '';
+      if (!branchId) {
+        throw new functions.https.HttpsError(
+          'invalid-argument',
+          'A valid branch ID must be provided.'
+        );
+      }
+
+      const branch = await loadBranch(branchId);
+      assertCanManageBranch(caller, branchId, branch.data);
+
+      const db = admin.firestore();
+      const inviteRef = db.collection('branchInvites').doc();
+      const code = generateInviteCode();
+      const normalizedCode = normalizeInviteCode(code);
+      const tokenHash = hashInviteCode(normalizedCode);
+      const expiresAt = Timestamp.fromMillis(
+        Date.now() + defaultInviteDurationDays * 24 * 60 * 60 * 1000
+      );
+      const activeInvitesQuery = db
+        .collection('branchInvites')
+        .where('branchId', '==', branchId)
+        .where('status', '==', 'active');
+
+      await db.runTransaction(async (transaction) => {
+        const activeInvites = await transaction.get(activeInvitesQuery);
+        const now = FieldValue.serverTimestamp();
+        activeInvites.docs.forEach((activeInvite) => {
+          transaction.update(activeInvite.ref, {
+            status: 'revoked',
+            revokedAt: now,
+            revokedBy: caller.uid,
+            revokeReason: 'rotated',
+            updatedAt: now,
+          });
+        });
+
+        transaction.create(inviteRef, {
+          id: inviteRef.id,
+          tokenHash,
+          branchId,
+          orgId: String(branch.data.orgId || caller.orgId || 'daniel-branch-church'),
+          regionId: String(branch.data.regionId || ''),
+          label,
+          status: 'active',
+          expiresAt,
+          maxUses: defaultInviteMaxUses,
+          useCount: 0,
+          createdBy: caller.uid,
+          createdAt: now,
+          updatedAt: now,
+        });
+      });
+
+      return {
+        success: true,
+        inviteId: inviteRef.id,
+        code,
+        branchId,
+        branchName: localizedText(branch.data.name, branchId),
+        expiresAt: expiresAt.toDate().toISOString(),
+        maxUses: defaultInviteMaxUses,
+      };
+    }
+  );
+
+export const listBranchInvites = functions
+  .region('us-central1')
+  .https.onCall(
+    async (
+      data: { branchId?: unknown },
+      context: functions.https.CallableContext
+    ) => {
+      const caller = await loadAdminScope(context);
+      const branchId = typeof data.branchId === 'string' ? data.branchId.trim() : '';
+      if (!branchId) {
+        throw new functions.https.HttpsError(
+          'invalid-argument',
+          'A valid branch ID must be provided.'
+        );
+      }
+      const branch = await loadBranch(branchId);
+      assertCanManageBranch(caller, branchId, branch.data);
+
+      const snapshot = await admin
+        .firestore()
+        .collection('branchInvites')
+        .where('branchId', '==', branchId)
+        .limit(100)
+        .get();
+      const invites = snapshot.docs
+        .map((document) => {
+          const invite = document.data();
+          const timestampToISOString = (value: unknown): string | null => {
+            if (value && typeof (value as FirebaseFirestore.Timestamp).toDate === 'function') {
+              return (value as FirebaseFirestore.Timestamp).toDate().toISOString();
+            }
+            return null;
+          };
+          return {
+            inviteId: document.id,
+            label: typeof invite.label === 'string' ? invite.label : '',
+            status: typeof invite.status === 'string' ? invite.status : 'revoked',
+            expiresAt: timestampToISOString(invite.expiresAt),
+            maxUses: Number(invite.maxUses || defaultInviteMaxUses),
+            useCount: Number(invite.useCount || 0),
+            createdAt: timestampToISOString(invite.createdAt),
+          };
+        })
+        .sort((left, right) => (right.createdAt || '').localeCompare(left.createdAt || ''));
+
+      return { success: true, branchId, invites };
+    }
+  );
+
+export const revokeBranchInvite = functions
+  .region('us-central1')
+  .https.onCall(
+    async (
+      data: { inviteId?: unknown },
+      context: functions.https.CallableContext
+    ) => {
+      const caller = await loadAdminScope(context);
+      const inviteId = typeof data.inviteId === 'string' ? data.inviteId.trim() : '';
+      if (!inviteId) {
+        throw new functions.https.HttpsError(
+          'invalid-argument',
+          'A valid invite ID must be provided.'
+        );
+      }
+
+      const db = admin.firestore();
+      const inviteRef = db.collection('branchInvites').doc(inviteId);
+      const invite = await inviteRef.get();
+      if (!invite.exists) {
+        throw new functions.https.HttpsError('not-found', 'Invite does not exist.');
+      }
+      const inviteData = invite.data() || {};
+      const branchId = String(inviteData.branchId || '');
+      const branch = await loadBranch(branchId);
+      assertCanManageBranch(caller, branchId, branch.data);
+
+      if (inviteData.status !== 'revoked') {
+        await inviteRef.update({
+          status: 'revoked',
+          revokedAt: FieldValue.serverTimestamp(),
+          revokedBy: caller.uid,
+          revokeReason: 'manual',
+          updatedAt: FieldValue.serverTimestamp(),
+        });
+      }
+
+      return { success: true, inviteId, branchId, status: 'revoked' };
+    }
+  );
+
+export const redeemBranchInvite = functions
+  .region('us-central1')
+  .https.onCall(
+    async (
+      data: { code?: unknown },
+      context: functions.https.CallableContext
+    ) => {
+      if (!context.auth) {
+        throw new functions.https.HttpsError(
+          'unauthenticated',
+          'You must be logged in to redeem a church invite.'
+        );
+      }
+      if (context.auth.token.email_verified !== true) {
+        throw new functions.https.HttpsError(
+          'failed-precondition',
+          'Verify your email before redeeming a church invite.',
+          { reason: 'email-not-verified' }
+        );
+      }
+
+      const normalizedCode = normalizeInviteCode(data.code);
+      if (!normalizedCode) {
+        throw new functions.https.HttpsError(
+          'invalid-argument',
+          'Enter a valid 16-character church invite code.',
+          { reason: 'invalid-code' }
+        );
+      }
+
+      const uid = context.auth.uid;
+      const db = admin.firestore();
+      const inviteQuery = db
+        .collection('branchInvites')
+        .where('tokenHash', '==', hashInviteCode(normalizedCode))
+        .limit(1);
+      const inviteQuerySnapshot = await inviteQuery.get();
+      if (inviteQuerySnapshot.empty) {
+        throw new functions.https.HttpsError(
+          'not-found',
+          'This church invite code is invalid.',
+          { reason: 'invalid-code' }
+        );
+      }
+
+      const inviteRef = inviteQuerySnapshot.docs[0].ref;
+      const inviteId = inviteRef.id;
+      const userRef = db.collection('users').doc(uid);
+      const redemptionRef = db.collection('inviteRedemptions').doc(`${inviteId}_${uid}`);
+
+      const result = await db.runTransaction(async (transaction) => {
+        const [inviteSnapshot, userSnapshot, previousRedemption] = await Promise.all([
+          transaction.get(inviteRef),
+          transaction.get(userRef),
+          transaction.get(redemptionRef),
+        ]);
+
+        if (previousRedemption.exists && previousRedemption.data()?.status === 'success') {
+          const previous = previousRedemption.data() || {};
+          const currentAccessRole = normalizedAccessRole(
+            userSnapshot.data()?.accessRole || userSnapshot.data()?.role,
+            'member'
+          );
+          return {
+            branchId: String(previous.branchId || ''),
+            branchName: String(previous.branchName || previous.branchId || ''),
+            orgId: String(userSnapshot.data()?.orgId || 'daniel-branch-church'),
+            regionId: String(userSnapshot.data()?.regionId || ''),
+            accessRole: currentAccessRole,
+            role: legacyRoleFor(currentAccessRole),
+            isApproved: userSnapshot.data()?.isApproved === true,
+            membershipStatus: normalizedMembershipStatus(
+              userSnapshot.data()?.membershipStatus,
+              userSnapshot.data()?.isApproved === true ? 'active' : 'pending'
+            ),
+            idempotent: true,
+          };
+        }
+        if (!inviteSnapshot.exists) {
+          throw new functions.https.HttpsError('not-found', 'This church invite no longer exists.');
+        }
+        if (!userSnapshot.exists) {
+          throw new functions.https.HttpsError(
+            'failed-precondition',
+            'Complete your account profile before joining a church.',
+            { reason: 'profile-required' }
+          );
+        }
+
+        const invite = inviteSnapshot.data() || {};
+        const user = userSnapshot.data() || {};
+        const currentRole = normalizedAccessRole(user.accessRole || user.role, 'member');
+        if (currentRole !== 'member') {
+          throw new functions.https.HttpsError(
+            'permission-denied',
+            'Administrator accounts cannot redeem member invite codes.'
+          );
+        }
+
+        if (invite.status !== 'active') {
+          throw new functions.https.HttpsError(
+            'failed-precondition',
+            'This church invite has been revoked.',
+            { reason: 'revoked' }
+          );
+        }
+        const expiresAt = invite.expiresAt as FirebaseFirestore.Timestamp | undefined;
+        if (!expiresAt || expiresAt.toMillis() <= Date.now()) {
+          throw new functions.https.HttpsError(
+            'failed-precondition',
+            'This church invite has expired.',
+            { reason: 'expired' }
+          );
+        }
+        const useCount = Number(invite.useCount || 0);
+        const maxUses = Number(invite.maxUses || defaultInviteMaxUses);
+        if (useCount >= maxUses) {
+          throw new functions.https.HttpsError(
+            'resource-exhausted',
+            'This church invite has reached its usage limit.',
+            { reason: 'usage-limit' }
+          );
+        }
+
+        const branchId = String(invite.branchId || '');
+        const branchRef = db.collection('branches').doc(branchId);
+        const branchSnapshot = await transaction.get(branchRef);
+        if (!branchSnapshot.exists || branchSnapshot.data()?.isActive === false) {
+          throw new functions.https.HttpsError(
+            'failed-precondition',
+            'This church is not currently accepting members.',
+            { reason: 'inactive-branch' }
+          );
+        }
+        const branch = branchSnapshot.data() || {};
+        const branchName = localizedText(branch.name, branchId);
+        const currentBranchId = String(user.branchId || '');
+        const currentStatus = normalizedMembershipStatus(
+          user.membershipStatus,
+          user.isApproved === true ? 'active' : 'unassigned'
+        );
+        if (
+          currentBranchId &&
+          currentBranchId !== branchId &&
+          ['active', 'pending', 'requested'].includes(currentStatus)
+        ) {
+          throw new functions.https.HttpsError(
+            'failed-precondition',
+            'Leave or resolve your current church membership before joining another church.',
+            { reason: 'existing-membership' }
+          );
+        }
+
+        const now = FieldValue.serverTimestamp();
+        const orgId = String(branch.orgId || invite.orgId || 'daniel-branch-church');
+        const regionId = String(branch.regionId || invite.regionId || '');
+        const regionName = localizedText(branch.regionName, regionId);
+        const country = String(branch.country || '');
+        const newMembershipId = membershipId(branchId, uid);
+
+        transaction.update(inviteRef, {
+          useCount: FieldValue.increment(1),
+          lastRedeemedAt: now,
+          updatedAt: now,
+        });
+        transaction.set(
+          db.collection('branchMemberships').doc(newMembershipId),
+          {
+            id: newMembershipId,
+            userId: uid,
+            orgId,
+            regionId,
+            branchId,
+            role: 'member',
+            accessRole: 'member',
+            status: 'pending',
+            createdAt: now,
+            updatedAt: now,
+            requestedAt: now,
+            requestedViaInviteId: inviteId,
+          },
+          { merge: true }
+        );
+        transaction.update(userRef, {
+          isApproved: false,
+          approvedAt: null,
+          approvedBy: null,
+          role: 'member',
+          accessRole: 'member',
+          membershipStatus: 'pending',
+          orgId,
+          regionId,
+          regionName,
+          branchId,
+          branchName,
+          churchCountry: country,
+          churchName: branchName,
+          updatedAt: now,
+        });
+        transaction.create(redemptionRef, {
+          id: redemptionRef.id,
+          inviteId,
+          userId: uid,
+          branchId,
+          branchName,
+          status: 'success',
+          redeemedAt: now,
+        });
+
+        return {
+          branchId,
+          branchName,
+          orgId,
+          regionId,
+          accessRole: 'member' as AccessRole,
+          role: 'member' as AccessRole,
+          isApproved: false,
+          membershipStatus: 'pending' as MembershipStatus,
+          idempotent: false,
+        };
+      });
+
+      try {
+        await admin.auth().setCustomUserClaims(uid, {
+          accessRole: result.accessRole,
+          role: result.role,
+          isApproved: result.isApproved,
+          membershipStatus: result.membershipStatus,
+          orgId: result.orgId,
+          regionId: result.regionId,
+          branchId: result.branchId,
+        });
+      } catch (authErr: any) {
+        if (authErr.code !== 'auth/user-not-found') {
+          throw authErr;
+        }
+      }
+
+      return {
+        success: true,
+        inviteId,
+        branchId: result.branchId,
+        branchName: result.branchName,
+        membershipStatus: result.membershipStatus,
+        idempotent: result.idempotent,
       };
     }
   );

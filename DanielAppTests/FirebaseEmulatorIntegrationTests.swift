@@ -55,7 +55,8 @@ final class FirebaseEmulatorIntegrationTests: XCTestCase {
         try await signIn(email: "approved@example.test", password: "password123")
         let viewModel = NewsletterViewModel(
             remoteStore: FirestoreNewsletterRemoteStore(db: db),
-            accessProvider: { true }
+            accessProvider: { true },
+            branchIDProvider: { "canada-daniel-test-church" }
         )
 
         viewModel.loadNewsletters()

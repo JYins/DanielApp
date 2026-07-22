@@ -84,7 +84,7 @@ struct UserProfile: Codable, Identifiable, Equatable {
         approvedAt: Date? = nil,
         role: String? = "member",
         accessRole: String? = "member",
-        membershipStatus: String? = "pending"
+        membershipStatus: String? = "unassigned"
     ) {
         self.name = name
         self.gender = gender
@@ -144,6 +144,12 @@ extension UserProfile {
             case .chinese: return "已停用"
             case .english: return "Revoked"
             case .korean: return "중지됨"
+            }
+        case "unassigned":
+            switch language {
+            case .chinese: return "尚未加入教会"
+            case .english: return "No church yet"
+            case .korean: return "소속 교회 없음"
             }
         default:
             return status.isEmpty ? localizedMissingValue(for: language) : status
@@ -259,10 +265,7 @@ struct RegistrationFormData {
                !trimmedEmail.isEmpty &&
                !password.isEmpty &&
                password == confirmPassword &&
-               password.count >= 6 &&
-               !trimmedChurchCountry.isEmpty &&
-               !trimmedChurchName.isEmpty &&
-               !trimmedConfirmationPerson.isEmpty
+               password.count >= 6
     }
     
     var passwordsMatch: Bool {
@@ -374,6 +377,8 @@ struct Newsletter: Codable, Identifiable {
     var published: Bool
     var createdAt: Timestamp?
     var updatedAt: Timestamp?
+    var branchId: String?
+    var contentType: String?
     
     // 兼容旧代码的属性
     var caption: NewsletterCaption {
@@ -381,7 +386,15 @@ struct Newsletter: Codable, Identifiable {
     }
     
     // 初始化方法，主要用于本地测试或预览
-    init(id: String?, publishDate: Date, imageURLs: [String], caption: NewsletterCaption, isPublished: Bool = true) {
+    init(
+        id: String?,
+        publishDate: Date,
+        imageURLs: [String],
+        caption: NewsletterCaption,
+        isPublished: Bool = true,
+        branchId: String? = nil,
+        contentType: String? = "newsletter"
+    ) {
         self.id = id
         self.publishDate = Timestamp(date: publishDate)
         self.image_urls = imageURLs
@@ -391,5 +404,7 @@ struct Newsletter: Codable, Identifiable {
         self.published = isPublished
         self.createdAt = Timestamp(date: Date())
         self.updatedAt = Timestamp(date: Date())
+        self.branchId = branchId
+        self.contentType = contentType
     }
-} 
+}

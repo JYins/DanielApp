@@ -36,6 +36,21 @@ service cloud.firestore {
       return isAdmin() || isApprovedUser();
     }
 
+    function isActiveBranchMember(branchId) {
+      return isApprovedUser() &&
+             currentUserData().branchId == branchId;
+    }
+
+    function canManageBranch(branchId) {
+      return isAdmin() ||
+             (isApprovedUser() &&
+              userRole(currentUserData()) == 'branch_admin' &&
+              currentUserData().branchId == branchId) ||
+             (isApprovedUser() &&
+              userRole(currentUserData()) == 'region_admin' &&
+              get(/databases/$(database)/documents/branches/$(branchId)).data.regionId == currentUserData().regionId);
+    }
+
     function isCreatingOwnProfile(userId) {
       return isOwner(userId) &&
              !exists(/databases/$(database)/documents/users/$(userId)) &&
@@ -46,7 +61,7 @@ service cloud.firestore {
              (!('role' in request.resource.data) || request.resource.data.role == 'member') &&
              (!('accessRole' in request.resource.data) || request.resource.data.accessRole == 'member') &&
              (!('membershipStatus' in request.resource.data) ||
-              request.resource.data.membershipStatus in ['pending', 'requested']);
+              request.resource.data.membershipStatus in ['unassigned', 'pending', 'requested']);
     }
 
     function hasOnlyAllowedProfileFields() {
@@ -137,7 +152,7 @@ service cloud.firestore {
              (!('accessRole' in request.resource.data) ||
               request.resource.data.accessRole in ['admin', 'global_admin', 'region_admin', 'branch_admin', 'member']) &&
              (!('membershipStatus' in request.resource.data) ||
-              request.resource.data.membershipStatus in ['active', 'pending', 'requested', 'revoked']);
+              request.resource.data.membershipStatus in ['unassigned', 'active', 'pending', 'requested', 'revoked']);
     }
     
     // Users collection
@@ -181,8 +196,42 @@ service cloud.firestore {
     
     // Newsletters collection
     match /newsletters/{newsletterId} {
-      allow read: if canReadProtectedContent();
-      allow write: if isAdmin();
+      allow read: if (('branchId' in resource.data) &&
+                      (isAdmin() || isActiveBranchMember(resource.data.branchId))) ||
+                     (!('branchId' in resource.data) && canReadProtectedContent());
+      allow create: if ('branchId' in request.resource.data) &&
+                       canManageBranch(request.resource.data.branchId);
+      allow update: if ('branchId' in resource.data) &&
+                       request.resource.data.branchId == resource.data.branchId &&
+                       canManageBranch(resource.data.branchId);
+      allow delete: if ('branchId' in resource.data) && canManageBranch(resource.data.branchId);
+    }
+
+    match /announcements/{announcementId} {
+      allow read: if (('branchId' in resource.data) &&
+                      (isAdmin() || isActiveBranchMember(resource.data.branchId))) ||
+                     (!('branchId' in resource.data) && canReadProtectedContent());
+      allow create: if ('branchId' in request.resource.data) &&
+                       canManageBranch(request.resource.data.branchId);
+      allow update: if ('branchId' in resource.data) &&
+                       request.resource.data.branchId == resource.data.branchId &&
+                       canManageBranch(resource.data.branchId);
+      allow delete: if ('branchId' in resource.data) && canManageBranch(resource.data.branchId);
+    }
+
+    match /branchConnect/{branchId} {
+      allow read: if isAdmin() || isActiveBranchMember(branchId);
+      allow create, update: if request.resource.data.branchId == branchId && canManageBranch(branchId);
+      allow delete: if canManageBranch(branchId);
+    }
+
+    // Invite secrets and redemption audits are server-only. Callable Functions use Admin SDK.
+    match /branchInvites/{inviteId} {
+      allow read, write: if false;
+    }
+
+    match /inviteRedemptions/{redemptionId} {
+      allow read, write: if false;
     }
 
     match /organizations/{orgId} {
@@ -368,7 +417,9 @@ service cloud.firestore {
                'createdAt',
                'updatedAt',
                'approvedAt',
-               'approvedBy'
+               'approvedBy',
+               'requestedAt',
+               'requestedViaInviteId'
              ]) &&
              request.resource.data.userId is string &&
              request.resource.data.orgId is string &&
@@ -376,7 +427,7 @@ service cloud.firestore {
              request.resource.data.branchId is string &&
              request.resource.data.role in ['admin', 'global_admin', 'region_admin', 'branch_admin', 'member'] &&
              request.resource.data.accessRole in ['admin', 'global_admin', 'region_admin', 'branch_admin', 'member'] &&
-             request.resource.data.status in ['active', 'pending', 'requested', 'revoked'] &&
+             request.resource.data.status in ['unassigned', 'active', 'pending', 'requested', 'revoked'] &&
              request.resource.data.createdAt is timestamp &&
              request.resource.data.updatedAt is timestamp;
     }

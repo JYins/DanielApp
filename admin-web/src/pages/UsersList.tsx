@@ -1,518 +1,225 @@
-import React, { useEffect, useState } from 'react';
-import { collection, query, where, getDocs, doc, orderBy, serverTimestamp, writeBatch } from 'firebase/firestore';
+import React, { useEffect, useMemo, useState } from 'react';
+import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
 import { httpsCallable } from 'firebase/functions';
-import { db, functions } from '../lib/firebase';
+import { CheckCircle, RefreshCw, Shield, UserMinus } from 'lucide-react';
 import { useAuthContext } from '../components/AuthProvider';
-import { CheckCircle, XCircle, ChevronDown, ChevronUp, User, MapPin, Phone, Mail, Church, Calendar, Shield } from 'lucide-react';
+import { db, functions } from '../lib/firebase';
+
+type Member = {
+  id: string;
+  name?: string;
+  displayName?: string;
+  email?: string;
+  branchId?: string;
+  branchName?: string;
+  churchName?: string;
+  regionId?: string;
+  accessRole?: string;
+  role?: string;
+  membershipStatus?: 'unassigned' | 'pending' | 'active' | 'revoked';
+  isApproved?: boolean;
+};
+
+type Branch = {
+  id: string;
+  regionId?: string;
+  name?: { en?: string; zh?: string; ko?: string };
+};
+
+function roleOf(member: Member) {
+  return member.accessRole || member.role || 'member';
+}
+
+function statusOf(member: Member) {
+  if (member.membershipStatus) return member.membershipStatus;
+  if (!member.branchId) return 'unassigned';
+  return member.isApproved ? 'active' : 'pending';
+}
+
+function nameOf(member: Member) {
+  return member.name || member.displayName || member.email || 'Member';
+}
+
+function branchLabel(branch: Branch) {
+  return branch.name?.en || branch.name?.zh || branch.name?.ko || branch.id;
+}
+
+const statusStyles: Record<string, string> = {
+  active: 'bg-green-100 text-green-800',
+  pending: 'bg-amber-100 text-amber-800',
+  revoked: 'bg-red-100 text-red-800',
+  unassigned: 'bg-gray-100 text-gray-700'
+};
 
 export default function UsersList() {
-  const [users, setUsers] = useState<any[]>([]);
-  const [branches, setBranches] = useState<any[]>([]);
+  const { adminProfile } = useAuthContext();
+  const accessRole = adminProfile?.accessRole || adminProfile?.role;
+  const isGlobalAdmin = ['admin', 'global_admin'].includes(accessRole);
+  const isRegionAdmin = accessRole === 'region_admin';
+  const isBranchAdmin = accessRole === 'branch_admin';
+  const [members, setMembers] = useState<Member[]>([]);
+  const [branches, setBranches] = useState<Branch[]>([]);
+  const [filter, setFilter] = useState('pending');
   const [loading, setLoading] = useState(true);
-  const [expandedUserId, setExpandedUserId] = useState<string | null>(null);
-  const { user: currentUserAuth, adminProfile } = useAuthContext();
-  const adminAccessRole = adminProfile?.accessRole || adminProfile?.role;
-  const isGlobalAdmin = ['admin', 'global_admin'].includes(adminAccessRole);
-  const isRegionAdmin = adminAccessRole === 'region_admin';
-  const isBranchAdmin = adminAccessRole === 'branch_admin';
+  const [busyId, setBusyId] = useState('');
+  const [error, setError] = useState('');
 
-  useEffect(() => {
-    fetchUsers();
-    fetchBranches();
-  }, [adminProfile?.id]);
-
-  const fetchUsers = async () => {
+  const load = async () => {
     setLoading(true);
+    setError('');
     try {
-      let usersQuery = query(collection(db, 'users'));
+      let membersQuery = query(collection(db, 'users'));
       if (isRegionAdmin && adminProfile?.regionId) {
-        usersQuery = query(collection(db, 'users'), where('regionId', '==', adminProfile.regionId));
+        membersQuery = query(collection(db, 'users'), where('regionId', '==', adminProfile.regionId));
       } else if (isBranchAdmin && adminProfile?.branchId) {
-        usersQuery = query(collection(db, 'users'), where('branchId', '==', adminProfile.branchId));
+        membersQuery = query(collection(db, 'users'), where('branchId', '==', adminProfile.branchId));
       }
-      const usersSnap = await getDocs(usersQuery);
-      setUsers(usersSnap.docs.map(d => ({ id: d.id, ...d.data() })));
-    } catch (err) {
-      console.error(err);
+      const memberSnap = await getDocs(membersQuery);
+      setMembers(memberSnap.docs.map(item => ({ id: item.id, ...item.data() } as Member)));
+
+      if (isGlobalAdmin || isRegionAdmin) {
+        let branchQuery = query(collection(db, 'branches'), orderBy('sortOrder', 'asc'));
+        if (isRegionAdmin && adminProfile?.regionId) {
+          branchQuery = query(collection(db, 'branches'), where('regionId', '==', adminProfile.regionId), orderBy('sortOrder', 'asc'));
+        }
+        const branchSnap = await getDocs(branchQuery);
+        setBranches(branchSnap.docs.map(item => ({ id: item.id, ...item.data() } as Branch)));
+      }
+    } catch (loadError) {
+      console.error(loadError);
+      setError('Members could not be loaded for your admin scope.');
     } finally {
       setLoading(false);
     }
   };
 
-  const fetchBranches = async () => {
-    try {
-      let branchesQuery = query(collection(db, 'branches'), orderBy('sortOrder', 'asc'));
-      if (isRegionAdmin && adminProfile?.regionId) {
-        branchesQuery = query(
-          collection(db, 'branches'),
-          where('regionId', '==', adminProfile.regionId),
-          where('isActive', '==', true),
-          orderBy('sortOrder', 'asc')
-        );
-      } else if (isBranchAdmin && adminProfile?.regionId) {
-        branchesQuery = query(
-          collection(db, 'branches'),
-          where('regionId', '==', adminProfile.regionId),
-          where('isActive', '==', true),
-          orderBy('sortOrder', 'asc')
-        );
-      }
-      const branchesSnap = await getDocs(branchesQuery);
-      const loadedBranches = branchesSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-      setBranches(isBranchAdmin ? loadedBranches.filter(branch => branch.id === adminProfile?.branchId) : loadedBranches);
-    } catch (err) {
-      console.error('Failed to fetch branches', err);
-    }
-  };
+  useEffect(() => { load(); }, [adminProfile?.id]);
 
-  const shouldFallbackToClientBatch = (error: any) => {
-    const code = error?.code || '';
-    return code === 'functions/not-found' || code === 'functions/unimplemented' || code === 'not-found';
-  };
-
-  const callSetUserAccessAdmin = async (payload: any) => {
-    const setUserAccessAdminFunc = httpsCallable(functions, 'setUserAccessAdmin');
-    return setUserAccessAdminFunc(payload);
-  };
-
-  const toggleApproval = async (userId: string, currentStatus: boolean) => {
-    const user = users.find(u => u.id === userId);
-    if (!user) return;
-    if (!canManageUser(user)) {
-      alert("Your admin role cannot update this user.");
-      return;
-    }
-
-    const nextMembershipStatus = !currentStatus ? 'active' : 'revoked';
-    try {
-      try {
-        await callSetUserAccessAdmin({
-          uid: userId,
-          isApproved: !currentStatus,
-          branchId: user.branchId || undefined,
-          accessRole: user.accessRole || user.role || 'member',
-          membershipStatus: nextMembershipStatus
-        });
-      } catch (callableErr: any) {
-        if (!shouldFallbackToClientBatch(callableErr)) {
-          throw callableErr;
-        }
-        const batch = writeBatch(db);
-        batch.update(doc(db, 'users', userId), {
-          isApproved: !currentStatus,
-          approvedAt: !currentStatus ? serverTimestamp() : null,
-          membershipStatus: nextMembershipStatus,
-          updatedAt: serverTimestamp()
-        });
-
-        if (user.branchId) {
-          batch.set(
-            doc(db, 'branchMemberships', membershipId(user.branchId, userId)),
-            membershipPayload(user, { membershipStatus: nextMembershipStatus }),
-            { merge: true }
-          );
-        }
-
-        await batch.commit();
-      }
-      setUsers(prev => prev.map(u => u.id === userId ? {
-        ...u,
-        isApproved: !currentStatus,
-        membershipStatus: nextMembershipStatus
-      } : u));
-    } catch (err) {
-      alert("Failed to update user.");
-    }
-  };
-
-  const updateUserRole = async (userId: string, accessRole: string) => {
-    const user = users.find(u => u.id === userId);
-    if (!user) return;
-    if (!canManageUser(user) || !allowedAccessRolesFor(user).includes(accessRole)) {
-      alert("Your admin role cannot assign that access level.");
-      return;
-    }
-
-    const role = accessRole === 'global_admin' ? 'admin' : accessRole;
-    try {
-      try {
-        await callSetUserAccessAdmin({
-          uid: userId,
-          isApproved: user.isApproved === true,
-          branchId: user.branchId || undefined,
-          accessRole,
-          membershipStatus: user.membershipStatus || (user.isApproved ? 'active' : 'pending')
-        });
-      } catch (callableErr: any) {
-        if (!shouldFallbackToClientBatch(callableErr)) {
-          throw callableErr;
-        }
-        const batch = writeBatch(db);
-        batch.update(doc(db, 'users', userId), {
-          role,
-          accessRole,
-          updatedAt: serverTimestamp()
-        });
-
-        if (user.branchId) {
-          batch.set(
-            doc(db, 'branchMemberships', membershipId(user.branchId, userId)),
-            membershipPayload(user, { role, accessRole }),
-            { merge: true }
-          );
-        }
-
-        await batch.commit();
-      }
-      setUsers(prev => prev.map(u => u.id === userId ? { ...u, role, accessRole } : u));
-    } catch (err) {
-      alert("Failed to update user role.");
-    }
-  };
-
-  const updateUserBranch = async (userId: string, branchId: string) => {
-    const user = users.find(u => u.id === userId);
-    const selectedBranch = branches.find(branch => branch.id === branchId);
-    if (!user || !selectedBranch) return;
-    if (!canManageUser(user) || !canAssignBranch(selectedBranch)) {
-      alert("Your admin role cannot assign that branch.");
-      return;
-    }
-
-    const branchName = selectedBranch.name?.en || selectedBranch.name?.zh || selectedBranch.name?.ko || selectedBranch.id;
-    const regionName = selectedBranch.regionName?.en || selectedBranch.regionName?.zh || selectedBranch.regionName?.ko || selectedBranch.country || '';
-
-    const payload = {
-      orgId: selectedBranch.orgId || 'daniel-branch-church',
-      regionId: selectedBranch.regionId || '',
-      regionName,
-      branchId: selectedBranch.id,
-      branchName,
-      churchCountry: selectedBranch.country || regionName,
-      churchName: branchName,
-      updatedAt: serverTimestamp()
-    };
-
-    try {
-      try {
-        await callSetUserAccessAdmin({
-          uid: userId,
-          isApproved: user.isApproved === true,
-          branchId: selectedBranch.id,
-          accessRole: user.accessRole || user.role || 'member',
-          membershipStatus: user.membershipStatus || (user.isApproved ? 'active' : 'pending')
-        });
-      } catch (callableErr: any) {
-        if (!shouldFallbackToClientBatch(callableErr)) {
-          throw callableErr;
-        }
-        const batch = writeBatch(db);
-        batch.update(doc(db, 'users', userId), payload);
-
-        if (user.branchId && user.branchId !== selectedBranch.id) {
-          batch.set(
-            doc(db, 'branchMemberships', membershipId(user.branchId, userId)),
-            membershipPayload(user, { membershipStatus: 'revoked' }),
-            { merge: true }
-          );
-        }
-
-        batch.set(
-          doc(db, 'branchMemberships', membershipId(selectedBranch.id, userId)),
-          membershipPayload(user, {
-            ...payload,
-            membershipStatus: user.membershipStatus || (user.isApproved ? 'active' : 'pending')
-          }),
-          { merge: true }
-        );
-
-        await batch.commit();
-      }
-      setUsers(prev => prev.map(u => u.id === userId ? { ...u, ...payload } : u));
-    } catch (err) {
-      alert("Failed to update user branch.");
-    }
-  };
-
-  const handleDeleteUser = async (userId: string, name: string) => {
-    if (!window.confirm(`Are you sure you want to completely delete user "${name}"? This will revoke their access and delete their Firebase Auth account.`)) {
-      return;
-    }
-    
-    if (currentUserAuth?.uid === userId) {
-      alert("You cannot delete your own admin account.");
-      return;
-    }
-
-    try {
-      const deleteUserAdminFunc = httpsCallable(functions, 'deleteUserAdmin');
-      await deleteUserAdminFunc({ uidToDelete: userId });
-      setUsers(prev => prev.filter(u => u.id !== userId));
-      alert(`User "${name}" has been completely deleted.`);
-    } catch (err: any) {
-      console.error('Delete User Error:', err);
-      const errorMsg = err.message || "Failed to delete user.";
-      alert(`Error: ${errorMsg}`);
-    }
-  };
-
-  const toggleExpand = (userId: string) => {
-    setExpandedUserId(prev => prev === userId ? null : userId);
-  };
-
-  const currentRole = (user: any) => user.accessRole || user.role || 'member';
-
-  const canManageUser = (user: any) => {
-    const role = currentRole(user);
+  const canManage = (member: Member) => {
+    const role = roleOf(member);
     if (isGlobalAdmin) return true;
     if (['admin', 'global_admin', 'region_admin'].includes(role)) return false;
-    if (isRegionAdmin) return user.regionId === adminProfile?.regionId;
-    if (isBranchAdmin) return role === 'member' && user.branchId === adminProfile?.branchId;
-    return false;
+    if (isRegionAdmin) return member.regionId === adminProfile?.regionId;
+    return isBranchAdmin && role === 'member' && member.branchId === adminProfile?.branchId;
   };
 
-  const canAssignBranch = (branch: any) => {
-    if (isGlobalAdmin) return true;
-    if (isRegionAdmin) return branch.regionId === adminProfile?.regionId;
-    if (isBranchAdmin) return branch.id === adminProfile?.branchId;
-    return false;
-  };
-
-  const allowedAccessRolesFor = (user: any) => {
-    if (isGlobalAdmin) {
-      return ['member', 'branch_admin', 'region_admin', 'global_admin'];
+  const updateAccess = async (member: Member, changes: { membershipStatus?: string; branchId?: string; accessRole?: string }) => {
+    if (!canManage(member)) return;
+    const membershipStatus = changes.membershipStatus || statusOf(member);
+    const branchId = changes.branchId ?? member.branchId;
+    const nextRole = changes.accessRole || roleOf(member);
+    setBusyId(member.id);
+    setError('');
+    try {
+      const callable = httpsCallable(functions, 'setUserAccessAdmin');
+      await callable({
+        uid: member.id,
+        branchId: branchId || undefined,
+        accessRole: nextRole,
+        membershipStatus,
+        isApproved: membershipStatus === 'active'
+      });
+      setMembers(current => current.map(item => item.id === member.id ? {
+        ...item,
+        branchId,
+        accessRole: nextRole,
+        role: nextRole === 'global_admin' ? 'admin' : nextRole,
+        membershipStatus: membershipStatus as Member['membershipStatus'],
+        isApproved: membershipStatus === 'active'
+      } : item));
+    } catch (updateError: any) {
+      console.error(updateError);
+      setError(updateError?.message || 'The server could not update this member. No client-side fallback was used.');
+    } finally {
+      setBusyId('');
     }
-    if (isRegionAdmin && user.regionId === adminProfile?.regionId) {
-      return ['member', 'branch_admin'];
-    }
-    if (isBranchAdmin && user.branchId === adminProfile?.branchId) {
-      return ['member'];
-    }
-    return [];
   };
 
-  const canDeleteUsers = isGlobalAdmin;
-
-  const formatDate = (dateValue: any) => {
-    if (!dateValue) return '—';
-    // Handle Firestore Timestamp
-    if (dateValue.toDate) return dateValue.toDate().toLocaleDateString();
-    // Handle regular Date or string
-    if (dateValue instanceof Date) return dateValue.toLocaleDateString();
-    if (typeof dateValue === 'string') return new Date(dateValue).toLocaleDateString();
-    // Handle seconds-based timestamp
-    if (dateValue.seconds) return new Date(dateValue.seconds * 1000).toLocaleDateString();
-    return '—';
-  };
-
-  const genderLabel = (gender: string) => {
-    if (gender === 'brother') return '弟兄 Brother';
-    if (gender === 'sister') return '姊妹 Sister';
-    return gender || '—';
-  };
-
-  const membershipId = (branchId: string, userId: string) => `${branchId}_${userId}`;
-
-  const membershipPayload = (user: any, overrides: any = {}) => {
-    const branchId = overrides.branchId || user.branchId;
-    return {
-      id: membershipId(branchId, user.id),
-      userId: user.id,
-      orgId: overrides.orgId || user.orgId || 'daniel-branch-church',
-      regionId: overrides.regionId || user.regionId || '',
-      branchId,
-      role: overrides.role || user.role || 'member',
-      accessRole: overrides.accessRole || user.accessRole || user.role || 'member',
-      status: overrides.membershipStatus || user.membershipStatus || (user.isApproved ? 'active' : 'pending'),
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp()
-    };
-  };
-
-  if (loading) return <div className="p-8">Loading users...</div>;
+  const visibleMembers = useMemo(() => members.filter(member => filter === 'all' || statusOf(member) === filter), [members, filter]);
+  const counts = useMemo(() => ({
+    pending: members.filter(member => statusOf(member) === 'pending').length,
+    active: members.filter(member => statusOf(member) === 'active').length,
+    revoked: members.filter(member => statusOf(member) === 'revoked').length,
+    unassigned: members.filter(member => statusOf(member) === 'unassigned').length
+  }), [members]);
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">User Management</h1>
-        <span className="text-sm text-gray-500">{users.length} users total</span>
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-600">Church access</p>
+          <h1 className="mt-1 text-2xl font-bold text-gray-900">Members</h1>
+          <p className="mt-1 text-sm text-gray-500">Only identity, church, membership status and administrative access are shown.</p>
+        </div>
+        <button onClick={load} className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"><RefreshCw className="mr-2 h-4 w-4" /> Refresh</button>
       </div>
 
-      <div className="bg-white shadow rounded-lg overflow-hidden">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase w-8"></th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Church</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {users.map((user) => (
-              <React.Fragment key={user.id}>
-                {/* Main Row */}
-                <tr
-                  className={`cursor-pointer hover:bg-gray-50 transition-colors ${expandedUserId === user.id ? 'bg-amber-50' : ''}`}
-                  onClick={() => toggleExpand(user.id)}
-                >
-                  <td className="px-6 py-4">
-                    {expandedUserId === user.id
-                      ? <ChevronUp className="h-4 w-4 text-gray-400" />
-                      : <ChevronDown className="h-4 w-4 text-gray-400" />
-                    }
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">{user.name || user.displayName || '—'}</div>
-                    <div className="text-xs text-gray-500">{genderLabel(user.gender)}</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.email}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{user.branchName || user.churchName || '—'}</div>
-                    <div className="text-xs text-gray-500">{user.regionName || user.churchCountry || ''}</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.isApproved ? 'bg-green-100 text-green-800' : (user.accessRole || user.role) === 'admin' || (user.accessRole || user.role) === 'global_admin' ? 'bg-purple-100 text-purple-800' : 'bg-red-100 text-red-800'}`}>
-                      {(user.accessRole || user.role) === 'admin' || (user.accessRole || user.role) === 'global_admin' ? 'Admin' : user.isApproved ? 'Approved' : 'Pending'}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium" onClick={(e) => e.stopPropagation()}>
-                    {(user.accessRole || user.role) !== 'admin' && (user.accessRole || user.role) !== 'global_admin' && canManageUser(user) && (
-                      <div className="flex items-center justify-end space-x-3">
-                        <button
-                          onClick={() => toggleApproval(user.id, user.isApproved)}
-                          className={`${user.isApproved ? 'text-orange-600 hover:text-orange-900' : 'text-green-600 hover:text-green-900'} flex items-center`}
-                        >
-                          {user.isApproved ? <><XCircle className="h-4 w-4 mr-1" /> Revoke</> : <><CheckCircle className="h-4 w-4 mr-1" /> Approve</>}
-                        </button>
-                        {canDeleteUsers && (
-                          <button
-                            onClick={() => handleDeleteUser(user.id, user.name || user.email)}
-                            className="text-red-600 hover:text-red-900 flex items-center"
-                          >
-                            <XCircle className="h-4 w-4 mr-1" /> Delete
-                          </button>
-                        )}
-                      </div>
-                    )}
-                  </td>
-                </tr>
+      {error && <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{error}</div>}
 
-                {/* Expandable Details Row */}
-                {expandedUserId === user.id && (
-                  <tr className="bg-amber-50">
-                    <td colSpan={6} className="px-6 py-4">
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
-                        <div className="flex items-start space-x-2">
-                          <User className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <div className="text-xs font-medium text-gray-500 uppercase">Gender</div>
-                            <div className="text-gray-900">{genderLabel(user.gender)}</div>
-                          </div>
-                        </div>
-                        <div className="flex items-start space-x-2">
-                          <Calendar className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <div className="text-xs font-medium text-gray-500 uppercase">Birth Date</div>
-                            <div className="text-gray-900">{formatDate(user.birthDate)}</div>
-                          </div>
-                        </div>
-                        <div className="flex items-start space-x-2">
-                          <Phone className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <div className="text-xs font-medium text-gray-500 uppercase">Phone</div>
-                            <div className="text-gray-900">{user.phoneNumber || '—'}</div>
-                          </div>
-                        </div>
-                        <div className="flex items-start space-x-2">
-                          <MapPin className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <div className="text-xs font-medium text-gray-500 uppercase">Address</div>
-                            <div className="text-gray-900">{user.address || '—'}</div>
-                          </div>
-                        </div>
-                        <div className="flex items-start space-x-2">
-                          <Church className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <div className="text-xs font-medium text-gray-500 uppercase">Church</div>
-                            <div className="text-gray-900">{user.branchName || user.churchName || '—'} ({user.regionName || user.churchCountry || '—'})</div>
-                          </div>
-                        </div>
-                        <div className="flex items-start space-x-2">
-                          <Church className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
-                          <div className="w-full">
-                            <div className="text-xs font-medium text-gray-500 uppercase">Branch Assignment</div>
-                            <select
-                              className="mt-1 block w-full rounded-md border-gray-300 text-sm shadow-sm focus:border-amber-500 focus:ring-amber-500"
-                              value={user.branchId || ''}
-                              onChange={(e) => updateUserBranch(user.id, e.target.value)}
-                              disabled={!canManageUser(user)}
-                            >
-                              <option value="" disabled>Select branch</option>
-                              {branches.filter(canAssignBranch).map(branch => (
-                                <option key={branch.id} value={branch.id}>
-                                  {branch.name?.en || branch.name?.zh || branch.id}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                        </div>
-                        <div className="flex items-start space-x-2">
-                          <Shield className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
-                          <div className="w-full">
-                            <div className="text-xs font-medium text-gray-500 uppercase">Access Role</div>
-                            <select
-                              className="mt-1 block w-full rounded-md border-gray-300 text-sm shadow-sm focus:border-amber-500 focus:ring-amber-500"
-                              value={user.accessRole || user.role || 'member'}
-                              onChange={(e) => updateUserRole(user.id, e.target.value)}
-                              disabled={!canManageUser(user)}
-                            >
-                              {allowedAccessRolesFor(user).map(role => (
-                                <option key={role} value={role}>
-                                  {role === 'global_admin' ? 'Global Admin' : role === 'region_admin' ? 'Region Admin' : role === 'branch_admin' ? 'Branch Admin' : 'Member'}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                        </div>
-                        <div className="flex items-start space-x-2">
-                          <Calendar className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <div className="text-xs font-medium text-gray-500 uppercase">Salvation Date</div>
-                            <div className="text-gray-900">{formatDate(user.salvationDate)}</div>
-                          </div>
-                        </div>
-                        <div className="flex items-start space-x-2">
-                          <Shield className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <div className="text-xs font-medium text-gray-500 uppercase">Ministry / Department</div>
-                            <div className="text-gray-900">{user.ministryDepartment || '—'}</div>
-                          </div>
-                        </div>
-                        <div className="flex items-start space-x-2">
-                          <User className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <div className="text-xs font-medium text-gray-500 uppercase">Confirmation Person</div>
-                            <div className="text-gray-900 font-semibold">{user.confirmationPerson || '—'}</div>
-                          </div>
-                        </div>
-                        <div className="flex items-start space-x-2">
-                          <Calendar className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <div className="text-xs font-medium text-gray-500 uppercase">Registered</div>
-                            <div className="text-gray-900">{formatDate(user.createdAt)}</div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                )}
-              </React.Fragment>
-            ))}
-          </tbody>
-        </table>
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {(['pending', 'active', 'revoked', 'unassigned'] as const).map(status => (
+          <button key={status} onClick={() => setFilter(filter === status ? 'all' : status)} className={`rounded-2xl border p-4 text-left shadow-sm transition ${filter === status ? 'border-amber-400 bg-amber-50' : 'border-gray-200 bg-white hover:border-amber-200'}`}>
+            <div className="text-xs font-semibold uppercase tracking-wide text-gray-500">{status}</div>
+            <div className="mt-1 text-2xl font-bold text-gray-900">{counts[status]}</div>
+          </button>
+        ))}
+      </div>
+
+      <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+        {loading ? <div className="p-8 text-center text-gray-500">Loading members…</div> : (
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-[#fffaf0]">
+                <tr>
+                  <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Member</th>
+                  <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Church</th>
+                  <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Status</th>
+                  {isGlobalAdmin && <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Access</th>}
+                  <th className="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wide text-gray-500">Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {visibleMembers.map(member => {
+                  const status = statusOf(member);
+                  const manageable = canManage(member);
+                  return (
+                    <tr key={member.id}>
+                      <td className="px-5 py-4">
+                        <div className="font-medium text-gray-900">{nameOf(member)}</div>
+                        <div className="text-sm text-gray-500">{member.email || '—'}</div>
+                      </td>
+                      <td className="px-5 py-4 text-sm text-gray-700">
+                        {isGlobalAdmin || isRegionAdmin ? (
+                          <select value={member.branchId || ''} disabled={!manageable || busyId === member.id} onChange={event => updateAccess(member, { branchId: event.target.value })} className="rounded-lg border-gray-300 text-sm focus:border-amber-500 focus:ring-amber-500">
+                            <option value="">Unassigned</option>
+                            {branches.map(branch => <option key={branch.id} value={branch.id}>{branchLabel(branch)}</option>)}
+                          </select>
+                        ) : (member.branchName || member.churchName || member.branchId || '—')}
+                      </td>
+                      <td className="px-5 py-4"><span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${statusStyles[status]}`}>{status}</span></td>
+                      {isGlobalAdmin && (
+                        <td className="px-5 py-4">
+                          <select value={roleOf(member)} disabled={busyId === member.id} onChange={event => updateAccess(member, { accessRole: event.target.value })} className="rounded-lg border-gray-300 text-sm focus:border-amber-500 focus:ring-amber-500">
+                            <option value="member">Member</option>
+                            <option value="branch_admin">Branch admin</option>
+                            <option value="region_admin">Region admin</option>
+                            <option value="global_admin">Global admin</option>
+                          </select>
+                        </td>
+                      )}
+                      <td className="px-5 py-4 text-right">
+                        {manageable && status !== 'active' && member.branchId && <button disabled={busyId === member.id} onClick={() => updateAccess(member, { membershipStatus: 'active' })} className="inline-flex items-center text-sm font-semibold text-green-700 hover:text-green-900 disabled:opacity-50"><CheckCircle className="mr-1 h-4 w-4" /> Approve</button>}
+                        {manageable && status === 'active' && <button disabled={busyId === member.id} onClick={() => updateAccess(member, { membershipStatus: 'revoked' })} className="inline-flex items-center text-sm font-semibold text-red-600 hover:text-red-800 disabled:opacity-50"><UserMinus className="mr-1 h-4 w-4" /> Revoke</button>}
+                        {!manageable && <span className="inline-flex items-center text-xs text-gray-400"><Shield className="mr-1 h-3.5 w-3.5" /> Protected</span>}
+                      </td>
+                    </tr>
+                  );
+                })}
+                {visibleMembers.length === 0 && <tr><td colSpan={isGlobalAdmin ? 5 : 4} className="px-5 py-10 text-center text-sm text-gray-500">No {filter === 'all' ? '' : filter} members.</td></tr>}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );

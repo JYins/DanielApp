@@ -3,13 +3,18 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuthContext } from './AuthProvider';
 import { auth } from '../lib/firebase';
 import { signOut } from 'firebase/auth';
-import { Building2, LayoutDashboard, Users, FileText, Music, LogOut, Library } from 'lucide-react';
+import { Building2, LayoutDashboard, Users, Newspaper, LogOut, Library, KeyRound } from 'lucide-react';
 
 export default function Layout() {
   const { user, adminProfile } = useAuthContext();
   const location = useLocation();
   const accessRole = adminProfile?.accessRole || adminProfile?.role;
   const isGlobalAdmin = ['admin', 'global_admin'].includes(accessRole);
+  const roleLabel = isGlobalAdmin
+    ? 'Global administrator'
+    : accessRole === 'region_admin'
+      ? 'Regional administrator'
+      : 'Church administrator';
 
   const handleLogout = () => {
     signOut(auth);
@@ -17,12 +22,11 @@ export default function Layout() {
 
   const navItems = [
     { name: 'Dashboard', path: '/', icon: LayoutDashboard, globalOnly: false },
-    { name: 'Users', path: '/users', icon: Users, globalOnly: false },
-    { name: 'Branches', path: '/branches', icon: Building2, globalOnly: true },
-    { name: 'Word Cards', path: '/wordcards', icon: FileText, globalOnly: true },
-    { name: 'Newsletters', path: '/newsletters', icon: FileText, globalOnly: true },
+    { name: 'Members', path: '/users', icon: Users, globalOnly: false },
+    { name: 'Churches', path: '/branches', icon: Building2, globalOnly: true },
+    { name: 'Announcements & Newsletter', path: '/newsletters', icon: Newspaper, globalOnly: false },
+    { name: 'Invite & KakaoTalk', path: '/branch-access', icon: KeyRound, globalOnly: false },
     { name: 'Resources', path: '/resources', icon: Library, globalOnly: true },
-    { name: 'Praise', path: '/praise', icon: Music, globalOnly: true },
   ].filter((item) => isGlobalAdmin || !item.globalOnly);
 
   return (
@@ -30,7 +34,7 @@ export default function Layout() {
       {/* Sidebar */}
       <div className="w-64 bg-white border-r border-gray-200">
         <div className="flex items-center justify-center h-16 border-b border-gray-200">
-          <span className="text-xl font-bold text-amber-600">Admin</span>
+          <span className="text-xl font-bold text-amber-600">Daniel Admin</span>
         </div>
         <div className="flex flex-col flex-grow pt-5 pb-4 overflow-y-auto">
           <nav className="flex-1 px-2 space-y-1 bg-white">
@@ -63,7 +67,7 @@ export default function Layout() {
             <div className="flex items-center w-full">
               <div className="ml-3 flex-1">
                 <p className="text-sm font-medium text-gray-700 truncate">{user?.email}</p>
-                <p className="text-xs text-gray-400 truncate">{accessRole || 'admin'}</p>
+                <p className="text-xs text-gray-400 truncate">{roleLabel}</p>
                 <button
                   onClick={handleLogout}
                   className="mt-1 flex items-center text-xs font-medium text-gray-500 hover:text-gray-700"

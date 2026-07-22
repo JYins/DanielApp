@@ -40,6 +40,30 @@ const FieldValue = admin.firestore.FieldValue;
 
 const users = [
   {
+    uid: "test-unassigned-user",
+    email: "unassigned@example.test",
+    password: "password123",
+    profile: {
+      userId: "test-unassigned-user",
+      email: "unassigned@example.test",
+      name: "Unassigned Test Member",
+      isApproved: false,
+      role: "member",
+      accessRole: "member",
+      membershipStatus: "unassigned",
+      orgId: "daniel-branch-church",
+      regionId: "",
+      regionName: "",
+      branchId: "",
+      branchName: "",
+      churchName: "",
+      churchCountry: "",
+      createdAt: FieldValue.serverTimestamp(),
+      updatedAt: FieldValue.serverTimestamp(),
+      lastLoginDate: FieldValue.serverTimestamp()
+    }
+  },
+  {
     uid: "test-approved-user",
     email: "approved@example.test",
     password: "password123",
@@ -230,7 +254,20 @@ async function upsertAuthUser(user) {
   });
 }
 
+async function clearCollection(collectionName) {
+  const snapshot = await db.collection(collectionName).get();
+  if (snapshot.empty) {
+    return;
+  }
+  const batch = db.batch();
+  snapshot.docs.forEach((document) => batch.delete(document.ref));
+  await batch.commit();
+}
+
 async function seed() {
+  await clearCollection("branchInvites");
+  await clearCollection("inviteRedemptions");
+
   for (const user of users) {
     await upsertAuthUser(user);
     await db.collection("users").doc(user.uid).set(user.profile, { merge: true });
@@ -323,6 +360,9 @@ async function seed() {
 
   for (const user of users) {
     const profile = user.profile;
+    if (!profile.branchId) {
+      continue;
+    }
     await db.collection("branchMemberships").doc(`${profile.branchId}_${user.uid}`).set({
       id: `${profile.branchId}_${user.uid}`,
       userId: user.uid,
@@ -351,12 +391,60 @@ async function seed() {
     });
 
   await db.collection("newsletters").doc("test-weekly-newsletter").set({
+    branchId: "canada-daniel-test-church",
+    contentType: "newsletter",
     publishDate: FieldValue.serverTimestamp(),
     image_urls: ["https://example.test/newsletter.jpg"],
     caption_cn: "本周教会通讯测试资料",
     caption_en: "Weekly newsletter test seed",
     caption_kr: "주간 소식 테스트 자료",
     published: true,
+    createdAt: FieldValue.serverTimestamp(),
+    updatedAt: FieldValue.serverTimestamp()
+  });
+
+  await db.collection("newsletters").doc("test-other-branch-newsletter").set({
+    branchId: "canada-other-test-church",
+    contentType: "newsletter",
+    publishDate: FieldValue.serverTimestamp(),
+    image_urls: ["https://example.test/other-newsletter.jpg"],
+    caption_cn: "其他教会通讯测试资料",
+    caption_en: "Other branch newsletter test seed",
+    caption_kr: "다른 교회 소식 테스트 자료",
+    published: true,
+    createdAt: FieldValue.serverTimestamp(),
+    updatedAt: FieldValue.serverTimestamp()
+  });
+
+  await db.collection("announcements").doc("test-sunday-announcement").set({
+    branchId: "canada-daniel-test-church",
+    contentType: "announcement",
+    title: localized("Sunday Service"),
+    body: localized("Service begins at 10:30 AM."),
+    published: true,
+    publishDate: FieldValue.serverTimestamp(),
+    createdAt: FieldValue.serverTimestamp(),
+    updatedAt: FieldValue.serverTimestamp()
+  });
+
+  await db.collection("branchConnect").doc("canada-daniel-test-church").set({
+    branchId: "canada-daniel-test-church",
+    groupNameZh: "Daniel 测试教会 KakaoTalk",
+    groupNameEn: "Daniel Test Church KakaoTalk",
+    groupNameKo: "다니엘 테스트 교회 카카오톡",
+    kakaoURL: "https://open.kakao.com/o/example-test",
+    isActive: true,
+    createdAt: FieldValue.serverTimestamp(),
+    updatedAt: FieldValue.serverTimestamp()
+  });
+
+  await db.collection("branchConnect").doc("canada-other-test-church").set({
+    branchId: "canada-other-test-church",
+    groupNameZh: "其他测试教会 KakaoTalk",
+    groupNameEn: "Other Test Church KakaoTalk",
+    groupNameKo: "다른 테스트 교회 카카오톡",
+    kakaoURL: "https://open.kakao.com/o/other-example-test",
+    isActive: true,
     createdAt: FieldValue.serverTimestamp(),
     updatedAt: FieldValue.serverTimestamp()
   });
