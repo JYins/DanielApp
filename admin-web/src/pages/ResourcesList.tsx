@@ -36,7 +36,6 @@ type ChurchResource = {
   downloadURL?: string | null;
   icon?: string;
   isPublished?: boolean;
-  accessLevel?: string;
   sortOrder?: number;
 };
 
@@ -60,7 +59,6 @@ const emptyForm = {
   content: '',
   icon: 'doc.richtext',
   isPublished: true,
-  accessLevel: 'public',
   sortOrder: 10,
   storagePath: '',
   fileName: '',
@@ -109,6 +107,16 @@ function storagePathFromUrl(url?: string | null) {
   }
 }
 
+function validatedExternalUrl(value: string) {
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  const parsed = new URL(trimmed);
+  if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') {
+    throw new Error('External URL must start with https:// or http://.');
+  }
+  return parsed.toString();
+}
+
 function formatFileSize(bytes?: number | null) {
   if (!bytes) return '—';
   if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
@@ -123,6 +131,7 @@ export default function ResourcesList() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState(emptyForm);
   const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const [storagePathToDelete, setStoragePathToDelete] = useState<string | null>(null);
 
   useEffect(() => {
     fetchResources();
@@ -148,6 +157,7 @@ export default function ResourcesList() {
   const openAddModal = () => {
     setForm(emptyForm);
     setPdfFile(null);
+    setStoragePathToDelete(null);
     setEditingId(null);
     setIsModalOpen(true);
   };
@@ -155,6 +165,7 @@ export default function ResourcesList() {
   const openEditModal = (item: ChurchResource) => {
     setEditingId(item.id);
     setPdfFile(null);
+    setStoragePathToDelete(null);
     setForm({
       id: item.id,
       type: item.type || 'church_documents',
@@ -175,7 +186,6 @@ export default function ResourcesList() {
       content: item.content || '',
       icon: item.icon || 'doc.richtext',
       isPublished: item.isPublished !== false,
-      accessLevel: item.accessLevel || 'public',
       sortOrder: item.sortOrder || 10,
       storagePath: item.storagePath || '',
       fileName: item.fileName || '',
@@ -202,16 +212,10 @@ export default function ResourcesList() {
     setPdfFile(file);
   };
 
-  const removeExistingPdf = async () => {
+  const removeExistingPdf = () => {
     if (!window.confirm('Remove the linked PDF from this resource?')) return;
     const path = form.storagePath || storagePathFromUrl(form.downloadURL);
-    if (path) {
-      try {
-        await deleteObject(ref(storage, path));
-      } catch (err) {
-        console.warn('PDF file could not be deleted from Storage', err);
-      }
-    }
+    setStoragePathToDelete(path);
     setForm(prev => ({
       ...prev,
       storagePath: '',
@@ -227,6 +231,7 @@ export default function ResourcesList() {
     if (!window.confirm(`Delete resource "${displayText(item.title)}"?`)) return;
     try {
       const path = item.storagePath || storagePathFromUrl(item.downloadURL);
+      await deleteDoc(doc(db, 'resources', item.id));
       if (path) {
         try {
           await deleteObject(ref(storage, path));
@@ -234,7 +239,6 @@ export default function ResourcesList() {
           console.warn('PDF file could not be deleted from Storage', err);
         }
       }
-      await deleteDoc(doc(db, 'resources', item.id));
       await fetchResources();
     } catch (err) {
       console.error('Failed to delete resource', err);
@@ -245,6 +249,7 @@ export default function ResourcesList() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setSaving(true);
+    let uploadedPath: string | null = null;
     try {
       const title = localized(form.titleZh, form.titleEn, form.titleKo);
       const resourceId = editingId || form.id.trim() || slugify(title.en || title.zh, 'resource');
@@ -254,19 +259,14 @@ export default function ResourcesList() {
       let fileSize = form.fileSize || null;
       let fileType = form.fileType || null;
       let downloadURL = form.downloadURL || null;
+      let previousPath = storagePathToDelete;
 
       if (pdfFile) {
-        const previousPath = storagePath || storagePathFromUrl(downloadURL);
-        if (previousPath) {
-          try {
-            await deleteObject(ref(storage, previousPath));
-          } catch (err) {
-            console.warn('Previous PDF could not be deleted from Storage', err);
-          }
-        }
+        previousPath = previousPath || storagePath || storagePathFromUrl(downloadURL);
 
         const safeFileName = pdfFile.name.replace(/[^a-zA-Z0-9._-]+/g, '-');
         storagePath = `resources/${resourceId}/${Date.now()}_${safeFileName}`;
+        uploadedPath = storagePath;
         const snapshot = await uploadBytes(ref(storage, storagePath), pdfFile, {
           contentType: 'application/pdf',
           customMetadata: { resourceId }
@@ -277,7 +277,7 @@ export default function ResourcesList() {
         fileType = 'application/pdf';
       }
 
-      const preferredURL = downloadURL || form.externalUrl.trim() || null;
+      const preferredURL = downloadURL || validatedExternalUrl(form.externalUrl);
       await setDoc(doc(db, 'resources', resourceId), {
         id: resourceId,
         type: form.type,
@@ -295,15 +295,31 @@ export default function ResourcesList() {
         downloadURL,
         icon: form.icon.trim() || 'doc.richtext',
         isPublished: form.isPublished,
-        accessLevel: form.accessLevel,
+        accessLevel: 'public',
         sortOrder: Number(form.sortOrder) || 10,
         ...(existing ? {} : { createdAt: serverTimestamp() }),
         updatedAt: serverTimestamp()
       }, { merge: true });
+      uploadedPath = null;
+
+      if (previousPath && previousPath !== storagePath) {
+        try {
+          await deleteObject(ref(storage, previousPath));
+        } catch (err) {
+          console.warn('Previous PDF could not be deleted from Storage', err);
+        }
+      }
 
       setIsModalOpen(false);
       await fetchResources();
     } catch (err) {
+      if (uploadedPath) {
+        try {
+          await deleteObject(ref(storage, uploadedPath));
+        } catch (cleanupError) {
+          console.warn('New PDF could not be cleaned up after save failed', cleanupError);
+        }
+      }
       console.error('Failed to save resource', err);
       alert('Failed to save resource.');
     } finally {
@@ -484,13 +500,7 @@ export default function ResourcesList() {
                       <input type="checkbox" checked={form.isPublished} onChange={e => setForm(prev => ({ ...prev, isPublished: e.target.checked }))} className="h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded mr-2" />
                       Published
                     </label>
-                    <label className="flex items-center text-sm text-gray-900">
-                      <span className="mr-2 text-gray-700">Access</span>
-                      <select value={form.accessLevel} onChange={e => setForm(prev => ({ ...prev, accessLevel: e.target.value }))} className="border border-gray-300 rounded-md py-1 px-2 text-sm">
-                        <option value="public">Public</option>
-                        <option value="member">Member</option>
-                      </select>
-                    </label>
+                    <span className="text-sm text-gray-500">Published resources are public in the Canada pilot.</span>
                   </div>
                 </div>
                 <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">

@@ -2,7 +2,12 @@
 
 const fs = require("fs");
 const { execFileSync } = require("child_process");
-const admin = require("../functions/node_modules/firebase-admin");
+const { createRequire } = require("node:module");
+const path = require("node:path");
+const functionsRequire = createRequire(path.resolve(__dirname, "../functions/package.json"));
+const { initializeApp } = functionsRequire("firebase-admin/app");
+const { getAuth } = functionsRequire("firebase-admin/auth");
+const { FieldValue, getFirestore } = functionsRequire("firebase-admin/firestore");
 
 function defaultProjectId() {
   if (!fs.existsSync("GoogleService-Info.plist")) {
@@ -33,10 +38,10 @@ if (!process.env.FIREBASE_AUTH_EMULATOR_HOST) {
   process.exit(1);
 }
 
-admin.initializeApp({ projectId });
+initializeApp({ projectId });
 
-const db = admin.firestore();
-const FieldValue = admin.firestore.FieldValue;
+const auth = getAuth();
+const db = getFirestore();
 
 const users = [
   {
@@ -229,21 +234,21 @@ const users = [
 
 async function upsertAuthUser(user) {
   try {
-    await admin.auth().deleteUser(user.uid);
+    await auth.deleteUser(user.uid);
   } catch (error) {
     if (error.code !== "auth/user-not-found") {
       throw error;
     }
   }
 
-  await admin.auth().createUser({
+  await auth.createUser({
     uid: user.uid,
     email: user.email,
     password: user.password,
     emailVerified: true
   });
 
-  await admin.auth().setCustomUserClaims(user.uid, {
+  await auth.setCustomUserClaims(user.uid, {
     role: user.profile.role,
     accessRole: user.profile.accessRole,
     orgId: user.profile.orgId,
@@ -511,6 +516,24 @@ async function seed() {
     icon: "link",
     isPublished: true,
     sortOrder: 20,
+    createdAt: FieldValue.serverTimestamp(),
+    updatedAt: FieldValue.serverTimestamp()
+  });
+
+  await db.collection("resources").doc("test-draft-resource").set({
+    id: "test-draft-resource",
+    type: "church_documents",
+    category: "church_documents",
+    title: { zh: "草稿资源", en: "Draft Resource", ko: "초안 자료" },
+    subtitle: { zh: "仅管理员预览", en: "Admin preview only", ko: "관리자 미리보기 전용" },
+    description: { zh: "未发布资源。", en: "An unpublished resource.", ko: "게시되지 않은 자료입니다." },
+    actionTitle: { zh: "打开", en: "Open", ko: "열기" },
+    url: null,
+    content: null,
+    icon: "doc.text",
+    isPublished: false,
+    accessLevel: "public",
+    sortOrder: 30,
     createdAt: FieldValue.serverTimestamp(),
     updatedAt: FieldValue.serverTimestamp()
   });

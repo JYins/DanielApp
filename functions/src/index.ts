@@ -1,9 +1,13 @@
 import * as functions from 'firebase-functions/v1';
-import * as admin from 'firebase-admin';
+import { initializeApp } from 'firebase-admin/app';
+import { getAuth } from 'firebase-admin/auth';
+import { getFirestore } from 'firebase-admin/firestore';
 import { FieldValue, Timestamp } from '@google-cloud/firestore';
 import { createHash, randomBytes } from 'crypto';
 
-admin.initializeApp();
+initializeApp();
+const firebaseAuth = getAuth();
+const firestore = getFirestore();
 
 type AccessRole = 'admin' | 'global_admin' | 'region_admin' | 'branch_admin' | 'member';
 type MembershipStatus = 'unassigned' | 'active' | 'pending' | 'requested' | 'revoked';
@@ -62,8 +66,7 @@ async function loadAdminScope(
   }
 
   const callerUid = context.auth.uid;
-  const callerDoc = await admin
-    .firestore()
+  const callerDoc = await firestore
     .collection('users')
     .doc(callerUid)
     .get();
@@ -313,7 +316,7 @@ async function loadBranch(branchId: string): Promise<{
   ref: FirebaseFirestore.DocumentReference;
   data: FirebaseFirestore.DocumentData;
 }> {
-  const ref = admin.firestore().collection('branches').doc(branchId);
+  const ref = firestore.collection('branches').doc(branchId);
   const snapshot = await ref.get();
   if (!snapshot.exists) {
     throw new functions.https.HttpsError('not-found', `Branch ${branchId} does not exist.`);
@@ -363,7 +366,7 @@ export const deleteUserAdmin = functions
       }
 
       try {
-        await admin.auth().deleteUser(uidToDelete);
+        await firebaseAuth.deleteUser(uidToDelete);
         console.log(`Deleted auth user: ${uidToDelete}`);
       } catch (authErr: any) {
         if (authErr.code !== 'auth/user-not-found') {
@@ -377,15 +380,14 @@ export const deleteUserAdmin = functions
       }
 
       try {
-        await admin.firestore().collection('users').doc(uidToDelete).delete();
+        await firestore.collection('users').doc(uidToDelete).delete();
         console.log(`Deleted Firestore doc: ${uidToDelete}`);
 
-        const memberships = await admin
-          .firestore()
+        const memberships = await firestore
           .collection('branchMemberships')
           .where('userId', '==', uidToDelete)
           .get();
-        const batch = admin.firestore().batch();
+        const batch = firestore.batch();
         memberships.docs.forEach((membershipDoc) => {
           batch.delete(membershipDoc.ref);
         });
@@ -429,7 +431,7 @@ export const setUserAccessAdmin = functions
         );
       }
 
-      const db = admin.firestore();
+      const db = firestore;
       const userRef = db.collection('users').doc(uid);
       const userDoc = await userRef.get();
       if (!userDoc.exists) {
@@ -569,7 +571,7 @@ export const setUserAccessAdmin = functions
       await batch.commit();
 
       try {
-        await admin.auth().setCustomUserClaims(uid, {
+        await firebaseAuth.setCustomUserClaims(uid, {
           accessRole,
           role,
           isApproved,
@@ -618,7 +620,7 @@ export const createBranchInvite = functions
       const branch = await loadBranch(branchId);
       assertCanManageBranch(caller, branchId, branch.data);
 
-      const db = admin.firestore();
+      const db = firestore;
       const inviteRef = db.collection('branchInvites').doc();
       const code = generateInviteCode();
       const normalizedCode = normalizeInviteCode(code);
@@ -691,8 +693,7 @@ export const listBranchInvites = functions
       const branch = await loadBranch(branchId);
       assertCanManageBranch(caller, branchId, branch.data);
 
-      const snapshot = await admin
-        .firestore()
+      const snapshot = await firestore
         .collection('branchInvites')
         .where('branchId', '==', branchId)
         .limit(100)
@@ -738,7 +739,7 @@ export const revokeBranchInvite = functions
         );
       }
 
-      const db = admin.firestore();
+      const db = firestore;
       const inviteRef = db.collection('branchInvites').doc(inviteId);
       const invite = await inviteRef.get();
       if (!invite.exists) {
@@ -794,7 +795,7 @@ export const redeemBranchInvite = functions
       }
 
       const uid = context.auth.uid;
-      const db = admin.firestore();
+      const db = firestore;
       const inviteQuery = db
         .collection('branchInvites')
         .where('tokenHash', '==', hashInviteCode(normalizedCode))
@@ -986,7 +987,7 @@ export const redeemBranchInvite = functions
       });
 
       try {
-        await admin.auth().setCustomUserClaims(uid, {
+        await firebaseAuth.setCustomUserClaims(uid, {
           accessRole: result.accessRole,
           role: result.role,
           isApproved: result.isApproved,

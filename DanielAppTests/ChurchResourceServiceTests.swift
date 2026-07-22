@@ -65,6 +65,14 @@ final class ChurchResourceServiceTests: XCTestCase {
         XCTAssertEqual(service.filteredResources(searchText: "", selectedCategory: .links, language: .english).map(\.id), ["links"])
     }
 
+    func testResourceDecoderOnlyAcceptsWebURLs() {
+        let valid = ChurchResource(id: "valid", data: Self.resourceData(url: "https://example.test/resource"))
+        let unsafe = ChurchResource(id: "unsafe", data: Self.resourceData(url: "javascript:alert(1)"))
+
+        XCTAssertEqual(valid?.primaryURL?.scheme, "https")
+        XCTAssertNil(unsafe?.primaryURL)
+    }
+
     private static func resource(id: String, type: String, title: String = "Title", subtitle: String = "Subtitle") -> ChurchResource {
         ChurchResource(
             id: id,
@@ -84,6 +92,23 @@ final class ChurchResourceServiceTests: XCTestCase {
             updatedAt: Date(),
             createdAt: Date()
         )
+    }
+
+    private static func resourceData(url: String) -> [String: Any] {
+        [
+            "id": "resource",
+            "type": "useful_links",
+            "category": "useful_links",
+            "title": ["zh": "资源", "en": "Resource", "ko": "자료"],
+            "subtitle": ["zh": "说明", "en": "Subtitle", "ko": "설명"],
+            "description": ["zh": "说明", "en": "Description", "ko": "설명"],
+            "actionTitle": ["zh": "打开", "en": "Open", "ko": "열기"],
+            "url": url,
+            "icon": "link",
+            "isPublished": true,
+            "accessLevel": "public",
+            "sortOrder": 10
+        ]
     }
 }
 

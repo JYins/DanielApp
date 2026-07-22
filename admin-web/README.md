@@ -1,73 +1,39 @@
-# React + TypeScript + Vite
+# Daniel App Admin Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The admin portal manages the Canada-pilot church data. The Resources page is intentionally global-admin-only because Resources v1 is a shared public library, not branch-specific content.
 
-Currently, two official plugins are available:
+## Local setup
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Copy `.env.example` to `.env.local` and provide all six public Firebase web-app configuration values from Firebase Console → Project settings → Your apps → Web app. These identify the Firebase project; they are not service-account credentials. Never put a service-account JSON or private key in this app. The portal stops with a clear error when any value is missing instead of silently connecting with a placeholder app ID.
 
-## React Compiler
+For the checked Firebase project, prefer generating the ignored local file from the official CLI output instead of copying values by hand:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+firebase apps:sdkconfig WEB <web-app-id> --project <project-id> --out /tmp/firebase-web-config.json
+node scripts/firebase-write-admin-env.js /tmp/firebase-web-config.json
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
+
+Use the Firebase Emulator Suite for development. The root `firebase.json` configures Auth, Firestore, Storage, and Functions emulators.
+
+## Resources workflow
+
+1. Sign in with a `global_admin` account and open `/resources`.
+2. Add a trilingual title, subtitle, action label, and description.
+3. Choose one of the five shared categories and optionally add an `https://` link or a PDF under 50 MB.
+4. Leave the item as a draft while checking it in Admin; publish it when it is ready for every app user.
+5. The iOS Resources tab queries published documents from `resources`, ordered by `sortOrder`, and falls back to its bundled seed only when Firebase is unavailable or empty.
+
+Published Resources are public during the Canada pilot, including their linked PDF files. Church-only communication belongs in branch-scoped Announcements, Newsletter, and KakaoTalk—not in Resources. Replacing or removing a PDF updates Firestore first and deletes the old Storage object only after the save succeeds, so canceling an edit cannot break a live resource.
+
+## Validation
+
+```bash
+npm run build
+```
+
+Firestore and Storage rules must be validated in the emulators before any production deploy. Production resource seeding is handled by the root `scripts/firebase-seed-production-resources.js` dry-run/confirmation workflow.

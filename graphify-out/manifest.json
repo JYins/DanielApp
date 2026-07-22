@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "DanielApp/AuthManager.swift": {
-    "mtime": 1784696858.723412,
-    "ast_hash": "aaea219eb8b4fcff207ed15223601018",
+    "mtime": 1784735948.207207,
+    "ast_hash": "ff6fa610b678f082c8a9b80c84441153",
     "semantic_hash": ""
   },
   "DanielApp/ChurchCommunicationView.swift": {
@@ -55,8 +55,8 @@
     "semantic_hash": ""
   },
   "DanielApp/DanielAppApp.swift": {
-    "mtime": 1780756055.7751117,
-    "ast_hash": "5720f895d838f8a3de1d65b548c5090f",
+    "mtime": 1784735948.85671,
+    "ast_hash": "7d43ec23eeb262f0f7e7cd9fd75b7918",
     "semantic_hash": ""
   },
   "DanielApp/FirebaseStorageService.swift": {
@@ -75,8 +75,8 @@
     "semantic_hash": ""
   },
   "DanielApp/LoginView.swift": {
-    "mtime": 1784696748.2942636,
-    "ast_hash": "e2291a29bb9099f907b030c3e507ef5e",
+    "mtime": 1784735972.012583,
+    "ast_hash": "7be7d0f35332d18960bf2b0f9467d0ec",
     "semantic_hash": ""
   },
   "DanielApp/MainTabView.swift": {
@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "admin-web/src/lib/firebase.ts": {
-    "mtime": 1773472642.5353906,
-    "ast_hash": "156e2ad2ac87c0f69617e29821f5f172",
+    "mtime": 1784736017.1241074,
+    "ast_hash": "6cff895439a89f537b6ab5425f528690",
     "semantic_hash": ""
   },
   "admin-web/src/main.tsx": {
@@ -415,23 +415,23 @@
     "semantic_hash": ""
   },
   "functions/lib/index.js": {
-    "mtime": 1784697034.6058073,
-    "ast_hash": "de0fe8fd8ec302527b641ccd38bc1e93",
+    "mtime": 1784736755.9635785,
+    "ast_hash": "115c252ab93af395ee7ff68979a71a3c",
     "semantic_hash": ""
   },
   "functions/package.json": {
-    "mtime": 1780759618.689918,
-    "ast_hash": "c7ebf436c57a126da5246c29b83d5e0e",
+    "mtime": 1784736556.5115457,
+    "ast_hash": "d4105220cca19e697075a8d227dea20c",
     "semantic_hash": ""
   },
   "functions/src/index.ts": {
-    "mtime": 1784697025.446667,
-    "ast_hash": "fe353e27372fd772029ef579c008e948",
+    "mtime": 1784736598.162327,
+    "ast_hash": "002cab7be30145e38d4d88763d11c3ec",
     "semantic_hash": ""
   },
   "functions/tsconfig.json": {
-    "mtime": 1773471160.154393,
-    "ast_hash": "1aac8a92ba5cf48adf990127672712d7",
+    "mtime": 1784736582.667938,
+    "ast_hash": "00f219c12e843988b3bfe542c4e7060b",
     "semantic_hash": ""
   },
   ".agents/skills/graphify/SKILL.md": {
@@ -490,8 +490,8 @@
     "semantic_hash": ""
   },
   "DanielApp/README.md": {
-    "mtime": 1780681425.576997,
-    "ast_hash": "474ed29678aafbc5ac1cbcb0e7f7ddb0",
+    "mtime": 1784735978.289949,
+    "ast_hash": "346a773c2240e1fa37a355189de598e9",
     "semantic_hash": ""
   },
   "FIRESTORE_RULES_SETUP.md": {
@@ -500,13 +500,13 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1784697729.0294328,
-    "ast_hash": "1590a6a6fce1076862c5fdb913715a8c",
+    "mtime": 1784738001.8582695,
+    "ast_hash": "051df279d2b0cb9034643c09ffb7d67d",
     "semantic_hash": ""
   },
   "admin-web/README.md": {
-    "mtime": 1773467999.7167513,
-    "ast_hash": "f6e3faf55d738cf2affe1b44195f27cf",
+    "mtime": 1784736513.4356203,
+    "ast_hash": "d6c472f0a75eed538b7fa0d97b03ec16",
     "semantic_hash": ""
   },
   "admin-web/index.html": {
@@ -520,8 +520,8 @@
     "semantic_hash": ""
   },
   "implementation.md": {
-    "mtime": 1784697945.9864933,
-    "ast_hash": "8b8d71f3a0fc3abfead93b56578457ed",
+    "mtime": 1784738001.6943963,
+    "ast_hash": "d1ca8a144662d2830f4e9eef551b0745",
     "semantic_hash": ""
   },
   "DanielApp/Assets.xcassets/AppIcon.appiconset/ChatGPT Image Mar 29 2025 (2)_\u526f\u672c 1.png": {
@@ -710,18 +710,18 @@
     "semantic_hash": ""
   },
   "DanielApp/ChurchResourceService.swift": {
-    "mtime": 1780857924.915354,
-    "ast_hash": "948783e47e50a043eb69788d4fd3c419",
+    "mtime": 1784735938.9095345,
+    "ast_hash": "58c78c06dda65deaab543a962af26ce3",
     "semantic_hash": ""
   },
   "DanielAppTests/ChurchResourceServiceTests.swift": {
-    "mtime": 1780699526.6152222,
-    "ast_hash": "2cd5e770a5ab0983aee82e037dd10e12",
+    "mtime": 1784735939.0549078,
+    "ast_hash": "02dab5502ef8e232b1f065420228a5fa",
     "semantic_hash": ""
   },
   "DanielAppTests/FirebaseEmulatorIntegrationTests.swift": {
-    "mtime": 1784696519.584347,
-    "ast_hash": "cf2f25f86812f38e8c2ab8a55d7efe92",
+    "mtime": 1784736098.4618232,
+    "ast_hash": "227917cba563cc9be682b398f4786f72",
     "semantic_hash": ""
   },
   "DanielAppTests/NewsletterViewModelTests.swift": {
@@ -745,8 +745,8 @@
     "semantic_hash": ""
   },
   "scripts/firebase-seed-test-data.js": {
-    "mtime": 1784696929.3088765,
-    "ast_hash": "ee8deae05a3cc4ccf27f2bdbeb7e448c",
+    "mtime": 1784736803.9663193,
+    "ast_hash": "c66a2000bc006a36b84e4c1b5bbbaa94",
     "semantic_hash": ""
   },
   "scripts/run-ios-tests.sh": {
@@ -765,8 +765,8 @@
     "semantic_hash": ""
   },
   "scripts/firebase-test-callable-admin.js": {
-    "mtime": 1780785524.7118757,
-    "ast_hash": "cc34f1b69eed9074dba2cf5b4d5506ac",
+    "mtime": 1784736804.133374,
+    "ast_hash": "865a84eee5c9700a156d558beed873d1",
     "semantic_hash": ""
   },
   "DanielApp/RegistrationBranchService.swift": {
@@ -820,8 +820,8 @@
     "semantic_hash": ""
   },
   "admin-web/src/pages/ResourcesList.tsx": {
-    "mtime": 1780858061.572936,
-    "ast_hash": "fbe5ca71da7d5eaad3b61812a7d5874d",
+    "mtime": 1784735961.6336071,
+    "ast_hash": "cea9180651c668a5a5867eff24a41194",
     "semantic_hash": ""
   },
   "DanielApp/ChurchInviteService.swift": {
@@ -840,13 +840,23 @@
     "semantic_hash": ""
   },
   "scripts/firebase-test-branch-invites.js": {
-    "mtime": 1784696989.8646038,
-    "ast_hash": "d067dfe6d40c0138941de572f17660b6",
+    "mtime": 1784736804.2982607,
+    "ast_hash": "e0fa4b8a18a0d9761c951a0bdbc67d00",
     "semantic_hash": ""
   },
   "DanielAppTests/ChurchInviteViewModelTests.swift": {
     "mtime": 1784697850.5804074,
     "ast_hash": "7d7e92bc063335cb5a3324c54b6ecdac",
+    "semantic_hash": ""
+  },
+  "scripts/firebase-write-admin-env.js": {
+    "mtime": 1784736513.281518,
+    "ast_hash": "c895bfe614ee7043e065d73da6c384e6",
+    "semantic_hash": ""
+  },
+  "scripts/firebase-test-storage-rules.js": {
+    "mtime": 1784736931.3615556,
+    "ast_hash": "6876a7f2fe40a997f84113f0bbbede41",
     "semantic_hash": ""
   }
 }

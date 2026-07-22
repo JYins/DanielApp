@@ -95,6 +95,11 @@ final class FirebaseEmulatorIntegrationTests: XCTestCase {
         let publicSnapshot = try await getDocument(publicResource)
         XCTAssertTrue(publicSnapshot.exists)
 
+        let draftResource = db.collection("resources").document("test-draft-resource")
+        await XCTAssertThrowsAsync {
+            _ = try await getDocument(draftResource)
+        }
+
         let newsletter = db.collection("newsletters").document("test-weekly-newsletter")
         await XCTAssertThrowsAsync {
             _ = try await getDocument(newsletter)

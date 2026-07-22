@@ -10,7 +10,7 @@ This target is the SwiftUI iOS app for Daniel & Friends. The current product she
 - `MainTabView.swift`: four-tab shell and app-level tab synchronization.
 - `VerseOfTheDayView.swift`: daily verse home, local read/favorite/share actions, manual/automatic verse settings entry.
 - `ChurchCommunicationView.swift`: Connect page. Uses `NewsletterViewModel` for announcements/newsletters and keeps messages as a prepared future surface.
-- `ChurchResourcesView.swift`: first-phase local seed resource library for hymnbook, church documents, useful links, Bible study, and Bible seminar.
+- `ChurchResourcesView.swift`: Firebase-backed public resource library for hymnbook, church documents, useful links, Bible study, and Bible seminar, with a bundled offline/empty-project fallback.
 - `SettingsView.swift`: full-page settings for language, update mode, notifications, account, support, and app metadata.
 
 ## Services And Data

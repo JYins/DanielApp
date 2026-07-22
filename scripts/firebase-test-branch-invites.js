@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 
-const admin = require("../functions/node_modules/firebase-admin");
+const { createRequire } = require("node:module");
+const path = require("node:path");
+const functionsRequire = createRequire(path.resolve(__dirname, "../functions/package.json"));
+const { initializeApp } = functionsRequire("firebase-admin/app");
+const { getAuth } = functionsRequire("firebase-admin/auth");
+const { FieldValue, getFirestore } = functionsRequire("firebase-admin/firestore");
 
 const projectId = process.env.GCLOUD_PROJECT || "demo-daniel-canada";
 const functionHost = process.env.FUNCTIONS_EMULATOR_HOST || "127.0.0.1:5001";
@@ -12,9 +17,9 @@ if (!authHost || !firestoreHost) {
   process.exit(1);
 }
 
-admin.initializeApp({ projectId });
-const db = admin.firestore();
-const FieldValue = admin.firestore.FieldValue;
+initializeApp({ projectId });
+const auth = getAuth();
+const db = getFirestore();
 
 async function signIn(email, password = "password123") {
   const response = await fetch(
@@ -73,19 +78,19 @@ async function createUnassignedUser(suffix, emailVerified = true) {
   const uid = `test-invite-${suffix}`;
   const email = `${uid}@example.test`;
   try {
-    await admin.auth().deleteUser(uid);
+    await auth.deleteUser(uid);
   } catch (error) {
     if (error.code !== "auth/user-not-found") {
       throw error;
     }
   }
-  await admin.auth().createUser({
+  await auth.createUser({
     uid,
     email,
     password: "password123",
     emailVerified
   });
-  await admin.auth().setCustomUserClaims(uid, {
+  await auth.setCustomUserClaims(uid, {
     role: "member",
     accessRole: "member",
     membershipStatus: "unassigned",

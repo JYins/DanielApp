@@ -143,28 +143,30 @@ extension ChurchResource {
         description = LocalizedResourceText(dictionary: data["description"] as? [String: Any] ?? [:])
         actionTitle = LocalizedResourceText(dictionary: data["actionTitle"] as? [String: Any] ?? [:])
 
-        if let urlString = data["url"] as? String, !urlString.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            url = URL(string: urlString)
-        } else {
-            url = nil
-        }
+        url = Self.safeRemoteURL(from: data["url"] as? String)
 
         content = data["content"] as? String
         storagePath = data["storagePath"] as? String
         fileName = data["fileName"] as? String
         fileSize = data["fileSize"] as? Int ?? 0
         fileType = data["fileType"] as? String
-        if let downloadURLString = data["downloadURL"] as? String, !downloadURLString.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            downloadURL = URL(string: downloadURLString)
-        } else {
-            downloadURL = nil
-        }
+        downloadURL = Self.safeRemoteURL(from: data["downloadURL"] as? String)
         icon = data["icon"] as? String ?? "doc.text"
         isPublished = data["isPublished"] as? Bool ?? false
         accessLevel = data["accessLevel"] as? String ?? "public"
         sortOrder = data["sortOrder"] as? Int ?? 999
         updatedAt = (data["updatedAt"] as? Timestamp)?.dateValue() ?? Date.distantPast
         createdAt = (data["createdAt"] as? Timestamp)?.dateValue() ?? Date.distantPast
+    }
+
+    private static func safeRemoteURL(from value: String?) -> URL? {
+        guard let value,
+              let url = URL(string: value.trimmingCharacters(in: .whitespacesAndNewlines)),
+              let scheme = url.scheme?.lowercased(),
+              scheme == "https" || scheme == "http" else {
+            return nil
+        }
+        return url
     }
 }
 

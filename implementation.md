@@ -651,4 +651,53 @@ Validation:
 Release boundary:
 
 - Production setup remains a separate explicitly approved deployment step after review. It must use dry-run branch initialization first, then create the four Canadian branches, scoped branch admins, canonical KakaoTalk configuration, and one token per branch before TestFlight distribution.
-- Google Sign-In remains configuration-blocked because the current iOS Firebase plist does not expose the required Google client identifiers. Apple Sign-In requires the production Apple Developer capability before device/archive validation.
+- Google Sign-In was configuration-blocked at the end of this Canada-pilot slice; the production-readiness follow-up below records its later provider, plist, SDK, and callback configuration. Apple Sign-In still requires production signed-device/archive validation.
+
+### Production Google Sign-In Readiness: 2026-07-22
+
+- Added the official `GoogleSignIn` Swift package and compiled against resolved version 9.2.0.
+- Replaced the Google placeholder action with the real Google SDK flow, Firebase credential exchange, cancellation handling, and Chinese/English/Korean configuration errors.
+- New Google users reuse the existing external-provider profile completion and church-token approval path; signing out now clears both Firebase and Google SDK state.
+- Added app URL handling through `GIDSignIn.sharedInstance.handle` without removing the existing Daniel verse/widget deep links.
+- Moved the app to an explicit `DanielApp/Info.plist` so the `danielapp` deep-link scheme and the Google reversed-client callback scheme coexist predictably. The source Info plist is excluded from Copy Bundle Resources and processed once by Xcode.
+- Corrected the app font declarations to the two font files that actually exist in the target.
+- Confirmed the ignored local Firebase plist now contains `CLIENT_ID` and `REVERSED_CLIENT_ID`, without printing or committing the real plist.
+- Passed plist validation and a complete unsigned iOS Simulator build. Verified in the built app bundle that the Google callback scheme matches the local Firebase config and that the `danielapp` scheme is preserved.
+- Remaining runtime validation: complete one interactive Google account sign-in on a signed simulator/device, then confirm both an existing-profile login and a first-time profile-completion path. This cannot be proven by compile-time validation alone.
+
+### Production Pilot Deployment And TestFlight Upload: 2026-07-22
+
+Completed production configuration:
+
+- Enabled the Google provider in Firebase Authentication and downloaded a fresh ignored `GoogleService-Info.plist` containing the real iOS client identifiers. No real plist, service-account JSON, private key, or Admin SDK credential is tracked.
+- Registered the Firebase Web app `Daniel Admin` and generated the ignored `admin-web/.env.local` from official Firebase CLI output. Removed the previously tracked `admin-web/.env` from Git and replaced it with a safe `.env.example` contract.
+- Upgraded Functions to Node.js 22, `firebase-functions` 7.3.0, and `firebase-admin` 14.2.0, and converted Admin SDK initialization to the modular APIs.
+- Deployed Functions, Firestore Rules, Firestore indexes, Storage Rules, and Admin Hosting to `daniel1-ca1e7` after the complete emulator suite and a production dry run passed.
+- Verified all seven callable Functions are deployed on Node.js 22 and the Admin portal responds at `https://daniel1-ca1e7.web.app`.
+- Archived and uploaded iOS `1.0.2 (3)` to App Store Connect. Xcode reported `Upload succeeded` and the package entered processing. Third-party Firebase/Google binary dSYM warnings remain, but did not block the upload.
+
+Resources simplification:
+
+- Resources v1 is one shared, public, published library managed only by `global_admin`; it is not duplicated per church and has no unused member-access selector.
+- Published Firestore resource documents and their PDFs are publicly readable. Drafts remain denied. Resource create/update/delete and PDF upload/delete remain global-admin-only.
+- URLs are limited to `http`/`https`, PDFs are limited to under 50 MiB, and PDF replacement/removal is ordered so a canceled or failed edit cannot break the currently published file.
+- The production project already contains five resource documents, so no duplicate seed write was performed.
+
+Validation completed before production deployment:
+
+- Functions production build passed after the Node.js 22 dependency upgrade.
+- Admin production build passed; Vite's approximately 770 kB main-bundle advisory remains a non-blocking P2 route-splitting opportunity.
+- Auth, Firestore, Functions, and Storage Emulator tests passed, including invite hashing/rotation/revocation/exhaustion/concurrent-final-use, scoped-admin denial, cross-branch isolation, public published-resource reads, draft denial, PDF type/size limits, and global-admin-only uploads.
+- Final signed-independent iOS Simulator XCTest run completed with `** TEST SUCCEEDED **`, including the added Resources URL and draft-access cases.
+- Release archive `1.0.2 (3)` completed with `** ARCHIVE SUCCEEDED **`; App Store Connect upload completed with `** EXPORT SUCCEEDED **`.
+
+Production boundary still requiring church-supplied data:
+
+- Four Canadian branches were not invented or written. The repository does not contain the four exact church names, cities, stable branch IDs, branch-admin emails, or KakaoTalk URLs.
+- The legacy `scripts/firebase-seed-branch-system.js` dry run targets two old/non-pilot branches and would patch five existing users, so it was deliberately not confirmed for the Canada pilot.
+- Once an explicit four-row pilot manifest is supplied and reviewed, run a new manifest-scoped dry run, create only those branches/admin assignments/KakaoTalk records/tokens, and then invite the four church tester groups in TestFlight.
+
+Design evidence boundary:
+
+- The Resources implementation continues the already retrieved Figma frame `74:726` and the repository's established cream-card/orange-accent design system.
+- A fresh Figma MCP context request was blocked by the Figma Starter plan call limit. No screen changed in this slice is claimed as newly pixel-verified.

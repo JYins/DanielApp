@@ -369,6 +369,15 @@ This project taught me more than just iOS development:
 - The Xcode project links Firebase Auth, Firestore, Storage, and Analytics through Swift Package Manager.
 - Do not commit real Firebase secrets or seed scripts pointed at production.
 
+### Google Sign-In Setup
+
+1. Enable Google under Firebase Authentication > Sign-in method.
+2. Download the refreshed iOS `GoogleService-Info.plist`; it must include both `CLIENT_ID` and `REVERSED_CLIENT_ID` and stay ignored by Git.
+3. Keep the Google callback URL scheme in `DanielApp/Info.plist` synchronized with that plist's `REVERSED_CLIENT_ID`. The separate `danielapp` scheme must remain for widget and verse deep links.
+4. Resolve Swift packages and build. The app uses the official `GoogleSignIn` package, exchanges the Google ID/access tokens for a Firebase credential, and routes first-time provider users into the same minimal profile and church-token onboarding as Apple users.
+
+The OAuth client ID and reversed URL scheme are public application identifiers, not client secrets. Never add an OAuth client secret, service-account key, or private key to the iOS app or repository.
+
 ### Firebase Emulator And Tests
 
 Run Firebase work against the local emulator by default:
@@ -404,6 +413,14 @@ To validate the Canada pilot invite-token and branch-isolation boundary without 
 ```bash
 firebase emulators:exec --only firestore,auth,functions \
   "FIRESTORE_EMULATOR_HOST=127.0.0.1:8080 FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099 FUNCTIONS_EMULATOR_HOST=127.0.0.1:5001 GCLOUD_PROJECT=demo-daniel-canada node scripts/firebase-seed-test-data.js && FIRESTORE_EMULATOR_HOST=127.0.0.1:8080 FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099 FUNCTIONS_EMULATOR_HOST=127.0.0.1:5001 GCLOUD_PROJECT=demo-daniel-canada node scripts/firebase-test-callable-admin.js && FIRESTORE_EMULATOR_HOST=127.0.0.1:8080 FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099 FUNCTIONS_EMULATOR_HOST=127.0.0.1:5001 GCLOUD_PROJECT=demo-daniel-canada node scripts/firebase-test-branch-invites.js" \
+  --project demo-daniel-canada
+```
+
+To validate Storage Rules for public published PDFs and global-admin-only resource uploads:
+
+```bash
+firebase emulators:exec --only firestore,auth,storage \
+  "FIRESTORE_EMULATOR_HOST=127.0.0.1:8080 FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099 FIREBASE_STORAGE_EMULATOR_HOST=127.0.0.1:9199 GCLOUD_PROJECT=demo-daniel-canada node scripts/firebase-seed-test-data.js && FIRESTORE_EMULATOR_HOST=127.0.0.1:8080 FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099 FIREBASE_STORAGE_EMULATOR_HOST=127.0.0.1:9199 GCLOUD_PROJECT=demo-daniel-canada node scripts/firebase-test-storage-rules.js" \
   --project demo-daniel-canada
 ```
 

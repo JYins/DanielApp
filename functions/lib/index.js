@@ -1,11 +1,48 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.redeemBranchInvite = exports.revokeBranchInvite = exports.listBranchInvites = exports.createBranchInvite = exports.setUserAccessAdmin = exports.deleteUserAdmin = exports.ping = void 0;
-const functions = require("firebase-functions/v1");
-const admin = require("firebase-admin");
-const firestore_1 = require("@google-cloud/firestore");
+const functions = __importStar(require("firebase-functions/v1"));
+const app_1 = require("firebase-admin/app");
+const auth_1 = require("firebase-admin/auth");
+const firestore_1 = require("firebase-admin/firestore");
+const firestore_2 = require("@google-cloud/firestore");
 const crypto_1 = require("crypto");
-admin.initializeApp();
+(0, app_1.initializeApp)();
+const firebaseAuth = (0, auth_1.getAuth)();
+const firestore = (0, firestore_1.getFirestore)();
 const accessRoles = [
     'admin',
     'global_admin',
@@ -36,8 +73,7 @@ async function loadAdminScope(context) {
         throw new functions.https.HttpsError('unauthenticated', 'You must be logged in to perform this action.');
     }
     const callerUid = context.auth.uid;
-    const callerDoc = await admin
-        .firestore()
+    const callerDoc = await firestore
         .collection('users')
         .doc(callerUid)
         .get();
@@ -178,7 +214,7 @@ function hashInviteCode(normalizedCode) {
     return (0, crypto_1.createHash)('sha256').update(normalizedCode, 'utf8').digest('hex');
 }
 async function loadBranch(branchId) {
-    const ref = admin.firestore().collection('branches').doc(branchId);
+    const ref = firestore.collection('branches').doc(branchId);
     const snapshot = await ref.get();
     if (!snapshot.exists) {
         throw new functions.https.HttpsError('not-found', `Branch ${branchId} does not exist.`);
@@ -207,7 +243,7 @@ exports.deleteUserAdmin = functions
         throw new functions.https.HttpsError('invalid-argument', 'You cannot delete your own admin account through this method.');
     }
     try {
-        await admin.auth().deleteUser(uidToDelete);
+        await firebaseAuth.deleteUser(uidToDelete);
         console.log(`Deleted auth user: ${uidToDelete}`);
     }
     catch (authErr) {
@@ -218,14 +254,13 @@ exports.deleteUserAdmin = functions
         console.log(`Auth user ${uidToDelete} already gone, continuing.`);
     }
     try {
-        await admin.firestore().collection('users').doc(uidToDelete).delete();
+        await firestore.collection('users').doc(uidToDelete).delete();
         console.log(`Deleted Firestore doc: ${uidToDelete}`);
-        const memberships = await admin
-            .firestore()
+        const memberships = await firestore
             .collection('branchMemberships')
             .where('userId', '==', uidToDelete)
             .get();
-        const batch = admin.firestore().batch();
+        const batch = firestore.batch();
         memberships.docs.forEach((membershipDoc) => {
             batch.delete(membershipDoc.ref);
         });
@@ -249,7 +284,7 @@ exports.setUserAccessAdmin = functions
     if (!uid) {
         throw new functions.https.HttpsError('invalid-argument', 'A valid user UID must be provided.');
     }
-    const db = admin.firestore();
+    const db = firestore;
     const userRef = db.collection('users').doc(uid);
     const userDoc = await userRef.get();
     if (!userDoc.exists) {
@@ -287,7 +322,7 @@ exports.setUserAccessAdmin = functions
         branchData,
         accessRole,
     });
-    const now = firestore_1.FieldValue.serverTimestamp();
+    const now = firestore_2.FieldValue.serverTimestamp();
     const branchName = branchData
         ? localizedText(branchData.name, branchId)
         : localizedText(userData.branchName, branchId);
@@ -347,7 +382,7 @@ exports.setUserAccessAdmin = functions
     }
     await batch.commit();
     try {
-        await admin.auth().setCustomUserClaims(uid, {
+        await firebaseAuth.setCustomUserClaims(uid, {
             accessRole,
             role,
             isApproved,
@@ -385,19 +420,19 @@ exports.createBranchInvite = functions
     }
     const branch = await loadBranch(branchId);
     assertCanManageBranch(caller, branchId, branch.data);
-    const db = admin.firestore();
+    const db = firestore;
     const inviteRef = db.collection('branchInvites').doc();
     const code = generateInviteCode();
     const normalizedCode = normalizeInviteCode(code);
     const tokenHash = hashInviteCode(normalizedCode);
-    const expiresAt = firestore_1.Timestamp.fromMillis(Date.now() + defaultInviteDurationDays * 24 * 60 * 60 * 1000);
+    const expiresAt = firestore_2.Timestamp.fromMillis(Date.now() + defaultInviteDurationDays * 24 * 60 * 60 * 1000);
     const activeInvitesQuery = db
         .collection('branchInvites')
         .where('branchId', '==', branchId)
         .where('status', '==', 'active');
     await db.runTransaction(async (transaction) => {
         const activeInvites = await transaction.get(activeInvitesQuery);
-        const now = firestore_1.FieldValue.serverTimestamp();
+        const now = firestore_2.FieldValue.serverTimestamp();
         activeInvites.docs.forEach((activeInvite) => {
             transaction.update(activeInvite.ref, {
                 status: 'revoked',
@@ -443,8 +478,7 @@ exports.listBranchInvites = functions
     }
     const branch = await loadBranch(branchId);
     assertCanManageBranch(caller, branchId, branch.data);
-    const snapshot = await admin
-        .firestore()
+    const snapshot = await firestore
         .collection('branchInvites')
         .where('branchId', '==', branchId)
         .limit(100)
@@ -479,7 +513,7 @@ exports.revokeBranchInvite = functions
     if (!inviteId) {
         throw new functions.https.HttpsError('invalid-argument', 'A valid invite ID must be provided.');
     }
-    const db = admin.firestore();
+    const db = firestore;
     const inviteRef = db.collection('branchInvites').doc(inviteId);
     const invite = await inviteRef.get();
     if (!invite.exists) {
@@ -492,10 +526,10 @@ exports.revokeBranchInvite = functions
     if (inviteData.status !== 'revoked') {
         await inviteRef.update({
             status: 'revoked',
-            revokedAt: firestore_1.FieldValue.serverTimestamp(),
+            revokedAt: firestore_2.FieldValue.serverTimestamp(),
             revokedBy: caller.uid,
             revokeReason: 'manual',
-            updatedAt: firestore_1.FieldValue.serverTimestamp(),
+            updatedAt: firestore_2.FieldValue.serverTimestamp(),
         });
     }
     return { success: true, inviteId, branchId, status: 'revoked' };
@@ -514,7 +548,7 @@ exports.redeemBranchInvite = functions
         throw new functions.https.HttpsError('invalid-argument', 'Enter a valid 16-character church invite code.', { reason: 'invalid-code' });
     }
     const uid = context.auth.uid;
-    const db = admin.firestore();
+    const db = firestore;
     const inviteQuery = db
         .collection('branchInvites')
         .where('tokenHash', '==', hashInviteCode(normalizedCode))
@@ -588,14 +622,14 @@ exports.redeemBranchInvite = functions
             ['active', 'pending', 'requested'].includes(currentStatus)) {
             throw new functions.https.HttpsError('failed-precondition', 'Leave or resolve your current church membership before joining another church.', { reason: 'existing-membership' });
         }
-        const now = firestore_1.FieldValue.serverTimestamp();
+        const now = firestore_2.FieldValue.serverTimestamp();
         const orgId = String(branch.orgId || invite.orgId || 'daniel-branch-church');
         const regionId = String(branch.regionId || invite.regionId || '');
         const regionName = localizedText(branch.regionName, regionId);
         const country = String(branch.country || '');
         const newMembershipId = membershipId(branchId, uid);
         transaction.update(inviteRef, {
-            useCount: firestore_1.FieldValue.increment(1),
+            useCount: firestore_2.FieldValue.increment(1),
             lastRedeemedAt: now,
             updatedAt: now,
         });
@@ -651,7 +685,7 @@ exports.redeemBranchInvite = functions
         };
     });
     try {
-        await admin.auth().setCustomUserClaims(uid, {
+        await firebaseAuth.setCustomUserClaims(uid, {
             accessRole: result.accessRole,
             role: result.role,
             isApproved: result.isApproved,

@@ -2,6 +2,7 @@ import Foundation
 import FirebaseAuth
 import FirebaseFirestore
 import Combine
+import GoogleSignIn
 
 // 认证管理器
 class AuthManager: ObservableObject {
@@ -202,6 +203,35 @@ class AuthManager: ObservableObject {
             }
         }
     }
+
+    func signInWithGoogle(idToken: String, accessToken: String) {
+        isLoading = true
+        errorMessage = nil
+
+        let credential = GoogleAuthProvider.credential(
+            withIDToken: idToken,
+            accessToken: accessToken
+        )
+
+        auth.signIn(with: credential) { [weak self] result, error in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                if let error {
+                    self.errorMessage = self.getLocalizedErrorMessage(error)
+                    self.isLoading = false
+                    return
+                }
+
+                guard let user = result?.user else {
+                    self.errorMessage = "Google 登录失败：无法读取 Firebase 用户"
+                    self.isLoading = false
+                    return
+                }
+
+                self.loadUserProfile(for: user.uid)
+            }
+        }
+    }
     
     // 检查并处理密码重置情况
     private func checkAndHandlePasswordReset(userId: String, email: String) {
@@ -252,6 +282,7 @@ class AuthManager: ObservableObject {
     // 用户注销
     func signOut() {
         do {
+            GIDSignIn.sharedInstance.signOut()
             try auth.signOut()
             authState = .signedOut
             currentUser = nil

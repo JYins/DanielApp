@@ -16,6 +16,7 @@
 		449D3FC72D99FE1A00CB1993 /* daniel wedgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 449D3FB12D99FE1800CB1993 /* daniel wedgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		44A949E82E14428B00BEC5D9 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 44A949E72E14428A00BEC5D9 /* FirebaseAuth */; };
 		44CA00022F10000100000002 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 44CA00012F10000100000001 /* FirebaseFunctions */; };
+		44DA00022F20000100000002 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 44DA00012F20000100000001 /* GoogleSignIn */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		44DA00042F20000100000004 /* Exceptions for "DanielApp" folder in "DanielApp" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 441492BF2D98935200C3DCF4 /* DanielApp */;
+		};
 		449D3FCB2D99FE1A00CB1993 /* Exceptions for "daniel wedget" folder in "daniel wedgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -91,6 +99,7 @@
 		441492C22D98935200C3DCF4 /* DanielApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				44DA00042F20000100000004 /* Exceptions for "DanielApp" folder in "DanielApp" target */,
 				449DB1882D9C6C16007A9872 /* Exceptions for "DanielApp" folder in "daniel wedgetExtension" target */,
 			);
 			path = DanielApp;
@@ -121,6 +130,7 @@
 				446D831E2DAB271C0041449F /* FirebaseStorage in Frameworks */,
 				44A949E82E14428B00BEC5D9 /* FirebaseAuth in Frameworks */,
 				44CA00022F10000100000002 /* FirebaseFunctions in Frameworks */,
+				44DA00022F20000100000002 /* GoogleSignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,6 +220,7 @@
 				446D831D2DAB271C0041449F /* FirebaseStorage */,
 				44A949E72E14428A00BEC5D9 /* FirebaseAuth */,
 				44CA00012F10000100000001 /* FirebaseFunctions */,
+				44DA00012F20000100000001 /* GoogleSignIn */,
 			);
 			productName = DanielApp;
 			productReference = 441492C02D98935200C3DCF4 /* DanielApp.app */;
@@ -317,6 +328,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				446D83182DAB271C0041449F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				44DA00002F20000100000000 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 441492C12D98935200C3DCF4 /* Products */;
@@ -542,11 +554,12 @@
 				CODE_SIGN_ENTITLEMENTS = DanielApp/DanielApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"DanielApp/Preview Content\"";
 				DEVELOPMENT_TEAM = JXDNPZ7522;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = DanielApp/Info.plist;
 				INFOPLIST_KEY_UIAppFonts = "fonts/SimSun Font.ttf,fonts/NanumMyeongjo-Regular.ttf";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -575,11 +588,12 @@
 				CODE_SIGN_ENTITLEMENTS = DanielApp/DanielApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"DanielApp/Preview Content\"";
 				DEVELOPMENT_TEAM = JXDNPZ7522;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = DanielApp/Info.plist;
 				INFOPLIST_KEY_UIAppFonts = "fonts/SimSun Font.ttf,fonts/NanumMyeongjo-Regular.ttf";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -605,7 +619,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				MARKETING_VERSION = 1.0;
@@ -623,7 +637,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				MARKETING_VERSION = 1.0;
@@ -640,7 +654,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.daniel.DanielAppUITests;
@@ -656,7 +670,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.daniel.DanielAppUITests;
@@ -675,7 +689,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = "daniel wedgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = JXDNPZ7522;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "daniel wedget/Info.plist";
@@ -703,7 +717,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = "daniel wedgetExtension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = JXDNPZ7522;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "daniel wedget/Info.plist";
@@ -783,6 +797,14 @@
 				minimumVersion = 11.11.0;
 			};
 		};
+		44DA00002F20000100000000 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -810,6 +832,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 446D83182DAB271C0041449F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFunctions;
+		};
+		44DA00012F20000100000001 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 44DA00002F20000100000000 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

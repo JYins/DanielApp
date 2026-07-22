@@ -11,6 +11,7 @@ import Firebase
 import FirebaseAuth
 import FirebaseFirestore
 import UserNotifications
+import GoogleSignIn
 
 @main
 struct DanielAppApp: App {
@@ -79,6 +80,10 @@ struct DanielAppApp: App {
                 .preferredColorScheme(appState.preferredColorScheme)
                 .dynamicTypeSize(appState.dynamicTypeSize)
                 .onOpenURL { url in
+                    if GIDSignIn.sharedInstance.handle(url) {
+                        return
+                    }
+
                     // 处理深层链接
                     if url.isVerseDeepLink {
                         appState.handleWidgetURL(url)

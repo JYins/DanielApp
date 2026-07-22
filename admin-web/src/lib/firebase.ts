@@ -4,14 +4,25 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { getFunctions } from "firebase/functions";
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
+const requiredEnv = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: "daniel1-ca1e7",
-  storageBucket: "daniel1-ca1e7.firebasestorage.app",
-  messagingSenderId: "417193340084",
-  appId: "1:417193340084:web:0" // This usually diffs from ios app id
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
+};
+
+const missingKeys = Object.entries(requiredEnv)
+  .filter(([, value]) => !value)
+  .map(([key]) => key);
+
+if (missingKeys.length > 0) {
+  throw new Error(`Missing Firebase web configuration: ${missingKeys.join(', ')}`);
+}
+
+const firebaseConfig = {
+  ...requiredEnv
 };
 
 // Initialize Firebase

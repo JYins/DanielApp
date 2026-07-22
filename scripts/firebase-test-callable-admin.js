@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 
-const admin = require("../functions/node_modules/firebase-admin");
+const { createRequire } = require("node:module");
+const path = require("node:path");
+const functionsRequire = createRequire(path.resolve(__dirname, "../functions/package.json"));
+const { initializeApp } = functionsRequire("firebase-admin/app");
+const { getFirestore } = functionsRequire("firebase-admin/firestore");
 
 const projectId = process.env.GCLOUD_PROJECT || "daniel1-ca1e7";
 const functionHost = process.env.FUNCTIONS_EMULATOR_HOST || "127.0.0.1:5001";
@@ -17,8 +21,8 @@ if (!firestoreHost) {
   process.exit(1);
 }
 
-admin.initializeApp({ projectId });
-const db = admin.firestore();
+initializeApp({ projectId });
+const db = getFirestore();
 
 async function signIn(email, password) {
   const response = await fetch(

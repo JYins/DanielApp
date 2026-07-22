@@ -2,6 +2,9 @@ import SwiftUI
 import AuthenticationServices
 import CryptoKit
 import Security
+import FirebaseCore
+import GoogleSignIn
+import UIKit
 
 struct LoginView: View {
     @EnvironmentObject private var appState: AppState
@@ -13,7 +16,6 @@ struct LoginView: View {
     @State private var isShowingPassword = false
     @State private var showingRegistration = false
     @State private var showingForgotPassword = false
-    @State private var showingSocialSignInNotice = false
     @State private var appleCoordinator: AppleSignInCoordinator?
     @AppStorage("auth.rememberEmail") private var rememberEmail = false
     @AppStorage("auth.rememberedEmail") private var rememberedEmail = ""
@@ -47,11 +49,6 @@ struct LoginView: View {
         .sheet(isPresented: $showingForgotPassword) {
             ForgotPasswordView()
                 .environmentObject(appState)
-        }
-        .alert(socialNoticeTitle, isPresented: $showingSocialSignInNotice) {
-            Button(commonOK, role: .cancel) {}
-        } message: {
-            Text(socialNoticeMessage)
         }
         .onAppear {
             authManager.clearError()
@@ -145,7 +142,7 @@ struct LoginView: View {
 
             HStack(spacing: 12) {
                 AuthProviderButton(title: "Google", systemImage: "g.circle.fill") {
-                    showingSocialSignInNotice = true
+                    startGoogleSignIn()
                 }
                 AuthProviderButton(title: "Apple", systemImage: "apple.logo") {
                     startAppleSignIn()
@@ -181,6 +178,47 @@ struct LoginView: View {
         coordinator.start()
     }
 
+    private func startGoogleSignIn() {
+        guard let clientID = FirebaseApp.app()?.options.clientID,
+              !clientID.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            authManager.errorMessage = copy.googleConfigurationMissing
+            return
+        }
+
+        guard let presenter = UIApplication.shared.googleSignInPresenter else {
+            authManager.errorMessage = copy.googlePresenterUnavailable
+            return
+        }
+
+        authManager.isLoading = true
+        authManager.errorMessage = nil
+        GIDSignIn.sharedInstance.configuration = GIDConfiguration(clientID: clientID)
+        GIDSignIn.sharedInstance.signIn(withPresenting: presenter) { result, error in
+            if let error {
+                authManager.isLoading = false
+                let nsError = error as NSError
+                if nsError.domain == kGIDSignInErrorDomain,
+                   nsError.code == GIDSignInError.canceled.rawValue {
+                    return
+                }
+                authManager.errorMessage = copy.googleSignInFailed(error.localizedDescription)
+                return
+            }
+
+            guard let user = result?.user,
+                  let idToken = user.idToken?.tokenString else {
+                authManager.isLoading = false
+                authManager.errorMessage = copy.googleCredentialMissing
+                return
+            }
+
+            authManager.signInWithGoogle(
+                idToken: idToken,
+                accessToken: user.accessToken.tokenString
+            )
+        }
+    }
+
     private func pendingMessage(for profile: UserProfile) -> String {
         let status = (profile.membershipStatus ?? "pending").lowercased()
         if status == "unassigned" || profile.branchId?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty != false {
@@ -191,28 +229,18 @@ struct LoginView: View {
 
     private var copy: AuthCopy { AuthCopy(language: appState.selectedLanguage) }
 
-    private var socialNoticeTitle: String {
-        switch appState.selectedLanguage {
-        case .chinese: return "第三方登录尚未连接"
-        case .english: return "Social sign-in is not connected yet"
-        case .korean: return "소셜 로그인이 아직 연결되지 않았습니다"
-        }
-    }
+}
 
-    private var socialNoticeMessage: String {
-        switch appState.selectedLanguage {
-        case .chinese: return "Google 与 Apple 的视觉入口已按 Figma 实现；Firebase Provider 会在下一阶段接入。现在请使用邮箱和密码登录。"
-        case .english: return "The Google and Apple entry points now match Figma. Firebase providers will be connected in the next implementation phase. Please use email and password for now."
-        case .korean: return "Google 및 Apple 화면은 Figma에 맞게 구현되었습니다. Firebase 제공자는 다음 구현 단계에서 연결됩니다. 지금은 이메일과 비밀번호를 사용해 주세요."
+private extension UIApplication {
+    var googleSignInPresenter: UIViewController? {
+        let activeScene = connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .first { $0.activationState == .foregroundActive }
+        var presenter = activeScene?.windows.first(where: \.isKeyWindow)?.rootViewController
+        while let presented = presenter?.presentedViewController {
+            presenter = presented
         }
-    }
-
-    private var commonOK: String {
-        switch appState.selectedLanguage {
-        case .chinese: return "知道了"
-        case .english: return "OK"
-        case .korean: return "확인"
-        }
+        return presenter
     }
 }
 
@@ -493,6 +521,13 @@ struct AuthCopy {
     var completeSetup: String { text("继续账户设置", "Continue Account Setup", "계정 설정 계속하기") }
     var churchAccess: String { text("教会 Token", "Church Token", "교회 토큰") }
     var usePublicContent: String { text("使用公开内容", "Use Public Content", "공개 콘텐츠 이용") }
+    var googleConfigurationMissing: String { text("Google 登录尚未配置完成。请更新 Firebase iOS 配置后重试。", "Google Sign-In is not configured yet. Update the Firebase iOS configuration and try again.", "Google 로그인이 아직 구성되지 않았습니다. Firebase iOS 구성을 업데이트한 후 다시 시도하세요.") }
+    var googlePresenterUnavailable: String { text("暂时无法打开 Google 登录页面，请稍后重试。", "The Google sign-in page cannot be opened right now. Please try again.", "현재 Google 로그인 페이지를 열 수 없습니다. 잠시 후 다시 시도하세요.") }
+    var googleCredentialMissing: String { text("Google 未返回可用的登录凭证，请重试。", "Google did not return a usable sign-in credential. Please try again.", "Google에서 사용 가능한 로그인 자격 증명을 반환하지 않았습니다. 다시 시도하세요.") }
+
+    func googleSignInFailed(_ detail: String) -> String {
+        text("Google 登录失败：\(detail)", "Google Sign-In failed: \(detail)", "Google 로그인에 실패했습니다: \(detail)")
+    }
 
     func text(_ zh: String, _ en: String, _ ko: String) -> String {
         switch language { case .chinese: return zh; case .english: return en; case .korean: return ko }
