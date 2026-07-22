@@ -701,3 +701,38 @@ Design evidence boundary:
 
 - The Resources implementation continues the already retrieved Figma frame `74:726` and the repository's established cream-card/orange-accent design system.
 - A fresh Figma MCP context request was blocked by the Figma Starter plan call limit. No screen changed in this slice is claimed as newly pixel-verified.
+
+### Manifest-Scoped Canada Pilot Initialization: 2026-07-22
+
+- Recorded the only four confirmed branch identities in `config/canada-pilot.manifest.json`: Toronto, Vancouver, Calgary, and Montreal, each with the supplied Chinese, English, and Korean names.
+- Left city, IANA timezone, branch-admin email, and KakaoTalk URL as explicit `null` placeholders. No contact, link, or location detail was inferred.
+- Added `scripts/firebase-init-canada-pilot.js`. Its default mode is an offline dry run; production confirmation requires an ignored `config/canada-pilot.local.json`, `template: false`, and all 16 operational values.
+- The initializer has a closed allowlist of the four stable branch IDs. It can create only one Canada pilot region, four branch documents, and four matching `branchConnect` documents. Every Firestore write uses a create-only precondition.
+- Production preflight requires the existing `daniel-branch-church` organization and refuses if any target document already exists. It does not scan, patch, or migrate unrelated users, memberships, organizations, regions, branches, Auth claims, or invite collections.
+- Branch-admin assignment remains an explicit Admin Portal action through `setUserAccessAdmin`. One-time plaintext Token creation remains a later scoped Admin action through `createBranchInvite`; the initializer does not bypass either callable boundary.
+- Added `config/canada-pilot.local.json` to `.gitignore` so supplied administrator contact and KakaoTalk configuration can remain local during review.
+- Added `scripts/firebase-test-canada-pilot-manifest.js`; it verifies the exact four-branch allowlist, 16 explicit placeholders, nine create-only writes, rejection of an extra branch, and absence of writes to `users`, `branchMemberships`, or `branchInvites`.
+- Validation passed:
+  - `node --check scripts/firebase-init-canada-pilot.js`
+  - `node --check scripts/firebase-test-canada-pilot-manifest.js`
+  - `node scripts/firebase-test-canada-pilot-manifest.js`
+  - `node scripts/firebase-init-canada-pilot.js`
+  - confirmation against the tracked template was refused before any Firebase authentication or write.
+- No production data was read or written by this implementation step.
+
+### Hymn Reader And Pilot UI Completion: 2026-07-22
+
+- Added independent `pdfURL` and `audioURL` support to published Hymn resources. The native iOS detail keeps audio playing while members scroll or turn pages in the PDFKit reader.
+- Added localized Chinese, English, and Korean loading, playback, missing-media, invalid-link, and download-error states. Only HTTPS/HTTP media URLs are decoded.
+- Extended the Admin Resources editor to upload, replace, or remove PDF and MP3/M4A/AAC audio independently. PDFs are capped below 50 MiB and audio below 100 MiB.
+- Removed the duplicate Featured resource card and aligned the directory order with the retrieved Figma frame: Hymnbook, Bible Seminar, Bible Study, Q&A, and Relevant Links. Bible Reader and Favorites remain first-class native tools.
+- Added Q&A as a localized resource type and local fallback item.
+- Branch-scoped newsletter uploads now use `newsletters/{branchId}/...`. New Storage rules deny cross-branch reads and writes; existing legacy flat files remain authenticated-readable during migration but cannot receive new writes.
+- Corrected pending and revoked account UI so authenticated users can still open their account menu and sign out, and Connect clearly distinguishes signed-out, unassigned, pending, and revoked states.
+- Notification permission is no longer requested on app startup. It is requested only through the user's notification setting, and disabling the setting removes pending requests.
+- Terms and Privacy links now open in-app Chinese, English, and Korean Canada-pilot documents. These are pilot disclosures, not a substitute for legal review before global release.
+- Validation passed: iOS Simulator build, targeted `ChurchResourceServiceTests` with `** TEST SUCCEEDED **`, Admin and Functions production builds, Storage Emulator PDF/audio and cross-branch newsletter tests, and the manifest safety test.
+- Real Hymn PDF/audio files were not invented or uploaded. A church-supplied, licensed PDF and audio file are still required for a playable production item.
+- A fresh Figma MCP request was blocked by the Starter plan quota. This work follows the previously retrieved Resources frame and the shared cream/orange design tokens; it is not claimed as a newly pixel-verified capture.
+- Production Firebase deployment completed for this slice with the intentionally limited scope `storage,hosting`: the compiled Storage rules and rebuilt Admin Portal are live. No church, user, invite, Resource document, or media data was written.
+- iOS `1.0.2 (4)` archived successfully and a signed local App Store IPA export completed at `/private/tmp/DanielApp-1.0.2-4-export`. Direct TestFlight upload is pending because the local Xcode/App Store Connect upload token expired (`Failed to Use Accounts`); no API private key exists locally. After the owner signs back into Xcode, this already-built IPA can be uploaded without another build.

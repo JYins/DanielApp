@@ -71,6 +71,7 @@ struct ChurchCommunicationView: View {
                 ConnectAccessCard(
                     showingLogin: $showingLogin,
                     mode: mode,
+                    profile: authManager.currentUser,
                     language: language
                 )
                 .padding(.horizontal, 24)
@@ -618,6 +619,7 @@ private struct ConnectWeeklyNewsletterCard: View {
 private struct ConnectAccessCard: View {
     @Binding var showingLogin: Bool
     let mode: ConnectNewsletterMode
+    let profile: UserProfile?
     let language: CoreModels.VerseLanguage
 
     var body: some View {
@@ -633,7 +635,7 @@ private struct ConnectAccessCard: View {
                     )
 
                 VStack(alignment: .leading, spacing: 6) {
-                    Text(ConnectCopy.accessTitle.text(for: language))
+                    Text(title)
                         .font(DesignSystem.Typography.smart(20, weight: .bold, language: language))
                         .foregroundColor(DesignSystem.Colors.primaryText)
 
@@ -644,20 +646,22 @@ private struct ConnectAccessCard: View {
                 }
             }
 
-            Button {
-                showingLogin = true
-            } label: {
-                Text(ConnectCopy.signIn.text(for: language))
-                    .font(DesignSystem.Typography.smart(15, weight: .semibold, language: language))
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 13)
-                    .background(
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(DesignSystem.Colors.accent)
-                    )
+            if let buttonTitle {
+                Button {
+                    showingLogin = true
+                } label: {
+                    Text(buttonTitle)
+                        .font(DesignSystem.Typography.smart(15, weight: .semibold, language: language))
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 13)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(DesignSystem.Colors.accent)
+                        )
+                }
+                .buttonStyle(.plain)
             }
-            .buttonStyle(.plain)
         }
         .padding(20)
         .background(DesignSystem.Colors.cardBackground)
@@ -669,11 +673,56 @@ private struct ConnectAccessCard: View {
     }
 
     private var message: String {
+        let status = profile?.membershipStatus?.lowercased()
+        if status == "revoked" {
+            return text(
+                "你的教会访问权限已停用。公开的每日经文和 Resources 仍可使用；请联系本堂负责人恢复权限。",
+                "Your church access has been revoked. Daily Verse and public Resources remain available; contact your church leader for help.",
+                "교회 접근 권한이 중지되었습니다. 오늘의 말씀과 공개 자료는 계속 이용할 수 있으며, 교회 담당자에게 문의해 주세요."
+            )
+        }
+        if status == "pending" {
+            return text(
+                "你的申请已经提交。管理员批准后，本堂公告和周报会自动开放。",
+                "Your request has been submitted. Church announcements and newsletters will unlock after approval.",
+                "가입 요청이 제출되었습니다. 관리자 승인 후 교회 공지와 주보가 자동으로 열립니다."
+            )
+        }
+        if profile != nil {
+            return text(
+                "输入本堂 Token 提交加入申请；等待期间仍可使用每日经文和公开 Resources。",
+                "Enter your church token to request access. Daily Verse and public Resources remain available while you wait.",
+                "교회 토큰을 입력해 가입을 요청하세요. 기다리는 동안 오늘의 말씀과 공개 자료를 계속 이용할 수 있습니다."
+            )
+        }
         switch mode {
         case .announcement:
             return ConnectCopy.accessAnnouncementsMessage.text(for: language)
         case .newsletter:
             return ConnectCopy.accessNewsletterMessage.text(for: language)
+        }
+    }
+
+    private var title: String {
+        let status = profile?.membershipStatus?.lowercased()
+        if status == "revoked" { return text("需要教会协助", "Church access needs attention", "교회 확인이 필요합니다") }
+        if status == "pending" { return text("等待教会审核", "Church approval pending", "교회 승인 대기 중") }
+        if profile != nil { return text("加入你的教会", "Join your church", "교회에 가입하세요") }
+        return ConnectCopy.accessTitle.text(for: language)
+    }
+
+    private var buttonTitle: String? {
+        let status = profile?.membershipStatus?.lowercased()
+        if status == "pending" || status == "revoked" { return nil }
+        if profile != nil { return text("输入教会 Token", "Enter Church Token", "교회 토큰 입력") }
+        return ConnectCopy.signIn.text(for: language)
+    }
+
+    private func text(_ zh: String, _ en: String, _ ko: String) -> String {
+        switch language {
+        case .chinese: return zh
+        case .english: return en
+        case .korean: return ko
         }
     }
 }
@@ -696,6 +745,14 @@ private struct KakaoTalkConnectView: View {
                         message: text("登录并完成所属教会审核后，即可打开本堂 KakaoTalk 群。", "Sign in and complete church approval to open your church KakaoTalk group.", "로그인하고 교회 승인을 완료하면 소속 교회 카카오톡 그룹을 열 수 있습니다."),
                         buttonTitle: text("登录", "Sign In", "로그인"),
                         action: { showingLogin = true }
+                    )
+                } else if profile?.membershipStatus?.lowercased() == "revoked" {
+                    kakaoStatusCard(
+                        icon: "person.crop.circle.badge.exclamationmark",
+                        title: text("群聊权限已停用", "Group access revoked", "그룹 접근이 중지되었습니다"),
+                        message: text("请联系本堂管理员恢复教会访问权限。", "Contact your church admin to restore access.", "교회 관리자에게 접근 권한 복구를 문의하세요."),
+                        buttonTitle: nil,
+                        action: nil
                     )
                 } else if profile?.isApproved != true || (profile?.membershipStatus != nil && profile?.membershipStatus != "active") {
                     kakaoStatusCard(

@@ -418,7 +418,7 @@ enum AppPreferences {
     
     static func getNotificationsEnabled() -> Bool {
         if defaults.object(forKey: Keys.notificationsEnabled) == nil {
-            return true
+            return false
         }
         return defaults.bool(forKey: Keys.notificationsEnabled)
     }

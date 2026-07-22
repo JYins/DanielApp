@@ -91,6 +91,8 @@ struct SettingsView: View {
                 appState.updateNotificationsEnabled(newValue)
                 if newValue {
                     requestNotificationPermission()
+                } else {
+                    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
                 }
             }
         )
@@ -329,7 +331,7 @@ struct SettingsView: View {
                     SettingsSectionCard(title: localizedAccountTitle, language: selectedLanguage) {
                         VStack(spacing: 0) {
                             SettingsAccountRow(language: selectedLanguage) {
-                                if !authManager.authState.isSignedIn {
+                                if authManager.currentUser == nil {
                                     showingLogin = true
                                 }
                             }
@@ -356,7 +358,7 @@ struct SettingsView: View {
                             
                             SettingsDivider()
                             
-                            if authManager.authState.isSignedIn {
+                            if authManager.currentUser != nil {
                                 SettingsActionRow(
                                     icon: "rectangle.portrait.and.arrow.right",
                                     title: localizedSignOutTitle,

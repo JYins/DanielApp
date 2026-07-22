@@ -12,10 +12,39 @@ service firebase.storage {
               request.auth.token.accessRole in ['admin', 'global_admin']);
     }
 
+    function isActiveBranchMember(branchId) {
+      return isSignedIn() &&
+             request.auth.token.branchId == branchId &&
+             (request.auth.token.membershipStatus == 'active' ||
+              request.auth.token.isApproved == true);
+    }
+
+    function canManageBranch(branchId) {
+      return isAdmin() ||
+             (isSignedIn() &&
+              request.auth.token.accessRole == 'branch_admin' &&
+              request.auth.token.branchId == branchId) ||
+             (isSignedIn() &&
+              request.auth.token.accessRole == 'region_admin' &&
+              request.auth.token.regionId != null &&
+              firestore.get(/databases/(default)/documents/branches/$(branchId)).data.regionId == request.auth.token.regionId);
+    }
+
     function isPdfUpload() {
       return request.resource != null &&
              request.resource.size < 50 * 1024 * 1024 &&
              request.resource.contentType == 'application/pdf';
+    }
+
+    function isAudioUpload() {
+      return request.resource != null &&
+             request.resource.size < 100 * 1024 * 1024 &&
+             request.resource.contentType in [
+               'audio/mpeg',
+               'audio/mp4',
+               'audio/aac',
+               'audio/x-m4a'
+             ];
     }
 
     // Word Cards images - public read
@@ -24,10 +53,16 @@ service firebase.storage {
       allow write: if isAdmin();
     }
     
-    // Newsletters images - require auth to read
-    match /newsletters/{allPaths=**} {
+    // Legacy flat newsletter images remain readable during migration but may
+    // no longer be created. New files must use a branch-scoped path below.
+    match /newsletters/{fileName} {
       allow read: if isSignedIn();
-      allow write: if isAdmin();
+      allow write: if false;
+    }
+
+    match /newsletters/{branchId}/{allPaths=**} {
+      allow read: if isActiveBranchMember(branchId) || canManageBranch(branchId);
+      allow write: if canManageBranch(branchId);
     }
     
     // Praises files - require auth to read
@@ -41,6 +76,14 @@ service firebase.storage {
     match /resources/{resourceId}/{fileName} {
       allow read: if true;
       allow create, update: if isAdmin() && isPdfUpload();
+      allow delete: if isAdmin();
+    }
+
+    // Hymn audio is public alongside published Resources metadata. Only a
+    // global/legacy admin can upload it, and arbitrary file types are denied.
+    match /resources/{resourceId}/audio/{fileName} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isAudioUpload();
       allow delete: if isAdmin();
     }
     

@@ -13,6 +13,8 @@ struct RegistrationView: View {
     @State private var isShowingPassword = false
     @State private var isShowingConfirmation = false
     @State private var acceptedTerms = false
+    @State private var showingTerms = false
+    @State private var showingPrivacy = false
 
     init(inviteService: ChurchInviteServicing = FirebaseChurchInviteService()) {
         _inviteViewModel = StateObject(wrappedValue: ChurchInviteViewModel(service: inviteService))
@@ -43,6 +45,12 @@ struct RegistrationView: View {
             if authManager.requiresProfileCompletion, let providerEmail = authManager.currentFirebaseEmail {
                 formData.email = providerEmail
             }
+        }
+        .sheet(isPresented: $showingTerms) {
+            PilotLegalDocumentView(kind: .terms, language: appState.selectedLanguage)
+        }
+        .sheet(isPresented: $showingPrivacy) {
+            PilotLegalDocumentView(kind: .privacy, language: appState.selectedLanguage)
         }
     }
 
@@ -147,13 +155,20 @@ struct RegistrationView: View {
                 HStack(alignment: .top, spacing: 10) {
                     Image(systemName: acceptedTerms ? "checkmark.square.fill" : "square")
                         .foregroundStyle(acceptedTerms ? DesignSystem.Colors.accent : DesignSystem.Colors.mutedText.opacity(0.45))
-                    Text(copy("我同意服务条款和隐私政策", "I agree to the Terms of Service and Privacy Policy", "서비스 약관 및 개인정보 처리방침에 동의합니다"))
+                    Text(copy("我已阅读并同意以下条款", "I have read and agree to the documents below", "아래 문서를 읽고 동의합니다"))
                         .font(.system(size: 12))
                         .foregroundStyle(DesignSystem.Colors.secondaryText)
                     Spacer()
                 }
             }
             .buttonStyle(.plain)
+
+            HStack(spacing: 18) {
+                Button(copy("服务条款", "Terms of Service", "서비스 약관")) { showingTerms = true }
+                Button(copy("隐私政策", "Privacy Policy", "개인정보 처리방침")) { showingPrivacy = true }
+            }
+            .font(.system(size: 13, weight: .semibold))
+            .foregroundStyle(DesignSystem.Colors.accentDark)
         }
     }
 
@@ -379,6 +394,96 @@ private struct RegistrationStepHeader: View {
 
 private extension String {
     var trimmed: String { trimmingCharacters(in: .whitespacesAndNewlines) }
+}
+
+private struct PilotLegalDocumentView: View {
+    enum Kind { case terms, privacy }
+
+    let kind: Kind
+    let language: CoreModels.VerseLanguage
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 18) {
+                    Text(pilotNotice)
+                        .font(DesignSystem.Typography.body(14, language: language))
+                        .foregroundColor(DesignSystem.Colors.secondaryText)
+                        .padding(14)
+                        .background(DesignSystem.Colors.cardBackground)
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
+
+                    ForEach(Array(sections.enumerated()), id: \.offset) { _, section in
+                        VStack(alignment: .leading, spacing: 7) {
+                            Text(section.0)
+                                .font(DesignSystem.Typography.smart(17, weight: .bold, language: language))
+                                .foregroundColor(DesignSystem.Colors.primaryText)
+                            Text(section.1)
+                                .font(DesignSystem.Typography.body(14, language: language))
+                                .foregroundColor(DesignSystem.Colors.secondaryText)
+                                .lineSpacing(4)
+                        }
+                    }
+                }
+                .padding(20)
+            }
+            .background(DesignSystem.Colors.background)
+            .navigationTitle(title)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(doneTitle) { dismiss() }
+                }
+            }
+        }
+    }
+
+    private var title: String {
+        switch (kind, language) {
+        case (.terms, .chinese): return "服务条款"
+        case (.terms, .english): return "Terms of Service"
+        case (.terms, .korean): return "서비스 약관"
+        case (.privacy, .chinese): return "隐私政策"
+        case (.privacy, .english): return "Privacy Policy"
+        case (.privacy, .korean): return "개인정보 처리방침"
+        }
+    }
+
+    private var doneTitle: String {
+        switch language { case .chinese: return "完成"; case .english: return "Done"; case .korean: return "완료" }
+    }
+
+    private var pilotNotice: String {
+        text(
+            "这是加拿大四教会试运行版本，生效日期为 2026 年 7 月 22 日。正式全球发布前，运营方会再次进行法律与隐私审核。",
+            "This is the four-church Canada pilot, effective July 22, 2026. The operator will complete another legal and privacy review before a global launch.",
+            "본 문서는 2026년 7월 22일부터 적용되는 캐나다 4개 교회 시범 운영용입니다. 글로벌 출시 전 법률 및 개인정보 검토를 다시 진행합니다."
+        )
+    }
+
+    private var sections: [(String, String)] {
+        switch kind {
+        case .terms:
+            return [
+                (text("使用范围", "Pilot scope", "시범 운영 범위"), text("本应用提供每日经文、公开资料和经本堂批准的教会通讯。它不替代紧急服务、专业辅导或教会正式记录。", "The app provides Daily Verse, public resources, and church communication approved for your branch. It does not replace emergency services, professional care, or official church records.", "앱은 오늘의 말씀, 공개 자료와 소속 교회가 승인한 소통 기능을 제공합니다. 응급 서비스, 전문 상담 또는 교회의 공식 기록을 대체하지 않습니다.")),
+                (text("账户与教会访问", "Accounts and church access", "계정 및 교회 접근"), text("你应提供真实的账户信息并保护登录凭据。教会 Token 只能申请普通成员权限；分堂管理员决定是否批准、撤销或恢复访问。", "Provide accurate account information and protect your credentials. A church token only requests member access; branch administrators decide approval, revocation, and restoration.", "정확한 계정 정보를 제공하고 로그인 정보를 보호해야 합니다. 교회 토큰은 일반 회원 접근만 요청하며 승인, 중지 및 복구는 교회 관리자가 결정합니다.")),
+                (text("合理使用", "Acceptable use", "올바른 사용"), text("不得滥用 Token、尝试跨教会访问、上传违法或侵犯他人权利的内容，或干扰服务。", "Do not misuse tokens, attempt cross-church access, upload unlawful or rights-infringing content, or disrupt the service.", "토큰을 악용하거나 다른 교회 자료에 접근하려 하거나 불법·권리 침해 콘텐츠를 올리거나 서비스를 방해해서는 안 됩니다.")),
+                (text("外部服务", "External services", "외부 서비스"), text("KakaoTalk、Apple、Google 和外部资源链接受各自服务条款约束。离开本应用后的服务由相应提供商负责。", "KakaoTalk, Apple, Google, and external resource links have their own terms. Their providers are responsible once you leave this app.", "카카오톡, Apple, Google 및 외부 링크에는 각 서비스의 약관이 적용되며 앱을 벗어난 이후에는 해당 제공자가 책임집니다."))
+            ]
+        case .privacy:
+            return [
+                (text("收集的数据", "Data we collect", "수집하는 정보"), text("试运行版本收集姓名、邮箱、可选电话、登录服务标识、所属教会与会员状态。使用收藏、笔记或阅读进度时，还会保存相应的应用数据。", "The pilot collects name, email, optional phone, sign-in identifiers, church assignment, and membership status. Favorites, notes, and reading progress are stored when you use those features.", "시범 버전은 이름, 이메일, 선택 전화번호, 로그인 식별자, 소속 교회와 회원 상태를 수집합니다. 즐겨찾기, 노트, 읽기 진행을 사용하면 해당 앱 데이터도 저장합니다.")),
+                (text("使用目的", "How data is used", "이용 목적"), text("数据用于登录、邮箱验证、教会审批、分堂内容隔离、同步个人功能和保障服务安全；我们不会出售个人数据。", "Data is used for sign-in, email verification, church approval, branch isolation, personal sync, and service security. Personal data is not sold.", "정보는 로그인, 이메일 인증, 교회 승인, 지교회별 접근 분리, 개인 기능 동기화와 보안을 위해 사용되며 개인정보를 판매하지 않습니다.")),
+                (text("存储与访问", "Storage and access", "저장 및 접근"), text("数据存储在 Firebase。分堂管理员只应查看和管理本堂必要的会员与内容；全局管理员负责试运行维护。", "Data is stored in Firebase. Branch administrators should access only the member and content data needed for their church; global administrators maintain the pilot.", "데이터는 Firebase에 저장됩니다. 지교회 관리자는 소속 교회 운영에 필요한 회원 및 콘텐츠만 다루며 글로벌 관리자는 시범 운영을 관리합니다.")),
+                (text("你的选择", "Your choices", "이용자의 선택"), text("你可以退出登录、停止使用可选个人功能，并联系本堂管理员申请更正、撤销教会访问或提出账户数据删除请求。部分安全审计记录可能依法或为防止滥用而保留。", "You may sign out, stop using optional personal features, and ask your branch administrator to correct data, revoke church access, or request account-data deletion. Limited security audit records may be retained when required or needed to prevent abuse.", "로그아웃하거나 선택 기능 사용을 중단할 수 있으며 교회 관리자에게 정보 수정, 접근 중지 또는 계정 데이터 삭제를 요청할 수 있습니다. 법적 의무나 악용 방지를 위해 일부 보안 기록은 보관될 수 있습니다."))
+            ]
+        }
+    }
+
+    private func text(_ zh: String, _ en: String, _ ko: String) -> String {
+        switch language { case .chinese: return zh; case .english: return en; case .korean: return ko }
+    }
 }
 
 #Preview {

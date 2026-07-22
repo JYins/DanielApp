@@ -73,6 +73,30 @@ final class ChurchResourceServiceTests: XCTestCase {
         XCTAssertNil(unsafe?.primaryURL)
     }
 
+    func testHymnResourceDecodesIndependentPDFAndAudioURLs() {
+        var data = Self.resourceData(url: "https://example.test/hymn.pdf")
+        data["type"] = "hymnbook"
+        data["category"] = "hymnbook"
+        data["fileType"] = "application/pdf"
+        data["downloadURL"] = "https://example.test/hymn.pdf"
+        data["audioURL"] = "https://example.test/hymn.mp3"
+
+        let resource = ChurchResource(id: "hymn", data: data)
+
+        XCTAssertEqual(resource?.pdfURL?.absoluteString, "https://example.test/hymn.pdf")
+        XCTAssertEqual(resource?.audioURL?.absoluteString, "https://example.test/hymn.mp3")
+        XCTAssertEqual(resource?.hasHymnMedia, true)
+    }
+
+    func testHymnResourceRejectsUnsafeAudioURL() {
+        var data = Self.resourceData(url: "https://example.test/hymn.pdf")
+        data["type"] = "hymnbook"
+        data["fileType"] = "application/pdf"
+        data["audioURL"] = "javascript:alert(1)"
+
+        XCTAssertNil(ChurchResource(id: "unsafe-audio", data: data)?.audioURL)
+    }
+
     private static func resource(id: String, type: String, title: String = "Title", subtitle: String = "Subtitle") -> ChurchResource {
         ChurchResource(
             id: id,

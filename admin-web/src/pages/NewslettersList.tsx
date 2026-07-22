@@ -154,7 +154,9 @@ export default function NewslettersList() {
       if (imageFiles && imageFiles.length > 0) {
         for (let i = 0; i < imageFiles.length; i++) {
           const file = imageFiles[i];
-          const storageRef = ref(storage, `newsletters/${publishDate}_${Date.now()}_${file.name}`);
+          if (!branchId) throw new Error('Select a church before uploading images.');
+          const safeFileName = file.name.replace(/[^a-zA-Z0-9._-]+/g, '-');
+          const storageRef = ref(storage, `newsletters/${branchId}/${publishDate}_${Date.now()}_${safeFileName}`);
           const snapshot = await uploadBytes(storageRef, file);
           const url = await getDownloadURL(snapshot.ref);
           imageUrls.push(url);

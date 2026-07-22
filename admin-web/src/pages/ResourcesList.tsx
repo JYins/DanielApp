@@ -10,7 +10,7 @@ import {
   setDoc
 } from 'firebase/firestore';
 import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { BookOpen, Edit2, FileText, Link as LinkIcon, Plus, Trash2, Upload, XCircle } from 'lucide-react';
+import { BookOpen, Edit2, FileAudio, FileText, Link as LinkIcon, Plus, Trash2, Upload, XCircle } from 'lucide-react';
 import { db, storage } from '../lib/firebase';
 
 type LocalizedText = {
@@ -34,6 +34,12 @@ type ChurchResource = {
   fileSize?: number | null;
   fileType?: string | null;
   downloadURL?: string | null;
+  audioURL?: string | null;
+  audioStoragePath?: string | null;
+  audioFileName?: string | null;
+  audioFileSize?: number | null;
+  audioFileType?: string | null;
+  audioDownloadURL?: string | null;
   icon?: string;
   isPublished?: boolean;
   sortOrder?: number;
@@ -64,7 +70,13 @@ const emptyForm = {
   fileName: '',
   fileSize: 0,
   fileType: '',
-  downloadURL: ''
+  downloadURL: '',
+  audioExternalUrl: '',
+  audioStoragePath: '',
+  audioFileName: '',
+  audioFileSize: 0,
+  audioFileType: '',
+  audioDownloadURL: ''
 };
 
 const resourceTypes = [
@@ -72,6 +84,7 @@ const resourceTypes = [
   { value: 'church_documents', label: 'Church Documents' },
   { value: 'useful_links', label: 'Useful Links' },
   { value: 'bible_study', label: 'Bible Study' },
+  { value: 'q_and_a', label: 'Q & A' },
   { value: 'bible_seminar', label: 'Bible Seminar' }
 ];
 
@@ -131,7 +144,9 @@ export default function ResourcesList() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState(emptyForm);
   const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const [audioFile, setAudioFile] = useState<File | null>(null);
   const [storagePathToDelete, setStoragePathToDelete] = useState<string | null>(null);
+  const [audioPathToDelete, setAudioPathToDelete] = useState<string | null>(null);
 
   useEffect(() => {
     fetchResources();
@@ -157,7 +172,9 @@ export default function ResourcesList() {
   const openAddModal = () => {
     setForm(emptyForm);
     setPdfFile(null);
+    setAudioFile(null);
     setStoragePathToDelete(null);
+    setAudioPathToDelete(null);
     setEditingId(null);
     setIsModalOpen(true);
   };
@@ -165,7 +182,9 @@ export default function ResourcesList() {
   const openEditModal = (item: ChurchResource) => {
     setEditingId(item.id);
     setPdfFile(null);
+    setAudioFile(null);
     setStoragePathToDelete(null);
+    setAudioPathToDelete(null);
     setForm({
       id: item.id,
       type: item.type || 'church_documents',
@@ -191,7 +210,13 @@ export default function ResourcesList() {
       fileName: item.fileName || '',
       fileSize: item.fileSize || 0,
       fileType: item.fileType || '',
-      downloadURL: item.downloadURL || ''
+      downloadURL: item.downloadURL || '',
+      audioExternalUrl: item.audioURL && item.audioURL !== item.audioDownloadURL ? item.audioURL : '',
+      audioStoragePath: item.audioStoragePath || '',
+      audioFileName: item.audioFileName || '',
+      audioFileSize: item.audioFileSize || 0,
+      audioFileType: item.audioFileType || '',
+      audioDownloadURL: item.audioDownloadURL || ''
     });
     setIsModalOpen(true);
   };
@@ -212,6 +237,24 @@ export default function ResourcesList() {
     setPdfFile(file);
   };
 
+  const handleAudioChange = (file: File | undefined) => {
+    if (!file) {
+      setAudioFile(null);
+      return;
+    }
+    const validTypes = ['audio/mpeg', 'audio/mp4', 'audio/aac', 'audio/x-m4a'];
+    const validExtension = /\.(mp3|m4a|aac)$/i.test(file.name);
+    if (!validTypes.includes(file.type) && !validExtension) {
+      alert('Please upload an MP3, M4A, or AAC audio file.');
+      return;
+    }
+    if (file.size >= 100 * 1024 * 1024) {
+      alert('Audio files must be smaller than 100 MB.');
+      return;
+    }
+    setAudioFile(file);
+  };
+
   const removeExistingPdf = () => {
     if (!window.confirm('Remove the linked PDF from this resource?')) return;
     const path = form.storagePath || storagePathFromUrl(form.downloadURL);
@@ -227,16 +270,34 @@ export default function ResourcesList() {
     }));
   };
 
+  const removeExistingAudio = () => {
+    if (!window.confirm('Remove the linked hymn audio from this resource?')) return;
+    const path = form.audioStoragePath || storagePathFromUrl(form.audioDownloadURL);
+    setAudioPathToDelete(path);
+    setForm(prev => ({
+      ...prev,
+      audioExternalUrl: '',
+      audioStoragePath: '',
+      audioFileName: '',
+      audioFileSize: 0,
+      audioFileType: '',
+      audioDownloadURL: ''
+    }));
+  };
+
   const handleDelete = async (item: ChurchResource) => {
     if (!window.confirm(`Delete resource "${displayText(item.title)}"?`)) return;
     try {
       const path = item.storagePath || storagePathFromUrl(item.downloadURL);
+      const audioPath = item.audioStoragePath || storagePathFromUrl(item.audioDownloadURL);
       await deleteDoc(doc(db, 'resources', item.id));
-      if (path) {
-        try {
-          await deleteObject(ref(storage, path));
-        } catch (err) {
-          console.warn('PDF file could not be deleted from Storage', err);
+      for (const filePath of [path, audioPath]) {
+        if (filePath) {
+          try {
+            await deleteObject(ref(storage, filePath));
+          } catch (err) {
+            console.warn('Resource file could not be deleted from Storage', err);
+          }
         }
       }
       await fetchResources();
@@ -249,7 +310,7 @@ export default function ResourcesList() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setSaving(true);
-    let uploadedPath: string | null = null;
+    const uploadedPaths: string[] = [];
     try {
       const title = localized(form.titleZh, form.titleEn, form.titleKo);
       const resourceId = editingId || form.id.trim() || slugify(title.en || title.zh, 'resource');
@@ -260,13 +321,19 @@ export default function ResourcesList() {
       let fileType = form.fileType || null;
       let downloadURL = form.downloadURL || null;
       let previousPath = storagePathToDelete;
+      let audioStoragePath = form.audioStoragePath || null;
+      let audioFileName = form.audioFileName || null;
+      let audioFileSize = form.audioFileSize || null;
+      let audioFileType = form.audioFileType || null;
+      let audioDownloadURL = form.audioDownloadURL || null;
+      let previousAudioPath = audioPathToDelete;
 
       if (pdfFile) {
         previousPath = previousPath || storagePath || storagePathFromUrl(downloadURL);
 
         const safeFileName = pdfFile.name.replace(/[^a-zA-Z0-9._-]+/g, '-');
         storagePath = `resources/${resourceId}/${Date.now()}_${safeFileName}`;
-        uploadedPath = storagePath;
+        uploadedPaths.push(storagePath);
         const snapshot = await uploadBytes(ref(storage, storagePath), pdfFile, {
           contentType: 'application/pdf',
           customMetadata: { resourceId }
@@ -277,7 +344,23 @@ export default function ResourcesList() {
         fileType = 'application/pdf';
       }
 
+      if (audioFile) {
+        previousAudioPath = previousAudioPath || audioStoragePath || storagePathFromUrl(audioDownloadURL);
+        const safeAudioName = audioFile.name.replace(/[^a-zA-Z0-9._-]+/g, '-');
+        audioStoragePath = `resources/${resourceId}/audio/${Date.now()}_${safeAudioName}`;
+        uploadedPaths.push(audioStoragePath);
+        const audioSnapshot = await uploadBytes(ref(storage, audioStoragePath), audioFile, {
+          contentType: audioFile.type || (audioFile.name.toLowerCase().endsWith('.mp3') ? 'audio/mpeg' : 'audio/mp4'),
+          customMetadata: { resourceId, mediaKind: 'hymn-audio' }
+        });
+        audioDownloadURL = await getDownloadURL(audioSnapshot.ref);
+        audioFileName = audioFile.name;
+        audioFileSize = audioFile.size;
+        audioFileType = audioSnapshot.metadata.contentType || audioFile.type;
+      }
+
       const preferredURL = downloadURL || validatedExternalUrl(form.externalUrl);
+      const preferredAudioURL = audioDownloadURL || validatedExternalUrl(form.audioExternalUrl);
       await setDoc(doc(db, 'resources', resourceId), {
         id: resourceId,
         type: form.type,
@@ -293,6 +376,12 @@ export default function ResourcesList() {
         fileSize,
         fileType,
         downloadURL,
+        audioURL: preferredAudioURL,
+        audioStoragePath,
+        audioFileName,
+        audioFileSize,
+        audioFileType,
+        audioDownloadURL,
         icon: form.icon.trim() || 'doc.richtext',
         isPublished: form.isPublished,
         accessLevel: 'public',
@@ -300,7 +389,7 @@ export default function ResourcesList() {
         ...(existing ? {} : { createdAt: serverTimestamp() }),
         updatedAt: serverTimestamp()
       }, { merge: true });
-      uploadedPath = null;
+      uploadedPaths.length = 0;
 
       if (previousPath && previousPath !== storagePath) {
         try {
@@ -310,14 +399,22 @@ export default function ResourcesList() {
         }
       }
 
+      if (previousAudioPath && previousAudioPath !== audioStoragePath) {
+        try {
+          await deleteObject(ref(storage, previousAudioPath));
+        } catch (err) {
+          console.warn('Previous audio could not be deleted from Storage', err);
+        }
+      }
+
       setIsModalOpen(false);
       await fetchResources();
     } catch (err) {
-      if (uploadedPath) {
+      for (const uploadedPath of uploadedPaths) {
         try {
           await deleteObject(ref(storage, uploadedPath));
         } catch (cleanupError) {
-          console.warn('New PDF could not be cleaned up after save failed', cleanupError);
+          console.warn('New resource file could not be cleaned up after save failed', cleanupError);
         }
       }
       console.error('Failed to save resource', err);
@@ -334,7 +431,7 @@ export default function ResourcesList() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Resources</h1>
-          <p className="mt-1 text-sm text-gray-500">Manage public resources and PDF files for the iOS Resources tab.</p>
+          <p className="mt-1 text-sm text-gray-500">Manage public resources, PDFs, and hymn audio for the iOS Resources tab.</p>
         </div>
         <button
           onClick={openAddModal}
@@ -371,17 +468,26 @@ export default function ResourcesList() {
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-700">{item.type || '—'}</td>
                 <td className="px-6 py-4 text-sm text-gray-700">
-                  {item.downloadURL ? (
-                    <a href={item.downloadURL} target="_blank" rel="noreferrer" className="inline-flex items-center text-amber-700 hover:text-amber-900">
-                      <FileText className="h-4 w-4 mr-1" />
-                      {item.fileName || 'PDF'} · {formatFileSize(item.fileSize)}
-                    </a>
-                  ) : item.url ? (
-                    <a href={item.url} target="_blank" rel="noreferrer" className="inline-flex items-center text-blue-700 hover:text-blue-900">
-                      <LinkIcon className="h-4 w-4 mr-1" />
-                      Link
-                    </a>
-                  ) : '—'}
+                  <div className="flex flex-col items-start gap-1">
+                    {item.downloadURL ? (
+                      <a href={item.downloadURL} target="_blank" rel="noreferrer" className="inline-flex items-center text-amber-700 hover:text-amber-900">
+                        <FileText className="h-4 w-4 mr-1" />
+                        {item.fileName || 'PDF'} · {formatFileSize(item.fileSize)}
+                      </a>
+                    ) : item.url ? (
+                      <a href={item.url} target="_blank" rel="noreferrer" className="inline-flex items-center text-blue-700 hover:text-blue-900">
+                        <LinkIcon className="h-4 w-4 mr-1" />
+                        Link
+                      </a>
+                    ) : null}
+                    {(item.audioDownloadURL || item.audioURL) && (
+                      <a href={item.audioDownloadURL || item.audioURL || '#'} target="_blank" rel="noreferrer" className="inline-flex items-center text-orange-700 hover:text-orange-900">
+                        <FileAudio className="h-4 w-4 mr-1" />
+                        {item.audioFileName || 'Hymn audio'} {item.audioFileSize ? `· ${formatFileSize(item.audioFileSize)}` : ''}
+                      </a>
+                    )}
+                    {!item.downloadURL && !item.url && !item.audioDownloadURL && !item.audioURL && '—'}
+                  </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${item.isPublished !== false ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
@@ -463,10 +569,44 @@ export default function ResourcesList() {
                       <input value={form.externalUrl} onChange={e => setForm(prev => ({ ...prev, externalUrl: e.target.value }))} placeholder="Optional if no PDF" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-amber-500 focus:border-amber-500 sm:text-sm" />
                     </label>
                     <label className="block text-sm font-medium text-gray-700">
+                      External Audio URL
+                      <input value={form.audioExternalUrl} onChange={e => setForm(prev => ({ ...prev, audioExternalUrl: e.target.value }))} placeholder="Optional MP3/M4A stream for Hymnbook" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-amber-500 focus:border-amber-500 sm:text-sm" />
+                    </label>
+                    <label className="block text-sm font-medium text-gray-700">
                       Internal Content
                       <input value={form.content} onChange={e => setForm(prev => ({ ...prev, content: e.target.value }))} placeholder="Optional short internal note" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-amber-500 focus:border-amber-500 sm:text-sm" />
                     </label>
                   </div>
+
+                  {form.type === 'hymnbook' && (
+                    <div className="mt-5 rounded-md border border-orange-200 bg-orange-50/40 p-4">
+                      <div className="flex items-center justify-between gap-4">
+                        <div>
+                          <h4 className="text-sm font-semibold text-gray-900">Hymn Audio</h4>
+                          <p className="text-xs text-gray-500">MP3, M4A, or AAC under 100 MB. The iOS reader keeps this playing while the PDF is visible.</p>
+                        </div>
+                        <label className="inline-flex shrink-0 items-center px-3 py-2 rounded-md bg-orange-100 text-orange-800 text-sm font-medium cursor-pointer hover:bg-orange-200">
+                          <Upload className="h-4 w-4 mr-2" />
+                          Choose Audio
+                          <input type="file" accept="audio/mpeg,audio/mp4,audio/aac,.mp3,.m4a,.aac" className="hidden" onChange={e => handleAudioChange(e.target.files?.[0])} />
+                        </label>
+                      </div>
+                      {(audioFile || form.audioDownloadURL || form.audioExternalUrl) && (
+                        <div className="mt-3 flex items-center justify-between rounded bg-white px-3 py-2">
+                          <div className="text-sm text-gray-700">
+                            <FileAudio className="h-4 w-4 inline mr-1 text-orange-600" />
+                            {audioFile?.name || form.audioFileName || (form.audioExternalUrl ? 'External audio' : 'Current audio')}
+                            {(audioFile?.size || form.audioFileSize) ? ` · ${formatFileSize(audioFile?.size || form.audioFileSize)}` : ''}
+                          </div>
+                          {(form.audioDownloadURL || form.audioExternalUrl) && !audioFile && (
+                            <button type="button" aria-label="Remove hymn audio" onClick={removeExistingAudio} className="text-red-600 hover:text-red-800">
+                              <XCircle className="h-4 w-4" />
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                   <div className="mt-5 rounded-md border border-gray-200 p-4">
                     <div className="flex items-center justify-between">

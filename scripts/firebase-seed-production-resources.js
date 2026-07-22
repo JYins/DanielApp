@@ -51,9 +51,9 @@ const resources = [
       ko: "찬양, 악보와 예배 자료"
     },
     description: {
-      zh: "第一版先作为目录入口。未来可接入 Praise PDF、歌单和按语言分类的诗歌资源。",
-      en: "This starts as a directory entry. It can later connect to Praise PDFs, song lists, and language-specific hymn resources.",
-      ko: "첫 버전은 자료실 입구로 시작합니다. 추후 찬양 PDF, 곡 목록, 언어별 찬양 자료와 연결할 수 있습니다."
+      zh: "管理员可以为每首诗歌配置 PDF 乐谱和音频，成员可在播放音频时继续阅读和翻页。",
+      en: "Administrators can attach PDF sheet music and audio so members can keep listening while reading and turning pages.",
+      ko: "관리자는 찬송가 PDF 악보와 오디오를 함께 등록할 수 있으며, 회원은 재생 중에도 계속 읽고 페이지를 넘길 수 있습니다."
     },
     actionTitle: {
       zh: "打开诗歌本",
@@ -61,6 +61,7 @@ const resources = [
       ko: "찬송가 열기"
     },
     url: null,
+    audioURL: null,
     content: null,
     icon: "music.note.list",
     isPublished: true,
@@ -159,6 +160,25 @@ const resources = [
     isPublished: true,
     accessLevel: "public",
     sortOrder: 40
+  },
+  {
+    id: "questions-and-answers",
+    type: "q_and_a",
+    category: "q_and_a",
+    title: { zh: "信仰问答", en: "Q & A", ko: "신앙 문답" },
+    subtitle: { zh: "常见问题与圣经依据", en: "Common questions and biblical guidance", ko: "자주 묻는 질문과 성경적 안내" },
+    description: {
+      zh: "按主题整理常见信仰问题、经文依据和进一步学习资料。",
+      en: "Explore common faith questions, biblical references, and reviewed follow-up resources.",
+      ko: "자주 묻는 신앙 질문, 성경 근거와 검토된 추가 자료를 주제별로 살펴보세요."
+    },
+    actionTitle: { zh: "查看问答", en: "Browse Q & A", ko: "문답 보기" },
+    url: null,
+    content: null,
+    icon: "questionmark.bubble",
+    isPublished: true,
+    accessLevel: "public",
+    sortOrder: 45
   },
   {
     id: "bible-seminar",

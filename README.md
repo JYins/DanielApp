@@ -38,8 +38,8 @@ The app is being reshaped from a devotional/widget app for "Daniel and his Frien
 `Daily Verse → Connect → Resources → Settings`
 
 - **Daily Verse** keeps the devotional heart: daily scripture, read/favorite/share, widgets, and language settings.
-- **Connect** is the church communication hub. It reuses the existing Firebase newsletter service for announcements and weekly newsletters, while messages remain a prepared future surface.
-- **Resources** is now a simple church resource library/directory. First-phase content is local seed data for hymnbook, church documents, useful links, Bible study, and Bible seminar.
+- **Connect** is the church communication hub for branch-scoped announcements, newsletters, and each church's protected KakaoTalk link. Native chat is intentionally outside pilot v1.
+- **Resources** is a public church library for Hymnbook, Bible Seminar, Bible Study, Q&A, and useful links, plus native Bible Reader and Favorites tools. A Hymn item may play audio while its PDF remains open below.
 - **Settings** is a full page for language, verse update mode, notifications, account, support, and app information.
 
 Agents should read `AGENTS.md` before making changes. Graphify is installed for Codex and project-scoped in this repository; use `graphify query`, `graphify path`, or `graphify explain` before broad code exploration when `graphify-out/graph.json` exists.
@@ -54,7 +54,7 @@ Agents should read `AGENTS.md` before making changes. Graphify is installed for 
 - **Midnight Auto-Refresh** — A custom update system that ensures the verse changes right at midnight (this was the hardest part — more on that below)
 - **Curated Verse Collection** — 642 hand-picked meaningful verses, not random noise
 - **Connect Hub** — Church announcements and weekly newsletters powered by the existing Firebase `newsletters` collection
-- **Resources Library** — Local seed resource directory for hymnbook, documents, links, Bible study, and Bible seminar
+- **Resources Library** — Firebase-backed Hymnbook, seminars, Bible study, Q&A, links, native Bible Reader, and Favorites, with safe local fallback
 - **Legacy Content Areas** — Word Cards and Praise remain in the codebase for future reuse/migration, but are not first-level tabs in this phase
 
 <p align="center">
@@ -236,7 +236,7 @@ Admin access modes:
 - `region_admin` can manage users in their own region and assign `member` or `branch_admin`.
 - `branch_admin` can approve/revoke member users in their own branch.
 
-`Users` prefers the callable Cloud Function `setUserAccessAdmin` so approval, role changes, branch assignment, `branchMemberships`, and Firebase Auth custom claims stay in sync. The callable rejects self-demotion, cross-scope moves, higher-admin management, and global/region-role escalation by scoped admins. If the function is not deployed yet, the admin dashboard can temporarily fall back to Firestore batch writes for global-admin-style user/membership documents, but custom claims and delegated scoped enforcement are only maintained by the function.
+`Users` requires the callable Cloud Function `setUserAccessAdmin` so approval, role changes, branch assignment, `branchMemberships`, and Firebase Auth custom claims stay in sync. The callable rejects self-demotion, cross-scope moves, higher-admin management, and global/region-role escalation by scoped admins. There is no direct Firestore fallback because that could leave the profile and Auth claims inconsistent.
 
 The iOS registration page uses `RegistrationBranchViewModel` and an injectable `RegistrationBranchRemoteStore` to read active Firebase `branches` with `isActive == true`, ordered by `sortOrder`, then lets new members choose their branch. The selected branch writes both normalized fields (`orgId`, `regionId`, `branchId`) and legacy compatibility fields (`churchCountry`, `churchName`). If branches cannot be loaded, registration falls back to manual church country/name entry.
 
@@ -252,6 +252,45 @@ node scripts/firebase-seed-branch-system.js --project daniel1-ca1e7
 node scripts/firebase-seed-branch-system.js --project daniel1-ca1e7 --confirm-branch-system
 ```
 
+The older `firebase-seed-branch-system.js` is a legacy migration tool: it derives branches from every existing user and patches those users. Do not use it for the four-church Canada pilot.
+
+The Canada pilot instead has a closed, reviewable manifest at `config/canada-pilot.manifest.json`. It records exactly these four branches and no others:
+
+- 多伦多教会 / Toronto Church / 토론토 교회
+- 温哥华教会 / Vancouver Church / 밴쿠버 교회
+- 卡尔加里教会 / Calgary Church / 캘거리 교회
+- 蒙特利尔教会 / Montreal Church / 몬트리올 교회
+
+Unknown operational data is deliberately `null`; city, IANA timezone, branch-admin email, and KakaoTalk URL must come from the churches. Review the tracked template with an offline dry run:
+
+```bash
+node scripts/firebase-init-canada-pilot.js
+node scripts/firebase-test-canada-pilot-manifest.js
+```
+
+When the verified values arrive, copy the template to the ignored local manifest and fill every placeholder:
+
+```bash
+cp config/canada-pilot.manifest.json config/canada-pilot.local.json
+```
+
+Set `template` to `false`, review the dry run, and only then use the explicit production confirmation:
+
+```bash
+node scripts/firebase-init-canada-pilot.js \
+  --manifest config/canada-pilot.local.json \
+  --project daniel1-ca1e7
+
+node scripts/firebase-init-canada-pilot.js \
+  --manifest config/canada-pilot.local.json \
+  --project daniel1-ca1e7 \
+  --confirm-canada-pilot
+```
+
+The pilot initializer is create-only. It verifies that the existing organization is present, refuses an incomplete/template manifest, refuses emulator variables during confirmation, and refuses to overwrite any matching region, branch, or `branchConnect` document. It never scans or writes `users`, `branchMemberships`, Auth claims, or invite collections.
+
+After document creation, use Admin Portal `Members` to assign each verified email as `branch_admin` through `setUserAccessAdmin`. Then sign in as the scoped administrator and use `Invite & KakaoTalk` to call `createBranchInvite`; the plaintext token is displayed once and is never stored. These steps stay separate because the initializer must not bypass the deployed callable authorization boundary.
+
 Run the `--check` command first to see whether a legacy `role: "admin"` or new `accessRole: "global_admin"` user already exists. The bootstrap command defaults to dry-run and prints the exact Firestore and Auth custom claim changes for the first global admin. The `--confirm-global-admin` command writes production Firestore and Auth custom claims for that one user.
 
 The branch seed command also defaults to dry-run. The `--confirm-branch-system` command writes production Firestore, upserting organization/region/branch/membership documents and patching existing users with branch fields through Firestore update masks. Both production scripts refuse to run when emulator environment variables are set and use Firebase CLI login state instead of service account files.
@@ -263,7 +302,7 @@ Production status for project `daniel1-ca1e7` as of 2026-06-07:
 - `setUserAccessAdmin`, `deleteUserAdmin`, and `ping` are callable functions in `us-central1`.
 - Branch seed is initialized with 1 organization, 2 regions, 2 branches, 5 branch memberships, and 5 user profiles.
 
-Current next-phase Product Design and implementation notes for Connect, PDF hymnbooks, Bible reader, shared favorites, notes, and date-grouped Favorites live in `firebase-product-design.md`. The first slice is implemented locally: Daily Verse and the Resources Bible Reader share a unified favorite/note service, with Favorites reachable from Resources and Settings.
+Current Product Design and implementation notes for Connect, hymn media, Bible reader, shared favorites, notes, and date-grouped Favorites live in `firebase-product-design.md`. Hymn resources can now contain an independent PDF and audio file: the iOS app keeps a native audio player visible while the PDF is read below it. The Admin Portal accepts PDF plus MP3/M4A/AAC audio, but real copyrighted media must be supplied by the church before the production Hymn entry becomes playable.
 
 The production deployment status above covers the branch/login/resources baseline already deployed with explicit approval. The newer `favorites`, `notes`, and `readingProgress` Firestore rules have been validated against the emulator and are not deployed to production unless that deployment is explicitly approved.
 
@@ -414,6 +453,13 @@ To validate the Canada pilot invite-token and branch-isolation boundary without 
 firebase emulators:exec --only firestore,auth,functions \
   "FIRESTORE_EMULATOR_HOST=127.0.0.1:8080 FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099 FUNCTIONS_EMULATOR_HOST=127.0.0.1:5001 GCLOUD_PROJECT=demo-daniel-canada node scripts/firebase-seed-test-data.js && FIRESTORE_EMULATOR_HOST=127.0.0.1:8080 FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099 FUNCTIONS_EMULATOR_HOST=127.0.0.1:5001 GCLOUD_PROJECT=demo-daniel-canada node scripts/firebase-test-callable-admin.js && FIRESTORE_EMULATOR_HOST=127.0.0.1:8080 FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099 FUNCTIONS_EMULATOR_HOST=127.0.0.1:5001 GCLOUD_PROJECT=demo-daniel-canada node scripts/firebase-test-branch-invites.js" \
   --project demo-daniel-canada
+```
+
+To validate that the tracked four-church manifest cannot expand its scope or write users, memberships, or invite secrets:
+
+```bash
+node scripts/firebase-test-canada-pilot-manifest.js
+node scripts/firebase-init-canada-pilot.js
 ```
 
 To validate Storage Rules for public published PDFs and global-admin-only resource uploads:

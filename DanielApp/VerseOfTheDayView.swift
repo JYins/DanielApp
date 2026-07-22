@@ -1037,8 +1037,8 @@ struct VerseUserButtonView: View {
     
     var body: some View {
         Button(action: {
-            if authManager.hasContentAccess() {
-                // 已登录，显示用户菜单
+            if authManager.currentUser != nil {
+                // Firebase 已认证；待审核/已停用用户仍需能查看账户和退出。
                 showingUserMenu = true
             } else {
                 // 未登录，显示登录页面
@@ -1049,18 +1049,18 @@ struct VerseUserButtonView: View {
                 .fill(DesignSystem.Colors.cardBackground)
                 .frame(width: 40, height: 40)
                 .overlay(
-                    Image(systemName: authManager.hasContentAccess() ? "person.fill" : "person")
+                    Image(systemName: authManager.currentUser != nil ? "person.fill" : "person")
                         .font(.system(size: 17, weight: .semibold))
                         .foregroundColor(DesignSystem.Colors.accentDark)
                 )
                 .overlay(alignment: .bottomTrailing) {
                     Circle()
-                        .fill(authManager.hasContentAccess() ? Color(hex: "#22c55e") : DesignSystem.Colors.border)
+                        .fill(authManager.hasContentAccess() ? Color(hex: "#22c55e") : (authManager.currentUser != nil ? DesignSystem.Colors.accent : DesignSystem.Colors.border))
                         .frame(width: 14, height: 14)
                         .overlay(Circle().stroke(DesignSystem.Colors.surface, lineWidth: 2))
                 }
         }
-        .accessibilityLabel(authManager.hasContentAccess() ? getUserMenuTitle() : getSignInLabel())
+        .accessibilityLabel(authManager.currentUser != nil ? getUserMenuTitle() : getSignInLabel())
         .actionSheet(isPresented: $showingUserMenu) {
             ActionSheet(
                 title: Text(getUserMenuTitle()),

@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "template": true,
+  "pilotId": "canada-four-church-pilot",
+  "organizationId": "daniel-branch-church",
+  "region": {
+    "id": "canada-pilot",
+    "code": "CA-PILOT",
+    "name": {
+      "zh": "加拿大",
+      "en": "Canada",
+      "ko": "캐나다"
+    },
+    "country": "Canada",
+    "sortOrder": 30
+  },
+  "branches": [
+    {
+      "id": "canada-toronto-church",
+      "code": "CA-TORONTO",
+      "name": {
+        "zh": "多伦多教会",
+        "en": "Toronto Church",
+        "ko": "토론토 교회"
+      },
+      "city": null,
+      "timezone": null,
+      "branchAdminEmail": null,
+      "kakaoURL": null,
+      "sortOrder": 31
+    },
+    {
+      "id": "canada-vancouver-church",
+      "code": "CA-VANCOUVER",
+      "name": {
+        "zh": "温哥华教会",
+        "en": "Vancouver Church",
+        "ko": "밴쿠버 교회"
+      },
+      "city": null,
+      "timezone": null,
+      "branchAdminEmail": null,
+      "kakaoURL": null,
+      "sortOrder": 32
+    },
+    {
+      "id": "canada-calgary-church",
+      "code": "CA-CALGARY",
+      "name": {
+        "zh": "卡尔加里教会",
+        "en": "Calgary Church",
+        "ko": "캘거리 교회"
+      },
+      "city": null,
+      "timezone": null,
+      "branchAdminEmail": null,
+      "kakaoURL": null,
+      "sortOrder": 33
+    },
+    {
+      "id": "canada-montreal-church",
+      "code": "CA-MONTREAL",
+      "name": {
+        "zh": "蒙特利尔教会",
+        "en": "Montreal Church",
+        "ko": "몬트리올 교회"
+      },
+      "city": null,
+      "timezone": null,
+      "branchAdminEmail": null,
+      "kakaoURL": null,
+      "sortOrder": 34
+    }
+  ]
+}

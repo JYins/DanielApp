@@ -35,13 +35,13 @@
     "semantic_hash": ""
   },
   "DanielApp/ChurchCommunicationView.swift": {
-    "mtime": 1784696662.0211198,
-    "ast_hash": "55a59027e7aa8a719f91271c398ed22e",
+    "mtime": 1784739299.7131388,
+    "ast_hash": "6e92c9133558c49ab64a64d5453dea38",
     "semantic_hash": ""
   },
   "DanielApp/ChurchResourcesView.swift": {
-    "mtime": 1780857925.0708404,
-    "ast_hash": "09499989b36ba846266a119d18ae6a26",
+    "mtime": 1784740006.4762356,
+    "ast_hash": "aebea9601a856a83303369a281873f9e",
     "semantic_hash": ""
   },
   "DanielApp/ConnectView.swift": {
@@ -55,8 +55,8 @@
     "semantic_hash": ""
   },
   "DanielApp/DanielAppApp.swift": {
-    "mtime": 1784735948.85671,
-    "ast_hash": "7d43ec23eeb262f0f7e7cd9fd75b7918",
+    "mtime": 1784739464.6063626,
+    "ast_hash": "537b9b36c1b5f44fda5f3e6b67889732",
     "semantic_hash": ""
   },
   "DanielApp/FirebaseStorageService.swift": {
@@ -70,8 +70,8 @@
     "semantic_hash": ""
   },
   "DanielApp/LocalizedText.swift": {
-    "mtime": 1780698084.0364888,
-    "ast_hash": "984cb448f850420d112bf407c33cb90d",
+    "mtime": 1784739497.051632,
+    "ast_hash": "5f0c29ec3bb7a41e0d83b26bba6e9291",
     "semantic_hash": ""
   },
   "DanielApp/LoginView.swift": {
@@ -85,8 +85,8 @@
     "semantic_hash": ""
   },
   "DanielApp/MidnightUpdateManager.swift": {
-    "mtime": 1750951102.5414402,
-    "ast_hash": "cbcb8a04ca1dfb7ea5fe43219d79ff09",
+    "mtime": 1784739543.5409515,
+    "ast_hash": "1c018ab572b952caca851bd736f4a1b0",
     "semantic_hash": ""
   },
   "DanielApp/NewsletterView.swift": {
@@ -110,13 +110,13 @@
     "semantic_hash": ""
   },
   "DanielApp/RegistrationView.swift": {
-    "mtime": 1784696869.7025979,
-    "ast_hash": "29e2ea4e049471061c3449e49ba7bed2",
+    "mtime": 1784739370.3435056,
+    "ast_hash": "6c71b15e329961077349d1cd0255a50f",
     "semantic_hash": ""
   },
   "DanielApp/SettingsView.swift": {
-    "mtime": 1784696649.5789862,
-    "ast_hash": "27e33c81e2c88030b4a8a4dd922b22cd",
+    "mtime": 1784739464.759804,
+    "ast_hash": "457e7394a1808f79f78da767f0fddbe8",
     "semantic_hash": ""
   },
   "DanielApp/SharedModels/VerseModels.swift": {
@@ -145,8 +145,8 @@
     "semantic_hash": ""
   },
   "DanielApp/VerseOfTheDayView.swift": {
-    "mtime": 1780856604.5725644,
-    "ast_hash": "69a67692bae8fca209bcdd4b51395d42",
+    "mtime": 1784739273.965529,
+    "ast_hash": "80dd3ef05231760cb6e2063633845211",
     "semantic_hash": ""
   },
   "DanielApp/VerseWidget.swift": {
@@ -260,8 +260,8 @@
     "semantic_hash": ""
   },
   "admin-web/src/pages/NewslettersList.tsx": {
-    "mtime": 1784696738.3996327,
-    "ast_hash": "5dafdad6fa6df42816655b018c916f2b",
+    "mtime": 1784739407.1142042,
+    "ast_hash": "e0e0603d076a3831b0faab67eaf12630",
     "semantic_hash": ""
   },
   "admin-web/src/pages/PraiseList.tsx": {
@@ -415,7 +415,7 @@
     "semantic_hash": ""
   },
   "functions/lib/index.js": {
-    "mtime": 1784736755.9635785,
+    "mtime": 1784739532.1602826,
     "ast_hash": "115c252ab93af395ee7ff68979a71a3c",
     "semantic_hash": ""
   },
@@ -500,8 +500,8 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1784738001.8582695,
-    "ast_hash": "051df279d2b0cb9034643c09ffb7d67d",
+    "mtime": 1784740006.6348605,
+    "ast_hash": "25a5f9613105767a164d664fd389cfcf",
     "semantic_hash": ""
   },
   "admin-web/README.md": {
@@ -520,8 +520,8 @@
     "semantic_hash": ""
   },
   "implementation.md": {
-    "mtime": 1784738001.6943963,
-    "ast_hash": "d1ca8a144662d2830f4e9eef551b0745",
+    "mtime": 1784740702.355534,
+    "ast_hash": "b3872c69780d811ec0e3d022afd0f34b",
     "semantic_hash": ""
   },
   "DanielApp/Assets.xcassets/AppIcon.appiconset/ChatGPT Image Mar 29 2025 (2)_\u526f\u672c 1.png": {
@@ -710,13 +710,13 @@
     "semantic_hash": ""
   },
   "DanielApp/ChurchResourceService.swift": {
-    "mtime": 1784735938.9095345,
-    "ast_hash": "58c78c06dda65deaab543a962af26ce3",
+    "mtime": 1784739519.6470468,
+    "ast_hash": "871665a42c8d4dd78d856c9756e00acb",
     "semantic_hash": ""
   },
   "DanielAppTests/ChurchResourceServiceTests.swift": {
-    "mtime": 1784735939.0549078,
-    "ast_hash": "02dab5502ef8e232b1f065420228a5fa",
+    "mtime": 1784739247.3997023,
+    "ast_hash": "1cb8bd08fc53527dfee1990050301a7b",
     "semantic_hash": ""
   },
   "DanielAppTests/FirebaseEmulatorIntegrationTests.swift": {
@@ -740,8 +740,8 @@
     "semantic_hash": ""
   },
   "scripts/firebase-seed-production-resources.js": {
-    "mtime": 1780786181.6407945,
-    "ast_hash": "745205ce7c4c131cd21d370421dd6444",
+    "mtime": 1784739512.591814,
+    "ast_hash": "077dc49cfa8b25b726f6a09e64491f2a",
     "semantic_hash": ""
   },
   "scripts/firebase-seed-test-data.js": {
@@ -820,8 +820,8 @@
     "semantic_hash": ""
   },
   "admin-web/src/pages/ResourcesList.tsx": {
-    "mtime": 1784735961.6336071,
-    "ast_hash": "cea9180651c668a5a5867eff24a41194",
+    "mtime": 1784739497.357699,
+    "ast_hash": "732f8c433c0f4fab2f139fbb349cfd59",
     "semantic_hash": ""
   },
   "DanielApp/ChurchInviteService.swift": {
@@ -855,8 +855,23 @@
     "semantic_hash": ""
   },
   "scripts/firebase-test-storage-rules.js": {
-    "mtime": 1784736931.3615556,
-    "ast_hash": "6876a7f2fe40a997f84113f0bbbede41",
+    "mtime": 1784739435.192415,
+    "ast_hash": "deba7465e06d2b488dab4d238dff9669",
+    "semantic_hash": ""
+  },
+  "config/canada-pilot.manifest.json": {
+    "mtime": 1784739146.4016047,
+    "ast_hash": "89a4c72b2a403b1eec1edf1bb47b05d5",
+    "semantic_hash": ""
+  },
+  "scripts/firebase-init-canada-pilot.js": {
+    "mtime": 1784739275.8063364,
+    "ast_hash": "c121f86e1917c34f35633bd321fef70c",
+    "semantic_hash": ""
+  },
+  "scripts/firebase-test-canada-pilot-manifest.js": {
+    "mtime": 1784739281.409222,
+    "ast_hash": "fdc48f380361f7e69faabeae4350616c",
     "semantic_hash": ""
   }
 }

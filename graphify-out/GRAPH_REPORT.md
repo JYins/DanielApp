@@ -1,16 +1,16 @@
 # Graph Report - DanielApp_new  (2026-07-22)
 
 ## Corpus Check
-- 134 files · ~2,680,079 words
+- 137 files · ~2,685,752 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2235 nodes · 3905 edges · 131 communities (123 shown, 8 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 30 edges (avg confidence: 0.8)
+- 2320 nodes · 4073 edges · 128 communities (121 shown, 7 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 49 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `d7fc775d`
+- Built from commit: `5599fb30`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -108,7 +108,6 @@
 - [[_COMMUNITY_Community 90|Community 90]]
 - [[_COMMUNITY_Community 91|Community 91]]
 - [[_COMMUNITY_Community 92|Community 92]]
-- [[_COMMUNITY_Community 93|Community 93]]
 - [[_COMMUNITY_Community 94|Community 94]]
 - [[_COMMUNITY_Community 95|Community 95]]
 - [[_COMMUNITY_Community 96|Community 96]]
@@ -124,10 +123,8 @@
 - [[_COMMUNITY_Community 113|Community 113]]
 - [[_COMMUNITY_Community 114|Community 114]]
 - [[_COMMUNITY_Community 115|Community 115]]
-- [[_COMMUNITY_Community 116|Community 116]]
 - [[_COMMUNITY_Community 117|Community 117]]
 - [[_COMMUNITY_Community 118|Community 118]]
-- [[_COMMUNITY_Community 119|Community 119]]
 - [[_COMMUNITY_Community 120|Community 120]]
 - [[_COMMUNITY_Community 121|Community 121]]
 - [[_COMMUNITY_Community 122|Community 122]]
@@ -136,9 +133,9 @@
 - [[_COMMUNITY_Community 125|Community 125]]
 - [[_COMMUNITY_Community 126|Community 126]]
 - [[_COMMUNITY_Community 127|Community 127]]
-- [[_COMMUNITY_Community 128|Community 128]]
 - [[_COMMUNITY_Community 129|Community 129]]
-- [[_COMMUNITY_Community 130|Community 130]]
+- [[_COMMUNITY_Community 132|Community 132]]
+- [[_COMMUNITY_Community 133|Community 133]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `VerseDataService` - 44 edges
@@ -148,38 +145,38 @@
 5. `ConnectCopy` - 27 edges
 6. `FirebaseEmulatorIntegrationTests` - 26 edges
 7. `SettingsView` - 23 edges
-8. `CoreModels` - 21 edges
-9. `String` - 21 edges
-10. `Resources` - 21 edges
+8. `String` - 22 edges
+9. `Resources` - 22 edges
+10. `CoreModels` - 21 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `FakeBranchConnectStore` --inherits--> `BranchConnectRemoteStore`  [EXTRACTED]
-  DanielAppTests/BranchConnectViewModelTests.swift → DanielApp/ChurchCommunicationView.swift
-- `FakeChurchResourceRemoteStore` --inherits--> `ChurchResourceRemoteStore`  [EXTRACTED]
-  DanielAppTests/ChurchResourceServiceTests.swift → DanielApp/ChurchResourceService.swift
 - `DanielAppApp` --implements--> `app`  [EXTRACTED]
   DanielApp/DanielAppApp.swift → admin-web/src/lib/firebase.ts
+- `FakeBranchConnectStore` --inherits--> `BranchConnectRemoteStore`  [EXTRACTED]
+  DanielAppTests/BranchConnectViewModelTests.swift → DanielApp/ChurchCommunicationView.swift
 - `FakeFavoriteRemoteStore` --inherits--> `FavoriteRemoteStore`  [EXTRACTED]
   DanielAppTests/FavoriteServiceTests.swift → DanielApp/FavoriteService.swift
 - `FakeFavoriteRemoteStore` --implements--> `NoteRemoteStore`  [EXTRACTED]
   DanielAppTests/FavoriteServiceTests.swift → DanielApp/FavoriteService.swift
+- `FakeNewsletterRemoteStore` --inherits--> `NewsletterRemoteStore`  [EXTRACTED]
+  DanielAppTests/NewsletterViewModelTests.swift → DanielApp/NewsletterView.swift
 
 ## Import Cycles
 - 1-file cycle: `admin-web/src/lib/firebase.ts -> admin-web/src/lib/firebase.ts`
 
-## Communities (131 total, 8 thin omitted)
+## Communities (128 total, 7 thin omitted)
 
 ### Community 0 - "Community 0"
-Cohesion: 0.18
-Nodes (18): ChurchResource, ChurchResource, ChurchResourceCategory, all, bibleStudy, documents, hymnbook, links (+10 more)
+Cohesion: 0.29
+Nodes (6): Color, String, WidgetConfiguration, WidgetVerseEntry, MainVerseWidget, MainVerseWidgetEntryView
 
 ### Community 1 - "Community 1"
-Cohesion: 0.06
-Nodes (24): App, AppDelegate, ColorScheme, AppAppearanceMode, dark, light, system, AppPreferences (+16 more)
+Cohesion: 0.07
+Nodes (22): AppDelegate, ColorScheme, AppAppearanceMode, dark, light, system, AppPreferences, AppState (+14 more)
 
 ### Community 2 - "Community 2"
-Cohesion: 0.21
-Nodes (11): AuthContext, AuthContextType, AuthProvider(), useAuthContext(), Layout(), ProtectedRoute(), useAuth(), Dashboard() (+3 more)
+Cohesion: 0.23
+Nodes (9): AuthContext, AuthContextType, AuthProvider(), useAuthContext(), Layout(), ProtectedRoute(), useAuth(), BranchScopedAdmin() (+1 more)
 
 ### Community 3 - "Community 3"
 Cohesion: 0.08
@@ -198,16 +195,16 @@ Cohesion: 0.09
 Nodes (16): DanielHomeHeader, ModernVerseCard, AppState, Bool, CGFloat, CoreModels, Date, MultiLanguageVerse (+8 more)
 
 ### Community 7 - "Community 7"
-Cohesion: 0.06
-Nodes (41): AuthenticatedContentView, FirestoreNewsletterRemoteStore, LocalizedText, LoginPromptView, Newsletter, navTitle, NewsletterCardView, NewsletterLoadState (+33 more)
+Cohesion: 0.07
+Nodes (33): AuthenticatedContentView, DateFormatter, FirestoreNewsletterRemoteStore, LocalizedText, LoginPromptView, Newsletter, navTitle, NewsletterCardView (+25 more)
 
 ### Community 8 - "Community 8"
 Cohesion: 0.13
 Nodes (9): Keys, Bool, CoreModels, Date, Int, MultiLanguageVerse, String, UserDefaults (+1 more)
 
 ### Community 9 - "Community 9"
-Cohesion: 0.08
-Nodes (26): FirestoreRegistrationBranchRemoteStore, RegistrationBranch, RegistrationBranchRemoteStore, RegistrationBranchViewModel, String, Bool, CoreModels, Error (+18 more)
+Cohesion: 0.09
+Nodes (24): FirestoreRegistrationBranchRemoteStore, RegistrationBranch, RegistrationBranchRemoteStore, RegistrationBranchViewModel, String, Bool, CoreModels, Error (+16 more)
 
 ### Community 10 - "Community 10"
 Cohesion: 0.11
@@ -218,32 +215,32 @@ Cohesion: 0.07
 Nodes (35): accessToken(), args, auth, buildPlan(), checkStatus(), collectionCount(), commitBatches(), { execFileSync } (+27 more)
 
 ### Community 12 - "Community 12"
-Cohesion: 0.13
-Nodes (29): ChurchResourceCategory, ChurchResourceSource, ChurchResource, ChurchResourceCategory, all, bibleStudy, documents, hymnbook (+21 more)
+Cohesion: 0.12
+Nodes (34): ChurchResource, ChurchResourceCategory, ChurchResourceSource, ChurchResource, ChurchResourceCategory, all, bibleStudy, documents (+26 more)
 
 ### Community 13 - "Community 13"
 Cohesion: 0.08
 Nodes (29): FirestoreVerseEngagementRemoteStore, StoredVerseEngagementRecord, Any, Bool, Date, Error, Firestore, QueryDocumentSnapshot (+21 more)
 
 ### Community 14 - "Community 14"
-Cohesion: 0.13
-Nodes (28): BranchConnectViewModel, ConnectNewsletterMode, BranchConnectInfo, ConnectAccessCard, ConnectAnnouncementCard, ConnectEmptyCard, ConnectErrorCard, ConnectHeader (+20 more)
+Cohesion: 0.10
+Nodes (34): BranchConnectViewModel, CaseIterable, ConnectNewsletterMode, BranchConnectInfo, ConnectAccessCard, ConnectAnnouncementCard, ConnectEmptyCard, ConnectErrorCard (+26 more)
 
 ### Community 15 - "Community 15"
 Cohesion: 0.10
 Nodes (18): AnyHashable, FirebaseEmulatorIntegrationTests, Any, Bool, DocumentSnapshot, Firestore, RegistrationBranch, RegistrationBranchRemoteStore (+10 more)
 
 ### Community 16 - "Community 16"
-Cohesion: 0.11
-Nodes (25): CommonKeys, ConnectKeys, ConnectView, connect, contactUs, shareApp, LocalizedString, LocalizedText (+17 more)
+Cohesion: 0.09
+Nodes (31): CommonKeys, ConnectKeys, ConnectView, connect, contactUs, shareApp, LocalizedString, LocalizedText (+23 more)
 
 ### Community 17 - "Community 17"
 Cohesion: 0.08
 Nodes (27): DayTimePeriod, daytime, Context, Date, Entry, MultiLanguageVerse, String, Timeline (+19 more)
 
 ### Community 18 - "Community 18"
-Cohesion: 0.31
-Nodes (7): ChurchInviteRedemption, ChurchInviteViewModelTests, StubChurchInviteService, ChurchInviteError, Result, String, Void
+Cohesion: 0.10
+Nodes (19): ChurchInviteRedemption, ChurchInviteViewModelTests, StubChurchInviteService, ChurchInviteError, Result, String, Void, FakeNewsletterRemoteStore (+11 more)
 
 ### Community 19 - "Community 19"
 Cohesion: 0.08
@@ -258,16 +255,16 @@ Cohesion: 0.10
 Nodes (26): accessToken(), args, auth, authedFetch(), buildPlan(), commitPlan(), { execFileSync }, firestoreFetch() (+18 more)
 
 ### Community 22 - "Community 22"
-Cohesion: 0.07
-Nodes (37): Branch, Canada Four-Church International Pilot: 2026-07-22, Current Scope, Emulator Configuration, Figma Authentication And Church Onboarding Merge: 2026-07-21, Files Changed, Firebase Configuration Check, Firebase Dev/Test Environment Update (+29 more)
+Cohesion: 0.06
+Nodes (39): Branch, Canada Four-Church International Pilot: 2026-07-22, Current Scope, Emulator Configuration, Figma Authentication And Church Onboarding Merge: 2026-07-21, Files Changed, Firebase Configuration Check, Firebase Dev/Test Environment Update (+31 more)
 
 ### Community 23 - "Community 23"
-Cohesion: 0.07
-Nodes (39): ActivityAttributes, Codable, ContentState, daniel_wedgetAttributes, daniel_wedgetAttributes.ContentState, daniel_wedgetLiveActivity, String, WidgetConfiguration (+31 more)
+Cohesion: 0.11
+Nodes (21): ActivityAttributes, ContentState, daniel_wedgetAttributes, daniel_wedgetAttributes.ContentState, daniel_wedgetLiveActivity, String, WidgetConfiguration, Color (+13 more)
 
 ### Community 24 - "Community 24"
-Cohesion: 0.08
-Nodes (32): ChurchInviteError, ChurchInviteServicing, ChurchInviteViewModel, BranchSelectionField, CustomSecureField, CustomTextField, DateFormatter, DateInputField (+24 more)
+Cohesion: 0.07
+Nodes (36): ChurchInviteError, ChurchInviteServicing, ChurchInviteViewModel, BranchSelectionField, CustomSecureField, CustomTextField, DateFormatter, DateInputField (+28 more)
 
 ### Community 25 - "Community 25"
 Cohesion: 0.17
@@ -294,8 +291,8 @@ Cohesion: 0.09
 Nodes (21): compilerOptions, allowImportingTsExtensions, erasableSyntaxOnly, jsx, lib, module, moduleDetection, moduleResolution (+13 more)
 
 ### Community 31 - "Community 31"
-Cohesion: 0.22
-Nodes (13): ConnectView_Previews, ContentView, SettingsView_Previews, VerseOfTheDayView_Previews, ForgotPasswordView, ForgotPasswordView_Previews, AppState, NewsletterView_Previews (+5 more)
+Cohesion: 0.16
+Nodes (16): ConnectView, AppState, String, ConnectView_Previews, ContentView, SettingsView_Previews, VerseOfTheDayView_Previews, ForgotPasswordView (+8 more)
 
 ### Community 32 - "Community 32"
 Cohesion: 0.13
@@ -326,8 +323,8 @@ Cohesion: 0.10
 Nodes (20): Acknowledgments, Architecture, Current Product Direction, Daniel & Friends, Data Flow: App ↔ Widget, Features, Firebase Emulator And Tests, Firebase Integration & Admin Dashboard (+12 more)
 
 ### Community 39 - "Community 39"
-Cohesion: 0.11
-Nodes (19): Resources, browse, categoryAll, categoryBibleStudy, categoryDocuments, categoryHymnbook, categoryLinks, categorySeminar (+11 more)
+Cohesion: 0.10
+Nodes (20): Resources, browse, categoryAll, categoryBibleStudy, categoryDocuments, categoryHymnbook, categoryLinks, categoryQuestions (+12 more)
 
 ### Community 40 - "Community 40"
 Cohesion: 0.09
@@ -394,16 +391,16 @@ Cohesion: 0.17
 Nodes (10): firebase, firestore, indexes, rules, hosting, ignore, public, rewrites (+2 more)
 
 ### Community 56 - "Community 56"
-Cohesion: 0.08
-Nodes (27): ChurchInviteError, emailNotVerified, exhausted, expired, invalid, revoked, unauthenticated, unavailable (+19 more)
+Cohesion: 0.17
+Nodes (12): ChurchInviteRedemption, ChurchInviteServicing, ChurchInviteViewModel, State, failed, idle, redeeming, submitted (+4 more)
 
 ### Community 57 - "Community 57"
 Cohesion: 0.17
 Nodes (11): FIREBASE_AUTH_EMULATOR_HOST, FIREBASE_AUTH_EMULATOR_PORT, FIREBASE_EMULATOR_HOST, FIREBASE_STORAGE_EMULATOR_HOST, FIREBASE_STORAGE_EMULATOR_PORT, FIRESTORE_EMULATOR_HOST, FIRESTORE_EMULATOR_PORT, GCLOUD_PROJECT (+3 more)
 
 ### Community 58 - "Community 58"
-Cohesion: 0.26
-Nodes (4): ChurchResourceService, ChurchResourceServiceTests, Any, String
+Cohesion: 0.06
+Nodes (40): ChurchResource, ChurchResourceCategory, all, bibleStudy, documents, hymnbook, links, questions (+32 more)
 
 ### Community 59 - "Community 59"
 Cohesion: 0.17
@@ -414,8 +411,8 @@ Cohesion: 0.20
 Nodes (12): BranchConnectViewModelTests, FakeBranchConnectStore, Bool, BranchConnectInfo, Error, Result, String, TimeInterval (+4 more)
 
 ### Community 61 - "Community 61"
-Cohesion: 0.17
-Nodes (13): CardCaption, Bool, CoreModels, Int, ListenerRegistration, LocalizedText, String, Timestamp (+5 more)
+Cohesion: 0.10
+Nodes (19): Praise, PraiseViewModel, Date, ListenerRegistration, String, Timestamp, CardCaption, Bool (+11 more)
 
 ### Community 62 - "Community 62"
 Cohesion: 0.20
@@ -473,16 +470,16 @@ Cohesion: 0.21
 Nodes (12): admin, callSetUserAccess(), { createRequire }, db, decodeJwtPayload(), expectCallableFailure(), functionsRequire, { getFirestore } (+4 more)
 
 ### Community 74 - "Community 74"
-Cohesion: 0.38
-Nodes (5): Context, URL, WebView, UIViewRepresentable, WKWebView
+Cohesion: 0.23
+Nodes (8): PDFKitDocumentView, Context, Context, URL, WebView, PDFView, UIViewRepresentable, WKWebView
 
 ### Community 75 - "Community 75"
 Cohesion: 0.28
 Nodes (6): Date, MultiLanguageVerse, String, VerseWidgetEntryView, VerseWidgetUserHelper, WidgetFamily
 
 ### Community 76 - "Community 76"
-Cohesion: 0.20
-Nodes (9): Auth, FirebaseChurchInviteService, Functions, auth, firebaseConfig, functions, missingKeys, requiredEnv (+1 more)
+Cohesion: 0.16
+Nodes (12): App, Auth, FirebaseChurchInviteService, Functions, app, auth, firebaseConfig, functions (+4 more)
 
 ### Community 77 - "Community 77"
 Cohesion: 0.33
@@ -497,7 +494,7 @@ Cohesion: 0.33
 Nodes (5): Agent Workflow, DanielApp iOS Source Notes, Localization, Main App Structure, Services And Data
 
 ### Community 80 - "Community 80"
-Cohesion: 0.29
+Cohesion: 0.36
 Nodes (5): FirestoreFavoriteRemoteStore, Error, Firestore, Result, Void
 
 ### Community 81 - "Community 81"
@@ -548,10 +545,6 @@ Nodes (3): info, author, version
 Cohesion: 0.50
 Nodes (3): info, author, version
 
-### Community 93 - "Community 93"
-Cohesion: 0.50
-Nodes (3): ConnectView, AppState, String
-
 ### Community 94 - "Community 94"
 Cohesion: 0.50
 Nodes (3): info, author, version
@@ -581,16 +574,12 @@ Cohesion: 0.17
 Nodes (17): admin, assert(), auth, callFunction(), { createRequire }, createUnassignedUser(), db, decodeJwtPayload() (+9 more)
 
 ### Community 114 - "Community 114"
-Cohesion: 0.25
-Nodes (3): Branch, Member, statusStyles
+Cohesion: 0.22
+Nodes (4): Branch, Member, statusStyles, UsersList()
 
 ### Community 115 - "Community 115"
 Cohesion: 0.43
 Nodes (5): Context, Timeline, Void, WidgetVerseEntry, VerseWidgetProvider
-
-### Community 116 - "Community 116"
-Cohesion: 0.25
-Nodes (7): Praise, PraiseViewModel, Date, ListenerRegistration, String, Timestamp, ObservableObject
 
 ### Community 117 - "Community 117"
 Cohesion: 0.18
@@ -600,17 +589,13 @@ Nodes (4): db, storage, Branch, NewslettersList()
 Cohesion: 0.26
 Nodes (11): FileContentView, PraiseContentView, PraiseDetailView, PraiseShelfRow, PraiseView, AppState, Bool, CoreModels (+3 more)
 
-### Community 119 - "Community 119"
-Cohesion: 0.25
-Nodes (6): ChurchResourceRemoteStore, FirestoreChurchResourceRemoteStore, Error, Firestore, Result, Void
-
 ### Community 120 - "Community 120"
 Cohesion: 0.33
 Nodes (4): Branch, BranchAccess(), branchName(), InviteMetadata
 
 ### Community 121 - "Community 121"
-Cohesion: 0.36
-Nodes (7): FakeChurchResourceRemoteStore, ChurchResource, Error, Result, Void, TestError, failure
+Cohesion: 0.10
+Nodes (34): accessToken(), argValue(), assertOrganizationExists(), assertProductionReady(), assertTargetsDoNotExist(), auth, buildPlan(), createOnlyWrites() (+26 more)
 
 ### Community 122 - "Community 122"
 Cohesion: 0.33
@@ -625,44 +610,48 @@ Cohesion: 0.22
 Nodes (9): devDependencies, autoprefixer, postcss, tailwindcss, @types/react, @types/react-dom, typescript, vite (+1 more)
 
 ### Community 125 - "Community 125"
-Cohesion: 0.29
-Nodes (6): Color, String, WidgetConfiguration, WidgetVerseEntry, MainVerseWidget, MainVerseWidgetEntryView
+Cohesion: 0.14
+Nodes (20): Codable, AuthState, pending, rejected, signedIn, signedOut, Newsletter, NewsletterCaption (+12 more)
 
 ### Community 126 - "Community 126"
 Cohesion: 0.53
 Nodes (5): DanielWidgets, MediumVerseWidget, SmallVerseWidget, WidgetConfiguration, Widget
 
 ### Community 127 - "Community 127"
-Cohesion: 0.33
-Nodes (6): WordCardGallery, categoryAll, categoryEncouragement, categoryGrace, categoryWisdom, navTitle
-
-### Community 128 - "Community 128"
-Cohesion: 0.33
-Nodes (6): CaseIterable, ConnectSection, announcements, kakaoTalk, messages, newsletter
+Cohesion: 0.13
+Nodes (14): branches, en, ko, zh, organizationId, pilotId, region, code (+6 more)
 
 ### Community 129 - "Community 129"
 Cohesion: 0.33
 Nodes (6): functions, source, dependencies, firebase-admin, firebase-functions, @google-cloud/firestore
 
+### Community 132 - "Community 132"
+Cohesion: 0.18
+Nodes (10): ChurchInviteError, emailNotVerified, exhausted, expired, invalid, revoked, unauthenticated, unavailable (+2 more)
+
+### Community 133 - "Community 133"
+Cohesion: 0.29
+Nodes (4): AVPlayer, HymnAudioPlayback, Any, Double
+
 ## Knowledge Gaps
-- **782 isolated node(s):** `PreToolUse`, `Any`, `Bool`, `colors`, `author` (+777 more)
+- **814 isolated node(s):** `PreToolUse`, `Any`, `Bool`, `colors`, `author` (+809 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **7 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `FirebaseAuth` connect `Community 10` to `Community 1`, `Community 7`, `Community 15`, `Community 16`, `Community 56`?**
-  _High betweenness centrality (0.117) - this node is a cross-community bridge._
-- **Why does `ModernButtonStyle` connect `Community 3` to `Community 63`?**
-  _High betweenness centrality (0.054) - this node is a cross-community bridge._
-- **Why does `VerseWidgetEntryView` connect `Community 75` to `Community 115`, `Community 126`, `Community 31`?**
-  _High betweenness centrality (0.046) - this node is a cross-community bridge._
+  _High betweenness centrality (0.101) - this node is a cross-community bridge._
+- **Why does `Data` connect `Community 58` to `Community 5`, `Community 8`, `Community 9`, `Community 10`, `Community 74`, `Community 12`, `Community 13`, `Community 75`, `Community 44`, `Community 26`, `Community 29`?**
+  _High betweenness centrality (0.099) - this node is a cross-community bridge._
+- **Why does `FirebaseChurchInviteService` connect `Community 76` to `Community 56`, `Community 132`?**
+  _High betweenness centrality (0.056) - this node is a cross-community bridge._
 - **Are the 3 inferred relationships involving `FavoriteService` (e.g. with `.testGuestFavoriteWritesLocalOnly()` and `.testSignedInFavoritePushesRemote()`) actually correct?**
   _`FavoriteService` has 3 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `PreToolUse`, `Any`, `Bool` to the rest of the system?**
-  _782 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _814 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.06219426974143955 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06561085972850679 - nodes in this community are weakly interconnected._
 - **Should `Community 3` be split into smaller, more focused modules?**
   _Cohesion score 0.08235294117647059 - nodes in this community are weakly interconnected._

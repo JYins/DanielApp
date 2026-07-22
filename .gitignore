@@ -44,6 +44,7 @@ graphify-out/.rebuild.lock
 
 # Sensitive config
 config.json
+config/canada-pilot.local.json
 
 # Node
 node_modules/

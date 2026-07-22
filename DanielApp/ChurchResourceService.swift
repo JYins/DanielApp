@@ -45,10 +45,11 @@ enum ChurchResourceCategory: String, CaseIterable, Identifiable {
     case links
     case bibleStudy
     case seminar
+    case questions
 
     var id: String { rawValue }
 
-    static let libraryCategories: [ChurchResourceCategory] = [.hymnbook, .documents, .links, .bibleStudy, .seminar]
+    static let libraryCategories: [ChurchResourceCategory] = [.hymnbook, .seminar, .bibleStudy, .questions, .links]
 
     init(resourceType: String) {
         switch resourceType {
@@ -62,6 +63,8 @@ enum ChurchResourceCategory: String, CaseIterable, Identifiable {
             self = .bibleStudy
         case "bible_seminar", "seminar":
             self = .seminar
+        case "q_and_a", "questions", "qa":
+            self = .questions
         default:
             self = .documents
         }
@@ -81,6 +84,8 @@ enum ChurchResourceCategory: String, CaseIterable, Identifiable {
             return LocalizedText.Resources.categoryBibleStudy.text(for: language)
         case .seminar:
             return LocalizedText.Resources.categorySeminar.text(for: language)
+        case .questions:
+            return LocalizedText.Resources.categoryQuestions.text(for: language)
         }
     }
 }
@@ -101,6 +106,7 @@ struct ChurchResource: Identifiable {
     var fileSize: Int = 0
     var fileType: String? = nil
     var downloadURL: URL? = nil
+    var audioURL: URL? = nil
     let icon: String
     let isPublished: Bool
     let accessLevel: String
@@ -114,6 +120,15 @@ struct ChurchResource: Identifiable {
 
     var primaryURL: URL? {
         downloadURL ?? url
+    }
+
+    var pdfURL: URL? {
+        guard isPDFResource else { return nil }
+        return downloadURL ?? url
+    }
+
+    var hasHymnMedia: Bool {
+        category == .hymnbook && (pdfURL != nil || audioURL != nil)
     }
 
     var isPDFResource: Bool {
@@ -151,6 +166,8 @@ extension ChurchResource {
         fileSize = data["fileSize"] as? Int ?? 0
         fileType = data["fileType"] as? String
         downloadURL = Self.safeRemoteURL(from: data["downloadURL"] as? String)
+        audioURL = Self.safeRemoteURL(from: data["audioDownloadURL"] as? String)
+            ?? Self.safeRemoteURL(from: data["audioURL"] as? String)
         icon = data["icon"] as? String ?? "doc.text"
         isPublished = data["isPublished"] as? Bool ?? false
         accessLevel = data["accessLevel"] as? String ?? "public"
@@ -291,9 +308,9 @@ enum LocalChurchResourceSeed {
             title: LocalizedResourceText(chinese: "诗歌本", english: "Hymnbook", korean: "찬송가"),
             subtitle: LocalizedResourceText(chinese: "赞美诗、谱面与敬拜资源", english: "Hymns, song sheets, and worship resources", korean: "찬양, 악보와 예배 자료"),
             description: LocalizedResourceText(
-                chinese: "第一版先作为目录入口。未来可接入 Praise PDF、歌单和按语言分类的诗歌资源。",
-                english: "This starts as a directory entry. It can later connect to Praise PDFs, song lists, and language-specific hymn resources.",
-                korean: "첫 버전은 자료실 입구로 시작합니다. 추후 찬양 PDF, 곡 목록, 언어별 찬양 자료와 연결할 수 있습니다."
+                chinese: "管理员可以为每首诗歌配置 PDF 乐谱和音频；播放音频时仍可继续阅读和翻页。",
+                english: "Administrators can attach PDF sheet music and audio so you can keep listening while reading and turning pages.",
+                korean: "관리자는 찬송가 PDF 악보와 오디오를 함께 등록할 수 있으며, 재생 중에도 계속 읽고 페이지를 넘길 수 있습니다."
             ),
             actionTitle: LocalizedResourceText(chinese: "打开诗歌本", english: "Open Hymnbook", korean: "찬송가 열기"),
             url: nil,
@@ -390,6 +407,28 @@ enum LocalChurchResourceSeed {
             isPublished: true,
             accessLevel: "public",
             sortOrder: 50,
+            updatedAt: Date(timeIntervalSince1970: 1_735_689_600),
+            createdAt: Date(timeIntervalSince1970: 1_735_689_600)
+        ),
+        ChurchResource(
+            id: "questions-and-answers",
+            type: "q_and_a",
+            category: .questions,
+            categoryKey: "questions",
+            title: LocalizedResourceText(chinese: "信仰问答", english: "Q & A", korean: "신앙 문답"),
+            subtitle: LocalizedResourceText(chinese: "常见问题与圣经依据", english: "Common questions and biblical guidance", korean: "자주 묻는 질문과 성경적 안내"),
+            description: LocalizedResourceText(
+                chinese: "按主题整理常见信仰问题、经文依据和进一步学习资料。管理员可以持续发布经过审核的公开内容。",
+                english: "Explore common faith questions, biblical references, and reviewed follow-up resources published by administrators.",
+                korean: "자주 묻는 신앙 질문, 성경 근거와 관리자가 검토해 게시한 추가 자료를 주제별로 살펴보세요."
+            ),
+            actionTitle: LocalizedResourceText(chinese: "查看问答", english: "Browse Q & A", korean: "문답 보기"),
+            url: nil,
+            content: nil,
+            icon: "questionmark.bubble",
+            isPublished: true,
+            accessLevel: "public",
+            sortOrder: 45,
             updatedAt: Date(timeIntervalSince1970: 1_735_689_600),
             createdAt: Date(timeIntervalSince1970: 1_735_689_600)
         )

@@ -152,7 +152,6 @@ class MidnightUpdateManager: NSObject {
     private override init() {
         super.init()
         setupUpdateTimers()
-        requestNotificationPermissions()
     }
     
     deinit {
@@ -368,21 +367,12 @@ class MidnightUpdateManager: NSObject {
     
     // MARK: - 通知管理
     
-    /// 请求通知权限
-    private func requestNotificationPermissions() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-            DispatchQueue.main.async {
-                if granted {
-                    print("✅ 通知权限已获取")
-                } else {
-                    print("❌ 通知权限被拒绝: \(error?.localizedDescription ?? "未知错误")")
-                }
-            }
-        }
-    }
-    
     /// 发送新的一天通知
     private func scheduleVerseNotification(verse: MultiLanguageVerse) {
+        guard AppPreferences.getNotificationsEnabled() else {
+            print("🔕 用户已关闭每日经文通知")
+            return
+        }
         print("📮 准备发送新的一天通知...")
         
         let language = VerseDataService.shared.getSelectedLanguage()
@@ -522,4 +512,4 @@ extension MidnightUpdateManager {
             print("✅ 今天已经更新过，无需补充更新")
         }
     }
-} 
+}

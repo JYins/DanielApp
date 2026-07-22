@@ -111,6 +111,7 @@ struct LocalizedText {
         case categoryLinks
         case categoryBibleStudy
         case categorySeminar
+        case categoryQuestions
         case browse
         case detailOnly
         case loadingTitle
@@ -126,9 +127,9 @@ struct LocalizedText {
             switch self {
             case .headerSubtitle:
                 switch language {
-                case .chinese: return "诗歌、文件、链接与圣经学习材料"
-                case .english: return "Hymns, documents, links, and Bible study materials"
-                case .korean: return "찬양, 문서, 링크와 성경 공부 자료"
+                case .chinese: return "诗歌、讲座、圣经学习、问答与常用链接"
+                case .english: return "Hymns, seminars, Bible study, Q&A, and useful links"
+                case .korean: return "찬송가, 세미나, 성경 공부, 문답과 유용한 링크"
                 }
             case .searchPlaceholder:
                 switch language {
@@ -171,6 +172,12 @@ struct LocalizedText {
                 case .chinese: return "圣经讲座"
                 case .english: return "Bible Seminar"
                 case .korean: return "성경 세미나"
+                }
+            case .categoryQuestions:
+                switch language {
+                case .chinese: return "信仰问答"
+                case .english: return "Q & A"
+                case .korean: return "신앙 문답"
                 }
             case .browse:
                 switch language {
